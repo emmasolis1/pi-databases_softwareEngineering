@@ -1,5 +1,6 @@
 ## Special ignore added by me.
 /_minted-main
+*.DS_Store
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
