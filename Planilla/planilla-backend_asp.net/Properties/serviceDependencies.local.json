@@ -5,8 +5,9 @@
     },
     "mssql1": {
       "secretStore": "LocalSecretsFile",
+      "resourceId": null,
       "type": "mssql.onprem",
-      "connectionId": "DataSource=172.16.202.209;Database=Planilla;UserId=PlanillaUser;Password=PlanillaUser;"
+      "connectionId": "DataSource=172.16.202.209;Database=TaBueno;UserId=TaBuenoAdmin;Password=TaBueno;"
     }
   }
 }

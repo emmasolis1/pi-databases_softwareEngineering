@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Header from './components/Header'
+import Footer from './components/Footer'
 
 export default class App extends Component {
     static displayName = App.name;
@@ -44,13 +46,16 @@ export default class App extends Component {
             ? <p><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a> for more details.</em></p>
             : App.renderForecastsTable(this.state.forecasts);
 
-        return (
-            /*<div>
-                <h1 id="tabelLabel" >Weather forecast</h1>
-                <p>This component demonstrates fetching data from the server.</p>
-                {contents}
-            </div>*/
+      return (
+          /*
+           *<div>
+              <h1 id="tabelLabel" >Weather forecast</h1>
+              <p>This component demonstrates fetching data from the server.</p>
+              {contents}
+            </div>
+           */
           <div className="App">
+            <Header />
             <header className="App-header">
               <img src={logo} className="App-logo" alt="logo" />
               <h1>Ta' Bueno - PI IngeBases</h1>
@@ -74,6 +79,7 @@ export default class App extends Component {
                 Learn React
               </a>
             </header>
+            <Footer />
           </div>
         );
     }
