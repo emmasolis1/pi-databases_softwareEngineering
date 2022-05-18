@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
+import BenefitsEmployee from './BenefitsEmployee'
 import Header from './components/Header'
 import Footer from './components/Footer'
 
@@ -56,7 +58,10 @@ export default class App extends Component {
            */
           <div className="App">
             <Header />
-            <header className="App-header">
+
+              <Router>
+
+            <div className="App-header">
               <img src={logo} className="App-logo" alt="logo" />
               <h1>Ta' Bueno - PI IngeBases</h1>
               <h2>React.js (Frontend) + ASP.NET (Backend)</h2>
@@ -78,7 +83,18 @@ export default class App extends Component {
               >
                 Learn React
               </a>
-            </header>
+              </div>
+
+                  <Link to="/BenefitsEmployee">BenefitsEmployee</Link>
+
+                  <Routes>
+
+                      <Route exact path="BenefitsEmployee" element = { <BenefitsEmployee /> } />
+
+                  </Routes>
+
+              </Router>
+
             <Footer />
           </div>
         );
