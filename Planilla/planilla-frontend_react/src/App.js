@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
-import logo from './logo.svg';
+import { BrowserRouter as Router } from 'react-router-dom';
 import './App.css';
-import BenefitsEmployee from './BenefitsEmployee'
-import Header from './components/Header'
-import Footer from './components/Footer'
 
 export default class App extends Component {
     static displayName = App.name;
@@ -49,53 +45,17 @@ export default class App extends Component {
             : App.renderForecastsTable(this.state.forecasts);
 
       return (
-          /*
-           *<div>
-              <h1 id="tabelLabel" >Weather forecast</h1>
-              <p>This component demonstrates fetching data from the server.</p>
-              {contents}
-            </div>
-           */
-          <div className="App">
-            <Header />
-
+          <div>
               <Router>
-
-            <div className="App-header">
-              <img src={logo} className="App-logo" alt="logo" />
-              <h1>Ta' Bueno - PI IngeBases</h1>
-              <h2>React.js (Frontend) + ASP.NET (Backend)</h2>
-              <p>
-                We have successfully created a project using both ReactJS (JavaScript) and ASP.NET (C#),
-                they are connected by using an internal API.
-              </p>
-              <p>
-                This project has an active connection to the database server for this PI.
-              </p>
-              <p>
-                Edit <code>src/App.js</code> and save to reload.
-              </p>
-              <a
-                className="App-link"
-                href="https://reactjs.org"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Learn React
-              </a>
-              </div>
-
-                  <Link to="/BenefitsEmployee">BenefitsEmployee</Link>
-
-                  <Routes>
-
-                      <Route exact path="BenefitsEmployee" element = { <BenefitsEmployee /> } />
-
-                  </Routes>
-
+                  <div>
+                      <Switch>
+                          <Route exact path="/" component={Home} />
+                          <Route exact path="/home" component={Home} />
+                          <Route exact path="/product/:id" component={BenefitsEmployer} />
+                          <Route render={() => <h1>Not found!</h1>} />
+                      </Switch>
+                  </div>
               </Router>
-
-            <Footer />
           </div>
         );
     }

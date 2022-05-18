@@ -1,6 +1,6 @@
 import React from 'react'
 
-const BenefitsEmployee = () => {
+const BenefitsEmployer = () => {
     return (
         <div style={divStyle}>
             <p>beneficios</p>
@@ -15,4 +15,4 @@ const divStyle = {
     padding: '10pt',
 }
 
-export default BenefitsEmployee;
+export default BenefitsEmployer;
