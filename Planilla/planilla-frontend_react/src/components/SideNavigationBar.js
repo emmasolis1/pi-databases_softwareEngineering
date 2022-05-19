@@ -1,28 +1,33 @@
 import React from 'react';
+import { Link } from "react-router-dom";
+import Home from '../Home';
+import BenefitsEmployer from '../BenefitsEmployer';
+import Employees from '../Employees';
+import NotFound from '../NotFound';
+import '../App.css';
 
 
 const SideNavigationBar = (props) => {
   return (
     <div className="sidenav" style={divStyle}>
-      <a href="#section">About</a>
-      <a href="#section">Services</a>
-      <a href="#section">Clients</a>
-      <a href="#section">Contact</a>
+      <Link to="/"><a className="App-link">Home</a></Link>
+      <Link to="/BenefitsEmployer"><a className="App-link">BenefitsEmployer</a></Link>
+      <Link to="/Employees"><a className="App-link">Employees</a></Link>
     </div >
  );
 }
 
 
 const divStyle = {
-  display: 'inline-flex',
+  display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   position: 'relative',
   justifyContent: 'center',
   alignContent: 'space-between',
 
-  height: '350pt',
-  width: '20%',
+  height: '80%',
+  width: '25%',
   backgroundColor: 'black',
   marginTop: '20pt',
   marginBottom: '20pt',
