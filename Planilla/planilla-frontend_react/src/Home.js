@@ -28,8 +28,8 @@ const Home = () => {
                 >
                     Learn React
                 </a>
-                <Link to="BenefitsEmployer">BenefitsEmployer</Link>
-                <Link to="Employees">Employees</Link>
+                <Link to="BenefitsEmployer"><a className="App-link">BenefitsEmployer</a></Link>
+                <Link to="Employees"><a className="App-link">Employees</a></Link>
             </div>
             <Footer />
         </div>
