@@ -5,13 +5,13 @@ import BenefitsEmployer from './BenefitsEmployer';
 import NotFound from './NotFound';
 
 export default function App() {
-  return (
-    <Router>
-      <Routes>
-        <Route index element={<Home />} />
-        <Route path="BenefitsEmployer" element={<BenefitsEmployer />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </Router>
-  );
+    return (
+        <Router>
+            <Routes>
+                <Route index element={<Home />} />
+                <Route path="BenefitsEmployer" element={<BenefitsEmployer />} />
+                <Route path="*" element={<NotFound />} />
+            </Routes>
+        </Router>
+    );
 }
