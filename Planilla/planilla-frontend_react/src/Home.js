@@ -29,6 +29,7 @@ const Home = () => {
                     Learn React
                 </a>
                 <Link to="BenefitsEmployer">BenefitsEmployer</Link>
+                <Link to="Employees">Employees</Link>
             </div>
             <Footer />
         </div>

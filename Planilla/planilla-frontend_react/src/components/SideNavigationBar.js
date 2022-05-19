@@ -1,7 +1,6 @@
 import React from 'react';
 
 
-
 const SideNavigationBar = (props) => {
   return (
     <div className="sidenav" style={divStyle}>
@@ -11,7 +10,7 @@ const SideNavigationBar = (props) => {
       <a href="#section">Contact</a>
     </div >
  );
-};
+}
 
 
 const divStyle = {

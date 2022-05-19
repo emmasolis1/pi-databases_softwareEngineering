@@ -1,17 +1,40 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { Button } from 'reactstrap';
+
 import SideNavigationBar from './components/SideNavigationBar';
+import EmployeeMainInfo from './components/EmployeeMainInfo';
 import Header from './components/Header';
 import Footer from './components/Footer';
 
 
 const Employees = () => {
   return (
-    <div>
+    <div className="App">
       <Header />
-      <SideNavigationBar />
+      <div className="App-header">
+        <div style={tittleStyle}>
+          <h2 style={{paddingRight: '30pt',}}>Empleados</h2>
+          <Button color="primary" outline>
+            Agregar un nuevo empleado
+          </Button>
+        </div>
+
+        <EmployeeMainInfo name="Emmanuel D. Solis" isActive="true" jobPosition="Scrum Master" employeeType="Tiempo completo" paymentType="Mensual" netSalary="$15000" sumDeductions="$2000" realSalary="$13000" extraBenefits="$100"/>
+        <EmployeeMainInfo name="Jan Murillo" isActive="true" jobPosition="Developer" employeeType="Medio tiempo" paymentType="Semanal" netSalary="$7500" sumDeductions="$1000" realSalary="$6000" extraBenefits="$50"/>
+        
+        <Link to="/">Home</Link>
+      </div>
       <Footer />
     </div>
   );
 };
+
+const tittleStyle = {
+  display: 'inline-flex',
+  flexDirection: 'row',
+  flexWrap: 'no-wrap',
+  alignItems: 'baseline',
+}
 
 export default Employees;
