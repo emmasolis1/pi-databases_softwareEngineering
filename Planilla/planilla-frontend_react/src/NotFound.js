@@ -2,15 +2,15 @@ import React from 'react'
 import './App.css';
 import { Link } from "react-router-dom";
 
-const BenefitsEmployer = () => {
+const NotFound = () => {
     return (
         <div className="App">
             <div className="App-header">
-                <p>Beneficios</p>
+                <h1>Page not found</h1>
                 <Link to="/">Home</Link>
             </div>
         </div>
     );
 }
 
-export default BenefitsEmployer;
+export default NotFound;
