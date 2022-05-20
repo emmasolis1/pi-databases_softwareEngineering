@@ -3,12 +3,12 @@ using planilla_backend_asp.net.Models;
 
 namespace planilla_backend_asp.net.BussinessLogic
 {
-    public class RegistroEmpleadorLogic
+    public class RegistroUsuarioLogic
     {
-        public static void registroEmpleador(EmpleadorModel empleador)
+        public static void registroUsuario(UsuarioModel empleador)
         {
             
-            int ingreso = EmpleadorBDProcedures.IngresarEmpleador(empleador);
+            int ingreso = UsuarioBDProcedures.ingresarUsuario(empleador);
             if (ingreso != 1)
             {
                 throw new Exception("No se lograron ingresar los datos");

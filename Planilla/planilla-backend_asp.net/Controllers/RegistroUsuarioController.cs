@@ -6,16 +6,16 @@ namespace planilla_backend_asp.net.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class RegistroEmpleadorController: ControllerBase
+    public class RegistroUsuarioController: ControllerBase
     {
 
         [HttpPost(Name = "GetRegistroEmpleador")]
-        public void RegistrarEmpleador(EmpleadorModel empleador)
+        public void RegistrarEmpleador(UsuarioModel empleador)
         {
             try
             {
                 
-                RegistroEmpleadorLogic.registroEmpleador(empleador);
+                RegistroUsuarioLogic.registroUsuario(empleador);
             }
             catch(Exception error)
             {

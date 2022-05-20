@@ -1,15 +1,15 @@
 ﻿namespace planilla_backend_asp.net.Models
 {
-    public  class EmpleadorModel
+    public  class UsuarioModel
     {
-        public  EmpleadorModel()
+        public  UsuarioModel()
         {
             Cedula = "";
             Contrasena = "";
             Nombre = "";
             Apellido1 = "";
             Apellido2 = "";
-            Telefonos = "";
+            Telefono = "";
         }
    
         public string Cedula { get; set; }
@@ -22,7 +22,9 @@
 
         public string Apellido2 { get; set; }
 
-        public string Telefonos { get; set; }
+        public string Telefono { get; set; }
+
+        public int IdTipoUsuario { get; set; }
 
         public int IdProvincia { get; set; }
 
