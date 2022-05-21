@@ -1,0 +1,4 @@
+npm install react-router-dom
+npm install reactstrap
+npm install bootstrap --save
+npm install react-burger-menu --save --force

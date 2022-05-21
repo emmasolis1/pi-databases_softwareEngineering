@@ -6,46 +6,41 @@ import BenefitsMainInfo from './components/BenefitsMainInfo';
 import Header from './components/Header';
 import Footer from './components/Footer';
 
-
 const BenefitsEmployer = () => {
   return (
     <div className="App">
+
+      <SideNavigationBar />
       <Header />
-      <div className='App-header' style={navMenuStyle}>
-        <SideNavigationBar />
-        <div className="App-header">
-        <div style={tittleStyle}>
-          <h2 style={{paddingRight: '30pt',}}>Beneficios</h2>
+
+      <div className="App-header">
+
+        <div style={titleStyle}>
+          <h2 style={{ paddingRight: '20pt' }}>Beneficios</h2>
           <Button color="primary" outline>
             Agregar un nuevo beneficio
           </Button>
         </div>
 
-        <BenefitsMainInfo name="Gimnasio" isActive="true" cost="$15"/>
-        <BenefitsMainInfo name="Plan dental" isActive="true" cost="$10"/>
-        <BenefitsMainInfo name="Seguro privado" isActive="true" cost="$20"/>
-        
+        <BenefitsMainInfo name="Gimnasio" isActive="true" cost="$15" />
+        <BenefitsMainInfo name="Plan dental" isActive="true" cost="$10" />
+        <BenefitsMainInfo name="Seguro privado" isActive="true" cost="$20" />
+
       </div>
-      </div>
+
       <Footer />
+
     </div>
   );
 };
 
-const tittleStyle = {
+const titleStyle = {
   display: 'inline-flex',
   flexDirection: 'row',
   flexWrap: 'no-wrap',
-  alignItems: 'baseline',
-}
-
-const navMenuStyle={
-  display: 'flex',
-  flexDirection: 'row',
-  flexWrap: 'no-wrap',
-  justifyContent: 'center',
-  alignItems: 'strech',
-  alignContent: 'center',
+  alignItems: 'center',
+  paddingTop: '10pt', 
+  paddingLeft: '60pt'
 }
 
 export default BenefitsEmployer;

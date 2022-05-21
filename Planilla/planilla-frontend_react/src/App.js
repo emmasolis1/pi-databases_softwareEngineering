@@ -10,9 +10,9 @@ export default function App() {
         <Router>
             <Routes>
                 <Route index element={<Home />} />
-                <Route exact path="BenefitsEmployer" element={<BenefitsEmployer />} />
-                <Route exact path="Employees" element={<Employees />} />
-                <Route exact path="*" element={<NotFound />} />
+                <Route path="/BenefitsEmployer" element={<BenefitsEmployer />} />
+                <Route path="/Employees" element={<Employees />} />
+                <Route path="*" element={<NotFound />} />
             </Routes>
         </Router>
     );
