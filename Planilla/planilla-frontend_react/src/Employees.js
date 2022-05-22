@@ -11,9 +11,9 @@ import Footer from './components/Footer';
 const Employees = () => {
   return (
     <div className="App">
+      <SideNavigationBar />
       <Header />
       <div className='App-header' style={navMenuStyle}>
-        <SideNavigationBar />
         <div className="App-header">
         <div style={tittleStyle}>
           <h2 style={{paddingRight: '30pt',}}>Empleados</h2>
