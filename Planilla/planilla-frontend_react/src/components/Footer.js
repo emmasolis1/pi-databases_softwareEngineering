@@ -15,6 +15,8 @@ const divStyle = {
   justifyContent: 'space-between',
   alignItems: 'stretch',
   padding: '10pt',
+  paddingBottom: '0pt',
+  marginBottom: '0pt',
   backgroundColor: 'black',
 }
 
