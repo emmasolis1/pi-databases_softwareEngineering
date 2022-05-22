@@ -26,30 +26,6 @@ namespace planilla_backend_asp.net.BDProcedures
             conexion.Close();
             return consultaFormatoTabla;
         }
-        public List<UsuarioModel> ObtenerEmpleadores()
-        {
-            List<UsuarioModel> employers = new List<UsuarioModel>();
-            string consult = "SELECT * FROM dbo.Usuario";
-            DataTable tablaResultado = CreateTableConsult(consult);
-            foreach (DataRow columna in tablaResultado.Rows)
-            {
-                employers.Add(
-                new UsuarioModel
-                {
-                    Cedula = Convert.ToString(columna["Cedula"]),
-                    Contrasena = Convert.ToString(columna["Contrasena"]),
-                    Nombre = Convert.ToString(columna["Nombre"]),
-                    Apellido1 = Convert.ToString(columna["Apellido1"]),
-                    Apellido2 = Convert.ToString(columna["Apellido2"]),
-                    Telefono = Convert.ToString(columna["Telefonos"]),
-                    IdProvincia = Convert.ToInt32(columna["IdProvincia"]),
-                    IdCanton = Convert.ToInt32(columna["IdCanton"]),
-                    IdCodigoPostal = Convert.ToInt32(columna["IdCodigoPostal"]),
-                    IdTipoUsuario = Convert.ToInt32(columna["IdTipoUsuario"]),
-                });
-            }
-            return employers;
-        }
         public static int ingresarUsuario(UsuarioModel usuario)
         {
             int result=0;
@@ -114,9 +90,7 @@ namespace planilla_backend_asp.net.BDProcedures
             {
                 Console.WriteLine(ex);
                 return 0;
-            }
-           
-
+            }    
         }
 
         public static int getCountDirecciones()
@@ -130,3 +104,30 @@ namespace planilla_backend_asp.net.BDProcedures
         }
     }
 }
+
+        /*     
+        public List<UsuarioModel> ObtenerEmpleadores()
+        {
+            List<UsuarioModel> employers = new List<UsuarioModel>();
+            string consult = "SELECT * FROM dbo.Usuario";
+            DataTable tablaResultado = CreateTableConsult(consult);
+            foreach (DataRow columna in tablaResultado.Rows)
+            {
+                employers.Add(
+                new UsuarioModel
+                {
+                    Cedula = Convert.ToString(columna["Cedula"]),
+                    Contrasena = Convert.ToString(columna["Contrasena"]),
+                    Nombre = Convert.ToString(columna["Nombre"]),
+                    Apellido1 = Convert.ToString(columna["Apellido1"]),
+                    Apellido2 = Convert.ToString(columna["Apellido2"]),
+                    Telefono = Convert.ToString(columna["Telefonos"]),
+                    IdProvincia = Convert.ToInt32(columna["IdProvincia"]),
+                    IdCanton = Convert.ToInt32(columna["IdCanton"]),
+                    IdCodigoPostal = Convert.ToInt32(columna["IdCodigoPostal"]),
+                    IdTipoUsuario = Convert.ToInt32(columna["IdTipoUsuario"]),
+                });
+            }
+            return employers;
+        }
+        */

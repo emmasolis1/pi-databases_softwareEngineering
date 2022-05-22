@@ -8,14 +8,12 @@ namespace planilla_backend_asp.net.Controllers
     [Route("[controller]")]
     public class RegistroUsuarioController: ControllerBase
     {
-
         [HttpPost(Name = "GetRegistroEmpleador")]
-        public void RegistrarEmpleador(UsuarioModel empleador)
+        public void RegistrarEmpleador(UsuarioModel usuario)
         {
             try
             {
-                
-                RegistroUsuarioLogic.registroUsuario(empleador);
+                RegistroUsuarioLogic.registroUsuario(usuario);
             }
             catch(Exception error)
             {
