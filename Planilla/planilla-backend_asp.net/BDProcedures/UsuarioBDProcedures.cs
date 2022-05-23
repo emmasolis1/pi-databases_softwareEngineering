@@ -44,6 +44,7 @@ namespace planilla_backend_asp.net.BDProcedures
             }
             catch(Exception ex)
             {
+                Console.WriteLine(ex);
                 Console.WriteLine("No se ha logrado registrar el usuario");
             }
             return result;

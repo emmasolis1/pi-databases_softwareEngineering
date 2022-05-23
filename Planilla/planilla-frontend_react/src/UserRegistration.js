@@ -1,10 +1,9 @@
-﻿import React, { useEffect } from "react";
-import ReactDOM from "react-dom";
+﻿/*import React, { useEffect } from "react";
 import { Formik, Form, useField, useFormikContext } from "formik";
 import * as Yup from "yup";
 import styled from "@emotion/styled";
-import "./styles.css";
-import "./styles-custom.css";
+import "./GeneralStyles.css";
+import "./StyleComponents.css";
 
 const MyTextInput = ({ label, ...props }) => {
     const [field, meta] = useField(props);
@@ -189,4 +188,4 @@ function App() {
 const rootElement = document.getElementById("root");
 ReactDOM.render(<App />, rootElement);
 
-
+*/
