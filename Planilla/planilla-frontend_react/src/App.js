@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from './Home';
-import BenefitsEmployer from './BenefitsEmployer';
+import Login from './Login';
+import UserRegistration from './UserRegistration';
 import Project from './Project';
 import Employees from './Employees';
+import BenefitsEmployer from './BenefitsEmployer';
 import NotFound from './NotFound';
 
 export default function App() {
@@ -11,9 +13,11 @@ export default function App() {
         <Router>
             <Routes>
                 <Route index element={<Home />} />
+                <Route path="/Login" element={<Login />} />
+                <Route path="/UserRegistration" element={<UserRegistration />} />
                 <Route path="/BenefitsEmployer" element={<BenefitsEmployer />} />
-                <Route path="/Employees" element={<Employees />} />
                 <Route path="/Project" element={<Project />} />
+                <Route path="/Employees" element={<Employees />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </Router>

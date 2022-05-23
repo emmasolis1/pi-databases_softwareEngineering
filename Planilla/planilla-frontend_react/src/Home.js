@@ -28,9 +28,11 @@ const Home = () => {
                 >
                     Learn React
                 </a>
-                <Link to="BenefitsEmployer"><a className="App-link">BenefitsEmployer</a></Link>
-                <Link to="Employees"><a className="App-link">Employees</a></Link>
-                <Link to="Project"><a className="App-link">Projects</a></Link>
+                <Link to="Login"><a href className="App-link">Login</a></Link>
+                <Link to="UserRegistration"><a href className="App-link">UserRegistration</a></Link>
+                <Link to="Project"><a href className="App-link">Projects</a></Link>
+                <Link to="Employees"><a href className="App-link">Employees</a></Link>
+                <Link to="BenefitsEmployer"><a href className="App-link">BenefitsEmployer</a></Link>
             </div>
             <Footer />
         </div>

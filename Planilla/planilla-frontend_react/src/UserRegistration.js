@@ -1,9 +1,9 @@
-﻿/*import React, { useEffect } from "react";
-import { Formik, Form, useField, useFormikContext } from "formik";
+﻿import React from "react";
+import { Formik, Form, useField } from "formik";
 import * as Yup from "yup";
 import styled from "@emotion/styled";
-import "./GeneralStyles.css";
-import "./StyleComponents.css";
+import "./components/GeneralStyle.css";
+import "./components/StyleComponents.css";
 
 const MyTextInput = ({ label, ...props }) => {
     const [field, meta] = useField(props);
@@ -180,6 +180,10 @@ const RegistrationForm = () => {
         </>
     );
 };
+
+export default RegistrationForm;
+
+/*
 
 function App() {
     return <RegistrationForm />;
