@@ -13,7 +13,7 @@ const BenefitsMainInfo = (props) => {
         <div class="row">
         <div class="col">
             <Button outline>
-                          <Link to="/Employees"><a className="App-link">{props.name}</a></Link>
+                          <Link to="/Employees"><a href className="App-link">{props.name}</a></Link>
             </Button>
             
           </div>

@@ -1,6 +1,9 @@
 import React from 'react';
-import { Formik, Form } from 'formik';
+import { Formik, Form, useField } from 'formik';
 import * as Yup from "yup";
+import { Link } from "react-router-dom";
+import "./components/GeneralStyle.css";
+import "./components/StyleComponents.css";
 
 const MyTextInput = ({ label, ...props }) => {
 	const [field, meta] = useField(props);
@@ -53,12 +56,18 @@ const Login = () => {
 					<div>
 					<button type="submit">Submit</button>
 					</div>
-					<button type="register">No tienes cuenta, Registrate acá</button>
+					<button type="register">
+						<Link to="/UserRegistration"><a href className="App-link">Register</a></Link>
+					</button>
                 </Form>
 			</Formik>
 		</>
 	);
 }
+
+export default Login;
+
+/*
 
 function App() {
 	return <Login />;
@@ -66,3 +75,5 @@ function App() {
 
 const rootElement = document.getElementById("root");
 ReactDOM.render(<App />, rootElement);
+
+*/

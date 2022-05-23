@@ -1,10 +1,9 @@
-﻿import React, { useEffect } from "react";
-import ReactDOM from "react-dom";
-import { Formik, Form, useField, useFormikContext } from "formik";
+﻿import React from "react";
+import { Formik, Form, useField } from "formik";
 import * as Yup from "yup";
 import styled from "@emotion/styled";
-import "./styles.css";
-import "./styles-custom.css";
+import "./components/GeneralStyle.css";
+import "./components/StyleComponents.css";
 
 const MyTextInput = ({ label, ...props }) => {
     const [field, meta] = useField(props);
@@ -182,6 +181,10 @@ const RegistrationForm = () => {
     );
 };
 
+export default RegistrationForm;
+
+/*
+
 function App() {
     return <RegistrationForm />;
 }
@@ -189,4 +192,4 @@ function App() {
 const rootElement = document.getElementById("root");
 ReactDOM.render(<App />, rootElement);
 
-
+*/
