@@ -1,6 +1,7 @@
 ﻿import React from "react";
 import { Formik, Form, useField } from "formik";
 import * as Yup from "yup";
+import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
 import "./components/GeneralStyle.css";
 import "./components/StyleComponents.css";
@@ -20,7 +21,9 @@ const MyTextInput = ({ label, ...props }) => {
 
 // Styled components ....
 const StyledSelect = styled.select`
-  color: var(--blue);
+    font-size: 20px;
+    color: black;
+    margin: 2mm;
 `;
 
 const StyledErrorMessage = styled.div`
@@ -55,8 +58,8 @@ const MySelect = ({ label, ...props }) => {
 };
 
 const RegistrationForm = () => {
-    return (
-        <>
+    return (    
+        <div className="App-header">
             <h1>Llene los espacios en blanco para registrarse</h1>
             <Formik
                 initialValues={{
@@ -73,123 +76,139 @@ const RegistrationForm = () => {
                 }}
                 validationSchema={Yup.object({
                     cedula: Yup.string()
+                        .min(9, "Tiene que ser 9 digitos")
                         .max(9, "Tiene que ser 9 digitos")
-                        .required("Required"),
+                        .required("Requerido"),
                     nombre: Yup.string()
                         .max(15, "Tiene que ser 15 caracteres o menos")
-                        .required("Required"),
+                        .required("Requerido"),
                     apellido1: Yup.string()
                         .max(15, "Tiene que ser 15 caracteres o menos")
-                        .required("Required"),
+                        .required("Requerido"),
                     apellido2: Yup.string()
                         .max(15, "Tiene que ser 15 caracteres o menos")
-                        .required("Required"),
+                        .required("Requerido"),
                     contrasena: Yup.string()
                         .max(40, "Tiene que ser 40 caracteres o menos")
-                        .required("Required"),
-                    telefono: Yup.number()
+                        .required("Requerido"),
+                        
+                    telefono: Yup.string()
+                        .min(8, "Tiene que ser 8 digitos")
                         .max(8, "Tiene que ser de 8 digitos")
-                        .required("Required"),
+                        .required("Requerido"),
                     provincia: Yup.string()
                         .max(15, "Tiene que ser 15 caracteres o menos")
                         .lowercase("Escribir en minuscula todo el nombre")
-                        .required("Required"),
+                        .required("Requerido"),
                     canton: Yup.string()
                         .max(20, "Tiene que ser 20 caracteres o menos")
                         .lowercase("Escribir en minuscula todo el nombre")
-                        .required("Required"),
-                    codigoPostal: Yup.number()
+                        .required("Requerido"),
+                    codigoPostal: Yup.string()
+                        .min(5, "Tiene que ser 5 digitos")
                         .max(5, "Tiene que ser 5 digitos")
-                        .required("Required"),
+                        .required("Requerido"),
                     tipoUsuario: Yup.string()
                         .oneOf(
                             ["Empleador", "Empleado"],
-                            "Invalid Job Type"
+                            "tipo de trabajador invalido"
                         )
-                        .required("Required")
+                        .required("Requerido")
                 })}
                 onSubmit={async (values, { setSubmitting }) => {
-                    await new Promise(r => setTimeout(r, 500));
+                    await new Promise(r => setTimeout(r, 1000));
                     alert(JSON.stringify(values, null, 10));
                     setSubmitting(false);
                 }}
             >
                 <Form>
-                    <MyTextInput
-                        label="Cedula"
-                        name="cedula"
-                        type="number"
-                        placeholder="117820230"
-                    />
-                    <MyTextInput
-                        label="Nombre"
-                        name="nombre"
-                        type="text"
-                        placeholder="Gustavo"
-                    />
-                    <MyTextInput
-                        label="Primer Apellido"
-                        name="apellido1"
-                        type="text"
-                        placeholder="Salas"
-                    />
-                    <MyTextInput
-                        label="Segundo Apellido"
-                        name="apellido2"
-                        type="text"
-                        placeholder="Foster"
-                    />
-                    <MyTextInput
-                        label="Contraseña"
-                        name="contrasena"
-                        type="text"
-                    />
-                    <MyTextInput
-                        label="Teléfono"
-                        name="telefono"
-                        type="number"
-                        placeholder="89227820"
-                    />
-                    <MyTextInput
-                        label="Provincia"
-                        name="provincia"
-                        type="texto"
-                        placeholder="san jose"
-                    />
-                    <MyTextInput
-                        label="Cantón"
-                        name="canton"
-                        type="texto"
-                        placeholder="puriscal"
-                    />
-                    <MyTextInput
-                        label="Código Postal"
-                        name="codigoPostal"
-                        type="number"
-                        placeholder="11011"
-                    />
-                    <MySelect label="Tipo de Usuario" name="tipoUsuario">
-                        <option value="">Escoja su tipo de usuario</option>
-                        <option value="Empleador">Empleador</option>
-                        <option value="Empleado">Empleado</option>
-                    </MySelect>
-
-                    <button type="submit">Submit</button>
+                    <div>
+                        <MyTextInput
+                            label="Cédula"
+                            name="cedula"
+                            type="number"
+                            placeholder="117820230"
+                        />
+                    </div>
+                    <div>
+                        <MyTextInput
+                            label="Nombre"
+                            name="nombre"
+                            type="text"
+                            placeholder="Gustavo"
+                        />
+                    </div>
+                    <div>
+                        <MyTextInput
+                            label="Primer Apellido"
+                            name="apellido1"
+                            type="text"
+                            placeholder="Salas"
+                        />
+                    </div>
+                    <div>
+                        <MyTextInput
+                            label="Segundo Apellido"
+                            name="apellido2"
+                            type="text"
+                            placeholder="Foster"
+                        />
+                    </div>
+                    <div>
+                        <MyTextInput
+                            label="Contraseña"
+                            name="contrasena"
+                            type="text"
+                        />
+                    </div>
+                    <div>
+                        <MyTextInput
+                            label="Teléfono"
+                            name="telefono"
+                            type="number"
+                            placeholder="89227820"
+                        />
+                    </div>
+                    <div>
+                        <MyTextInput
+                            label="Provincia"
+                            name="provincia"
+                            type="text"
+                            placeholder="san jose"
+                        />
+                    </div>
+                    <div>
+                        <MyTextInput
+                            label="Cantón"
+                            name="canton"
+                            type="text"
+                            placeholder="puriscal"
+                        />
+                    </div>
+                    <div>
+                        <MyTextInput
+                            label="Código Postal"
+                            name="codigoPostal"
+                            type="number"
+                            placeholder="11011"
+                        />
+                    </div>
+                    <div>
+                        <MySelect label="Tipo de Usuario" name="tipoUsuario">
+                            <option value="">Escoja su tipo de usuario</option>
+                            <option value="Empleador">Empleador</option>
+                            <option value="Empleado">Empleado</option>
+                        </MySelect>
+                    </div>
+                    <div>
+                        <button type="submit">
+                            <Link to="/Login"><a href className="App-link">Registrarse</a></Link>
+                        </button>
+                    </div>
                 </Form>
             </Formik>
-        </>
+        </div>
     );
 };
 
 export default RegistrationForm;
-
-/*
-
-function App() {
-    return <RegistrationForm />;
-}
-
-const rootElement = document.getElementById("root");
-ReactDOM.render(<App />, rootElement);
-
-*/
