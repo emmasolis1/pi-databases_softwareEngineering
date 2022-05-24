@@ -20,7 +20,7 @@ namespace planilla_backend_asp.net.Controllers
         public JsonResult Get()
         {
             string query = @"
-                            SELECT * FROM ObligatoryDeductions
+                            SELECT * FROM DeduccionesObligatorias
                             ";
 
             DataTable table = new DataTable();
