@@ -1,18 +1,44 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using planilla_backend_asp.net.Models;
-using planilla_backend_asp.net.BDProcedures;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace planilla_backend_asp.net.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("[controller]")]
     public class ObligatoryDeductionsController : ControllerBase
     {
-        [HttpGet(Name = "GetObligatoryDeductions")]
-        public IEnumerable<ObligatoryDeductionsModel> GetObligatoryDeductions()
+        private readonly IConfiguration _configuration;
+        public ObligatoryDeductionsController(IConfiguration configuration)
         {
-            var data = ObligatoryDeductionsBDProcedures.GetObligatoryDeductionsData();
-            return data;
+            _configuration = configuration;
+        }
+
+
+        [HttpGet]
+        public JsonResult Get()
+        {
+            string query = @"
+                            SELECT * FROM ObligatoryDeductions
+                            ";
+
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("EmpleadorContext");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+
+            return new JsonResult(table);
         }
     }
 }
