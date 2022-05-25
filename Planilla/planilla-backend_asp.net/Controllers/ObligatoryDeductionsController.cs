@@ -10,7 +10,7 @@ namespace planilla_backend_asp.net.Controllers
     public class ObligatoryDeductionsController : ControllerBase
     {
         [HttpGet]
-        public IActionResult GetObligatoryDeductions()
+        public ActionResult GetObligatoryDeductions()
         {
             var builder = WebApplication.CreateBuilder();
             rutaConexion = builder.Configuration.GetConnectionString("EmpleadorContext");
