@@ -10,13 +10,13 @@ namespace planilla_backend_asp.net.Controllers
     public class ObligatoryDeductionsController : ControllerBase
     {
         [HttpGet]
-        public IEnumerable<ObligatoryDeductionsModel> GetObligatoryDeductions()
+        public IActionResult GetObligatoryDeductions()
         {
             var builder = WebApplication.CreateBuilder();
             rutaConexion = builder.Configuration.GetConnectionString("EmpleadorContext");
             conexion = new SqlConnection(rutaConexion);
             var data = GetObligatoryDeductionsData();
-            return data;
+            return Ok(data);
         }
 
         private static SqlConnection conexion;
