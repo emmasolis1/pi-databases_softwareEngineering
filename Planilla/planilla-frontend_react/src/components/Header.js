@@ -14,7 +14,7 @@ const divStyle = {
   color: 'white',
   display: 'flex',
   justifyContent: 'space-between',
-  alignItems: 'stretch',
+  alignItems: 'center',
   paddingLeft: '20pt',
   paddingRight: '20pt',
   backgroundColor: 'black',
