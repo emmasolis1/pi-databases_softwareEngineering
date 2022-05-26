@@ -6,7 +6,7 @@ import UserRegistration from './UserRegistration';
 import Project from './Project';
 import Employees from './Employees';
 import BenefitsEmployer from './BenefitsEmployer';
-import ObligatoryDeductions from './ObligatoryDeductions';
+import ObligatoryDeductions from './MandatoryDeductions';
 import NotFound from './NotFound';
 
 export default function App() {
