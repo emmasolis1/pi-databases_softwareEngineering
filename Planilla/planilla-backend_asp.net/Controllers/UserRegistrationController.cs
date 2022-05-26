@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using planilla_backend_asp.net.BussinessLogic;
+using planilla_backend_asp.net.Handlers;
 using planilla_backend_asp.net.Models;
 using System;
 using System.Collections.Generic;
@@ -10,14 +10,15 @@ namespace planilla_backend_asp.net.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RegistroUsuarioController: ControllerBase
+    public class UserRegistrationController: ControllerBase
     {
         [HttpPost]
-        public ActionResult RegistrarUsuario(UsuarioModel usuario)
+        public ActionResult RegistrarUsuario(UsuarioModel user)
         {
             try
             {
-                var data = RegistroUsuarioLogic.RegistroUsuario(usuario);
+                UserRegisterHandler handler = new UserRegisterHandler();
+                var data = handler.registerUser(user);
                 return Ok(data);
             }
             catch(Exception error)
