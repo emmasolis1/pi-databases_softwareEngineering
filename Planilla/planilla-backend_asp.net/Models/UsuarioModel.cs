@@ -14,7 +14,7 @@
 
         public string Telefono { get; set; }
 
-        public string TipoUsuario { get; set; }
+        public int TipoUsuario { get; set; }
 
         public string Provincia { get; set; }
 

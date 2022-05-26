@@ -18,5 +18,13 @@ namespace planilla_backend_asp.net.BussinessLogic
             }
             return ingreso;
         }
-    }
+
+        public static List<UsuarioModel> ObtenerEmpleados()
+        {
+          UsuarioBDProcedures consulta = new UsuarioBDProcedures();
+          var data = consulta.GetEmployees();
+          
+          return data;
+        }
+  }
 }

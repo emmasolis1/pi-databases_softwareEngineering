@@ -16,7 +16,7 @@ export default class PersonList extends React.Component {
   }
 
   componentDidMount() {
-    axios.get(`https://localhost:7150/api/employees`)
+    axios.get(`https://localhost:7150/api/employee`)
       .then(res => {
         const persons = res.data;
         this.setState({ persons });
@@ -41,7 +41,7 @@ export default class PersonList extends React.Component {
           {
             this.state.persons.map(person =>
               <EmployeeMainInfo
-                name={person.nombre + " " + person.apellido1 + " " + person.apellido2}
+                name={person.Nombre + " " + person.Apellido1 + " " + person.Apellido2}
                 isActive="true"
                 jobPosition="Scrum Master"
                 employeeType="Tiempo completo"

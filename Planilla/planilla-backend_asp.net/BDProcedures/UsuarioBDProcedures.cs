@@ -64,6 +64,31 @@ namespace planilla_backend_asp.net.BDProcedures
             }
             return result;
         }
+
+        public List<UsuarioModel> GetEmployees()
+        {
+          List<UsuarioModel> employees = new List<UsuarioModel>();
+          string consulta = "SELECT * FROM dbo.Usuario WHERE dbo.Usuario.TipoUsuario = 1";
+          DataTable tablaResultado = CreateTableConsult(consulta);
+          foreach (DataRow columna in tablaResultado.Rows)
+          {
+          employees.Add(
+            new UsuarioModel
+            {
+              Cedula = Convert.ToString(columna["Cedula"]),
+              Contrasena = Convert.ToString(""),
+              Nombre = Convert.ToString(columna["Nombre"]),
+              Apellido1 = Convert.ToString(columna["Apellido1"]),
+              Apellido2 = Convert.ToString(columna["Apellido2"]),
+              Telefono = Convert.ToString(columna["Telefono"]),
+              TipoUsuario = Convert.ToInt32(columna["TipoUsuario"]),
+              Provincia = Convert.ToString(columna["Provincia"]),
+              Canton = Convert.ToString(columna["Canton"]),
+              CodigoPostal = Convert.ToString(columna["CodigoPostal"]),
+            });
+          }
+          return employees;
     }
+  }
 }
   

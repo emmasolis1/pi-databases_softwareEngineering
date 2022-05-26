@@ -1,0 +1,42 @@
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using planilla_backend_asp.net.BussinessLogic;
+using planilla_backend_asp.net.Models;
+using System;
+using System.Collections.Generic;
+using System.Net;
+using planilla_backend_asp.net.BDProcedures;
+
+namespace planilla_backend_asp.net.Controllers
+{
+  [Route("api/")]
+  [ApiController]
+  public class UserController : ControllerBase
+  {
+    [HttpGet]
+    [Route("employee")]
+    public ActionResult GetEmployees()
+    {
+      // Get data from database
+      UsuarioBDProcedures usuarioBDProcedures = new UsuarioBDProcedures();
+      var data = usuarioBDProcedures.GetEmployees();
+      return Ok(data);
+    }
+
+    [HttpPost]
+    [Route("registerUser")]
+    public ActionResult RegistrarUsuario(UsuarioModel usuario)
+    {
+      try
+      {
+        var data = RegistroUsuarioLogic.RegistroUsuario(usuario);
+        return Ok(data);
+      }
+      catch (Exception error)
+      {
+        Console.WriteLine(error);
+        return BadRequest(error.Message);
+      }
+    }
+  }
+}
