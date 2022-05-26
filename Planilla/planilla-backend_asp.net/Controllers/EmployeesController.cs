@@ -1,9 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using planilla_backend_asp.Models;
-using System;
-using System.Collections.Generic;
-using System.Net;
 
 namespace planilla_backend_asp.net.Controllers
 {
