@@ -57,7 +57,21 @@ const MySelect = ({ label, ...props }) => {
     );
 };
 
+/*export default class UserRegistration extends React.Component { 
+    state = {
+    registro: []
+ }
+
+componentDidMount() {
+    axios.get(`https://localhost:7150/api/RegistrarUsuario`)
+        .then(res => {
+            const registro = res.data;
+            this.setState({ registro });
+        })
+}*/
+
 const RegistrationForm = () => {
+//render() {
     return (    
         <div className="App-header">
             <h1>Llene los espacios en blanco para registrarse</h1>

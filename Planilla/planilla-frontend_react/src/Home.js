@@ -33,6 +33,7 @@ const Home = () => {
                 <Link to="Project"><a href className="App-link">Projects</a></Link>
                 <Link to="Employees"><a href className="App-link">Employees</a></Link>
                 <Link to="BenefitsEmployer"><a href className="App-link">BenefitsEmployer</a></Link>
+                <Link to="ObligatoryDeductions"><a href className="App-link">ObligatoryDeductions</a></Link>
             </div>
             <Footer />
         </div>

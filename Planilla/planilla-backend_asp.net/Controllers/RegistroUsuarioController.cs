@@ -13,7 +13,7 @@ namespace planilla_backend_asp.net.Controllers
     public class RegistroUsuarioController: ControllerBase
     {
         [HttpPost]
-        public ActionResult RegistrarEmpleador(UsuarioModel usuario)
+        public ActionResult RegistrarUsuario(UsuarioModel usuario)
         {
             try
             {
