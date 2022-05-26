@@ -1,46 +1,63 @@
 import React from 'react';
+import axios from 'axios';
 import { Button } from 'reactstrap';
 
 import SideNavigationBar from './components/SideNavigationBar';
 import BenefitsMainInfo from './components/BenefitsMainInfo';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import variables from './Variables';
 
-const BenefitsEmployer = () => {
-  return (
-    <div className="App">
+export default class BenefitsEmployer extends React.Component {
+    state = {
+        BenefitsEmployer: []
+    }
 
-      <SideNavigationBar />
-      <Header />
+    componentDidMount() {
+        axios.get(variables.API_URL + 'Benefitsemployer')
+            .then(res => {
+                const BenefitsEmployer = res.data;
+                this.setState({ BenefitsEmployer });
+            })
+    }
 
-      <div className="App-header">
+    render() {
 
-        <div style={titleStyle}>
-          <h2 style={{ paddingRight: '20pt' }}>Beneficios</h2>
-          <Button color="primary" outline>
-            Agregar un nuevo beneficio
-          </Button>
-        </div>
+        return (
+            <div className="App">
 
-        <BenefitsMainInfo name="Gimnasio" isActive="true" cost="$15" />
-        <BenefitsMainInfo name="Plan dental" isActive="true" cost="$10" />
-        <BenefitsMainInfo name="Seguro privado" isActive="true" cost="$20" />
+                <SideNavigationBar />
+                <Header />
 
-      </div>
+                <div className="App-header">
 
-      <Footer />
+                    <div style={titleStyle}>
+                        <h2 style={{ paddingRight: '20pt' }}>Beneficios</h2>
+                        <Button color="primary" outline>
+                            Agregar un nuevo beneficio
+                        </Button>
+                    </div>
 
-    </div>
-  );
+                    {
+                        this.state.BenefitsEmployer.map(beem =>
+                            <BenefitsMainInfo name={beem.nombre} isActive={beem.activo} cost={beem.costo} />
+                        )
+                    }
+
+                </div>
+
+                <Footer />
+
+            </div>
+        );
+    }
 };
 
 const titleStyle = {
-  display: 'inline-flex',
-  flexDirection: 'row',
-  flexWrap: 'no-wrap',
-  alignItems: 'center',
-  paddingTop: '10pt', 
-  paddingLeft: '60pt'
+    display: 'inline-flex',
+    flexDirection: 'row',
+    flexWrap: 'no-wrap',
+    alignItems: 'center',
+    paddingTop: '10pt',
+    paddingLeft: '60pt'
 }
-
-export default BenefitsEmployer;
