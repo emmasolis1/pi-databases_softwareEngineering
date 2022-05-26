@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using planilla_backend_asp.Models;
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 namespace planilla_backend_asp.net.Controllers
 {
@@ -11,10 +12,11 @@ namespace planilla_backend_asp.net.Controllers
   public class EmployeesController : ControllerBase
   {
     [HttpGet]
-    public IEnumerable<EmployeesModel> GetEmployees() {
+    public ActionResult GetEmployees() {
       // Get data from database
       var data = getEmployeesTest();
-      return data;
+
+      return Ok(data);
     }
 
     private List<EmployeesModel> getEmployeesTest() {
