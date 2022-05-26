@@ -4,8 +4,8 @@
     {   
         public string nombreBeneficio { get; set; }
 
-        public double cedulaEmpleador { get; set; }
+        public string cedulaEmpleador { get; set; }
 
-        public double nombreProyecto { get; set; }
+        public string nombreProyecto { get; set; }
     }
 }

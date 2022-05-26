@@ -40,7 +40,7 @@ export default class BenefitsEmployer extends React.Component {
 
                     {
                         this.state.BenefitsEmployer.map(beem =>
-                            <BenefitsMainInfo name={beem.nombre} isActive={beem.activo} cost={beem.costo} />
+                            <BenefitsMainInfo name={beem.nombreBeneficio} isActive={beem.nombreProyectp} cost={beem.cedulaEmpleador} />
                         )
                     }
 

@@ -35,20 +35,20 @@ namespace planilla_backend_asp.net.Controllers
 
         private List<BenefitsModel> GetBenefitsData()
         {
-            List<BenefitsModel> obligatoryDeductions = new List<BenefitsModel>();
+            List<BenefitsModel> benefits = new List<BenefitsModel>();
             string consult = "SELECT * FROM Beneficios";
             DataTable tablaResultado = CreateTableConsult(consult);
             foreach (DataRow columna in tablaResultado.Rows)
             {
-                obligatoryDeductions.Add(new BenefitsModel
+                benefits.Add(new BenefitsModel
                 {
                     nombreBeneficio = Convert.ToString(columna["nombreBeneficio"]),
-                    cedulaEmpleador = Convert.ToDouble(columna["cedulaEmpleador"]),
-                    nombreProyecto = Convert.ToDouble(columna["nombreProyecto"])
+                    cedulaEmpleador = Convert.ToString(columna["cedulaEmpleador"]),
+                    nombreProyecto = Convert.ToString(columna["nombreProyecto"]),
                 });
             }
 
-            return obligatoryDeductions;
+            return benefits;
         }
     }
 }
