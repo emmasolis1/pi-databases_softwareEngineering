@@ -14,7 +14,7 @@ export default class BenefitsEmployer extends React.Component {
     }
 
     componentDidMount() {
-        axios.get(variables.API_URL + 'Benefitsemployer')
+        axios.get(variables.API_URL + 'benefits')
             .then(res => {
                 const BenefitsEmployer = res.data;
                 this.setState({ BenefitsEmployer });
