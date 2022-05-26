@@ -9,36 +9,45 @@ namespace planilla_backend_asp.net.Controllers
     [ApiController]
     public class ObligatoryDeductionsController : ControllerBase
     {
-        private readonly IConfiguration _configuration;
-        public ObligatoryDeductionsController(IConfiguration configuration)
+        [HttpGet]
+        public ActionResult GetObligatoryDeductions()
         {
-            _configuration = configuration;
+            var builder = WebApplication.CreateBuilder();
+            rutaConexion = builder.Configuration.GetConnectionString("EmpleadorContext");
+            conexion = new SqlConnection(rutaConexion);
+            var data = GetObligatoryDeductionsData();
+            return Ok(data);
         }
 
+        private static SqlConnection conexion;
+        private string rutaConexion;
 
-        [HttpGet]
-        public JsonResult Get()
+        private DataTable CreateTableConsult(string consult)
         {
-            string query = @"
-                            SELECT * FROM DeduccionesObligatorias
-                            ";
+            SqlCommand comandoParaConsulta = new SqlCommand(consult, conexion);
+            SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(comandoParaConsulta);
+            DataTable consultaFormatoTabla = new DataTable();
+            conexion.Open();
+            adaptadorParaTabla.Fill(consultaFormatoTabla);
+            conexion.Close();
+            return consultaFormatoTabla;
+        }
 
-            DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("EmpleadorContext");
-            SqlDataReader myReader;
-            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+        private List<ObligatoryDeductionsModel> GetObligatoryDeductionsData()
+        {
+            List<ObligatoryDeductionsModel> obligatoryDeductions = new List<ObligatoryDeductionsModel>();
+            string consult = "SELECT * FROM DeduccionesObligatorias";
+            DataTable tablaResultado = CreateTableConsult(consult);
+            foreach (DataRow columna in tablaResultado.Rows)
             {
-                myCon.Open();
-                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                obligatoryDeductions.Add(new ObligatoryDeductionsModel
                 {
-                    myReader = myCommand.ExecuteReader();
-                    table.Load(myReader);
-                    myReader.Close();
-                    myCon.Close();
-                }
+                    nombre = Convert.ToString(columna["Nombre"]),
+                    porcentaje = Convert.ToDouble(columna["Porcentaje"])
+                });
             }
 
-            return new JsonResult(table);
+            return obligatoryDeductions;
         }
     }
 }
