@@ -10,13 +10,13 @@ namespace planilla_backend_asp.net.Controllers
     public class ProjectController : ControllerBase
     {
         [HttpGet]
-        public IEnumerable<ProjectModel> GetProjects()
+        public ActionResult GetProjects()
         {
             var builder = WebApplication.CreateBuilder();
             rutaConexion = builder.Configuration.GetConnectionString("EmpleadorContext");
             conexion = new SqlConnection(rutaConexion);
             var data = GetProyectsData();
-            return data;
+            return Ok(data);
         }
 
         private static SqlConnection conexion;
@@ -36,16 +36,16 @@ namespace planilla_backend_asp.net.Controllers
         private List<ProjectModel> GetProyectsData()
         {
             List<ProjectModel> projects = new List<ProjectModel>();
-            string consult = "SELECT * FROM Proyectos";
+            string consult = "SELECT * FROM Proyecto";
             DataTable tablaResultado = CreateTableConsult(consult);
             foreach (DataRow columna in tablaResultado.Rows)
             {
                 projects.Add(new ProjectModel
                 {
-                    nombre = Convert.ToString(columna["Nombre"]),
-                    cedulaUsuario = Convert.ToString(columna["CedulaUsuario"]),
-                    presupuesto = Convert.ToInt32(columna["Presupuesto"]),
-                    modalidadPago = Convert.ToString(columna["ModalidadPago"])
+                    nombre = Convert.ToString(columna["nombre"]),
+                    cedulaUsuario = Convert.ToString(columna["cedulaEmpleador"]),
+                    presupuesto = Convert.ToInt32(columna["presupuesto"]),
+                    modalidadPago = Convert.ToString(columna["modalidadPago"])
                 });
             }
 
