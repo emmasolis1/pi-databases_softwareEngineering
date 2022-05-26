@@ -1,37 +1,55 @@
 import React from 'react';
+import axios from 'axios';
 import { Button } from 'reactstrap';
 
 import SideNavigationBar from './components/SideNavigationBar';
-import BenefitsMainInfo from './components/ProjectsMainInfo';
+import ProjectsMainInfo from './components/ProjectsMainInfo';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import variables from './Variables';
 
-const Project = () => {
-  return (
-    <div className="App">
 
-      <SideNavigationBar />
-      <Header />
+export default class Project extends React.Component {
+    state = {
+        Project: []
+    }
 
-      <div className="App-header">
+    componentDidMount() {
+        axios.get(variables.API_URL + 'Project')
+            .then(res => {
+                const Project = res.data;
+                this.setState({ Project });
+            })
+    }
 
-        <div style={titleStyle}>
-          <h2 style={{ paddingRight: '20pt' }}>Proyectos</h2>
-          <Button color="primary" outline>
-            Agregar un nuevo proyecto
-          </Button>
-        </div>
+    render() {
+        return (
+            <div className="App">
 
-              <BenefitsMainInfo name="Produccion audiovisual" isActive="true" payment="Quincenal" budget="$15000" />
-              <BenefitsMainInfo name="Mercadeo internacional" isActive="true" payment="Mensual" budget="$17000" />
-              <BenefitsMainInfo name="Distribucion agropecuaria" isActive="true" payment="Semanal" budget="$20000" />
+                <SideNavigationBar />
+                <Header />
 
-      </div>
+                <div className="App-header">
 
-      <Footer />
+                    <div style={titleStyle}>
+                        <h2 style={{ paddingRight: '20pt' }}>Proyectos</h2>
+                        <Button color="primary" outline>
+                            Agregar un nuevo proyecto
+                        </Button>
+                    </div>
 
-    </div>
-  );
+                    {
+                        this.state.Project.map(proy =>
+                            <ProjectsMainInfo name={proy.nombre} payment={proy.modalidadPago} budget={proy.presupuesto}/>
+                        )
+                    }
+                </div>
+
+                <Footer />
+
+            </div>
+        );
+    }
 };
 
 const titleStyle = {
@@ -42,5 +60,3 @@ const titleStyle = {
   paddingTop: '10pt', 
   paddingLeft: '60pt'
 }
-
-export default Project;
