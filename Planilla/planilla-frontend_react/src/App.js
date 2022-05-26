@@ -6,6 +6,7 @@ import UserRegistration from './UserRegistration';
 import Project from './Project';
 import Employees from './Employees';
 import BenefitsEmployer from './BenefitsEmployer';
+import ObligatoryDeductions from './ObligatoryDeductions';
 import NotFound from './NotFound';
 
 export default function App() {
@@ -18,6 +19,7 @@ export default function App() {
                 <Route path="/BenefitsEmployer" element={<BenefitsEmployer />} />
                 <Route path="/Project" element={<Project />} />
                 <Route path="/Employees" element={<Employees />} />
+                <Route path="/ObligatoryDeductions" element={<ObligatoryDeductions />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </Router>
