@@ -2,16 +2,6 @@
 {
     public  class UsuarioModel
     {
-        public  UsuarioModel()
-        {
-            Cedula = "";
-            Contrasena = "";
-            Nombre = "";
-            Apellido1 = "";
-            Apellido2 = "";
-            Telefono = "";
-        }
-   
         public string Cedula { get; set; }
 
         public string Contrasena { get; set; }
@@ -24,14 +14,12 @@
 
         public string Telefono { get; set; }
 
-        public int IdTipoUsuario { get; set; }
+        public string TipoUsuario { get; set; }
 
-        public int IdProvincia { get; set; }
+        public string Provincia { get; set; }
 
-        public int IdCanton { get; set; }
+        public string Canton { get; set; }
 
-        public int IdCodigoPostal { get; set; }
-
-
+        public string CodigoPostal { get; set; }
     }
 }

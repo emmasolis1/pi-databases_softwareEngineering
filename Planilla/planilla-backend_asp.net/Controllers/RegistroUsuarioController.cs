@@ -1,25 +1,30 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using planilla_backend_asp.net.Models;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using planilla_backend_asp.net.BussinessLogic;
+using planilla_backend_asp.net.Models;
+using System;
+using System.Collections.Generic;
+using System.Net;
 
 namespace planilla_backend_asp.net.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("[controller]")]
     public class RegistroUsuarioController: ControllerBase
     {
-        [HttpPost(Name = "GetRegistroEmpleador")]
-        public void RegistrarEmpleador(UsuarioModel usuario)
+        [HttpPost]
+        public ActionResult RegistrarEmpleador(UsuarioModel usuario)
         {
             try
             {
-                RegistroUsuarioLogic.registroUsuario(usuario);
+                var data = RegistroUsuarioLogic.RegistroUsuario(usuario);
+                return Ok(data);
             }
             catch(Exception error)
             {
                 Console.WriteLine(error);
+                return BadRequest(error.Message);
             }
-
         }
     }
 }

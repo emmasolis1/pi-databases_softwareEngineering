@@ -1,9 +1,9 @@
+import axios from 'axios';
 import React from 'react';
 import { Formik, Form, useField } from 'formik';
-import * as Yup from "yup";
-import { Link } from "react-router-dom";
 import "./components/GeneralStyle.css";
-import "./components/StyleComponents.css";
+import { Link } from "react-router-dom";
+import * as Yup from "yup";
 
 
 const MyTextInput = ({ label, ...props }) => {
@@ -55,7 +55,7 @@ const Login = () => {
 					</div>
 					<div>
 						<MyTextInput
-							label="Contrasena"
+							label= "Clave"
 							name="contrasena"
 							type="text"
 						/>

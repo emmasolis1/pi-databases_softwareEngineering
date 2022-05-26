@@ -5,20 +5,18 @@ namespace planilla_backend_asp.net.BussinessLogic
 {
     public class RegistroUsuarioLogic
     {
-        public static void registroUsuario(UsuarioModel empleador)
+        public static int RegistroUsuario(UsuarioModel empleador)
         {
-            
-            int ingreso = UsuarioBDProcedures.ingresarUsuario(empleador);
+            int ingreso = UsuarioBDProcedures.IngresarUsuario(empleador);
             if (ingreso != 1)
             {
-                throw new Exception("No se lograron ingresar los datos");
+                throw new Exception("Datos insuficientes");
             }
             else
             {
                 Console.WriteLine("Datos ingresados.");
             }
-        
+            return ingreso;
         }
-
     }
 }

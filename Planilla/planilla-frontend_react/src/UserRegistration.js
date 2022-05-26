@@ -1,10 +1,10 @@
-﻿import React from "react";
-import { Formik, Form, useField } from "formik";
-import * as Yup from "yup";
-import { Link } from "react-router-dom";
+﻿import axios from 'axios';
 import styled from "@emotion/styled";
+import { Formik, Form, useField } from "formik";
 import "./components/GeneralStyle.css";
-import "./components/StyleComponents.css";
+import React from "react";
+import { Link } from "react-router-dom";
+import * as Yup from "yup";
 
 const MyTextInput = ({ label, ...props }) => {
     const [field, meta] = useField(props);
