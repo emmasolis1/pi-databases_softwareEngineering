@@ -9,7 +9,7 @@ namespace planilla_backend_asp.net.Controllers
   public class UserController : ControllerBase
   {
     [HttpGet]
-    [Route("employee")]
+    [Route("employees")]
     public ActionResult GetEmployees()
     {
       // Get data from database
