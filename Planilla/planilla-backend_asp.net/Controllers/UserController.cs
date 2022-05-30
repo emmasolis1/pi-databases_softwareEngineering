@@ -14,7 +14,7 @@ namespace planilla_backend_asp.net.Controllers
     {
       // Get data from database
       UserHandler handler = new UserHandler();
-      var data = handler.GetEmployees();
+      var data = handler.getAllEmployeesSummarized();
       return Ok(data);
     }
   }
