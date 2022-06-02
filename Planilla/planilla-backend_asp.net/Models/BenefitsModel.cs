@@ -2,10 +2,10 @@
 {
     public class BenefitsModel
     {   
-        public string nombreBeneficio { get; set; }
+        public string benefitName { get; set; }
 
-        public string cedulaEmpleador { get; set; }
+        public string employerID { get; set; }
 
-        public string nombreProyecto { get; set; }
+        public string projectName { get; set; }
     }
 }
