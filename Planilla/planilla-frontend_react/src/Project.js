@@ -1,62 +1,66 @@
-import React from 'react';
-import axios from 'axios';
-import { Button } from 'reactstrap';
+import Head from 'next/head';
+import { Box, Container, Grid, Pagination } from '@mui/material';
+import { projects } from '../__mocks__/projects';
+import { ProjectListToolbar } from '../components/project/project-list-toolbar';
+import { ProjectCard } from '../components/project/project-card';
+import { DashboardLayout } from '../components/dashboard-layout';
 
-import SideNavigationBar from './components/SideNavigationBar';
-import ProjectsMainInfo from './components/ProjectsMainInfo';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import variables from './Variables';
+const Projects = () => (
+    <>
+        <Head>
+            <title>
+                Projects | Material Kit
+            </title>
+        </Head>
+        <Box
+            component="main"
+            sx={{
+                flexGrow: 1,
+                py: 8
+            }}
+        >
+            <Container maxWidth={false}>
+                <ProjectListToolbar />
+                <Box sx={{ pt: 3 }}>
+                    <Grid
+                        container
+                        spacing={3}
+                    >
+                        {projects.map((project) => (
+                            <Grid
+                                item
+                                key={project.id}
+                                lg={4}
+                                md={6}
+                                xs={12}
+                            >
+                                <ProjectCard project={project} />
+                            </Grid>
+                        ))}
+                    </Grid>
+                </Box>
+                <Box
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        pt: 3
+                    }}
+                >
+                    <Pagination
+                        color="primary"
+                        count={3}
+                        size="small"
+                    />
+                </Box>
+            </Container>
+        </Box>
+    </>
+);
 
+Projects.getLayout = (page) => (
+    <DashboardLayout>
+        {page}
+    </DashboardLayout>
+);
 
-export default class Project extends React.Component {
-    state = {
-        Project: []
-    }
-
-    componentDidMount() {
-        axios.get(variables.API_URL + 'Project')
-            .then(res => {
-                const Project = res.data;
-                this.setState({ Project });
-            })
-    }
-
-    render() {
-        return (
-            <div className="App">
-
-                <SideNavigationBar />
-                <Header />
-
-                <div className="App-header">
-
-                    <div style={titleStyle}>
-                        <h2 style={{ paddingRight: '20pt' }}>Proyectos</h2>
-                        <Button color="primary" outline>
-                            Agregar un nuevo proyecto
-                        </Button>
-                    </div>
-
-                    {
-                        this.state.Project.map(proy =>
-                            <ProjectsMainInfo name={proy.nombre} payment={proy.modalidadPago} budget={proy.presupuesto}/>
-                        )
-                    }
-                </div>
-
-                <Footer />
-
-            </div>
-        );
-    }
-};
-
-const titleStyle = {
-  display: 'inline-flex',
-  flexDirection: 'row',
-  flexWrap: 'no-wrap',
-  alignItems: 'center',
-  paddingTop: '10pt', 
-  paddingLeft: '60pt'
-}
+export default Projects;

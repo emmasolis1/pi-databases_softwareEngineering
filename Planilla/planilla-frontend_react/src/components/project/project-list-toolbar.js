@@ -5,11 +5,12 @@ import {
   CardContent,
   TextField,
   InputAdornment,
-  SvgIcon, Typography
+  SvgIcon,
+  Typography
 } from '@mui/material';
+import { Download as DownloadIcon } from '../../icons/download';
 import { Search as SearchIcon } from '../../icons/search';
 import { Upload as UploadIcon } from '../../icons/upload';
-import { Download as DownloadIcon } from '../../icons/download';
 
 export const ProjectListToolbar = (props) => (
   <Box {...props}>
@@ -30,22 +31,10 @@ export const ProjectListToolbar = (props) => (
       </Typography>
       <Box sx={{ m: 1 }}>
         <Button
-          startIcon={(<UploadIcon fontSize="small" />)}
-          sx={{ mr: 1 }}
-        >
-          Import
-        </Button>
-        <Button
-          startIcon={(<DownloadIcon fontSize="small" />)}
-          sx={{ mr: 1 }}
-        >
-          Export
-        </Button>
-        <Button
           color="primary"
           variant="contained"
         >
-          Add Projects
+          Add projects
         </Button>
       </Box>
     </Box>
@@ -59,8 +48,8 @@ export const ProjectListToolbar = (props) => (
                 startAdornment: (
                   <InputAdornment position="start">
                     <SvgIcon
-                      color="action"
                       fontSize="small"
+                      color="action"
                     >
                       <SearchIcon />
                     </SvgIcon>
