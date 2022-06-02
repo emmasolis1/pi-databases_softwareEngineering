@@ -88,6 +88,18 @@ const Register = () => {
               variant="outlined"
             />
             <TextField
+              error={Boolean(formik.touched.budget && formik.errors.shortDescription)}
+              fullWidth
+              helperText={formik.touched.budget && formik.errors.shortDescription}
+              label="Short description"
+              margin="normal"
+              name="shortDescription"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.shortDescription}
+              variant="outlined"
+            />
+            <TextField
               error={Boolean(formik.touched.budget && formik.errors.budget)}
               fullWidth
               helperText={formik.touched.budget && formik.errors.budget}
