@@ -1,54 +1,42 @@
 {
-  "name": "planilla-frontend_react",
-  "version": "0.1.0",
-  "private": true,
-  "proxy": "https://localhost:7150/",
-  "dependencies": {
-    "@emotion/styled": "^11.8.1",
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.2.0",
-    "@testing-library/user-event": "^13.5.0",
-    "axios": "^0.27.2",
-    "bootstrap": "^5.1.3",
-    "formik": "^2.2.9",
-    "http-proxy-middleware": "^2.0.6",
-    "jest-editor-support": "^30.0.2",
-    "react": "^18.1.0",
-    "react-burger-menu": "^3.0.6",
-    "react-dom": "^18.1.0",
-    "react-icons": "^4.3.1",
-    "react-intl": "^6.0.1",
-    "react-pro-sidebar": "^0.7.1",
-    "react-router-dom": "^6.3.0",
-    "react-scripts": "^2.1.3",
-    "reactstrap": "^9.0.2",
-    "web-vitals": "^2.1.4",
-    "yap": "^0.0.2",
-    "yup": "^0.32.11"
-  },
+  "name": "material-kit-react",
+  "author": "Devias IO",
+  "licence": "MIT",
+  "version": "2.0.0",
+  "private": false,
   "scripts": {
-    "start": "set HTTPS=true&&react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "prestart": "node aspnetcore-https && node aspnetcore-react"
+    "dev": "next",
+    "build": "next build",
+    "start": "next start",
+    "export": "next export",
+    "lint": "next lint",
+    "lint-fix": "next lint --fix"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+  "dependencies": {
+    "@emotion/cache": "^11.5.0",
+    "@emotion/react": "^11.5.0",
+    "@emotion/server": "^11.4.0",
+    "@emotion/styled": "^11.3.0",
+    "@mui/icons-material": "^5.0.5",
+    "@mui/lab": "^5.0.0-alpha.53",
+    "@mui/material": "^5.0.6",
+    "@mui/styles": "^5.0.2",
+    "chart.js": "^3.5.1",
+    "date-fns": "^2.25.0",
+    "formik": "^2.1.5",
+    "history": "^5.0.0",
+    "next": "^12.0.3-canary.7",
+    "nprogress": "^0.2.0",
+    "prop-types": "^15.7.2",
+    "react": "^17.0.2",
+    "react-chartjs-2": "^3.0.4",
+    "react-dom": "^17.0.2",
+    "react-perfect-scrollbar": "^1.5.8",
+    "uuid": "^8.3.0",
+    "yup": "^0.32.9"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-next": "12.0.3-canary.7"
   }
 }
