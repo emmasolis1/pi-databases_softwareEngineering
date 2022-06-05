@@ -7,11 +7,11 @@ import { CustomerListResults } from '../components/customer/customer-list-result
 import { CustomerListToolbar } from '../components/customer/customer-list-toolbar';
 import { DashboardLayout } from '../components/dashboard-layout';
 
-class Customers extends React.Component {
+class Employees extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      customers: [],
+      employees: [],
       APIUrl: 'https://localhost:7150/api/employees',
     };
   }
@@ -20,25 +20,25 @@ class Customers extends React.Component {
     // Using Fetch(), JavaScript method.
     // fetch('https://localhost:7150/api/employees')
     //   .then(response => response.json())
-    //   .then(data => this.setState({ customers: data }));
+    //   .then(data => this.setState({ employees: data }));
 
     // Using Axios, React library.
     axios.get(this.state.APIUrl).then(response => {
-      this.setState({ customers: response.data });
+      this.setState({ employees: response.data });
     });
   }
 
   render() {
     // This is just something extra required for the library for searching, it is NOT a must to use.
-    this.state.customers.forEach(customer => {
-      customer.id = uuid();
+    this.state.employees.forEach(employee => {
+      employee.id = uuid();
     });
 
     return (
       <>
         <Head>
           <title>
-            Customers | Material Kit
+            Employees | Ta' Bueno
           </title>
         </Head>
         <Box
@@ -51,7 +51,7 @@ class Customers extends React.Component {
           <Container maxWidth={false}>
             <CustomerListToolbar />
             <Box sx={{ mt: 3 }}>
-              <CustomerListResults customers={this.state.customers} />
+              <CustomerListResults employees={this.state.employees} />
             </Box>
           </Container>
         </Box>
@@ -59,10 +59,10 @@ class Customers extends React.Component {
     );
   }
 }
-Customers.getLayout = (page) => (
+Employees.getLayout = (page) => (
   <DashboardLayout>
     {page}
   </DashboardLayout>
 );
 
-export default Customers;
+export default Employees;
