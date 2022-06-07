@@ -2,6 +2,7 @@ import Head from 'next/head';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
+import axios from 'axios';
 import * as Yup from 'yup';
 import {
   Box,
@@ -24,8 +25,10 @@ const Register = () => {
       surname: '',
       secondSurname: '',
       identification: '',
-      city: '',
+      phone: '',
       state: '',
+      city: '',
+      zipCode: '',
       password: '',
       policy: false
     },
@@ -55,18 +58,30 @@ const Register = () => {
       identification: Yup
         .string()
         .max(10)
+        .min(10)
         .required(
           'Identification is required'),
-      city: Yup
+      phone: Yup
         .string()
-        .max(255)
+        .min(8)
+        .max(8)
         .required(
-          'City is required'),
+          'Phone number is required'),
       state: Yup
         .string()
         .max(255)
         .required(
           'State is required'),
+      city: Yup
+        .string()
+        .max(255)
+        .required(
+          'City is required'),
+      zipCode: Yup
+        .string()
+        .max(5)
+        .required(
+          'Zip code is required'),
       password: Yup
         .string()
         .max(255)
@@ -79,8 +94,26 @@ const Register = () => {
           'This field must be checked'
         )
     }),
-    onSubmit: () => {
-      router.push('/');
+    onSubmit: values => {
+      // router.push('/');
+      // alert(JSON.stringify(values, null, 2));
+      // console.log(values);
+      var data = {
+        Cedula: values.identification,
+        Nombre: values.firstName,
+        Apellido1: values.surname,
+        Apellido2: values.secondSurname,
+        TipoUsuario: '1',
+        Canton: values.city,
+        Provincia: values.state,
+        CodigoPostal: values.zipCode,
+        Telefono: values.phone,
+        Contrasena: values.password
+      };
+      // alert(JSON.stringify(data, null, 2));
+      // console.log(data);
+      axios.post('https://localhost:7150/api/employees', data);
+      router.push('/customers');
     }
   });
 
@@ -177,15 +210,15 @@ const Register = () => {
               variant="outlined"
             />
             <TextField
-              error={Boolean(formik.touched.city && formik.errors.city)}
+              error={Boolean(formik.touched.phone && formik.errors.phone)}
               fullWidth
-              helperText={formik.touched.city && formik.errors.city}
-              label="Address: City"
+              helperText={formik.touched.phone && formik.errors.phone}
+              label="Phone Number"
               margin="normal"
-              name="city"
+              name="phone"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              value={formik.values.city}
+              value={formik.values.phone}
               variant="outlined"
             />
             <TextField
@@ -198,6 +231,30 @@ const Register = () => {
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               value={formik.values.state}
+              variant="outlined"
+            />
+            <TextField
+              error={Boolean(formik.touched.city && formik.errors.city)}
+              fullWidth
+              helperText={formik.touched.city && formik.errors.city}
+              label="Address: City"
+              margin="normal"
+              name="city"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.city}
+              variant="outlined"
+            />
+            <TextField
+              error={Boolean(formik.touched.zipCode && formik.errors.zipCode)}
+              fullWidth
+              helperText={formik.touched.zipCode && formik.errors.zipCode}
+              label="Address: Zip Code"
+              margin="normal"
+              name="zipCode"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.zipCode}
               variant="outlined"
             />
             <TextField
@@ -226,7 +283,7 @@ const Register = () => {
               value={formik.values.password}
               variant="outlined"
             />
-            {/* <Box
+            <Box
               sx={{
                 alignItems: 'center',
                 display: 'flex',
@@ -262,7 +319,7 @@ const Register = () => {
               <FormHelperText error>
                 {formik.errors.policy}
               </FormHelperText>
-            )} */}
+            )}
             <Box sx={{ py: 2 }}>
               <Button
                 color="primary"
