@@ -48,5 +48,15 @@ namespace planilla_backend_asp.net.Handlers
       conexion.Close();
       return consultaFormatoTabla;
     }
+
+    public void createEmployee(UsuarioModel employee)
+    {
+      // Make consult to database
+      string consult = "insert into Usuario (Nombre, Apellido1, Apellido2, Cedula, Telefono, Canton, Provincia, TipoUsuario, CodigoPostal, Contrasena) values ('" + employee.Nombre + "', '" + employee.Apellido1 + "', '" + employee.Apellido2 + "', " + employee.Cedula + ", " + employee.Telefono + ", '" + employee.Canton + "', '" + employee.Provincia + "', 1, '" + employee.Apellido1 + "', '" + employee.Contrasena + "')";
+      SqlCommand comandoParaConsulta = new SqlCommand(consult, conexion);
+      conexion.Open();
+      comandoParaConsulta.ExecuteNonQuery();
+      conexion.Close();
+    }
   }
 }
