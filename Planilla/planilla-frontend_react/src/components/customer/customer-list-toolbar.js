@@ -7,6 +7,7 @@ import {
   InputAdornment,
   SvgIcon, Typography
 } from '@mui/material';
+import NextLink from 'next/link';
 import { Search as SearchIcon } from '../../icons/search';
 import { Upload as UploadIcon } from '../../icons/upload';
 import { Download as DownloadIcon } from '../../icons/download';
@@ -41,12 +42,23 @@ export const CustomerListToolbar = (props) => (
         >
           Export
         </Button>
-        <Button
+        {/* <Button
           color="primary"
           variant="contained"
         >
           Add Employee
-        </Button>
+        </Button> */}
+        <NextLink
+            href="/create_employee"
+            passHref
+          >
+            <Button
+              color="primary"
+              variant="contained"
+            >
+              Add Employee
+            </Button>
+          </NextLink>
       </Box>
     </Box>
     <Box sx={{ mt: 3 }}>
