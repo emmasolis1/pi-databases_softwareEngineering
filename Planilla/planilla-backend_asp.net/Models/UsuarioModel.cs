@@ -22,4 +22,15 @@
 
         public string CodigoPostal { get; set; }
     }
+
+    public class UserSummarizedModel
+    {
+        public string NombreCompleto { get; set; }
+
+        public string Cedula { get; set; }
+
+        public string Telefono { get; set; }
+
+        public string Direccion { get; set; }
+    }
 }

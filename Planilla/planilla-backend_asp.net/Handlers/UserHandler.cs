@@ -15,26 +15,23 @@ namespace planilla_backend_asp.net.Handlers
       conexion = new SqlConnection(rutaConexion);
     }
 
-    public List<UsuarioModel> GetEmployees()
+    public List<UserSummarizedModel> getAllEmployeesSummarized()
     {
-      List<UsuarioModel> employees = new List<UsuarioModel>();
-      string consulta = "SELECT * FROM dbo.Usuario WHERE dbo.Usuario.TipoUsuario = 1";
-      DataTable tablaResultado = CreateTableConsult(consulta);
+      // Make consult to database
+      string consult = "select Usuario.Nombre, Usuario.Apellido1, Usuario.Apellido2, Usuario.Cedula, Usuario.Telefono, Usuario.Canton, Usuario.Provincia from Usuario where Usuario.TipoUsuario=1";
+      DataTable tablaResultado = CreateTableConsult(consult);
+
+      // Convert data to list
+      List<UserSummarizedModel> employees = new List<UserSummarizedModel>();
       foreach (DataRow columna in tablaResultado.Rows)
       {
         employees.Add(
-          new UsuarioModel
+          new UserSummarizedModel
           {
+            NombreCompleto = Convert.ToString(columna["Nombre"]) + " " + Convert.ToString(columna["Apellido1"]) + " " + Convert.ToString(columna["Apellido2"]),
             Cedula = Convert.ToString(columna["Cedula"]),
-            Contrasena = Convert.ToString(""),
-            Nombre = Convert.ToString(columna["Nombre"]),
-            Apellido1 = Convert.ToString(columna["Apellido1"]),
-            Apellido2 = Convert.ToString(columna["Apellido2"]),
             Telefono = Convert.ToString(columna["Telefono"]),
-            TipoUsuario = Convert.ToInt32(columna["TipoUsuario"]),
-            Provincia = Convert.ToString(columna["Provincia"]),
-            Canton = Convert.ToString(columna["Canton"]),
-            CodigoPostal = Convert.ToString(columna["CodigoPostal"]),
+            Direccion = Convert.ToString(columna["Canton"]) + ", " + Convert.ToString(columna["Provincia"]),
           });
       }
       return employees;
