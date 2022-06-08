@@ -30,7 +30,7 @@ const Register = () => {
       city: '',
       zipCode: '',
       password: '',
-      policy: false
+      // policy: false
     },
     validationSchema: Yup.object({
       email: Yup
@@ -87,12 +87,12 @@ const Register = () => {
         .max(255)
         .required(
           'Password is required'),
-      policy: Yup
-        .boolean()
-        .oneOf(
-          [true],
-          'This field must be checked'
-        )
+      // policy: Yup
+      //   .boolean()
+      //   .oneOf(
+      //     [true],
+      //     'This field must be checked'
+      //   )
     }),
     onSubmit: values => {
       // router.push('/');
@@ -283,7 +283,7 @@ const Register = () => {
               value={formik.values.password}
               variant="outlined"
             />
-            <Box
+            {/* <Box
               sx={{
                 alignItems: 'center',
                 display: 'flex',
@@ -319,7 +319,7 @@ const Register = () => {
               <FormHelperText error>
                 {formik.errors.policy}
               </FormHelperText>
-            )}
+            )} */}
             <Box sx={{ py: 2 }}>
               <Button
                 color="primary"
