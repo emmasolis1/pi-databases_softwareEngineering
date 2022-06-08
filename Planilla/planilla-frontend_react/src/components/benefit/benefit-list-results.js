@@ -26,7 +26,7 @@ export const BenefitListResults = ({ benefits, ...rest }) => {
     let newSelectedBenefitIds;
 
     if (event.target.checked) {
-      newSelectedBenefitIds = benefits.map((benefit) => benefit.id);
+        newSelectedBenefitIds = benefits.map((benefit) => benefit.nombreBeneficio);
     } else {
       newSelectedBenefitIds = [];
     }
@@ -84,30 +84,24 @@ export const BenefitListResults = ({ benefits, ...rest }) => {
                   Name
                 </TableCell>
                 <TableCell>
-                  Email
+                  Project Name
                 </TableCell>
-                <TableCell>
-                  Location
-                </TableCell>
-                <TableCell>
-                  Phone
-                </TableCell>
-                <TableCell>
-                  Registration date
-                </TableCell>
+
+
+
               </TableRow>
             </TableHead>
             <TableBody>
               {benefits.slice(0, limit).map((benefit) => (
                 <TableRow
                   hover
-                  key={benefit.id}
-                  selected={selectedBenefitIds.indexOf(benefit.id) !== -1}
+                      key={benefit.nombreBeneficio}
+                      selected={selectedBenefitIds.indexOf(benefit.nombreBeneficio) !== -1}
                 >
                   <TableCell padding="checkbox">
                     <Checkbox
-                      checked={selectedBenefitIds.indexOf(benefit.id) !== -1}
-                      onChange={(event) => handleSelectOne(event, benefit.id)}
+                              checked={selectedBenefitIds.indexOf(benefit.nombreBeneficio) !== -1}
+                              onChange={(event) => handleSelectOne(event, benefit.nombreBeneficio)}
                       value="true"
                     />
                   </TableCell>
@@ -122,28 +116,22 @@ export const BenefitListResults = ({ benefits, ...rest }) => {
                         src={benefit.avatarUrl}
                         sx={{ mr: 2 }}
                       >
-                        {getInitials(benefit.name)}
+                         {getInitials(benefit.nombreBeneficio)}
                       </Avatar>
                       <Typography
                         color="textPrimary"
                         variant="body1"
                       >
-                        {benefit.name}
+                                  {benefit.nombreBeneficio}
                       </Typography>
                     </Box>
                   </TableCell>
                   <TableCell>
-                    {benefit.email}
+                          {benefit.nombreProyecto}
                   </TableCell>
-                  <TableCell>
-                    {`${benefit.address.city}, ${benefit.address.state}, ${benefit.address.country}`}
-                  </TableCell>
-                  <TableCell>
-                    {benefit.phone}
-                  </TableCell>
-                  <TableCell>
-                    {format(benefit.createdAt, 'dd/MM/yyyy')}
-                  </TableCell>
+
+
+
                 </TableRow>
               ))}
             </TableBody>
