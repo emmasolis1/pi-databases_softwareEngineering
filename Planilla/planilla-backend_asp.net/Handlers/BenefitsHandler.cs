@@ -30,7 +30,7 @@ namespace planilla_backend_asp.net.Handlers
         public List<BenefitsModel> GetBenefitsData()
         {
             List<BenefitsModel> benefits = new List<BenefitsModel>();
-            string consult = "SELECT * FROM Beneficios";
+            string consult = "SELECT nombreBeneficio, cedulaEmpleador, nombreProyecto FROM Beneficios";
             DataTable tablaResultado = CreateTableConsult(consult);
             foreach (DataRow columna in tablaResultado.Rows)
             {
@@ -47,9 +47,9 @@ namespace planilla_backend_asp.net.Handlers
 
         public bool CreateBenefit(BenefitsModel benefit)
         {
-            var consulta = @"INSERT INTO Beneficios
+            var consult = @"INSERT INTO Beneficios
                             VALUES(@benefitName, @employerID, @projectName)";
-            var comandoParaConsulta = new SqlCommand(consulta, conexion);
+            var comandoParaConsulta = new SqlCommand(consult, conexion);
             comandoParaConsulta.Parameters.AddWithValue("@benefitName", benefit.benefitName);
             comandoParaConsulta.Parameters.AddWithValue("@employerID", benefit.employerID);
             comandoParaConsulta.Parameters.AddWithValue("@projectName", benefit.projectName);
@@ -79,7 +79,6 @@ namespace planilla_backend_asp.net.Handlers
 
             return exito;
         }
-        */
 
         public bool DeleteBenefit(BenefitsModel benefit)
         {
@@ -98,5 +97,6 @@ namespace planilla_backend_asp.net.Handlers
 
             return exito;
         }
+        */
     }
 }
