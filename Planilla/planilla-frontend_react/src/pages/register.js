@@ -37,8 +37,8 @@ const Register = () => {
     validationSchema: Yup.object({
       identification: Yup
         .string()
-        .min(9)
-        .max(9)
+        .min(10)
+        .max(10)
         .required(
           'Identification is required'),
       firstName: Yup
@@ -53,9 +53,7 @@ const Register = () => {
            'Last name is required'),
       lastName2: Yup
         .string()
-        .max(255)
-        .required(
-          'Second Last name is required'),
+        .max(255),
       email: Yup
         .string()
         .email(
@@ -70,19 +68,13 @@ const Register = () => {
            'Password is required'),
       country: Yup
         .string()
-        .max(50)
-        .required(
-          'Country is required'),
+        .max(50),
       state: Yup
         .string()
-        .max(20)
-        .required(
-          'State is required'),
+        .max(20),
       city: Yup
         .string()
-        .max(35)
-        .required(
-          'City is required'),
+        .max(35),
       zipCode: Yup
         .string()
         .min(5)
@@ -94,23 +86,24 @@ const Register = () => {
         .string()
         .min(8)
         .max(8)
+        .required(
+          'Phone is required')
     }),
 
     onSubmit: values => {
         var data = {
-            identification: values.Identification,
-            firstName: values.FirstName,
-            lastName: values.LastName,
-            lastName2: values.LastName2,
-            email: values.Email,
-            password: values.Password,
-            country: values.Country,
-            state: values.State,
-            city: values.City,
-            zipCode: values.ZipCode,
-            address: values.Address,
-            phone: values.Phone,
-            userType: '0'
+            Identification: values.identification,
+            FirstName: values.firstName,
+            LastName: values.lastName,
+            LastName2: values.lastName2,
+            Email: values.email,
+            Password: values.password,
+            Country: values.country,
+            State: values.state,
+            City: values.city,
+            ZipCode: values.zipCode,
+            Address: values.address,
+            Phone: values.phone
         };
         axios.post('https://localhost:7150/api/register', data);
         router.push('/login');
@@ -165,7 +158,7 @@ const Register = () => {
               error={Boolean(formik.touched.identification && formik.errors.identification)}
               fullWidth
               helperText={formik.touched.identification && formik.errors.identification}
-              label="Identification"
+              label="Identification*"
               margin="normal"
               name="identification"
               onBlur={formik.handleBlur}
@@ -177,7 +170,7 @@ const Register = () => {
               error={Boolean(formik.touched.firstName && formik.errors.firstName)}
               fullWidth
               helperText={formik.touched.firstName && formik.errors.firstName}
-              label="First Name"
+              label="First Name*"
               margin="normal"
               name="firstName"
               onBlur={formik.handleBlur}
@@ -189,7 +182,7 @@ const Register = () => {
               error={Boolean(formik.touched.lastName && formik.errors.lastName)}
               fullWidth
               helperText={formik.touched.lastName && formik.errors.lastName}
-              label="Last Name"
+              label="Last Name*"
               margin="normal"
               name="lastName"
               onBlur={formik.handleBlur}
@@ -213,7 +206,7 @@ const Register = () => {
               error={Boolean(formik.touched.email && formik.errors.email)}
               fullWidth
               helperText={formik.touched.email && formik.errors.email}
-              label="Email Address"
+              label="Email Address*"
               margin="normal"
               name="email"
               onBlur={formik.handleBlur}
@@ -226,7 +219,7 @@ const Register = () => {
               error={Boolean(formik.touched.password && formik.errors.password)}
               fullWidth
               helperText={formik.touched.password && formik.errors.password}
-              label="Password"
+              label="Password*"
               margin="normal"
               name="password"
               onBlur={formik.handleBlur}
@@ -299,7 +292,7 @@ const Register = () => {
               error={Boolean(formik.touched.phone && formik.errors.phone)}
               fullWidth
               helperText={formik.touched.phone && formik.errors.phone}
-              label="Phone"
+              label="Phone*"
               margin="normal"
               name="phone"
               onBlur={formik.handleBlur}

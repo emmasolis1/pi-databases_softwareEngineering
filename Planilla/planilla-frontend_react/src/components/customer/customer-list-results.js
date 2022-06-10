@@ -84,6 +84,9 @@ export const CustomerListResults = ({ customers, ...rest }) => {
                   Name
                 </TableCell>
                 <TableCell>
+                  Identification
+                </TableCell>
+                <TableCell>
                   Email
                 </TableCell>
                 <TableCell>
@@ -91,9 +94,6 @@ export const CustomerListResults = ({ customers, ...rest }) => {
                 </TableCell>
                 <TableCell>
                   Phone
-                </TableCell>
-                <TableCell>
-                  Registration date
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -119,30 +119,30 @@ export const CustomerListResults = ({ customers, ...rest }) => {
                       }}
                     >
                       <Avatar
-                        src={customer.avatarUrl}
+                        src={employee.avatarUrl}
                         sx={{ mr: 2 }}
                       >
-                        {getInitials(customer.name)}
+                        {getInitials(employee.FullName)}
                       </Avatar>
                       <Typography
                         color="textPrimary"
                         variant="body1"
                       >
-                        {customer.name}
+                        {employee.FullName}
                       </Typography>
                     </Box>
                   </TableCell>
                   <TableCell>
-                    {customer.email}
+                    {employee.Identification}
                   </TableCell>
                   <TableCell>
-                    {`${customer.address.city}, ${customer.address.state}, ${customer.address.country}`}
+                    {employee.Email}
                   </TableCell>
                   <TableCell>
-                    {customer.phone}
+                    {employee.Address}
                   </TableCell>
                   <TableCell>
-                    {format(customer.createdAt, 'dd/MM/yyyy')}
+                    {employee.Phone}
                   </TableCell>
                 </TableRow>
               ))}
