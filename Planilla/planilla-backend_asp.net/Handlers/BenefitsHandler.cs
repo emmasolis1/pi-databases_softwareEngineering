@@ -8,7 +8,8 @@ namespace planilla_backend_asp.net.Handlers
   {
     private static SqlConnection conexion;
     private string rutaConexion;
-    public BenefitsHandler() {
+    public BenefitsHandler()
+    {
       var builder = WebApplication.CreateBuilder();
       rutaConexion = builder.Configuration.GetConnectionString("EmpleadorContext");
       conexion = new SqlConnection(rutaConexion);
@@ -22,22 +23,24 @@ namespace planilla_backend_asp.net.Handlers
       conexion.Open();
       adaptadorParaTabla.Fill(consultaFormatoTabla);
       conexion.Close();
-      
+
       return consultaFormatoTabla;
     }
 
     public List<BenefitsModel> GetBenefitsData()
     {
       List<BenefitsModel> benefits = new List<BenefitsModel>();
-      string consult = "SELECT * FROM Beneficios";
+      string consult = "SELECT BenefitName, ProjectName, EmployerID, Description, Cost FROM Benefits ORDER BY BenefitName";
       DataTable tablaResultado = CreateTableConsult(consult);
       foreach (DataRow columna in tablaResultado.Rows)
       {
         benefits.Add(new BenefitsModel
         {
-          nombreBeneficio = Convert.ToString(columna["nombreBeneficio"]),
-          cedulaEmpleador = Convert.ToString(columna["cedulaEmpleador"]),
-          nombreProyecto = Convert.ToString(columna["nombreProyecto"]),
+          benefitName = Convert.ToString(columna["BenefitName"]),
+          projectName = Convert.ToString(columna["ProjectName"]),
+          employerID = Convert.ToString(columna["EmployerID"]),
+          description = Convert.ToString(columna["Description"]),
+          cost = Convert.ToString(columna["Cost"]),
         });
       }
 

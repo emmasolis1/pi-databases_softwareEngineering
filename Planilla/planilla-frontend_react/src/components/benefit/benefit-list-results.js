@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
-import { format } from 'date-fns';
 import {
   Avatar,
   Box,
@@ -19,14 +18,14 @@ import { getInitials } from '../../utils/get-initials';
 
 export const BenefitListResults = ({ benefits, ...rest }) => {
   const [selectedBenefitIds, setSelectedBenefitIds] = useState([]);
-  const [limit, setLimit] = useState(10);
+  const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(0);
 
   const handleSelectAll = (event) => {
     let newSelectedBenefitIds;
 
     if (event.target.checked) {
-        newSelectedBenefitIds = benefits.map((benefit) => benefit.nombreBeneficio);
+      newSelectedBenefitIds = benefits.map((benefit) => benefit.benefitName);
     } else {
       newSelectedBenefitIds = [];
     }
@@ -86,22 +85,25 @@ export const BenefitListResults = ({ benefits, ...rest }) => {
                 <TableCell>
                   Project Name
                 </TableCell>
-
-
-
+                <TableCell>
+                  Description
+                </TableCell>
+                <TableCell>
+                  Cost
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {benefits.slice(0, limit).map((benefit) => (
                 <TableRow
                   hover
-                      key={benefit.nombreBeneficio}
-                      selected={selectedBenefitIds.indexOf(benefit.nombreBeneficio) !== -1}
+                  key={benefit.benefitName + benefit.projectName + benefit.employerID}
+                  selected={selectedBenefitIds.indexOf(benefit.benefitName) !== -1}
                 >
                   <TableCell padding="checkbox">
                     <Checkbox
-                              checked={selectedBenefitIds.indexOf(benefit.nombreBeneficio) !== -1}
-                              onChange={(event) => handleSelectOne(event, benefit.nombreBeneficio)}
+                      checked={selectedBenefitIds.indexOf(benefit.benefitName) !== -1}
+                      onChange={(event) => handleSelectOne(event, benefit.benefitName)}
                       value="true"
                     />
                   </TableCell>
@@ -116,22 +118,25 @@ export const BenefitListResults = ({ benefits, ...rest }) => {
                         src={benefit.avatarUrl}
                         sx={{ mr: 2 }}
                       >
-                         {getInitials(benefit.nombreBeneficio)}
+                        {getInitials(benefit.benefitName)}
                       </Avatar>
                       <Typography
                         color="textPrimary"
                         variant="body1"
                       >
-                                  {benefit.nombreBeneficio}
+                        {benefit.benefitName}
                       </Typography>
                     </Box>
                   </TableCell>
                   <TableCell>
-                          {benefit.nombreProyecto}
+                    {benefit.projectName}
                   </TableCell>
-
-
-
+                  <TableCell>
+                    {benefit.description}
+                  </TableCell>
+                  <TableCell>
+                    {benefit.cost}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
