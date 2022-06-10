@@ -31,8 +31,7 @@ const Register = () => {
       city: '',
       address: '',
       zipCode: '',
-      password: '',
-      // policy: false
+      password: ''
     },
     validationSchema: Yup.object({
       email: Yup
@@ -90,9 +89,6 @@ const Register = () => {
           'Password is required'),
     }),
     onSubmit: values => {
-      // router.push('/');
-      // alert(JSON.stringify(values, null, 2));
-      // console.log(values);
       var data = {
         Identification: values.identification,
         Firstname: values.firstName,
@@ -104,10 +100,10 @@ const Register = () => {
         State: values.state,
         City: values.city,
         ZipCode: values.zipCode,
-        Address: values.address
+        Address: values.address,
+        Phone: values.phone
       };
       // alert(JSON.stringify(data, null, 2));
-      // console.log(data);
       axios.post('https://localhost:7150/api/employees', data);
       router.push('/customers');
     }
@@ -161,7 +157,7 @@ const Register = () => {
               error={Boolean(formik.touched.firstName && formik.errors.firstName)}
               fullWidth
               helperText={formik.touched.firstName && formik.errors.firstName}
-              label="First Name"
+              label="First Name*"
               margin="normal"
               name="firstName"
               onBlur={formik.handleBlur}
@@ -173,7 +169,7 @@ const Register = () => {
               error={Boolean(formik.touched.surname && formik.errors.surname)}
               fullWidth
               helperText={formik.touched.surname && formik.errors.surname}
-              label="Surname"
+              label="Surname*"
               margin="normal"
               name="surname"
               onBlur={formik.handleBlur}
@@ -197,7 +193,7 @@ const Register = () => {
               error={Boolean(formik.touched.identification && formik.errors.identification)}
               fullWidth
               helperText={formik.touched.identification && formik.errors.identification}
-              label="Identification (SSN)"
+              label="Identification (SSN)*"
               margin="normal"
               name="identification"
               onBlur={formik.handleBlur}
@@ -209,7 +205,7 @@ const Register = () => {
               error={Boolean(formik.touched.phone && formik.errors.phone)}
               fullWidth
               helperText={formik.touched.phone && formik.errors.phone}
-              label="Phone Number"
+              label="Phone Number*"
               margin="normal"
               name="phone"
               onBlur={formik.handleBlur}
@@ -281,7 +277,7 @@ const Register = () => {
               error={Boolean(formik.touched.email && formik.errors.email)}
               fullWidth
               helperText={formik.touched.email && formik.errors.email}
-              label="Email Address"
+              label="Email Address*"
               margin="normal"
               name="email"
               onBlur={formik.handleBlur}
@@ -294,7 +290,7 @@ const Register = () => {
               error={Boolean(formik.touched.password && formik.errors.password)}
               fullWidth
               helperText={formik.touched.password && formik.errors.password}
-              label="Password"
+              label="Password*"
               margin="normal"
               name="password"
               onBlur={formik.handleBlur}
@@ -315,24 +311,6 @@ const Register = () => {
                 Register Employee
               </Button>
             </Box>
-            <Typography
-              color="textSecondary"
-              variant="body2"
-            >
-              {/* Have an account?
-              {' '}
-              <NextLink
-                href="/login"
-                passHref
-              >
-                <Link
-                  variant="subtitle2"
-                  underline="hover"
-                >
-                  Sign In
-                </Link>
-              </NextLink> */}
-            </Typography>
           </form>
         </Container>
       </Box>
