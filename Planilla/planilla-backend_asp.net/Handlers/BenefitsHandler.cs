@@ -6,25 +6,25 @@ namespace planilla_backend_asp.net.Handlers
 {
   public class BenefitsHandler
   {
-    private static SqlConnection conexion;
-    private string rutaConexion;
+    private static SqlConnection connection;
+    private string connectionRoute;
     public BenefitsHandler()
     {
       var builder = WebApplication.CreateBuilder();
-      rutaConexion = builder.Configuration.GetConnectionString("EmpleadorContext");
-      conexion = new SqlConnection(rutaConexion);
+      connectionRoute = builder.Configuration.GetConnectionString("EmpleadorContext");
+      connection = new SqlConnection(connectionRoute);
     }
 
     private DataTable CreateTableConsult(string consult)
     {
-      SqlCommand comandoParaConsulta = new SqlCommand(consult, conexion);
-      SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(comandoParaConsulta);
-      DataTable consultaFormatoTabla = new DataTable();
-      conexion.Open();
-      adaptadorParaTabla.Fill(consultaFormatoTabla);
-      conexion.Close();
+      SqlCommand consultCommand = new SqlCommand(consult, connection);
+      SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(consultCommand);
+      DataTable consultTable = new DataTable();
+      connection.Open();
+      adaptadorParaTabla.Fill(consultTable);
+      connection.Close();
 
-      return consultaFormatoTabla;
+      return consultTable;
     }
 
     public List<BenefitsModel> GetBenefitsData()
@@ -44,61 +44,44 @@ namespace planilla_backend_asp.net.Handlers
         });
       }
 
-            return benefits;
-        }
-
-        public bool CreateBenefit(BenefitsModel benefit)
-        {
-            var consult = @"INSERT INTO Beneficios
-                            VALUES(@benefitName, @employerID, @projectName)";
-            var comandoParaConsulta = new SqlCommand(consult, conexion);
-            comandoParaConsulta.Parameters.AddWithValue("@benefitName", benefit.benefitName);
-            comandoParaConsulta.Parameters.AddWithValue("@employerID", benefit.employerID);
-            comandoParaConsulta.Parameters.AddWithValue("@projectName", benefit.projectName);
-
-            conexion.Open();
-            bool exito = comandoParaConsulta.ExecuteNonQuery() >= 1;
-            conexion.Close();
-
-            return exito;
-        }
-
-        /*
-        public bool ModifyBenefit(BenefitsModel benefit)
-        {
-            var consulta = @"UPDATE Beneficios SET nombreBeneficio = @benefitName,
-                                cedulaEmpleador = @employerID,
-                                nombreProyecto = @projectName
-                                WHERE ...";
-            var comandoParaConsulta = new SqlCommand(consulta, conexion);
-            comandoParaConsulta.Parameters.AddWithValue("@benefitName", benefit.benefitName);
-            comandoParaConsulta.Parameters.AddWithValue("@employerID", benefit.employerID);
-            comandoParaConsulta.Parameters.AddWithValue("@projectName", benefit.projectName);
-
-            conexion.Open();
-            bool exito = comandoParaConsulta.ExecuteNonQuery() >= 1;
-            conexion.Close();
-
-            return exito;
-        }
-
-        public bool DeleteBenefit(BenefitsModel benefit)
-        {
-            var consulta = @"DELETE FROM Beneficios 
-                            WHERE nombreBeneficio = @benefitName
-                            AND cedulaEmpleador = @employerID
-                            AND nombreProyecto = @projectName";
-            var comandoParaConsulta = new SqlCommand(consulta, conexion);
-            comandoParaConsulta.Parameters.AddWithValue("@benefitName", benefit.benefitName);
-            comandoParaConsulta.Parameters.AddWithValue("@employerID", benefit.employerID);
-            comandoParaConsulta.Parameters.AddWithValue("@projectName", benefit.projectName);
-
-            conexion.Open();
-            bool exito = comandoParaConsulta.ExecuteNonQuery() >= 1;
-            conexion.Close();
-
-            return exito;
-        }
-        */
+      return benefits;
     }
+
+    public bool CreateBenefit(BenefitsModel benefit)
+    {
+      var consult = @"INSERT INTO Benefits ([BenefitName], [ProjectName], [EmployerID], [Description], [Cost]) 
+                      VALUES (@benefitName, @projectName, @employerID, @description, @cost)";
+      var queryCommand = new SqlCommand(consult, connection);
+
+      // Insertion of key attributes
+      queryCommand.Parameters.AddWithValue("@benefitName", benefit.benefitName);
+      queryCommand.Parameters.AddWithValue("@projectName", benefit.projectName);
+      queryCommand.Parameters.AddWithValue("@employerID", benefit.employerID);
+
+      // Insertion of optional attributes
+      if (benefit.description != null && benefit.description != "")
+      {
+        queryCommand.Parameters.AddWithValue("@description", benefit.description);
+      }
+      else
+      {
+        queryCommand.Parameters.AddWithValue("@description", DBNull.Value);
+      }
+
+      if (benefit.cost != null && benefit.cost != "")
+      {
+        queryCommand.Parameters.AddWithValue("@cost", benefit.cost);
+      }
+      else
+      {
+        queryCommand.Parameters.AddWithValue("@cost", DBNull.Value);
+      }
+
+      connection.Open();
+      bool exito = queryCommand.ExecuteNonQuery() >= 1;
+      connection.Close();
+
+      return exito;
+    }
+  }
 }

@@ -7,50 +7,50 @@ import { BenefitListToolbar } from '../components/benefit/benefit-list-toolbar';
 import { DashboardLayout } from '../components/dashboard-layout';
 
 class Benefits extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            benefits: [],
-            APIUrl: 'https://localhost:7150/api/benefits',
-        };
-    }
-    componentDidMount() {
-        axios.get(this.state.APIUrl).then(response => {
-            this.setState({ benefits: response.data });
-        });
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      benefits: [],
+      APIUrl: 'https://localhost:7150/api/benefits',
+    };
+  }
+  componentDidMount() {
+    axios.get(this.state.APIUrl).then(response => {
+      this.setState({ benefits: response.data });
+    });
+  }
 
-    render() {
-        return (
-            <>
-                <Head>
-                    <title>
-                        Benefits | Material Kit
-                    </title>
-                </Head>
-                <Box
-                    component="main"
-                    sx={{
-                        flexGrow: 1,
-                        py: 8
-                    }}
-                >
-                    <Container maxWidth={false}>
-                        <BenefitListToolbar />
-                        <Box sx={{ mt: 3 }}>
-                            <BenefitListResults benefits={this.state.benefits} />
-                        </Box>
-                    </Container>
-                </Box>
-            </>
-        );
-    }
+  render() {
+    return (
+      <>
+        <Head>
+          <title>
+            Benefits | Material Kit
+          </title>
+        </Head>
+        <Box
+          component="main"
+          sx={{
+            flexGrow: 1,
+            py: 8
+          }}
+        >
+          <Container maxWidth={false}>
+            <BenefitListToolbar />
+            <Box sx={{ mt: 3 }}>
+              <BenefitListResults benefits={this.state.benefits} />
+            </Box>
+          </Container>
+        </Box>
+      </>
+    );
+  }
 }
 
 Benefits.getLayout = (page) => (
-    <DashboardLayout>
-        {page}
-    </DashboardLayout>
+  <DashboardLayout>
+    {page}
+  </DashboardLayout>
 );
 
 export default Benefits;
