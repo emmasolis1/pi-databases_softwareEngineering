@@ -84,16 +84,16 @@ export const CustomerListResults = ({ employees, ...rest }) => {
                   Name
                 </TableCell>
                 <TableCell>
-                  Email
+                  Identification
                 </TableCell>
                 <TableCell>
-                  Phone
+                  Email
                 </TableCell>
                 <TableCell>
                   Location
                 </TableCell>
                 <TableCell>
-                  Identification
+                  Phone
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -122,28 +122,28 @@ export const CustomerListResults = ({ employees, ...rest }) => {
                         src={employee.avatarUrl}
                         sx={{ mr: 2 }}
                       >
-                        {getInitials(employee.NombreCompleto)}
+                        {getInitials(employee.FullName)}
                       </Avatar>
                       <Typography
                         color="textPrimary"
                         variant="body1"
                       >
-                        {employee.NombreCompleto}
+                        {employee.FullName}
                       </Typography>
                     </Box>
                   </TableCell>
                   <TableCell>
-                    {/* {employee.Cedula} */}
+                    {employee.Identification}
                   </TableCell>
                   <TableCell>
-                    {employee.Telefono}
+                    {employee.Email}
                   </TableCell>
                   <TableCell>
-                    {employee.Direccion}
+                    {employee.Address}
                   </TableCell>
                   <TableCell>
                     {/* {format(employee.createdAt, 'dd/MM/yyyy')} */}
-                    {employee.Cedula}
+                    {employee.Phone}
                   </TableCell>
                 </TableRow>
               ))}

@@ -20,11 +20,11 @@ namespace planilla_backend_asp.net.Controllers
 
     [HttpPost]
     [Route("employees")]
-    public ActionResult CreateEmployee([FromForm] UserModel employee)
+    public ActionResult CreateEmployee([FromBody] UserModel employee)
     {
         // Create new employee
         UserHandler handler = new UserHandler();
-        handler.createEmployee(employee);
+        handler.CreateEmployee(employee);
         return Ok();
     }
   }

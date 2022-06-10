@@ -13,7 +13,7 @@
         public string? City { get; set; } = null;
         public string? ZipCode { get; set; } = null;
         public string? Address { get; set; } = null;
-        public UserPhoneModel? Phones { get; set; } = null;
+        // public List<UserPhoneModel> Phones { get; set; }
     }
 
     public class UserModelSummarized
@@ -21,6 +21,7 @@
         public string FullName { get; set; }
 
         public string Identification { get; set; }
+        public string Email { get; set; }
 
         //public string Phone { get; set; }
 

@@ -26,8 +26,10 @@ const Register = () => {
       secondSurname: '',
       identification: '',
       phone: '',
+      country: '',
       state: '',
       city: '',
+      address: '',
       zipCode: '',
       password: '',
       // policy: false
@@ -52,9 +54,7 @@ const Register = () => {
           'Surname is required'),
       secondSurname: Yup
         .string()
-        .max(255)
-        .required(
-          'Second surname is required'),
+        .max(50),
       identification: Yup
         .string()
         .max(10)
@@ -67,48 +67,44 @@ const Register = () => {
         .max(8)
         .required(
           'Phone number is required'),
+      country: Yup
+        .string()
+        .max(20),
       state: Yup
         .string()
-        .max(255)
-        .required(
-          'State is required'),
+        .max(50),
       city: Yup
         .string()
-        .max(255)
-        .required(
-          'City is required'),
+        .max(50),
+      address: Yup
+        .string()
+        .max(255),
       zipCode: Yup
         .string()
-        .max(5)
-        .required(
-          'Zip code is required'),
+        .max(5),
       password: Yup
         .string()
         .max(255)
+        .min(8, 'Password must be at least 8 characters long')
         .required(
           'Password is required'),
-      // policy: Yup
-      //   .boolean()
-      //   .oneOf(
-      //     [true],
-      //     'This field must be checked'
-      //   )
     }),
     onSubmit: values => {
       // router.push('/');
       // alert(JSON.stringify(values, null, 2));
       // console.log(values);
       var data = {
-        Cedula: values.identification,
-        Nombre: values.firstName,
-        Apellido1: values.surname,
-        Apellido2: values.secondSurname,
-        TipoUsuario: '1',
-        Canton: values.city,
-        Provincia: values.state,
-        CodigoPostal: values.zipCode,
-        Telefono: values.phone,
-        Contrasena: values.password
+        Identification: values.identification,
+        Firstname: values.firstName,
+        LastName: values.surname,
+        LastName2: values.secondSurname,
+        Email: values.email,
+        Password: values.password,
+        Country: values.country,
+        State: values.state,
+        City: values.city,
+        ZipCode: values.zipCode,
+        Address: values.address
       };
       // alert(JSON.stringify(data, null, 2));
       // console.log(data);
@@ -225,7 +221,19 @@ const Register = () => {
               error={Boolean(formik.touched.state && formik.errors.state)}
               fullWidth
               helperText={formik.touched.state && formik.errors.state}
-              label="Address: State"
+              label="Country"
+              margin="normal"
+              name="country"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.country}
+              variant="outlined"
+            />
+            <TextField
+              error={Boolean(formik.touched.state && formik.errors.state)}
+              fullWidth
+              helperText={formik.touched.state && formik.errors.state}
+              label="State"
               margin="normal"
               name="state"
               onBlur={formik.handleBlur}
@@ -237,7 +245,7 @@ const Register = () => {
               error={Boolean(formik.touched.city && formik.errors.city)}
               fullWidth
               helperText={formik.touched.city && formik.errors.city}
-              label="Address: City"
+              label="City"
               margin="normal"
               name="city"
               onBlur={formik.handleBlur}
@@ -249,7 +257,19 @@ const Register = () => {
               error={Boolean(formik.touched.zipCode && formik.errors.zipCode)}
               fullWidth
               helperText={formik.touched.zipCode && formik.errors.zipCode}
-              label="Address: Zip Code"
+              label="Address"
+              margin="normal"
+              name="address"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.address}
+              variant="outlined"
+            />
+            <TextField
+              error={Boolean(formik.touched.zipCode && formik.errors.zipCode)}
+              fullWidth
+              helperText={formik.touched.zipCode && formik.errors.zipCode}
+              label="Zip Code"
               margin="normal"
               name="zipCode"
               onBlur={formik.handleBlur}
@@ -283,43 +303,6 @@ const Register = () => {
               value={formik.values.password}
               variant="outlined"
             />
-            {/* <Box
-              sx={{
-                alignItems: 'center',
-                display: 'flex',
-                ml: -1
-              }}
-            >
-              <Checkbox
-                checked={formik.values.policy}
-                name="policy"
-                onChange={formik.handleChange}
-              />
-              <Typography
-                color="textSecondary"
-                variant="body2"
-              >
-                I have read the
-                {' '}
-                <NextLink
-                  href="#"
-                  passHref
-                >
-                  <Link
-                    color="primary"
-                    underline="always"
-                    variant="subtitle2"
-                  >
-                    Terms and Conditions
-                  </Link>
-                </NextLink>
-              </Typography>
-            </Box>
-            {Boolean(formik.touched.policy && formik.errors.policy) && (
-              <FormHelperText error>
-                {formik.errors.policy}
-              </FormHelperText>
-            )} */}
             <Box sx={{ py: 2 }}>
               <Button
                 color="primary"

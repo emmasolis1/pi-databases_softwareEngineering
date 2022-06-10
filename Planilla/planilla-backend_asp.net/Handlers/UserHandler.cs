@@ -18,7 +18,7 @@ namespace planilla_backend_asp.net.Handlers
     public List<UserModelSummarized> GetAllEmployeesSummarized()
     {
        // Make consult to database
-      string consult = "select FirstName, LastName, LastName2, Identification, Email, State, City from Users where UserType=1";
+      string consult = "select FirstName, LastName, LastName2, Identification, Email, State, City from Users where UserType=1 order by FirstName";
       DataTable employeesResult = CreateTableConsult(consult);
       DataTable phonesResult = CreateTableConsult("select Phone from Phones where Identification in (select Identification from Users where UserType=1)");
 
@@ -31,6 +31,7 @@ namespace planilla_backend_asp.net.Handlers
           {
             FullName = Convert.ToString(columna["FirstName"]) + " " + Convert.ToString(columna["LastName"]) + " " + Convert.ToString(columna["LastName2"]),
             Identification = Convert.ToString(columna["Identification"]),
+            Email = Convert.ToString(columna["Email"]),
             Address = Convert.ToString(columna["State"]) + ", " + Convert.ToString(columna["City"]),
           });
       }
@@ -54,7 +55,7 @@ namespace planilla_backend_asp.net.Handlers
     public void CreateEmployee(UserModel employee)
     {
       // Make consult to database
-      string consult = "insert into Users ([FirstName], [LastName], [LastName2], [Identification], [Email], [Password], [Country], [State], [City], [Address], [UserType]) values (@FirstName, @LastName, @LastName2, @Identification, @Email, @Password, @Country, @State, @City, @Address, @UserType)";
+      string consult = "insert into Users ([FirstName], [LastName], [LastName2], [Identification], [Email], [Password], [Country], [State], [City], [Address], [ZipCode], [UserType]) values (@FirstName, @LastName, @LastName2, @Identification, @Email, @Password, @Country, @State, @City, @Address, @ZipCode, @UserType)";
       SqlCommand queryCommand = new SqlCommand(consult, conexion);
 
       // Add mandatory parameters
@@ -66,36 +67,44 @@ namespace planilla_backend_asp.net.Handlers
       queryCommand.Parameters.AddWithValue("@UserType", 1);
 
       // Add optional parameters
-      if (employee.LastName2 != null)
+      if (employee.LastName2 != null && employee.LastName2 != "")
       {
         // queryCommand.Parameters.Add(new SqlParameter("LastName2", employee.LastName2));
         queryCommand.Parameters.AddWithValue("@LastName2", employee.LastName2);
       } else {
         queryCommand.Parameters.AddWithValue("@LastName2", DBNull.Value);
       }
-      if (employee.Country != null)
+      if (employee.Country != null && employee.Country != "")
       {
         queryCommand.Parameters.AddWithValue("@Country", employee.Country);
       } else {
         queryCommand.Parameters.AddWithValue("@Country", DBNull.Value);
       }
-      if (employee.State != null)
+      if (employee.State != null && employee.State != "")
       {
         queryCommand.Parameters.AddWithValue("@State", employee.State);
       } else {
         queryCommand.Parameters.AddWithValue("@State", DBNull.Value);
       }
-      if (employee.City != null)
+      if (employee.City != null && employee.City != "")
       {
         queryCommand.Parameters.AddWithValue("@City", employee.City);
       } else {
         queryCommand.Parameters.AddWithValue("@City", DBNull.Value);
       }
-      if (employee.Address != null)
+      if (employee.Address != null && employee.Address != "")
       {
         queryCommand.Parameters.AddWithValue("@Address", employee.Address);
       } else {
         queryCommand.Parameters.AddWithValue("@Address", DBNull.Value);
+      }
+      if (employee.ZipCode != null && employee.ZipCode != "")
+      {
+        queryCommand.Parameters.AddWithValue("@ZipCode", employee.ZipCode);
+      }
+      else
+      {
+        queryCommand.Parameters.AddWithValue("@ZipCode", DBNull.Value);
       }
 
       // Consult to database
