@@ -30,7 +30,7 @@ namespace planilla_backend_asp.net.Controllers
 
     [HttpPost]
     [Route("register")]
-    public ActionResult CreateEmployer([FromForm] UserModel employer)
+    public ActionResult CreateEmployer([FromBody] UserModel employer)
     {
         try
         {
