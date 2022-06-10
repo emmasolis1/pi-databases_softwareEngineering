@@ -14,17 +14,17 @@ namespace planilla_backend_asp.net.Controllers
     {
       // Get data from database
       UserHandler handler = new UserHandler();
-      var data = handler.getAllEmployeesSummarized();
+      var data = handler.GetAllEmployeesSummarized();
       return Ok(data);
     }
 
     [HttpPost]
     [Route("employees")]
-    public ActionResult CreateEmployee([FromBody] UsuarioModel employee)
+    public ActionResult CreateEmployee([FromBody] UserModel employee)
     {
         // Create new employee
         UserHandler handler = new UserHandler();
-        handler.createEmployee(employee);
+        handler.CreateEmployee(employee);
         return Ok();
     }
   }
