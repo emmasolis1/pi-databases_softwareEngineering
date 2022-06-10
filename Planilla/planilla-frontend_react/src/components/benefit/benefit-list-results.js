@@ -17,18 +17,18 @@ import {
 import { getInitials } from '../../utils/get-initials';
 
 export const BenefitListResults = ({ benefits, ...rest }) => {
-    const [selectedBenefitIds, setSelectedBenefitIds] = useState([]);
-    const [limit, setLimit] = useState(10);
-    const [page, setPage] = useState(0);
+  const [selectedBenefitIds, setSelectedBenefitIds] = useState([]);
+  const [limit, setLimit] = useState(5);
+  const [page, setPage] = useState(0);
 
     const handleSelectAll = (event) => {
         let newSelectedBenefitIds;
 
-        if (event.target.checked) {
-            newSelectedBenefitIds = benefits.map((benefit) => benefit.nombreBeneficio);
-        } else {
-            newSelectedBenefitIds = [];
-        }
+    if (event.target.checked) {
+      newSelectedBenefitIds = benefits.map((benefit) => benefit.benefitName);
+    } else {
+      newSelectedBenefitIds = [];
+    }
 
         setSelectedBenefitIds(newSelectedBenefitIds);
     };
@@ -61,87 +61,99 @@ export const BenefitListResults = ({ benefits, ...rest }) => {
         setPage(newPage);
     };
 
-    return (
-        <Card {...rest}>
-            <PerfectScrollbar>
-                <Box sx={{ minWidth: 1050 }}>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell padding="checkbox">
-                                    <Checkbox
-                                        checked={selectedBenefitIds.length === benefits.length}
-                                        color="primary"
-                                        indeterminate={
-                                            selectedBenefitIds.length > 0
-                                            && selectedBenefitIds.length < benefits.length
-                                        }
-                                        onChange={handleSelectAll}
-                                    />
-                                </TableCell>
-                                <TableCell>
-                                    Name
-                                </TableCell>
-                                <TableCell>
-                                    Project Name
-                                </TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {benefits.slice(0, limit).map((benefit) => (
-                                <TableRow
-                                    hover
-                                    key={benefit.benefitName}
-                                    selected={selectedBenefitIds.indexOf(benefit.benefitName) !== -1}
-                                >
-                                    <TableCell padding="checkbox">
-                                        <Checkbox
-                                            checked={selectedBenefitIds.indexOf(benefit.benefitName) !== -1}
-                                            onChange={(event) => handleSelectOne(event, benefit.benefitName)}
-                                            value="true"
-                                        />
-                                    </TableCell>
-                                    <TableCell>
-                                        <Box
-                                            sx={{
-                                                alignItems: 'center',
-                                                display: 'flex'
-                                            }}
-                                        >
-                                            <Avatar
-                                                src={benefit.avatarUrl}
-                                                sx={{ mr: 2 }}
-                                            >
-                                                {getInitials(benefit.benefitName)}
-                                            </Avatar>
-                                            <Typography
-                                                color="textPrimary"
-                                                variant="body1"
-                                            >
-                                                {benefit.benefitName}
-                                            </Typography>
-                                        </Box>
-                                    </TableCell>
-                                    <TableCell>
-                                        {benefit.projectName}
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </Box>
-            </PerfectScrollbar>
-            <TablePagination
-                component="div"
-                count={benefits.length}
-                onPageChange={handlePageChange}
-                onRowsPerPageChange={handleLimitChange}
-                page={page}
-                rowsPerPage={limit}
-                rowsPerPageOptions={[5, 10, 25]}
-            />
-        </Card>
-    );
+  return (
+    <Card {...rest}>
+      <PerfectScrollbar>
+        <Box sx={{ minWidth: 1050 }}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell padding="checkbox">
+                  <Checkbox
+                    checked={selectedBenefitIds.length === benefits.length}
+                    color="primary"
+                    indeterminate={
+                      selectedBenefitIds.length > 0
+                      && selectedBenefitIds.length < benefits.length
+                    }
+                    onChange={handleSelectAll}
+                  />
+                </TableCell>
+                <TableCell>
+                  Name
+                </TableCell>
+                <TableCell>
+                  Project Name
+                </TableCell>
+                <TableCell>
+                  Description
+                </TableCell>
+                <TableCell>
+                  Cost
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {benefits.slice(0, limit).map((benefit) => (
+                <TableRow
+                  hover
+                  key={benefit.benefitName + benefit.projectName + benefit.employerID}
+                  selected={selectedBenefitIds.indexOf(benefit.benefitName) !== -1}
+                >
+                  <TableCell padding="checkbox">
+                    <Checkbox
+                      checked={selectedBenefitIds.indexOf(benefit.benefitName) !== -1}
+                      onChange={(event) => handleSelectOne(event, benefit.benefitName)}
+                      value="true"
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <Box
+                      sx={{
+                        alignItems: 'center',
+                        display: 'flex'
+                      }}
+                    >
+                      <Avatar
+                        src={benefit.avatarUrl}
+                        sx={{ mr: 2 }}
+                      >
+                        {getInitials(benefit.benefitName)}
+                      </Avatar>
+                      <Typography
+                        color="textPrimary"
+                        variant="body1"
+                      >
+                        {benefit.benefitName}
+                      </Typography>
+                    </Box>
+                  </TableCell>
+                  <TableCell>
+                    {benefit.projectName}
+                  </TableCell>
+                  <TableCell>
+                    {benefit.description}
+                  </TableCell>
+                  <TableCell>
+                    {benefit.cost}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Box>
+      </PerfectScrollbar>
+      <TablePagination
+        component="div"
+        count={benefits.length}
+        onPageChange={handlePageChange}
+        onRowsPerPageChange={handleLimitChange}
+        page={page}
+        rowsPerPage={limit}
+        rowsPerPageOptions={[5, 10, 25]}
+      />
+    </Card>
+  );
 };
 
 BenefitListResults.propTypes = {

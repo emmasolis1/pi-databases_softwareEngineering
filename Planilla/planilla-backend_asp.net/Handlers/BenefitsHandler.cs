@@ -4,43 +4,45 @@ using System.Data;
 
 namespace planilla_backend_asp.net.Handlers
 {
-    public class BenefitsHandler
+  public class BenefitsHandler
+  {
+    private static SqlConnection conexion;
+    private string rutaConexion;
+    public BenefitsHandler()
     {
-        private static SqlConnection conexion;
-        private string rutaConexion;
-        public BenefitsHandler()
-        {
-            var builder = WebApplication.CreateBuilder();
-            rutaConexion = builder.Configuration.GetConnectionString("EmpleadorContext");
-            conexion = new SqlConnection(rutaConexion);
-        }
+      var builder = WebApplication.CreateBuilder();
+      rutaConexion = builder.Configuration.GetConnectionString("EmpleadorContext");
+      conexion = new SqlConnection(rutaConexion);
+    }
 
-        private DataTable CreateTableConsult(string consult)
-        {
-            SqlCommand comandoParaConsulta = new SqlCommand(consult, conexion);
-            SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(comandoParaConsulta);
-            DataTable consultaFormatoTabla = new DataTable();
-            conexion.Open();
-            adaptadorParaTabla.Fill(consultaFormatoTabla);
-            conexion.Close();
+    private DataTable CreateTableConsult(string consult)
+    {
+      SqlCommand comandoParaConsulta = new SqlCommand(consult, conexion);
+      SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(comandoParaConsulta);
+      DataTable consultaFormatoTabla = new DataTable();
+      conexion.Open();
+      adaptadorParaTabla.Fill(consultaFormatoTabla);
+      conexion.Close();
 
-            return consultaFormatoTabla;
-        }
+      return consultaFormatoTabla;
+    }
 
-        public List<BenefitsModel> GetBenefitsData()
+    public List<BenefitsModel> GetBenefitsData()
+    {
+      List<BenefitsModel> benefits = new List<BenefitsModel>();
+      string consult = "SELECT BenefitName, ProjectName, EmployerID, Description, Cost FROM Benefits ORDER BY BenefitName";
+      DataTable tablaResultado = CreateTableConsult(consult);
+      foreach (DataRow columna in tablaResultado.Rows)
+      {
+        benefits.Add(new BenefitsModel
         {
-            List<BenefitsModel> benefits = new List<BenefitsModel>();
-            string consult = "SELECT nombreBeneficio, cedulaEmpleador, nombreProyecto FROM Beneficios";
-            DataTable tablaResultado = CreateTableConsult(consult);
-            foreach (DataRow columna in tablaResultado.Rows)
-            {
-                benefits.Add(new BenefitsModel
-                {
-                    benefitName = Convert.ToString(columna["nombreBeneficio"]),
-                    employerID = Convert.ToString(columna["cedulaEmpleador"]),
-                    projectName = Convert.ToString(columna["nombreProyecto"]),
-                });
-            }
+          benefitName = Convert.ToString(columna["BenefitName"]),
+          projectName = Convert.ToString(columna["ProjectName"]),
+          employerID = Convert.ToString(columna["EmployerID"]),
+          description = Convert.ToString(columna["Description"]),
+          cost = Convert.ToString(columna["Cost"]),
+        });
+      }
 
             return benefits;
         }
