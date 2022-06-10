@@ -2,6 +2,7 @@ import Head from 'next/head';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
+import axios from "axios";
 import * as Yup from 'yup';
 import {
   Box,
@@ -19,25 +20,27 @@ const Register = () => {
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
-      email: '',
+      identification: '',
       firstName: '',
       lastName: '',
+      lastName2: '',
+      email: '',
       password: '',
-      identificationCard: '',
-      phoneNumber: '',
-      province: '',
-      canton: '',
-      postalCode: '',
+      country: '',
+      state: '',
+      city: '',
+      zipCode: '',
+      address: '',
+      phone: '',
       userType: ''
     },
     validationSchema: Yup.object({
-      email: Yup
+      identification: Yup
         .string()
-        .email(
-          'Must be a valid email')
-        .max(255)
+        .min(9)
+        .max(9)
         .required(
-          'Email is required'),
+          'Identification is required'),
       firstName: Yup
         .string()
         .max(255)
@@ -47,43 +50,70 @@ const Register = () => {
         .string()
         .max(255)
         .required(
-          'Last name is required'),
+           'Last name is required'),
+      lastName2: Yup
+        .string()
+        .max(255)
+        .required(
+          'Second Last name is required'),
+      email: Yup
+        .string()
+        .email(
+          'Must be a valid email')
+        .max(255)
+        .required(
+          'Email is required'),
       password: Yup
         .string()
         .max(255)
         .required(
            'Password is required'),
-      identificationCard: Yup
+      country: Yup
         .string()
-        .min(9)
-        .max(9)
+        .max(50)
         .required(
-          'Identification card is required'),
-      phoneNumber: Yup
-        .string()
-        .min(8)
-        .max(8)
-        .required(
-          'Phone number is required'),
-      province: Yup
+          'Country is required'),
+      state: Yup
         .string()
         .max(20)
         .required(
-          'Province is required'),
-      canton: Yup
+          'State is required'),
+      city: Yup
         .string()
         .max(35)
         .required(
-          'Canton is required'),
-      postalCode: Yup
+          'City is required'),
+      zipCode: Yup
         .string()
         .min(5)
-        .max(5)
-        .required(
-          'Postal code is required'),
+        .max(5),
+      address: Yup
+        .string()
+        .max(255),
+      phone: Yup
+        .string()
+        .min(8)
+        .max(8)
     }),
-    onSubmit: () => {
-      router.push('/');
+
+    onSubmit: values => {
+        var data = {
+            identification: values.Identification,
+            firstName: values.FirstName,
+            lastName: values.LastName,
+            lastName2: values.LastName2,
+            email: values.Email,
+            password: values.Password,
+            country: values.Country,
+            state: values.State,
+            city: values.City,
+            zipCode: values.ZipCode,
+            address: values.Address,
+            phone: values.Phone,
+            userType: '0'
+        };
+        axios.post('https://localhost:7150/api/register', data);
+        router.push('/login');
     }
   });
 
@@ -91,7 +121,7 @@ const Register = () => {
     <>
       <Head>
         <title>
-          Register | Material Kit
+          Register Employer | Ta' Bueno
         </title>
       </Head>
       <Box
@@ -105,7 +135,7 @@ const Register = () => {
       >
         <Container maxWidth="sm">
           <NextLink
-            href="/"
+            href="/login"
             passHref
           >
             <Button
@@ -121,7 +151,7 @@ const Register = () => {
                 color="textPrimary"
                 variant="h4"
               >
-                Create a new account
+                Create a new employer account
               </Typography>
               <Typography
                 color="textSecondary"
@@ -131,6 +161,18 @@ const Register = () => {
                 Use your email to create a new account
               </Typography>
             </Box>
+             <TextField 
+              error={Boolean(formik.touched.identification && formik.errors.identification)}
+              fullWidth
+              helperText={formik.touched.identification && formik.errors.identification}
+              label="Identification"
+              margin="normal"
+              name="identification"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.identification}
+              variant="outlined"
+            /> 
             <TextField
               error={Boolean(formik.touched.firstName && formik.errors.firstName)}
               fullWidth
@@ -153,6 +195,18 @@ const Register = () => {
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               value={formik.values.lastName}
+              variant="outlined"
+            />
+            <TextField
+              error={Boolean(formik.touched.lastName2 && formik.errors.lastName2)}
+              fullWidth
+              helperText={formik.touched.lastName2 && formik.errors.lastName2}
+              label="Second Last Name"
+              margin="normal"
+              name="lastName2"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.lastName2}
               variant="outlined"
             />
             <TextField
@@ -181,79 +235,78 @@ const Register = () => {
               value={formik.values.password}
               variant="outlined"
             />
-             <TextField 
-              error={Boolean(formik.touched.identificationCard && formik.errors.identificationCard)}
+            <TextField 
+              error={Boolean(formik.touched.country && formik.errors.country)}
               fullWidth
-              helperText={formik.touched.identificationCard && formik.errors.identificationCard}
-              label="Identification card"
+              helperText={formik.touched.country && formik.errors.country}
+              label="Country"
               margin="normal"
-              name="identificationCard"
+              name="country"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              value={formik.values.identificationCard}
-              variant="outlined"
-            /> 
-           <TextField 
-              error={Boolean(formik.touched.phoneNumber && formik.errors.phoneNumber)}
-              fullWidth
-              helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
-              label="Phone number"
-              margin="normal"
-              name="phoneNumber"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.phoneNumber}
+              value={formik.values.country}
               variant="outlined"
             />
            <TextField 
-              error={Boolean(formik.touched.province && formik.errors.province)}
+              error={Boolean(formik.touched.state && formik.errors.state)}
               fullWidth
-              helperText={formik.touched.province && formik.errors.province}
-              label="Province"
+              helperText={formik.touched.state && formik.errors.state}
+              label="State"
               margin="normal"
-              name="province"
+              name="state"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              value={formik.values.province}
+              value={formik.values.state}
               variant="outlined"
             />
            <TextField 
-              error={Boolean(formik.touched.canton && formik.errors.canton)}
+              error={Boolean(formik.touched.city && formik.errors.city)}
               fullWidth
-              helperText={formik.touched.canton && formik.errors.canton}
-              label="Canton"
+              helperText={formik.touched.city && formik.errors.city}
+              label="City"
               margin="normal"
-              name="canton"
+              name="city"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              value={formik.values.canton}
+              value={formik.values.city}
               variant="outlined"
             />
            <TextField 
-              error={Boolean(formik.touched.postalCode && formik.errors.postalCode)}
+              error={Boolean(formik.touched.zipCode && formik.errors.zipCode)}
               fullWidth
-              helperText={formik.touched.postalCode && formik.errors.postalCode}
-              label="Postal code"
+              helperText={formik.touched.zipCode && formik.errors.zipCode}
+              label="Zip code"
               margin="normal"
-              name="postalCode"
+              name="zipCode"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              value={formik.values.postalCode}
+              value={formik.values.zipCode}
               variant="outlined"
             />
-            <Box
-              sx={{
-                alignItems: 'center',
-                display: 'flex',
-                ml: -1
-              }}
-            >
-            </Box>
-            {Boolean(formik.touched.policy && formik.errors.policy) && (
-              <FormHelperText error>
-                {formik.errors.policy}
-              </FormHelperText>
-            )}
+            <TextField 
+              error={Boolean(formik.touched.address && formik.errors.address)}
+              fullWidth
+              helperText={formik.touched.address && formik.errors.address}
+              label="Address"
+              margin="normal"
+              name="address"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.address}
+              variant="outlined"
+            />
+           <TextField 
+              error={Boolean(formik.touched.phone && formik.errors.phone)}
+              fullWidth
+              helperText={formik.touched.phone && formik.errors.phone}
+              label="Phone"
+              margin="normal"
+              name="phone"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.phone}
+              variant="outlined"
+            />
             <Box sx={{ py: 2 }}>
               <Button
                 color="primary"

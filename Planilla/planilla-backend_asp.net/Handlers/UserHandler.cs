@@ -15,26 +15,23 @@ namespace planilla_backend_asp.net.Handlers
       conexion = new SqlConnection(rutaConexion);
     }
 
-    public List<UsuarioModel> GetEmployees()
+    public List<UserSummarizedModel> GetAllEmployeesSummarized()
     {
-      List<UsuarioModel> employees = new List<UsuarioModel>();
-      string consulta = "SELECT * FROM dbo.Usuario WHERE dbo.Usuario.TipoUsuario = 1";
-      DataTable tablaResultado = CreateTableConsult(consulta);
-      foreach (DataRow columna in tablaResultado.Rows)
+      // Make consult to database
+      string consult = "select Usuario.Nombre, Usuario.Apellido1, Usuario.Apellido2, Usuario.Cedula, Usuario.Telefono, Usuario.Canton, Usuario.Provincia from Usuario where Usuario.TipoUsuario=1";
+      DataTable resultTable = CreateTableConsult(consult);
+
+      // Convert data to list
+      List<UserSummarizedModel> employees = new List<UserSummarizedModel>();
+      foreach (DataRow columna in resultTable.Rows)
       {
         employees.Add(
-          new UsuarioModel
+          new UserSummarizedModel
           {
-            Cedula = Convert.ToString(columna["Cedula"]),
-            Contrasena = Convert.ToString(""),
-            Nombre = Convert.ToString(columna["Nombre"]),
-            Apellido1 = Convert.ToString(columna["Apellido1"]),
-            Apellido2 = Convert.ToString(columna["Apellido2"]),
-            Telefono = Convert.ToString(columna["Telefono"]),
-            TipoUsuario = Convert.ToInt32(columna["TipoUsuario"]),
-            Provincia = Convert.ToString(columna["Provincia"]),
-            Canton = Convert.ToString(columna["Canton"]),
-            CodigoPostal = Convert.ToString(columna["CodigoPostal"]),
+            FullName = Convert.ToString(columna["Nombre"]) + " " + Convert.ToString(columna["Apellido1"]) + " " + Convert.ToString(columna["Apellido2"]),
+            IdentificationCard = Convert.ToString(columna["Cedula"]),
+            PhoneNumber = Convert.ToString(columna["Telefono"]),
+            Address = Convert.ToString(columna["Canton"]) + ", " + Convert.ToString(columna["Provincia"]),
           });
       }
       return employees;
@@ -50,6 +47,28 @@ namespace planilla_backend_asp.net.Handlers
       adaptadorParaTabla.Fill(consultaFormatoTabla);
       conexion.Close();
       return consultaFormatoTabla;
+    }
+
+    public void CreateEmployee(UserModel employee)
+    {
+        string consult = "insert into Users (Identification, FirstName, LastName, LastName2, Email, Password, Country, State, City, PostalCode, Address, Phone, UserType) " +
+               "values ('" + employee.Identification + "', '" + employee.FirstName + "', '" + employee.LastName + "', '" + employee.LastName2 + "', '" + employee.Email + "', '" + employee.Password + "', '" +
+               employee.Country + "', '" + employee.State + "', '" + employee.City + "', '" + employee.ZipCode + "', '" + employee.Address + "', '" + employee.Phone + "', 1, '" + "')";
+        SqlCommand comandoParaConsulta = new SqlCommand(consult, conexion);
+        conexion.Open();
+        comandoParaConsulta.ExecuteNonQuery();
+        conexion.Close();
+    }
+
+    public void CreateEmployer(UserModel employer) 
+    {
+        string consult = "insert into Users (Identification, FirstName, LastName, LastName2, Email, Password, Country, State, City, PostalCode, Address, Phone, UserType) " +
+                "values ('" + employer.Identification + "', '"  + employer.FirstName + "', '" + employer.LastName + "', '" + employer.LastName2 + "', '" + employer.Email + "', '" + employer.Password + "', '" + 
+                employer.Country + "', '" + employer.State + "', '" + employer.City  + "', '" + employer.ZipCode + "', '" + employer.Address + "', '" + employer.Phone + "', 0, '" + "')"; 
+        SqlCommand comandoParaConsulta = new SqlCommand(consult, conexion);
+        conexion.Open();
+        comandoParaConsulta.ExecuteNonQuery();
+        conexion.Close();
     }
   }
 }
