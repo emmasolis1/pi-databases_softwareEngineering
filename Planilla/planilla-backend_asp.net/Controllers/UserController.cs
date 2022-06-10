@@ -27,5 +27,22 @@ namespace planilla_backend_asp.net.Controllers
         handler.CreateEmployee(employee);
         return Ok();
     }
+
+    [HttpPost]
+    [Route("register")]
+    public ActionResult CreateEmployer([FromBody] UserModel employer)
+    {
+        try
+        {
+            UserHandler handler = new UserHandler();
+            handler.CreateEmployer(employer);
+            return Ok();
+        }
+        catch(Exception error)
+        {
+            Console.WriteLine(error);
+            return BadRequest(error.Message);
+        }
+    }
   }
 }

@@ -10,7 +10,6 @@ import {
 } from '@mui/material';
 
 const user = {
-  avatar: '/static/images/avatars/avatar_6.png',
   city: 'Los Angeles',
   country: 'USA',
   jobTitle: 'Senior Developer',
@@ -28,14 +27,6 @@ export const AccountProfile = (props) => (
           flexDirection: 'column'
         }}
       >
-        <Avatar
-          src={user.avatar}
-          sx={{
-            height: 64,
-            mb: 2,
-            width: 64
-          }}
-        />
         <Typography
           color="textPrimary"
           gutterBottom
