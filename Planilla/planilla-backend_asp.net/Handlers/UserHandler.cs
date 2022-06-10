@@ -39,7 +39,6 @@ namespace planilla_backend_asp.net.Handlers
       return employees;
     }
 
-
     private DataTable CreateTableConsult(string consult)
     {
       SqlCommand queryCommand = new SqlCommand(consult, conexion);
@@ -167,67 +166,5 @@ namespace planilla_backend_asp.net.Handlers
         queryCommand.ExecuteNonQuery();
         conexion.Close();
     }
-
-    public void CreateEmployee(UserModel employee)
-    {
-      // Make consult to database
-      string consult = "insert into Users ([FirstName], [LastName], [LastName2], [Identification], [Email], [Password], [Country], [State], [City], [Address], [ZipCode], [UserType], [Phone]) values (@FirstName, @LastName, @LastName2, @Identification, @Email, @Password, @Country, @State, @City, @Address, @ZipCode, @UserType, @Phone)";
-      SqlCommand queryCommand = new SqlCommand(consult, conexion);
-
-      // Add mandatory parameters
-      queryCommand.Parameters.AddWithValue("@FirstName", employee.FirstName);
-      queryCommand.Parameters.AddWithValue("@LastName", employee.LastName);
-      queryCommand.Parameters.AddWithValue("@Identification", employee.Identification);
-      queryCommand.Parameters.AddWithValue("@Email", employee.Email);
-      queryCommand.Parameters.AddWithValue("@Password", employee.Password);
-      queryCommand.Parameters.AddWithValue("@UserType", 1);
-      queryCommand.Parameters.AddWithValue("@Phone", employee.Phone);
-
-      // Add optional parameters
-      if (employee.LastName2 != null && employee.LastName2 != "")
-      {
-        // queryCommand.Parameters.Add(new SqlParameter("LastName2", employee.LastName2));
-        queryCommand.Parameters.AddWithValue("@LastName2", employee.LastName2);
-      } else {
-        queryCommand.Parameters.AddWithValue("@LastName2", DBNull.Value);
-      }
-      if (employee.Country != null && employee.Country != "")
-      {
-        queryCommand.Parameters.AddWithValue("@Country", employee.Country);
-      } else {
-        queryCommand.Parameters.AddWithValue("@Country", DBNull.Value);
-      }
-      if (employee.State != null && employee.State != "")
-      {
-        queryCommand.Parameters.AddWithValue("@State", employee.State);
-      } else {
-        queryCommand.Parameters.AddWithValue("@State", DBNull.Value);
-      }
-      if (employee.City != null && employee.City != "")
-      {
-        queryCommand.Parameters.AddWithValue("@City", employee.City);
-      } else {
-        queryCommand.Parameters.AddWithValue("@City", DBNull.Value);
-      }
-      if (employee.Address != null && employee.Address != "")
-      {
-        queryCommand.Parameters.AddWithValue("@Address", employee.Address);
-      } else {
-        queryCommand.Parameters.AddWithValue("@Address", DBNull.Value);
-      }
-      if (employee.ZipCode != null && employee.ZipCode != "")
-      {
-        queryCommand.Parameters.AddWithValue("@ZipCode", employee.ZipCode);
-      }
-      else
-      {
-        queryCommand.Parameters.AddWithValue("@ZipCode", DBNull.Value);
-      }
-
-      // Consult to database
-      conexion.Open();
-      queryCommand.ExecuteNonQuery();
-      conexion.Close();
-    }
-  }
+   }
 }
