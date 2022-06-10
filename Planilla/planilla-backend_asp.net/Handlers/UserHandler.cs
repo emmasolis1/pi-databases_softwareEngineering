@@ -51,7 +51,7 @@ namespace planilla_backend_asp.net.Handlers
       return consultaFormatoTabla;
     }
 
-    public void createEmployee(UserModel employee)
+    public void CreateEmployee(UserModel employee)
     {
       // Make consult to database
       string consult = "insert into Users ([FirstName], [LastName], [LastName2], [Identification], [Email], [Password], [Country], [State], [City], [Address], [UserType]) values (@FirstName, @LastName, @LastName2, @Identification, @Email, @Password, @Country, @State, @City, @Address, @UserType)";
