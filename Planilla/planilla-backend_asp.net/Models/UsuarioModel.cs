@@ -1,36 +1,34 @@
 ﻿namespace planilla_backend_asp.net.Models
 {
-    public  class UsuarioModel
+    public  class UserModel
     {
-        public string Cedula { get; set; }
-
-        public string Contrasena { get; set; }
-
-        public string Nombre { get; set; }
-
-        public string Apellido1 { get; set; }
-
-        public string Apellido2 { get; set; }
-
-        public string Telefono { get; set; }
-
-        public int TipoUsuario { get; set; }
-
-        public string Provincia { get; set; }
-
-        public string Canton { get; set; }
-
-        public string CodigoPostal { get; set; }
+        public string Identification { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string? LastName2 { get; set; } = null;
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public string? Country { get; set; } = null;
+        public string? State { get; set; } = null;
+        public string? City { get; set; } = null;
+        public string? ZipCode { get; set; } = null;
+        public string? Address { get; set; } = null;
+        public UserPhoneModel? Phones { get; set; } = null;
     }
 
-    public class UserSummarizedModel
+    public class UserModelSummarized
     {
-        public string NombreCompleto { get; set; }
+        public string FullName { get; set; }
 
-        public string Cedula { get; set; }
+        public string Identification { get; set; }
 
-        public string Telefono { get; set; }
+        //public string Phone { get; set; }
 
-        public string Direccion { get; set; }
+        public string Address { get; set; }
+    }
+
+    public class UserPhoneModel
+    {
+        public List<string> Phone { get; set; }
     }
 }
