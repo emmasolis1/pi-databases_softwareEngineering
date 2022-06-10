@@ -18,9 +18,8 @@ namespace planilla_backend_asp.net.Handlers
     public List<UserModelSummarized> GetAllEmployeesSummarized()
     {
        // Make consult to database
-      string consult = "select FirstName, LastName, LastName2, Identification, Email, State, City from Users where UserType=1 order by FirstName";
+      string consult = "select FirstName, LastName, LastName2, Identification, Email, Country, State, City, Phone from Users where UserType=1 order by FirstName";
       DataTable employeesResult = CreateTableConsult(consult);
-      DataTable phonesResult = CreateTableConsult("select Phone from Phones where Identification in (select Identification from Users where UserType=1)");
 
       // Convert data to list
       List<UserModelSummarized> employees = new List<UserModelSummarized>();
@@ -32,7 +31,8 @@ namespace planilla_backend_asp.net.Handlers
             FullName = Convert.ToString(columna["FirstName"]) + " " + Convert.ToString(columna["LastName"]) + " " + Convert.ToString(columna["LastName2"]),
             Identification = Convert.ToString(columna["Identification"]),
             Email = Convert.ToString(columna["Email"]),
-            Address = Convert.ToString(columna["State"]) + ", " + Convert.ToString(columna["City"]),
+            Phone = Convert.ToString(columna["Phone"]),
+            Address = Convert.ToString(columna["City"]) + ", " + Convert.ToString(columna["State"] + ", " + Convert.ToString(columna["Country"])),
           });
       }
 
@@ -55,7 +55,7 @@ namespace planilla_backend_asp.net.Handlers
     public void CreateEmployee(UserModel employee)
     {
       // Make consult to database
-      string consult = "insert into Users ([FirstName], [LastName], [LastName2], [Identification], [Email], [Password], [Country], [State], [City], [Address], [ZipCode], [UserType]) values (@FirstName, @LastName, @LastName2, @Identification, @Email, @Password, @Country, @State, @City, @Address, @ZipCode, @UserType)";
+      string consult = "insert into Users ([FirstName], [LastName], [LastName2], [Identification], [Email], [Password], [Country], [State], [City], [Address], [ZipCode], [UserType], [Phone]) values (@FirstName, @LastName, @LastName2, @Identification, @Email, @Password, @Country, @State, @City, @Address, @ZipCode, @UserType, @Phone)";
       SqlCommand queryCommand = new SqlCommand(consult, conexion);
 
       // Add mandatory parameters
@@ -65,6 +65,7 @@ namespace planilla_backend_asp.net.Handlers
       queryCommand.Parameters.AddWithValue("@Email", employee.Email);
       queryCommand.Parameters.AddWithValue("@Password", employee.Password);
       queryCommand.Parameters.AddWithValue("@UserType", 1);
+      queryCommand.Parameters.AddWithValue("@Phone", employee.Phone);
 
       // Add optional parameters
       if (employee.LastName2 != null && employee.LastName2 != "")
