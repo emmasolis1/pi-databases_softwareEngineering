@@ -6,39 +6,50 @@ namespace planilla_backend_asp.net.Handlers
 {
   public class ProjectHandler
   {
-    private static SqlConnection conexion;
-    private string rutaConexion;
+    private static SqlConnection connection;
+    private string connectionRoute;
     public ProjectHandler()
     {
       var builder = WebApplication.CreateBuilder();
-      rutaConexion = builder.Configuration.GetConnectionString("EmpleadorContext");
-      conexion = new SqlConnection(rutaConexion);
+      connectionRoute = builder.Configuration.GetConnectionString("EmpleadorContext");
+      connection = new SqlConnection(connectionRoute);
     }
 
-    private DataTable CreateTableConsult(string consult)
+      private DataTable CreateTableConsult(SqlDataAdapter tableAdapter)
     {
-      SqlCommand comandoParaConsulta = new SqlCommand(consult, conexion);
-      SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(comandoParaConsulta);
-      DataTable consultaFormatoTabla = new DataTable();
-      conexion.Open();
-      adaptadorParaTabla.Fill(consultaFormatoTabla);
-      conexion.Close();
-      return consultaFormatoTabla;
+      DataTable consultTable = new DataTable();
+      connection.Open();
+      tableAdapter.Fill(consultTable);
+      connection.Close();
+
+      return consultTable;
     }
 
-    public List<ProjectModel> GetProyectsData()
+    public List<ProjectModel> GetProyectsData(string employerID)
     {
       List<ProjectModel> projects = new List<ProjectModel>();
-      string consult = "SELECT * FROM Proyecto";
-      DataTable tablaResultado = CreateTableConsult(consult);
+      var consult = @"SELECT ProjectName, EmployerID, Budget, PaymentMethod, Description, MaxNumberOfBenefits, MaxBudgetForBenefits
+                      From Projects
+                      WHERE EmployerID = @employerID
+                      ORDER BY ProjectName";
+         var queryCommand = new SqlCommand(consult, connection);
+
+      // Uses user's email and the name of the active project to get only related benefits
+      queryCommand.Parameters.AddWithValue("@employerID", employerID);
+
+      SqlDataAdapter tableAdapter = new SqlDataAdapter(queryCommand);
+      DataTable tablaResultado = CreateTableConsult(tableAdapter);
       foreach (DataRow columna in tablaResultado.Rows)
       {
         projects.Add(new ProjectModel
         {
-          nombre = Convert.ToString(columna["nombre"]),
-          cedulaUsuario = Convert.ToString(columna["cedulaEmpleador"]),
-          presupuesto = Convert.ToInt32(columna["presupuesto"]),
-          modalidadPago = Convert.ToString(columna["modalidadPago"])
+          projectName = Convert.ToString(columna["ProjectName"]),
+          employerID = Convert.ToString(columna["EmployerID"]),
+          budget = Convert.ToString(columna["Budget"]),
+          paymentMethod = Convert.ToString(columna["PaymentMethod"]),
+          description = Convert.ToString(columna["Description"]),
+          maxNumberOfBenefits = Convert.ToString(columna["MaxNumberOfBenefits"]),
+          maxBudgetForBenefits = Convert.ToString(columna["MaxBudgetForBenefits"])
         });
       }
 

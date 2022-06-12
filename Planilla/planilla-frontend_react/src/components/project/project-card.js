@@ -3,6 +3,7 @@ import { Avatar, Box, Card, CardContent, Divider, Grid, Typography } from '@mui/
 import { Clock as ClockIcon } from '../../icons/clock';
 import { Download as DownloadIcon } from '../../icons/download';
 import { getInitials } from '../../utils/get-initials';
+import { useState } from 'react';
 
 export const ProjectCard = ({ project, ...rest }) => (
   <Card
@@ -21,11 +22,8 @@ export const ProjectCard = ({ project, ...rest }) => (
           pb: 3
         }}
       >
-        <Avatar
-          alt="Project"
-
-        >
-            {getInitials(project.title)}
+        <Avatar>
+            {getInitials(project.projectName)}
         </Avatar>
       </Box>
       <Typography
@@ -34,7 +32,7 @@ export const ProjectCard = ({ project, ...rest }) => (
         gutterBottom
         variant="h5"
       >
-        {project.title}
+        {project.projectName}
       </Typography>
       <Typography
         align="center"
@@ -75,18 +73,11 @@ export const ProjectCard = ({ project, ...rest }) => (
             display: 'flex'
           }}
         >
-          <Typography
-            color="textSecondary"
-            display="inline"
-            sx={{ pl: 1 }}
-            variant="body2"
-          >
-            Boton de editar
-          </Typography>
         </Grid>
       </Grid>
     </Box>
   </Card>
+
 );
 
 ProjectCard.propTypes = {
