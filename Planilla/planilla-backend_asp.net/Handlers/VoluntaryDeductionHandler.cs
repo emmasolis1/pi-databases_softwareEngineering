@@ -25,10 +25,10 @@ namespace planilla_backend_asp.net.Handlers
                 deductions.Add(
                   new VoluntaryDeductionsModel
                   {
-                      VoluntaryDeductionName = Convert.ToString(columna["Nombre"]),
-                      ProjectName = Convert.ToString("NombreProyecto"),
-                      EmployerID = Convert.ToString(columna["CedulaEmpleador"]),
-                      Description = Convert.ToString(columna["Descripcion"])
+                      VoluntaryDeductionName = Convert.ToString(columna["VoluntaryDeductionName"]),
+                      ProjectName = Convert.ToString("ProjectName"),
+                      EmployerID = Convert.ToString(columna["EmployerID"]),
+                      Description = Convert.ToString(columna["Description"])
                   });
             }
             return deductions;
