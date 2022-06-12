@@ -15,23 +15,31 @@ namespace planilla_backend_asp.net.Handlers
       connection = new SqlConnection(connectionRoute);
     }
 
-    private DataTable CreateTableConsult(string consult)
+    private DataTable CreateTableConsult(SqlDataAdapter tableAdapter)
     {
-      SqlCommand consultCommand = new SqlCommand(consult, connection);
-      SqlDataAdapter adaptadorParaTabla = new SqlDataAdapter(consultCommand);
       DataTable consultTable = new DataTable();
-      connection.Open();
-      adaptadorParaTabla.Fill(consultTable);
-      connection.Close();
+      conexion.Open();
+      tableAdapter.Fill(consultTable);
+      conexion.Close();
 
       return consultTable;
     }
 
-    public List<BenefitsModel> GetBenefitsData()
+    public List<BenefitsModel> GetBenefitsData(string email, string project)
     {
       List<BenefitsModel> benefits = new List<BenefitsModel>();
-      string consult = "SELECT BenefitName, ProjectName, EmployerID, Description, Cost FROM Benefits ORDER BY BenefitName";
-      DataTable tablaResultado = CreateTableConsult(consult);
+      var consult = @"SELECT BenefitName, ProjectName, EmployerID, Description, Cost
+                      FROM Benefits JOIN Users on Benefits.EmployerID = Users.Identification
+                      WHERE Email = @email AND ProjectName = @project
+                      ORDER BY BenefitName";
+      var queryCommand = new SqlCommand(consult, conexion);
+
+      // Uses user's email to get only benefits related to that user
+      queryCommand.Parameters.AddWithValue("@email", email);
+      queryCommand.Parameters.AddWithValue("@project", project);
+
+      SqlDataAdapter tableAdapter = new SqlDataAdapter(queryCommand);
+      DataTable tablaResultado = CreateTableConsult(tableAdapter);
       foreach (DataRow columna in tablaResultado.Rows)
       {
         benefits.Add(new BenefitsModel

@@ -14,8 +14,35 @@ namespace planilla_backend_asp.net.Controllers
     {
       // Get data from database
       UserHandler handler = new UserHandler();
-      var data = handler.GetEmployees();
+      var data = handler.GetAllEmployeesSummarized();
       return Ok(data);
+    }
+
+    [HttpPost]
+    [Route("employees")]
+    public ActionResult CreateEmployee([FromBody] UserModel employee)
+    {
+        // Create new employee
+        UserHandler handler = new UserHandler();
+        handler.CreateEmployee(employee);
+        return Ok();
+    }
+
+    [HttpPost]
+    [Route("register")]
+    public ActionResult CreateEmployer([FromBody] UserModel employer)
+    {
+        try
+        {
+            UserHandler handler = new UserHandler();
+            handler.CreateEmployer(employer);
+            return Ok();
+        }
+        catch(Exception error)
+        {
+            Console.WriteLine(error);
+            return BadRequest(error.Message);
+        }
     }
   }
 }

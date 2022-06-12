@@ -15,7 +15,7 @@ class Benefits extends React.Component {
     };
   }
   componentDidMount() {
-    axios.get(this.state.APIUrl).then(response => {
+    axios.get(this.state.APIUrl + "?email=" + sessionStorage.getItem("email") + "&project=" + sessionStorage.getItem("project")).then(response => {
       this.setState({ benefits: response.data });
     });
   }
