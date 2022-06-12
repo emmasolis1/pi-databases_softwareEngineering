@@ -59,7 +59,7 @@ const items = [
   },
   {
     href: '/benefits',
-    icon: (<XCircleIcon fontSize="small" />),
+    icon: (<ShoppingBagIcon fontSize="small" />),
     title: 'Benefits'
   }
 ];

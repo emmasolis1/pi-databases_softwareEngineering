@@ -83,9 +83,6 @@ export const BenefitListResults = ({ benefits, ...rest }) => {
                   Name
                 </TableCell>
                 <TableCell>
-                  Project Name
-                </TableCell>
-                <TableCell>
                   Description
                 </TableCell>
                 <TableCell>
@@ -127,9 +124,6 @@ export const BenefitListResults = ({ benefits, ...rest }) => {
                         {benefit.benefitName}
                       </Typography>
                     </Box>
-                  </TableCell>
-                  <TableCell>
-                    {benefit.projectName}
                   </TableCell>
                   <TableCell>
                     {benefit.description}

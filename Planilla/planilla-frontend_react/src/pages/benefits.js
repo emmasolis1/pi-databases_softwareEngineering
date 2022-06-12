@@ -20,7 +20,7 @@ class Benefits extends React.Component {
     sessionStorage.setItem("project", "TaBueno Planilla CR");
     // -------------------------------------------------------------------
     
-    axios.get(this.state.APIUrl + "?email=" + sessionStorage.getItem("email") + "&project=" + sessionStorage.getItem("project")).then(response => {
+    axios.get(this.state.APIUrl + "?project=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID")).then(response => {
       this.setState({ benefits: response.data });
     });
   }

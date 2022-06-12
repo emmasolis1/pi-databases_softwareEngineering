@@ -44,8 +44,16 @@ const CreateBenefit = () => {
         description: values.description,
         cost: values.cost
       };
-      axios.post('https://localhost:7150/api/benefits', data);
-      router.push('/benefits');
+      axios.post('https://localhost:7150/api/benefits', data)
+        .catch(function (error) {
+          if (error.response) {
+            // The client was given an error response (5xx, 4xx)
+            alert("Error: Benefit may already exist, returning to benefit list");
+          } else {
+            alert("Error: Unknown error occurred, returning to benefit list");
+          }
+          router.push('/benefits')
+        });
     }
   });
 
