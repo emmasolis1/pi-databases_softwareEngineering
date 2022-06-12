@@ -25,7 +25,7 @@ export const ProjectCard = ({ project, ...rest }) => (
           alt="Project"
 
         >
-            {getInitials(project.title)}
+            {getInitials(project.nombre)}
         </Avatar>
       </Box>
       <Typography
@@ -34,14 +34,14 @@ export const ProjectCard = ({ project, ...rest }) => (
         gutterBottom
         variant="h5"
       >
-        {project.title}
+        {project.nombre}
       </Typography>
       <Typography
         align="center"
         color="textPrimary"
         variant="body1"
       >
-        {project.description}
+        {project.presupuesto}
       </Typography>
     </CardContent>
     <Box sx={{ flexGrow: 1 }} />

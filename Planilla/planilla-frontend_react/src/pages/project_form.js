@@ -123,6 +123,30 @@ const Register = () => {
                 value={formik.values.paymentMethod}
                 variant="outlined"
             />
+            <TextField
+                error={Boolean(formik.touched.budget && formik.errors.maxNumberBenefits)}
+                fullWidth
+                helperText={formik.touched.budget && formik.errors.paymentMethod}
+                label="Max number of benefits"
+                margin="normal"
+                name="maxNumberBenefits"
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                value={formik.values.maxNumberBenefits}
+                variant="outlined"
+            />
+            <TextField
+                error={Boolean(formik.touched.budget && formik.errors.maxBenefitsBudget)}
+                fullWidth
+                helperText={formik.touched.budget && formik.errors.paymentMethod}
+                label="Max benefits budget"
+                margin="normal"
+                name="maxBenefitsBudget"
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                value={formik.values.maxBenefitsBudget}
+                variant="outlined"
+            />
             <Box
               sx={{
                 alignItems: 'center',
