@@ -28,6 +28,7 @@ const Login = () => {
           'Password is required')
     }),
     onSubmit: () => {
+      sessionStorage.setItem("email", formik.values.email);
       router.push('/');
     }
   });
