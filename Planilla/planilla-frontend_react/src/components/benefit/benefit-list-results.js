@@ -2,17 +2,17 @@ import { useState } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
 import {
-    Avatar,
-    Box,
-    Card,
-    Checkbox,
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TablePagination,
-    TableRow,
-    Typography
+  Avatar,
+  Box,
+  Card,
+  Checkbox,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TablePagination,
+  TableRow,
+  Typography
 } from '@mui/material';
 import { getInitials } from '../../utils/get-initials';
 
@@ -21,45 +21,45 @@ export const BenefitListResults = ({ benefits, ...rest }) => {
   const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(0);
 
-    const handleSelectAll = (event) => {
-        let newSelectedBenefitIds;
+  const handleSelectAll = (event) => {
+    let newSelectedBenefitIds;
 
     if (event.target.checked) {
       newSelectedBenefitIds = benefits.map((benefit) => benefit.benefitName);
     } else {
       newSelectedBenefitIds = [];
     }
+    setSelectedBenefitIds(newSelectedBenefitIds);
+  };
 
-        setSelectedBenefitIds(newSelectedBenefitIds);
-    };
+  const handleSelectOne = (event, id) => {
+    const selectedIndex = selectedBenefitIds.indexOf(id);
+    let newSelectedBenefitIds = [];
 
-    const handleSelectOne = (event, id) => {
-        const selectedIndex = selectedBenefitIds.indexOf(id);
-        let newSelectedBenefitIds = [];
+    if (selectedIndex === -1) {
+      newSelectedBenefitIds = newSelectedBenefitIds.concat(selectedBenefitIds, id);
+    } else if (selectedIndex === 0) {
+      newSelectedBenefitIds = newSelectedBenefitIds.concat(selectedBenefitIds.slice(1));
+    } else if (selectedIndex === selectedBenefitIds.length - 1) {
+      newSelectedBenefitIds = newSelectedBenefitIds.concat(selectedBenefitIds.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelectedBenefitIds = newSelectedBenefitIds.concat(
+        selectedBenefitIds.slice(0, selectedIndex),
+        selectedBenefitIds.slice(selectedIndex + 1)
+      );
+    }
 
-        if (selectedIndex === -1) {
-            newSelectedBenefitIds = newSelectedBenefitIds.concat(selectedBenefitIds, id);
-        } else if (selectedIndex === 0) {
-            newSelectedBenefitIds = newSelectedBenefitIds.concat(selectedBenefitIds.slice(1));
-        } else if (selectedIndex === selectedBenefitIds.length - 1) {
-            newSelectedBenefitIds = newSelectedBenefitIds.concat(selectedBenefitIds.slice(0, -1));
-        } else if (selectedIndex > 0) {
-            newSelectedBenefitIds = newSelectedBenefitIds.concat(
-                selectedBenefitIds.slice(0, selectedIndex),
-                selectedBenefitIds.slice(selectedIndex + 1)
-            );
-        }
+    setSelectedBenefitIds(newSelectedBenefitIds);
+  };
 
-        setSelectedBenefitIds(newSelectedBenefitIds);
-    };
+  const handleLimitChange = (event) => {
+    setLimit(event.target.value);
+    setPage(0);
+  };
 
-    const handleLimitChange = (event) => {
-        setLimit(event.target.value);
-    };
-
-    const handlePageChange = (event, newPage) => {
-        setPage(newPage);
-    };
+  const handlePageChange = (event, newPage) => {
+    setPage(newPage);
+  };
 
   return (
     <Card {...rest}>
@@ -94,7 +94,7 @@ export const BenefitListResults = ({ benefits, ...rest }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {benefits.slice(0, limit).map((benefit) => (
+              {benefits.slice(page * limit, page * limit + limit).map(benefit => (
                 <TableRow
                   hover
                   key={benefit.benefitName + benefit.projectName + benefit.employerID}
@@ -157,5 +157,5 @@ export const BenefitListResults = ({ benefits, ...rest }) => {
 };
 
 BenefitListResults.propTypes = {
-    benefits: PropTypes.array.isRequired
+  benefits: PropTypes.array.isRequired
 };

@@ -29,17 +29,6 @@ const CreateBenefit = () => {
         .max(255)
         .required(
           'Benefit name is required'),
-      projectName: Yup
-        .string()
-        .max(255)
-        .required(
-          'Project name is required'),
-      employerID: Yup
-        .string()
-        .min(10)
-        .max(10)
-        .required(
-          'Employer ID is required'),
       description: Yup
         .string()
         .max(255),
@@ -50,8 +39,8 @@ const CreateBenefit = () => {
     onSubmit: values => {
       var data = {
         benefitName: values.benefitName,
-        projectName: values.projectName,
-        employerID: values.employerID,
+        projectName: sessionStorage.getItem("project"),
+        employerID: sessionStorage.getItem("employerID"),
         description: values.description,
         cost: values.cost
       };
@@ -113,30 +102,6 @@ const CreateBenefit = () => {
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               value={formik.values.benefitName}
-              variant="outlined"
-            />
-            <TextField
-              error={Boolean(formik.touched.projectName && formik.errors.projectName)}
-              fullWidth
-              helperText={formik.touched.projectName && formik.errors.projectName}
-              label="Project Name"
-              margin="normal"
-              name="projectName"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.projectName}
-              variant="outlined"
-            />
-            <TextField
-              error={Boolean(formik.touched.employerID && formik.errors.employerID)}
-              fullWidth
-              helperText={formik.touched.employerID && formik.errors.employerID}
-              label="Employeer ID"
-              margin="normal"
-              name="employerID"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.employerID}
               variant="outlined"
             />
             <TextField

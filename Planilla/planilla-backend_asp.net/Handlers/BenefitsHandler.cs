@@ -18,9 +18,9 @@ namespace planilla_backend_asp.net.Handlers
     private DataTable CreateTableConsult(SqlDataAdapter tableAdapter)
     {
       DataTable consultTable = new DataTable();
-      conexion.Open();
+      connection.Open();
       tableAdapter.Fill(consultTable);
-      conexion.Close();
+      connection.Close();
 
       return consultTable;
     }
@@ -32,9 +32,9 @@ namespace planilla_backend_asp.net.Handlers
                       FROM Benefits JOIN Users on Benefits.EmployerID = Users.Identification
                       WHERE Email = @email AND ProjectName = @project
                       ORDER BY BenefitName";
-      var queryCommand = new SqlCommand(consult, conexion);
+      var queryCommand = new SqlCommand(consult, connection);
 
-      // Uses user's email to get only benefits related to that user
+      // Uses user's email and the name of the active project to get only related benefits
       queryCommand.Parameters.AddWithValue("@email", email);
       queryCommand.Parameters.AddWithValue("@project", project);
 
@@ -86,10 +86,10 @@ namespace planilla_backend_asp.net.Handlers
       }
 
       connection.Open();
-      bool exito = queryCommand.ExecuteNonQuery() >= 1;
+      bool status = queryCommand.ExecuteNonQuery() >= 1;
       connection.Close();
 
-      return exito;
+      return status;
     }
   }
 }

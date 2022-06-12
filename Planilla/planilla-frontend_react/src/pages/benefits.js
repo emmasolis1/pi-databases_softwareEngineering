@@ -15,6 +15,11 @@ class Benefits extends React.Component {
     };
   }
   componentDidMount() {
+    // -------------------------------------------------------------------
+    // Eliminar esta linea cuando la conexión con los proyectos esté lista
+    sessionStorage.setItem("project", "TaBueno Planilla CR");
+    // -------------------------------------------------------------------
+    
     axios.get(this.state.APIUrl + "?email=" + sessionStorage.getItem("email") + "&project=" + sessionStorage.getItem("project")).then(response => {
       this.setState({ benefits: response.data });
     });
