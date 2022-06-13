@@ -26,7 +26,7 @@ namespace planilla_backend_asp.net.Handlers
                   new VoluntaryDeductionsModel
                   {
                       VoluntaryDeductionName = Convert.ToString(columna["VoluntaryDeductionName"]),
-                      ProjectName = Convert.ToString("ProjectName"),
+                      ProjectName = Convert.ToString(columna["ProjectName"]),
                       EmployerID = Convert.ToString(columna["EmployerID"]),
                       Description = Convert.ToString(columna["Description"])
                   });
