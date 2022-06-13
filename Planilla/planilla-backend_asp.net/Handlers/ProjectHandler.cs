@@ -55,5 +55,68 @@ namespace planilla_backend_asp.net.Handlers
 
       return projects;
     }
+
+    public bool CreateProject(ProjectModel project)
+    {
+      var consult = @"INSERT INTO Projects ([ProjectName], [EmployerID], [Budget], [PaymentMethod], [Description], [MaxNumberOfBenefits], [MaxBudgetForBenefits]) 
+                      VALUES (@projectName, @employerID, @budget, @paymentMethod, @description, @maxNumberOfBenefits, @maxBudgetForBenefits)";
+      var queryCommand = new SqlCommand(consult, connection);
+
+      // Insertion of key attributes
+      queryCommand.Parameters.AddWithValue("@projectName", project.projectName);
+      queryCommand.Parameters.AddWithValue("@employerID", project.employerID);
+
+      // Insertion of optional attributes
+      if (project.budget != null && project.budget != "")
+      {
+        queryCommand.Parameters.AddWithValue("@budget", project.budget);
+      }
+      else
+      {
+        queryCommand.Parameters.AddWithValue("@budget", DBNull.Value);
+      }
+
+      if (project.paymentMethod != null && project.paymentMethod != "")
+      {
+        queryCommand.Parameters.AddWithValue("@paymentMethod", project.paymentMethod);
+      }
+      else
+      {
+        queryCommand.Parameters.AddWithValue("@paymentMethod", DBNull.Value);
+      }
+
+      if (project.description != null && project.description != "")
+      {
+        queryCommand.Parameters.AddWithValue("@description", project.description);
+      }
+      else
+      {
+        queryCommand.Parameters.AddWithValue("@description", DBNull.Value);
+      }
+
+      if (project.maxNumberOfBenefits != null && project.maxNumberOfBenefits != "")
+      {
+        queryCommand.Parameters.AddWithValue("@maxNumberOfBenefits", project.maxNumberOfBenefits);
+      }
+      else
+      {
+        queryCommand.Parameters.AddWithValue("@maxNumberOfBenefits", DBNull.Value);
+      }
+
+      if (project.maxBudgetForBenefits != null && project.maxBudgetForBenefits != "")
+      {
+        queryCommand.Parameters.AddWithValue("@maxBudgetForBenefits", project.maxBudgetForBenefits);
+      }
+      else
+      {
+        queryCommand.Parameters.AddWithValue("@maxBudgetForBenefits", DBNull.Value);
+      }
+
+      connection.Open();
+      bool status = queryCommand.ExecuteNonQuery() >= 1;
+      connection.Close();
+
+      return status;
+    }
   }
 }

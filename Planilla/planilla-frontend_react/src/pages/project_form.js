@@ -19,21 +19,41 @@ const Register = () => {
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
-      email: '',
-      projectTitle: '',
+      projectName: '',
+      employerID: '',
       budget: '',
-      password: '',
-      policy: false
+      paymentMethod: '',
+      description: '',
+      maxNumberOfBenefits: '',
+      maxBudgetForBenefits: ''
     },
     validationSchema: Yup.object({
-      projectTitle: Yup
+      projectName: Yup
         .string()
         .max(255)
         .required(
-          'Project title is required')
+          'Project name is required')
     }),
-    onSubmit: () => {
-      router.push('/');
+    onSubmit: values => {
+      var data = {
+        projectName: values.projectName,
+        employerID: sessionStorage.getItem("employerID"),
+        budget: values.budget,
+        paymentMethod: values.paymentMethod,
+        description: values.description,
+        maxNumberOfBenefits: values.maxNumberOfBenefits,
+        maxBudgetForBenefits: values.maxBudgetForBenefits
+      };
+      axios.post('https://localhost:7150/api/projects', data)
+        .catch(function (error) {
+          if (error.response) {
+            // The client was given an error response (5xx, 4xx)
+            alert("Error: Project may already exist, returning to project list");
+          } else {
+            alert("Error: Unknown error occurred, returning to project list");
+          }
+          router.push('/projects')
+        });
     }
   });
 
@@ -73,30 +93,42 @@ const Register = () => {
               >
                 Create a new project
               </Typography>
-             
+
             </Box>
             <TextField
-              error={Boolean(formik.touched.projectTitle && formik.errors.projectTitle)}
+              error={Boolean(formik.touched.projectName && formik.errors.projectName)}
               fullWidth
-              helperText={formik.touched.projectTitle && formik.errors.projectTitle}
-              label="Project Title"
+              helperText={formik.touched.projectName && formik.errors.projectName}
+              label="Project Name"
               margin="normal"
-              name="projectTitle"
+              name="projectName"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              value={formik.values.projectTitle}
+              value={formik.values.projectName}
               variant="outlined"
             />
             <TextField
-              error={Boolean(formik.touched.budget && formik.errors.shortDescription)}
+              error={Boolean(formik.touched.description && formik.errors.description)}
               fullWidth
-              helperText={formik.touched.budget && formik.errors.shortDescription}
+              helperText={formik.touched.description && formik.errors.description}
               label="Short description"
               margin="normal"
-              name="shortDescription"
+              name="description"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              value={formik.values.shortDescription}
+              value={formik.values.description}
+              variant="outlined"
+            />
+            <TextField
+              error={Boolean(formik.touched.paymentMethod && formik.errors.paymentMethod)}
+              fullWidth
+              helperText={formik.touched.paymentMethod && formik.errors.paymentMethod}
+              label="Payment Method"
+              margin="normal"
+              name="paymentMethod"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.paymentMethod}
               variant="outlined"
             />
             <TextField
@@ -112,40 +144,28 @@ const Register = () => {
               variant="outlined"
             />
             <TextField
-                error={Boolean(formik.touched.budget && formik.errors.paymentMethod)}
-                fullWidth
-                helperText={formik.touched.budget && formik.errors.paymentMethod}
-                label="Payment Method"
-                margin="normal"
-                name="paymentMethod"
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                value={formik.values.paymentMethod}
-                variant="outlined"
+              error={Boolean(formik.touched.maxNumberOfBenefits && formik.errors.maxNumberOfBenefits)}
+              fullWidth
+              helperText={formik.touched.maxNumberOfBenefits && formik.errors.maxNumberOfBenefits}
+              label="Max number of benefits"
+              margin="normal"
+              name="maxNumberOfBenefits"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.maxNumberOfBenefits}
+              variant="outlined"
             />
             <TextField
-                error={Boolean(formik.touched.budget && formik.errors.maxNumberBenefits)}
-                fullWidth
-                helperText={formik.touched.budget && formik.errors.paymentMethod}
-                label="Max number of benefits"
-                margin="normal"
-                name="maxNumberBenefits"
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                value={formik.values.maxNumberBenefits}
-                variant="outlined"
-            />
-            <TextField
-                error={Boolean(formik.touched.budget && formik.errors.maxBenefitsBudget)}
-                fullWidth
-                helperText={formik.touched.budget && formik.errors.paymentMethod}
-                label="Max benefits budget"
-                margin="normal"
-                name="maxBenefitsBudget"
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                value={formik.values.maxBenefitsBudget}
-                variant="outlined"
+              error={Boolean(formik.touched.maxBudgetForBenefits && formik.errors.maxBudgetForBenefits)}
+              fullWidth
+              helperText={formik.touched.maxBudgetForBenefits && formik.errors.maxBudgetForBenefits}
+              label="Max budget for benefits"
+              margin="normal"
+              name="maxBudgetForBenefits"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.maxBudgetForBenefits}
+              variant="outlined"
             />
             <Box
               sx={{
@@ -154,7 +174,7 @@ const Register = () => {
                 ml: -1
               }}
             >
-             
+
             </Box>
             <Box sx={{ py: 2 }}>
               <Button
