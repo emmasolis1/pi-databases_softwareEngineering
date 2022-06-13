@@ -1,77 +1,81 @@
 import Head from 'next/head';
+import React from 'react';
+import axios from 'axios';
 import { Box, Container, Grid, Pagination } from '@mui/material';
-import { projects } from '../__mocks__/projects';
 import { ProjectListToolbar } from '../components/project/project-list-toolbar';
 import { ProjectCard } from '../components/project/project-card';
 import { DashboardLayout } from '../components/dashboard-layout';
-import { useState } from 'react';
-import { useEffect } from 'react';
 
-const Projects = () => { 
-    const [customers, setCustomers] = useState(null);
+class Projects extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            projects: [],
+            APIUrl: 'https://localhost:7150/api/projects',
+        };
+    }
 
-useEffect(() => {
-    const getCustomers = async () => {
-        const response = await fetch('https://localhost:7150/api/projects');
-        const data = await response.json();
-        setCustomers(data);
-    };
+    componentDidMount() {
+        // -------------------------------------------------------------------
+        // Eliminar esta linea cuando la conexión con los proyectos esté lista
+        sessionStorage.setItem("project", "TaBueno Planilla CR");
+        sessionStorage.setItem("employerID", "0116800871");
+        // -------------------------------------------------------------------
 
-    getCustomers();
-}, []);
+        axios.get(this.state.APIUrl + "?employerID=" + sessionStorage.getItem("employerID")).then(response => {
+            this.setState({ projects: response.data });
+        });
+    }
 
-return (
-    <>
-        <Head>
-            <title>
-                Projects | Material Kit
-            </title>
-        </Head>
-        <Box
-            component="main"
-            sx={{
-                flexGrow: 1,
-                py: 8
-            }}
-        >
-            <Container maxWidth={false}>
-                <ProjectListToolbar />
-                <Box sx={{ pt: 3 }}>
-                    <Grid
-                        container
-                        spacing={3}
-                    >
-                        {projects.map((project) => (
-                            <Grid
-                                item
-                                key={project.id}
-                                lg={4}
-                                md={6}
-                                xs={12}
-                            >
-                                <ProjectCard project={projects} />
-                            </Grid>
-                        ))}
-                    </Grid>
-                </Box>
+    render() {
+        return (
+            <>
+                <Head>
+                    <title>
+                        Projects | Material Kit
+                    </title>
+                </Head>
                 <Box
+                    component="main"
                     sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        pt: 3
+                        flexGrow: 1,
+                        py: 8
                     }}
                 >
-                    <Pagination
-                        color="primary"
-                        count={3}
-                        size="small"
-                    />
+                    <Container maxWidth={false}>
+                        <ProjectListToolbar />
+                        <Box sx={{ pt: 3 }}>
+                            <Grid
+                                container
+                                spacing={3}
+                            >
+                                {this.state.projects.map((project) => (
+                                    <Grid
+                                        item
+                                        key={project.projectName + project.employerID}
+                                        lg={4}
+                                        md={6}
+                                        xs={12}
+                                    >
+                                        <ProjectCard project={project} />
+                                    </Grid>
+                                ))}
+                            </Grid>
+                        </Box>
+                        <Box
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                pt: 3
+                            }}
+                        >
+                        </Box>
+                    </Container>
                 </Box>
-            </Container>
-        </Box>
-    </>
-);
-};
+            </>
+        );
+    }
+}
 
 Projects.getLayout = (page) => (
     <DashboardLayout>
