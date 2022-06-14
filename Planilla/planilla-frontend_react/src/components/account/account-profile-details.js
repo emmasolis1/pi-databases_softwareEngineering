@@ -25,7 +25,7 @@ const states = [
   }
 ];
 
-export const AccountProfileDetails = (props) => {
+export const AccountProfileDetails = ({user, ...props}) => {
   const [values, setValues] = useState({
     firstName: 'Katarina',
     lastName: 'Smith',
@@ -68,10 +68,10 @@ export const AccountProfileDetails = (props) => {
                 fullWidth
                 helperText="Please specify the first name"
                 label="First name"
-                name="firstName"
+                name="FirstName"
                 onChange={handleChange}
                 required
-                value={values.firstName}
+                value={user.FirstName}
                 variant="outlined"
               />
             </Grid>
@@ -83,10 +83,10 @@ export const AccountProfileDetails = (props) => {
               <TextField
                 fullWidth
                 label="Last name"
-                name="lastName"
+                name="LastName"
                 onChange={handleChange}
                 required
-                value={values.lastName}
+                value={user.LastName}
                 variant="outlined"
               />
             </Grid>
@@ -98,10 +98,10 @@ export const AccountProfileDetails = (props) => {
               <TextField
                 fullWidth
                 label="Email Address"
-                name="email"
+                name="Email"
                 onChange={handleChange}
                 required
-                value={values.email}
+                value={user.Email}
                 variant="outlined"
               />
             </Grid>
@@ -115,8 +115,8 @@ export const AccountProfileDetails = (props) => {
                 label="Phone Number"
                 name="phone"
                 onChange={handleChange}
-                type="number"
-                value={values.phone}
+                type="Phone"
+                value={user.Phone}
                 variant="outlined"
               />
             </Grid>
@@ -128,10 +128,10 @@ export const AccountProfileDetails = (props) => {
               <TextField
                 fullWidth
                 label="Country"
-                name="country"
+                name="Country"
                 onChange={handleChange}
                 required
-                value={values.country}
+                value={user.Country}
                 variant="outlined"
               />
             </Grid>
@@ -143,12 +143,12 @@ export const AccountProfileDetails = (props) => {
               <TextField
                 fullWidth
                 label="Select State"
-                name="state"
+                name="State"
                 onChange={handleChange}
                 required
                 select
                 SelectProps={{ native: true }}
-                value={values.state}
+                value={user.State}
                 variant="outlined"
               >
                 {states.map((option) => (
