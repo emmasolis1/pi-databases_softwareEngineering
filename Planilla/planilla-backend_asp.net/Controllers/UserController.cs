@@ -45,9 +45,9 @@ namespace planilla_backend_asp.net.Controllers
         }
     }
 
-    [HttpGet]
+    [HttpPost]
     [Route("editProfile")]
-    public ActionResult EditEmployeeProfile([FromForm] String id)
+    public ActionResult EditEmployeeProfile([FromBody] ReciberModel id)
     {
         try
         {
@@ -64,7 +64,7 @@ namespace planilla_backend_asp.net.Controllers
 
     [HttpPut]
     [Route("editProfile")]
-    public ActionResult EditEmployeeProfile([FromForm] UserEmployeeInfoToModify employee)
+    public ActionResult EditEmployeeProfile([FromBody] UserEmployeeInfoToModify employee)
     {
       try
       {

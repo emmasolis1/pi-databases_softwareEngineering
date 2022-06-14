@@ -39,4 +39,9 @@
         public string ZipCode { get; set; }
         public string Phone { get; set; }
     }
+
+    public class ReciberModel
+    {
+        public string id { get; set; }
+    }
 }

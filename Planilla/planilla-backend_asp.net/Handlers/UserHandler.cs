@@ -169,9 +169,9 @@ namespace planilla_backend_asp.net.Handlers
         conexion.Close();
     }
 
-    public DataTable GetEmployeeInfo(string id)
+    public DataTable GetEmployeeInfo(ReciberModel id)
     {
-      string consult = "select Identification, FirstName, LastName, LastName2, Email, Country, State, City, ZipCode, Address, Phone from Users where Identification =" + "'" + id + "'";
+      string consult = "select Identification, FirstName, LastName, LastName2, Email, Country, State, City, ZipCode, Address, Phone from Users where Identification =" + "'" + id.id + "'";
       DataTable tableResult = CreateTableConsult(consult);
       return tableResult;
     }
