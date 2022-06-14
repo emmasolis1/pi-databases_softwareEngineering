@@ -16,9 +16,9 @@ class Account extends React.Component {
   }
 
   componentDidMount() {
-    //var bodyData = {id: localStorage.getItem('id')};
-    var bodyData = {id: "1234567899"};
-    axios.post(this.state.APIUrl, bodyData).then(response => {
+    // var data = {id: localStorage.getItem('id')};
+    var data = {id: "1234567899"};
+    axios.post(this.state.APIUrl, data).then(response => {
       this.setState({ user: (response.data)[0] });
     });
   }
