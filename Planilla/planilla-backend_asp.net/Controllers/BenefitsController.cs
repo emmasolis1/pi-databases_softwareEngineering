@@ -21,7 +21,7 @@ namespace planilla_backend_asp.net.Controllers
     [Route("benefits")]
     public ActionResult CreateBenefit([FromBody] BenefitsModel benefit)
     {
-      // Create new employee
+      // Create new benefit
       BenefitsHandler handler = new BenefitsHandler();
       handler.CreateBenefit(benefit);
       return Ok();
