@@ -168,5 +168,32 @@ namespace planilla_backend_asp.net.Handlers
         queryCommand.ExecuteNonQuery();
         conexion.Close();
     }
+
+    public DataTable GetEmployeeInfo(string id)
+    {
+      string consult = "select Identification, FirstName, LastName, LastName2, Email, Country, State, City, ZipCode, Address, Phone from Users where Identification =" + "'" + id + "'";
+      DataTable tableResult = CreateTableConsult(consult);
+      return tableResult;
+    }
+
+    public void UpdateEmployeeInfo(UserEmployeeInfoToModify info)
+    {
+      // Prepare command
+      string consult = "update Users set [Email] = @Email, [Country] = @Country, [State] = @State, [City] = @City, [Address] = @Address, [ZipCode] = @ZipCode, [Phone] = @Phone where [Identification] = @Identification";
+      SqlCommand queryCommand = new SqlCommand(consult, conexion);
+      queryCommand.Parameters.AddWithValue("@Email", info.Email);
+      queryCommand.Parameters.AddWithValue("@Country", info.Country);
+      queryCommand.Parameters.AddWithValue("@State", info.State);
+      queryCommand.Parameters.AddWithValue("@City", info.City);
+      queryCommand.Parameters.AddWithValue("@Address", info.Address);
+      queryCommand.Parameters.AddWithValue("@ZipCode", info.ZipCode);
+      queryCommand.Parameters.AddWithValue("@Phone", info.Phone);
+      queryCommand.Parameters.AddWithValue("@Identification", info.Identification);
+
+      // Execute command
+      conexion.Open();
+      queryCommand.ExecuteNonQuery();
+      conexion.Close();
+    }
   }
 }
