@@ -34,7 +34,9 @@ const CreateBenefit = () => {
         .max(255),
       cost: Yup
         .string()
-        .max(8)
+        .max(24)
+        .required(
+          'Benefit cost is required'),
     }),
     onSubmit: values => {
       var data = {
@@ -45,6 +47,10 @@ const CreateBenefit = () => {
         cost: values.cost
       };
       axios.post('https://localhost:7150/api/benefits', data)
+        .then(function () {
+          alert("Benefit successfully created, returning to benefit list");
+          router.push('/benefits');
+        })
         .catch(function (error) {
           if (error.response) {
             // The client was given an error response (5xx, 4xx)
@@ -52,7 +58,7 @@ const CreateBenefit = () => {
           } else {
             alert("Error: Unknown error occurred, returning to benefit list");
           }
-          router.push('/benefits')
+          router.push('/benefits');
         });
     }
   });
