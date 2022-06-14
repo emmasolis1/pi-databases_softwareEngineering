@@ -11,7 +11,7 @@ class Account extends React.Component {
     super(props);
     this.state = {
       user: [],
-      APIUrl: 'https://localhost:7150/api/editProfile',
+      APIUrl: 'https://localhost:7150/api/account',
     };
   }
 

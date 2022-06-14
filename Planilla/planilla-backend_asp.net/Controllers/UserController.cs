@@ -46,7 +46,7 @@ namespace planilla_backend_asp.net.Controllers
     }
 
     [HttpPost]
-    [Route("editProfile")]
+    [Route("account")]
     public ActionResult EditEmployeeProfile([FromBody] ReciberModel id)
     {
         try
@@ -63,7 +63,7 @@ namespace planilla_backend_asp.net.Controllers
     }
 
     [HttpPut]
-    [Route("editProfile")]
+    [Route("account")]
     public ActionResult EditEmployeeProfile([FromBody] UserEmployeeInfoToModify employee)
     {
       try
