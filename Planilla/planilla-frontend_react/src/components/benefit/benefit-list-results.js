@@ -29,7 +29,6 @@ export const BenefitListResults = ({ benefits, ...rest }) => {
     } else {
       newSelectedBenefitIds = [];
     }
-
     setSelectedBenefitIds(newSelectedBenefitIds);
   };
 
@@ -55,6 +54,7 @@ export const BenefitListResults = ({ benefits, ...rest }) => {
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
+    setPage(0);
   };
 
   const handlePageChange = (event, newPage) => {
@@ -83,9 +83,6 @@ export const BenefitListResults = ({ benefits, ...rest }) => {
                   Name
                 </TableCell>
                 <TableCell>
-                  Project Name
-                </TableCell>
-                <TableCell>
                   Description
                 </TableCell>
                 <TableCell>
@@ -94,7 +91,7 @@ export const BenefitListResults = ({ benefits, ...rest }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {benefits.slice(0, limit).map((benefit) => (
+              {benefits.slice(page * limit, page * limit + limit).map(benefit => (
                 <TableRow
                   hover
                   key={benefit.benefitName + benefit.projectName + benefit.employerID}
@@ -127,9 +124,6 @@ export const BenefitListResults = ({ benefits, ...rest }) => {
                         {benefit.benefitName}
                       </Typography>
                     </Box>
-                  </TableCell>
-                  <TableCell>
-                    {benefit.projectName}
                   </TableCell>
                   <TableCell>
                     {benefit.description}

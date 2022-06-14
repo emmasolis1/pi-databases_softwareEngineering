@@ -39,7 +39,6 @@ namespace planilla_backend_asp.net.Handlers
       return employees;
     }
 
-
     private DataTable CreateTableConsult(string consult)
     {
       SqlCommand queryCommand = new SqlCommand(consult, conexion);
@@ -50,6 +49,24 @@ namespace planilla_backend_asp.net.Handlers
       adaptadorParaTabla.Fill(tableFormatConsult);
       conexion.Close();
       return tableFormatConsult;
+    }
+
+    public string GetEmployerID(string email)
+    {
+      var employerID = "";
+      var consult = @"SELECT Identification
+                      FROM Users
+                      WHERE Email = @email";
+      var queryCommand = new SqlCommand(consult, conexion);
+
+      // Uses user's email to get their ID
+      queryCommand.Parameters.AddWithValue("@email", email);
+
+      conexion.Open();
+      employerID = Convert.ToString(queryCommand.ExecuteScalar());
+      conexion.Close();
+
+      return employerID;
     }
 
     public void CreateEmployee(UserModel employee)

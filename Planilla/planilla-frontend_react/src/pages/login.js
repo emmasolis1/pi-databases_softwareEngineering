@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import axios from 'axios';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
@@ -28,7 +29,12 @@ const Login = () => {
           'Password is required')
     }),
     onSubmit: () => {
+      // Stores the user's email and uses it to get their ID and stores it on sessionStorage
       sessionStorage.setItem("email", formik.values.email);
+      axios.get('https://localhost:7150/api/getEmployerID' + "?email=" + sessionStorage.getItem("email")).then(response => {
+        sessionStorage.setItem("employerID", response.data);
+      });
+
       router.push('/');
     }
   });

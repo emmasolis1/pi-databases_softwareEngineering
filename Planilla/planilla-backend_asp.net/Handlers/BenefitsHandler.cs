@@ -6,37 +6,37 @@ namespace planilla_backend_asp.net.Handlers
 {
   public class BenefitsHandler
   {
-    private static SqlConnection conexion;
-    private string rutaConexion;
+    private static SqlConnection connection;
+    private string connectionRoute;
     public BenefitsHandler()
     {
       var builder = WebApplication.CreateBuilder();
-      rutaConexion = builder.Configuration.GetConnectionString("EmpleadorContext");
-      conexion = new SqlConnection(rutaConexion);
+      connectionRoute = builder.Configuration.GetConnectionString("EmpleadorContext");
+      connection = new SqlConnection(connectionRoute);
     }
 
     private DataTable CreateTableConsult(SqlDataAdapter tableAdapter)
     {
       DataTable consultTable = new DataTable();
-      conexion.Open();
+      connection.Open();
       tableAdapter.Fill(consultTable);
-      conexion.Close();
+      connection.Close();
 
       return consultTable;
     }
 
-    public List<BenefitsModel> GetBenefitsData(string email, string project)
+    public List<BenefitsModel> GetBenefitsData(string project, string employerID)
     {
       List<BenefitsModel> benefits = new List<BenefitsModel>();
       var consult = @"SELECT BenefitName, ProjectName, EmployerID, Description, Cost
-                      FROM Benefits JOIN Users on Benefits.EmployerID = Users.Identification
-                      WHERE Email = @email AND ProjectName = @project
+                      FROM Benefits
+                      WHERE ProjectName = @project AND EmployerID = @employerID
                       ORDER BY BenefitName";
-      var queryCommand = new SqlCommand(consult, conexion);
+      var queryCommand = new SqlCommand(consult, connection);
 
-      // Uses user's email to get only benefits related to that user
-      queryCommand.Parameters.AddWithValue("@email", email);
+      // Uses user's email and the name of the active project to get only related benefits
       queryCommand.Parameters.AddWithValue("@project", project);
+      queryCommand.Parameters.AddWithValue("@employerID", employerID);
 
       SqlDataAdapter tableAdapter = new SqlDataAdapter(queryCommand);
       DataTable tablaResultado = CreateTableConsult(tableAdapter);
@@ -53,6 +53,43 @@ namespace planilla_backend_asp.net.Handlers
       }
 
       return benefits;
+    }
+
+    public bool CreateBenefit(BenefitsModel benefit)
+    {
+      var consult = @"INSERT INTO Benefits ([BenefitName], [ProjectName], [EmployerID], [Description], [Cost]) 
+                      VALUES (@benefitName, @projectName, @employerID, @description, @cost)";
+      var queryCommand = new SqlCommand(consult, connection);
+
+      // Insertion of key attributes
+      queryCommand.Parameters.AddWithValue("@benefitName", benefit.benefitName);
+      queryCommand.Parameters.AddWithValue("@projectName", benefit.projectName);
+      queryCommand.Parameters.AddWithValue("@employerID", benefit.employerID);
+
+      // Insertion of optional attributes
+      if (benefit.description != null && benefit.description != "")
+      {
+        queryCommand.Parameters.AddWithValue("@description", benefit.description);
+      }
+      else
+      {
+        queryCommand.Parameters.AddWithValue("@description", DBNull.Value);
+      }
+
+      if (benefit.cost != null && benefit.cost != "")
+      {
+        queryCommand.Parameters.AddWithValue("@cost", benefit.cost);
+      }
+      else
+      {
+        queryCommand.Parameters.AddWithValue("@cost", DBNull.Value);
+      }
+
+      connection.Open();
+      bool status = queryCommand.ExecuteNonQuery() >= 1;
+      connection.Close();
+
+      return status;
     }
   }
 }

@@ -1,18 +1,30 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using planilla_backend_asp.net.Models;
 using planilla_backend_asp.net.Handlers;
 
 namespace planilla_backend_asp.net.Controllers
 {
-  [Route("api/[controller]")]
+  [Route("api/")]
   [ApiController]
   public class BenefitsController : ControllerBase
   {
     [HttpGet]
-    public ActionResult GetBenefits(string email, string project)
+    [Route("benefits")]
+    public ActionResult GetBenefits(string project, string employerID)
     {
       var handler = new BenefitsHandler();
-      var data = handler.GetBenefitsData(email, project);
+      var data = handler.GetBenefitsData(project, employerID);
       return Ok(data);
+    }
+
+    [HttpPost]
+    [Route("benefits")]
+    public ActionResult CreateBenefit([FromBody] BenefitsModel benefit)
+    {
+      // Create new benefit
+      BenefitsHandler handler = new BenefitsHandler();
+      handler.CreateBenefit(benefit);
+      return Ok();
     }
   }
 }
