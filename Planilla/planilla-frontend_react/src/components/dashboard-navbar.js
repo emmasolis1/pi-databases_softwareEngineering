@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { AppBar, Avatar, Badge, Box, IconButton, Toolbar, Tooltip } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
+import NextLink from 'next/link';
 import { Bell as BellIcon } from '../icons/bell';
 import { UserCircle as UserCircleIcon } from '../icons/user-circle';
 import { Users as UsersIcon } from '../icons/users';
@@ -68,16 +69,25 @@ export const DashboardNavbar = (props) => {
               </Badge>
             </IconButton>
           </Tooltip>
-          <Avatar
-            sx={{
-              height: 40,
-              width: 40,
-              ml: 1
-            }}
-            src="/static/images/avatars/avatar_1.png"
+          <NextLink
+            href="/edit_profile"
+            passHref
           >
-            <UserCircleIcon fontSize="small" />
-          </Avatar>
+            <Tooltip title="Edit Profile">
+              <IconButton sx={{ ml: 1 }}>
+                <Avatar
+                sx={{
+                  height: 40,
+                  width: 40,
+                  ml: 1
+                }}
+                src="/static/images/avatars/avatar_1.png"
+                >
+                  <UserCircleIcon fontSize="medium" />
+                </Avatar>
+              </IconButton>
+            </Tooltip>
+          </NextLink>
         </Toolbar>
       </DashboardNavbarRoot>
     </>
