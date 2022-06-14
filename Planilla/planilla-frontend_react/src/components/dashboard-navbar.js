@@ -70,7 +70,7 @@ export const DashboardNavbar = (props) => {
             </IconButton>
           </Tooltip>
           <NextLink
-            href="/edit_profile"
+            href="/account"
             passHref
           >
             <Tooltip title="Edit Profile">
