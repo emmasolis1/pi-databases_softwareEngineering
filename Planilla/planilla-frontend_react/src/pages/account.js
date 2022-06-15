@@ -11,6 +11,7 @@ class Account extends React.Component {
     super(props);
     this.state = {
       user: [],
+      isLoaded: false,
       APIUrl: 'https://localhost:7150/api/account',
     };
   }
@@ -19,57 +20,61 @@ class Account extends React.Component {
     // var data = {id: localStorage.getItem('id')};
     var data = {id: "1234567899"};
     axios.post(this.state.APIUrl, data).then(response => {
-      this.setState({ user: (response.data)[0] });
+      this.setState({ isLoaded: true, user: (response.data)[0] });
     });
   }
 
   render() {
-    return (
-      <>
-        <Head>
-          <title>
-            Account | Material Kit
-          </title>
-        </Head>
-        <Box
-          component="main"
-          sx={{
-            flexGrow: 1,
-            py: 8
-          }}
-        >
-          <Container maxWidth="lg">
-            <Typography
-              sx={{ mb: 3 }}
-              variant="h4"
-            >
-              Account
-            </Typography>
-            <Grid
-              container
-              spacing={3}
-            >
-              <Grid
-                item
-                lg={4}
-                md={6}
-                xs={12}
+    if (!this.state.isLoaded) {
+      return <div>Loading...</div>;
+    } else {
+      return (
+        <>
+          <Head>
+            <title>
+              Account | Material Kit
+            </title>
+          </Head>
+          <Box
+            component="main"
+            sx={{
+              flexGrow: 1,
+              py: 8
+            }}
+          >
+            <Container maxWidth="lg">
+              <Typography
+                sx={{ mb: 3 }}
+                variant="h4"
               >
-                <AccountProfile user={this.state.user}/>
-              </Grid>
+                Account
+              </Typography>
               <Grid
-                item
-                lg={8}
-                md={6}
-                xs={12}
+                container
+                spacing={3}
               >
-                <AccountProfileDetails user={this.state.user}/>
+                <Grid
+                  item
+                  lg={4}
+                  md={6}
+                  xs={12}
+                >
+                  <AccountProfile user={this.state.user}/>
+                </Grid>
+                <Grid
+                  item
+                  lg={8}
+                  md={6}
+                  xs={12}
+                >
+                  <AccountProfileDetails user={this.state.user}/>
+                </Grid>
               </Grid>
-            </Grid>
-          </Container>
-        </Box>
-      </>
-    );
+            </Container>
+          </Box>
+        </>
+      );
+    }
   }
 }
 
