@@ -190,10 +190,30 @@ namespace planilla_backend_asp.net.Handlers
       queryCommand.Parameters.AddWithValue("@Phone", info.Phone);
       queryCommand.Parameters.AddWithValue("@Identification", info.Identification);
 
+      // Add optional parameters
+      if (info.Password != null && info.Password != "")
+      {
+        UpdatePassword(info.Identification, info.Password);
+      }
+    // Execute command
+    conexion.Open();
+      queryCommand.ExecuteNonQuery();
+      conexion.Close();
+    }
+
+    private void UpdatePassword(string identification, string newPassowrd)
+    {
+      // Prepare command
+      string consult = "update Users set [Password] = @Password where [Identification] = @Identification";
+      SqlCommand queryCommand = new SqlCommand(consult, conexion);
+      queryCommand.Parameters.AddWithValue("@Password", newPassowrd);
+      queryCommand.Parameters.AddWithValue("@Identification", identification);
+
       // Execute command
       conexion.Open();
       queryCommand.ExecuteNonQuery();
       conexion.Close();
     }
+    
   }
 }
