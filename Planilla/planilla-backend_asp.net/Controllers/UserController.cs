@@ -19,11 +19,11 @@ namespace planilla_backend_asp.net.Controllers
     }
 
     [HttpGet]
-    [Route("getEmployerID")]
-    public ActionResult GetEmployerID(string email)
+    [Route("getUserData")]
+    public ActionResult GetUserData(string email, string password)
     {
       var handler = new UserHandler();
-      var data = handler.GetEmployerID(email);
+      var data = handler.GetUserData(email, password);
       return Ok(data);
     }
 
