@@ -50,6 +50,7 @@ const Login = () => {
               sessionStorage.setItem("employeeID", response.data[0]);
               router.push('/');
             }
+            sessionStorage.setItem("userID", response.data[0]);
           } else {
             alert("Error: User doesn't exist or password is incorrect");
           }
