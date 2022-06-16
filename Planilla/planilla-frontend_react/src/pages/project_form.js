@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import NextLink from 'next/link';
+import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -45,6 +46,10 @@ const Register = () => {
         maxBudgetForBenefits: values.maxBudgetForBenefits
       };
       axios.post('https://localhost:7150/api/projects', data)
+        .then(function () {
+          alert("Project successfully created, returning to project list");
+          router.push('/projects');
+        })
         .catch(function (error) {
           if (error.response) {
             // The client was given an error response (5xx, 4xx)
@@ -52,7 +57,7 @@ const Register = () => {
           } else {
             alert("Error: Unknown error occurred, returning to project list");
           }
-          router.push('/projects')
+          router.push('/projects');
         });
     }
   });

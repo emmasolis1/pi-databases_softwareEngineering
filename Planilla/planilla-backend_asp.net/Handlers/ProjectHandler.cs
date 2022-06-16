@@ -58,6 +58,7 @@ namespace planilla_backend_asp.net.Handlers
 
     public bool CreateProject(ProjectModel project)
     {
+      Console.WriteLine(project.projectName);
       var consult = @"INSERT INTO Projects ([ProjectName], [EmployerID], [Budget], [PaymentMethod], [Description], [MaxNumberOfBenefits], [MaxBudgetForBenefits]) 
                       VALUES (@projectName, @employerID, @budget, @paymentMethod, @description, @maxNumberOfBenefits, @maxBudgetForBenefits)";
       var queryCommand = new SqlCommand(consult, connection);
