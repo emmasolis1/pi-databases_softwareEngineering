@@ -53,5 +53,39 @@ namespace planilla_backend_asp.net.Controllers
             return BadRequest(error.Message);
         }
     }
+
+    [HttpPost]
+    [Route("account")]
+    public ActionResult EditEmployeeProfile([FromBody] ReciberModel id)
+    {
+        try
+        {
+            UserHandler handler = new UserHandler();
+            var data = handler.GetEmployeeInfo(id);
+            return Ok(data);
+        }
+        catch(Exception error)
+        {
+            Console.WriteLine(error);
+            return BadRequest(error.Message);
+        }
+    }
+
+    [HttpPut]
+    [Route("account")]
+    public ActionResult EditEmployeeProfile([FromBody] UserEmployeeInfoToModify employee)
+    {
+      try
+      {
+        UserHandler handler = new UserHandler();
+        handler.UpdateEmployeeInfo(employee);
+        return Ok();
+      }
+      catch(Exception error)
+      {
+        Console.WriteLine(error);
+        return BadRequest(error.Message);
+      }
+    }
   }
 }
