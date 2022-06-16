@@ -15,6 +15,10 @@ import {
   TableRow,
   Typography
 } from '@mui/material';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import EditIcon from '@mui/icons-material/Edit';
+import IconButton from '@mui/material/IconButton';
+import Stack from '@mui/material/Stack';
 import { getInitials } from '../../utils/get-initials';
 
 export const CustomerListResults = ({ employees, ...rest }) => {
@@ -62,6 +66,14 @@ export const CustomerListResults = ({ employees, ...rest }) => {
     setPage(newPage);
   };
 
+  function deleteEmployee() {
+    alert('Delete employee!');
+  }
+
+  function editEmployee() {
+    alert('Edit employee!');
+  }
+
   return (
     <Card {...rest}>
       <PerfectScrollbar>
@@ -94,6 +106,9 @@ export const CustomerListResults = ({ employees, ...rest }) => {
                 </TableCell>
                 <TableCell>
                   Phone
+                </TableCell>
+                <TableCell>
+                  Actions
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -144,6 +159,16 @@ export const CustomerListResults = ({ employees, ...rest }) => {
                   <TableCell>
                     {/* {format(employee.createdAt, 'dd/MM/yyyy')} */}
                     {employee.Phone}
+                  </TableCell>
+                  <TableCell>
+                    <Stack direction="row" spacing={1}>
+                      <IconButton aria-label="edit" color="secondary" edge="false" onClick={editEmployee}>
+                        <EditIcon />
+                      </IconButton>
+                      <IconButton aria-label="delete" color="error" edge="false" onClick={deleteEmployee}>
+                        <DeleteForeverIcon />
+                      </IconButton>
+                    </Stack>
                   </TableCell>
                 </TableRow>
               ))}

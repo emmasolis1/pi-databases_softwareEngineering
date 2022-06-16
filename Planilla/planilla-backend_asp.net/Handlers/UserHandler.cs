@@ -32,7 +32,7 @@ namespace planilla_backend_asp.net.Handlers
             Identification = Convert.ToString(columna["Identification"]),
             Email = Convert.ToString(columna["Email"]),
             Phone = Convert.ToString(columna["Phone"]),
-            Address = Convert.ToString(columna["City"]) + ", " + Convert.ToString(columna["State"] + ", " + Convert.ToString(columna["Country"])),
+            Address = Convert.ToString(columna["State"] + ", " + Convert.ToString(columna["Country"])),
           });
       }
 
