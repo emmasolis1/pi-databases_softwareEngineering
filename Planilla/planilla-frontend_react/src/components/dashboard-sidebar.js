@@ -56,6 +56,11 @@ const items = [
     href: '/404',
     icon: (<XCircleIcon fontSize="small" />),
     title: 'Error'
+  },
+  {
+    href: '/benefits',
+    icon: (<ShoppingBagIcon fontSize="small" />),
+    title: 'Benefits'
   }
 ];
 

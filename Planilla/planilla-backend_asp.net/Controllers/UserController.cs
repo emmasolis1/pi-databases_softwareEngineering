@@ -18,6 +18,15 @@ namespace planilla_backend_asp.net.Controllers
       return Ok(data);
     }
 
+    [HttpGet]
+    [Route("getUserData")]
+    public ActionResult GetUserData(string email, string password)
+    {
+      var handler = new UserHandler();
+      var data = handler.GetUserData(email, password);
+      return Ok(data);
+    }
+
     [HttpPost]
     [Route("employees")]
     public ActionResult CreateEmployee([FromBody] UserModel employee)

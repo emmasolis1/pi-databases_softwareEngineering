@@ -1,9 +1,13 @@
 import Head from 'next/head';
+import axios from 'axios';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Box, Button, Container, Grid, Link, TextField, Typography } from '@mui/material';
+import {
+  Box, Button, Container, FormControl, FormControlLabel,
+  FormLabel, Link, Radio, RadioGroup, TextField, Typography
+} from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const Login = () => {
@@ -28,7 +32,28 @@ const Login = () => {
           'Password is required')
     }),
     onSubmit: () => {
-      router.push('/');
+      // Validate user and password, and get user ID
+      axios.get('https://localhost:7150/api/getUserData' + "?email=" + formik.values.email + "&password=" + formik.values.password)
+        .then(response => {
+          if (response.data[0] != "" && response.data[1] != "") {
+            // Stores the user's data on sessionStorage
+            sessionStorage.setItem("email", formik.values.email);
+            sessionStorage.setItem("userType", response.data[1]);
+            // Stores the user's ID on sessionStorage and sends them to their respective main page
+            if (response.data[1] === "0") {
+              sessionStorage.removeItem("employeeID");
+              sessionStorage.setItem("employerID", response.data[0]);
+              router.push('/');
+            }
+            else {
+              sessionStorage.removeItem("employerID");
+              sessionStorage.setItem("employeeID", response.data[0]);
+              router.push('/');
+            }
+          } else {
+            alert("Error: User doesn't exist or password is incorrect");
+          }
+        });
     }
   });
 
@@ -103,7 +128,6 @@ const Login = () => {
             <Box sx={{ py: 2 }}>
               <Button
                 color="primary"
-                disabled={formik.isSubmitting}
                 fullWidth
                 size="large"
                 type="submit"

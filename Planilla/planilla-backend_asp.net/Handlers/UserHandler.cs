@@ -39,7 +39,6 @@ namespace planilla_backend_asp.net.Handlers
       return employees;
     }
 
-
     private DataTable CreateTableConsult(string consult)
     {
       SqlCommand queryCommand = new SqlCommand(consult, conexion);
@@ -50,6 +49,35 @@ namespace planilla_backend_asp.net.Handlers
       adaptadorParaTabla.Fill(tableFormatConsult);
       conexion.Close();
       return tableFormatConsult;
+    }
+
+    public List<string> GetUserData(string email, string password)
+    {
+      var userID = "";
+      var userType = "";
+      var consult = @"SELECT Identification, UserType
+                      FROM Users
+                      WHERE Email = @email AND Password = @password";
+      var queryCommand = new SqlCommand(consult, conexion);
+
+      // Uses user's email to get their ID
+      queryCommand.Parameters.AddWithValue("@email", email);
+      queryCommand.Parameters.AddWithValue("@password", password);
+
+      conexion.Open();
+      SqlDataReader reader = queryCommand.ExecuteReader();
+      while (reader.Read())
+      {
+        userID = reader["Identification"].ToString();
+        userType = reader["UserType"].ToString();
+      }
+      conexion.Close();
+
+      List<string> data = new List<string>();
+      data.Add(userID);
+      data.Add(userType);
+
+      return data;
     }
 
     public void CreateEmployee(UserModel employee)
