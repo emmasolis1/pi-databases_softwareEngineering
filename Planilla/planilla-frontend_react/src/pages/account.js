@@ -18,7 +18,7 @@ class Account extends React.Component {
 
   componentDidMount() {
     // var data = {id: localStorage.getItem('id')};
-    var data = {id: "1234567899"};
+    var data = {id: sessionStorage.getItem("userID")};
     axios.post(this.state.APIUrl, data).then(response => {
       this.setState({ isLoaded: true, user: (response.data)[0] });
     });
@@ -32,7 +32,7 @@ class Account extends React.Component {
         <>
           <Head>
             <title>
-              Account | Material Kit
+              Account | Ta' Bueno
             </title>
           </Head>
           <Box
