@@ -32,7 +32,7 @@ namespace planilla_backend_asp.net.Handlers
             Identification = Convert.ToString(columna["Identification"]),
             Email = Convert.ToString(columna["Email"]),
             Phone = Convert.ToString(columna["Phone"]),
-            Address = Convert.ToString(columna["City"]) + ", " + Convert.ToString(columna["State"] + ", " + Convert.ToString(columna["Country"])),
+            Address = Convert.ToString(columna["State"] + ", " + Convert.ToString(columna["Country"])),
           });
       }
 
@@ -235,6 +235,19 @@ namespace planilla_backend_asp.net.Handlers
       string consult = "update Users set [Password] = @Password where [Identification] = @Identification";
       SqlCommand queryCommand = new SqlCommand(consult, conexion);
       queryCommand.Parameters.AddWithValue("@Password", newPassowrd);
+      queryCommand.Parameters.AddWithValue("@Identification", identification);
+
+      // Execute command
+      conexion.Open();
+      queryCommand.ExecuteNonQuery();
+      conexion.Close();
+    }
+
+    public void DeleteEmployee(string identification)
+    {
+      // Prepare command
+      string consult = "execute delete_employee @Identification";
+      SqlCommand queryCommand = new SqlCommand(consult, conexion);
       queryCommand.Parameters.AddWithValue("@Identification", identification);
 
       // Execute command

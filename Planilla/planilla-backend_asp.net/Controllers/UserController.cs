@@ -87,5 +87,22 @@ namespace planilla_backend_asp.net.Controllers
         return BadRequest(error.Message);
       }
     }
+
+    [HttpDelete]
+    [Route("deleteEmployee/")]
+    public ActionResult DeleteEmployee([FromQuery] string id)
+    {
+      try
+      {
+        UserHandler handler = new UserHandler();
+        handler.DeleteEmployee(id);
+        return Ok();
+      }
+      catch(Exception error)
+      {
+        Console.WriteLine(error);
+        return BadRequest(error.Message);
+      }
+    }
   }
 }
