@@ -32,7 +32,7 @@ namespace planilla_backend_asp.net.Handlers
             Identification = Convert.ToString(columna["Identification"]),
             Email = Convert.ToString(columna["Email"]),
             Phone = Convert.ToString(columna["Phone"]),
-            Address = Convert.ToString(columna["City"]) + ", " + Convert.ToString(columna["State"] + ", " + Convert.ToString(columna["Country"])),
+            Address = Convert.ToString(columna["State"] + ", " + Convert.ToString(columna["Country"])),
           });
       }
 
@@ -49,6 +49,35 @@ namespace planilla_backend_asp.net.Handlers
       adaptadorParaTabla.Fill(tableFormatConsult);
       conexion.Close();
       return tableFormatConsult;
+    }
+
+    public List<string> GetUserData(string email, string password)
+    {
+      var userID = "";
+      var userType = "";
+      var consult = @"SELECT Identification, UserType
+                      FROM Users
+                      WHERE Email = @email AND Password = @password";
+      var queryCommand = new SqlCommand(consult, conexion);
+
+      // Uses user's email to get their ID
+      queryCommand.Parameters.AddWithValue("@email", email);
+      queryCommand.Parameters.AddWithValue("@password", password);
+
+      conexion.Open();
+      SqlDataReader reader = queryCommand.ExecuteReader();
+      while (reader.Read())
+      {
+        userID = reader["Identification"].ToString();
+        userType = reader["UserType"].ToString();
+      }
+      conexion.Close();
+
+      List<string> data = new List<string>();
+      data.Add(userID);
+      data.Add(userType);
+
+      return data;
     }
 
     public void CreateEmployee(UserModel employee)
@@ -68,6 +97,7 @@ namespace planilla_backend_asp.net.Handlers
       // Add optional parameters
       if (employee.LastName2 != null && employee.LastName2 != "")
       {
+        // queryCommand.Parameters.Add(new SqlParameter("LastName2", employee.LastName2));
         queryCommand.Parameters.AddWithValue("@LastName2", employee.LastName2);
       } else {
         queryCommand.Parameters.AddWithValue("@LastName2", DBNull.Value);
@@ -166,5 +196,65 @@ namespace planilla_backend_asp.net.Handlers
         queryCommand.ExecuteNonQuery();
         conexion.Close();
     }
-   }
+
+    public DataTable GetEmployeeInfo(ReciberModel id)
+    {
+      string consult = "select Identification, FirstName, LastName, LastName2, Email, Country, State, City, ZipCode, Address, Phone from Users where Identification =" + "'" + id.id + "'";
+      DataTable tableResult = CreateTableConsult(consult);
+      return tableResult;
+    }
+
+    public void UpdateEmployeeInfo(UserEmployeeInfoToModify info)
+    {
+      // Prepare command
+      string consult = "update Users set [Email] = @Email, [Country] = @Country, [State] = @State, [City] = @City, [Address] = @Address, [ZipCode] = @ZipCode, [Phone] = @Phone where [Identification] = @Identification";
+      SqlCommand queryCommand = new SqlCommand(consult, conexion);
+      queryCommand.Parameters.AddWithValue("@Email", info.Email);
+      queryCommand.Parameters.AddWithValue("@Country", info.Country);
+      queryCommand.Parameters.AddWithValue("@State", info.State);
+      queryCommand.Parameters.AddWithValue("@City", info.City);
+      queryCommand.Parameters.AddWithValue("@Address", info.Address);
+      queryCommand.Parameters.AddWithValue("@ZipCode", info.ZipCode);
+      queryCommand.Parameters.AddWithValue("@Phone", info.Phone);
+      queryCommand.Parameters.AddWithValue("@Identification", info.Identification);
+
+      // Add optional parameters
+      if (info.Password != null && info.Password != "")
+      {
+        UpdatePassword(info.Identification, info.Password);
+      }
+    // Execute command
+    conexion.Open();
+      queryCommand.ExecuteNonQuery();
+      conexion.Close();
+    }
+
+    private void UpdatePassword(string identification, string newPassowrd)
+    {
+      // Prepare command
+      string consult = "update Users set [Password] = @Password where [Identification] = @Identification";
+      SqlCommand queryCommand = new SqlCommand(consult, conexion);
+      queryCommand.Parameters.AddWithValue("@Password", newPassowrd);
+      queryCommand.Parameters.AddWithValue("@Identification", identification);
+
+      // Execute command
+      conexion.Open();
+      queryCommand.ExecuteNonQuery();
+      conexion.Close();
+    }
+
+    public void DeleteEmployee(string identification)
+    {
+      // Prepare command
+      string consult = "execute delete_employee @Identification";
+      SqlCommand queryCommand = new SqlCommand(consult, conexion);
+      queryCommand.Parameters.AddWithValue("@Identification", identification);
+
+      // Execute command
+      conexion.Open();
+      queryCommand.ExecuteNonQuery();
+      conexion.Close();
+    }
+    
+  }
 }
