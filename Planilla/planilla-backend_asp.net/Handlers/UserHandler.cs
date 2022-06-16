@@ -51,22 +51,33 @@ namespace planilla_backend_asp.net.Handlers
       return tableFormatConsult;
     }
 
-    public string GetEmployerID(string email)
+    public List<string> GetUserData(string email, string password)
     {
-      var employerID = "";
-      var consult = @"SELECT Identification
+      var userID = "";
+      var userType = "";
+      var consult = @"SELECT Identification, UserType
                       FROM Users
-                      WHERE Email = @email";
+                      WHERE Email = @email AND Password = @password";
       var queryCommand = new SqlCommand(consult, conexion);
 
       // Uses user's email to get their ID
       queryCommand.Parameters.AddWithValue("@email", email);
+      queryCommand.Parameters.AddWithValue("@password", password);
 
       conexion.Open();
-      employerID = Convert.ToString(queryCommand.ExecuteScalar());
+      SqlDataReader reader = queryCommand.ExecuteReader();
+      while (reader.Read())
+      {
+        userID = reader["Identification"].ToString();
+        userType = reader["UserType"].ToString();
+      }
       conexion.Close();
 
-      return employerID;
+      List<string> data = new List<string>();
+      data.Add(userID);
+      data.Add(userType);
+
+      return data;
     }
 
     public void CreateEmployee(UserModel employee)
