@@ -242,6 +242,18 @@ namespace planilla_backend_asp.net.Handlers
       queryCommand.ExecuteNonQuery();
       conexion.Close();
     }
+
+    public void DeleteEmployee(string identification)
+    {
+      // Prepare command
+      string consult = "execute delete_employee @Identification";
+      SqlCommand queryCommand = new SqlCommand(consult, conexion);
+
+      // Execute command
+      conexion.Open();
+      queryCommand.ExecuteNonQuery();
+      conexion.Close();
+    }
     
   }
 }
