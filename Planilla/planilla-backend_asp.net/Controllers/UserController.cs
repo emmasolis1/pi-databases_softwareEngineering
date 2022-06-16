@@ -89,13 +89,13 @@ namespace planilla_backend_asp.net.Controllers
     }
 
     [HttpDelete]
-    [Route("deleteEmployee/{id}")]
-    public ActionResult DeleteEmployee(string identification)
+    [Route("deleteEmployee/")]
+    public ActionResult DeleteEmployee([FromQuery] string id)
     {
       try
       {
         UserHandler handler = new UserHandler();
-        handler.DeleteEmployee(identification);
+        handler.DeleteEmployee(id);
         return Ok();
       }
       catch(Exception error)

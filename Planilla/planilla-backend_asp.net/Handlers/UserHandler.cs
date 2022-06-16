@@ -248,6 +248,7 @@ namespace planilla_backend_asp.net.Handlers
       // Prepare command
       string consult = "execute delete_employee @Identification";
       SqlCommand queryCommand = new SqlCommand(consult, conexion);
+      queryCommand.Parameters.AddWithValue("@Identification", identification);
 
       // Execute command
       conexion.Open();
