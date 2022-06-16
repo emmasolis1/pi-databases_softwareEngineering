@@ -87,6 +87,7 @@ export const AccountProfileDetails = ({user, ...props}) => {
       };
       // alert(JSON.stringify(data, null, 2));
       axios.put('https://localhost:7150/api/account', data).then((response) => {
+        alert("User data updated successfully");
         router.push('/account');
       });
     }
