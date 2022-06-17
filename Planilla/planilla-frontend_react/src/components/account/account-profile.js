@@ -48,7 +48,7 @@ export const AccountProfile = ({user, ...props}) => (
         </Typography>
       </Box>
     </CardContent>
-    <Divider />
+    {/* <Divider />
     <CardActions>
       <Button
         color="primary"
@@ -57,6 +57,6 @@ export const AccountProfile = ({user, ...props}) => (
       >
         Upload picture
       </Button>
-    </CardActions>
+    </CardActions> */}
   </Card>
 );
