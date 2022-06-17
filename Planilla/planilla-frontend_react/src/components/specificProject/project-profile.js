@@ -26,8 +26,12 @@ export const ProjectProfile = ({ project, ...props }) => (
         >
           {project.projectName}
         </Typography>
-        
-
+        <Typography
+          color="textSecondary"
+          variant="body2"
+        >
+          Created by employer with ID: {project.employerID}
+        </Typography>
       </Box>
     </CardContent>
     <Divider />
@@ -35,18 +39,3 @@ export const ProjectProfile = ({ project, ...props }) => (
     </CardActions>
   </Card>
 );
-
-/*
- *         <Typography
-          color="textSecondary"
-          variant="body2"
-        >
-          {`${project.City} ${project.Country}`}
-        </Typography>
-        <Typography
-          color="textSecondary"
-          variant="body2"
-        >
-          {project.timezone}
-        </Typography>
-        */

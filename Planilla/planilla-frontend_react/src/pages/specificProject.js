@@ -18,7 +18,7 @@ class SpecificProject extends React.Component {
 
   componentDidMount() {
       axios.get(this.state.APIUrl + "?project=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID")).then(response => {
-        this.setState({ isLoaded: true, project: response.data[0] });
+        this.setState({ isLoaded: true, project: response.data });
     });
   }
 

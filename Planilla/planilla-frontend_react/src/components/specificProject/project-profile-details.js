@@ -60,7 +60,7 @@ export const ProjectProfileDetails = ({ project, ...props }) => {
     >
       <Card>
         <CardHeader
-          title="Project"
+          title="Project's information:"
         />
         <Divider />
         <CardContent>
@@ -78,7 +78,12 @@ export const ProjectProfileDetails = ({ project, ...props }) => {
                 label="Budget"
                 margin="none"
                 value={formik.values.budget}
-                disabled={true}
+                name="budget"
+                error={Boolean(formik.touched.budget && formik.errors.budget)}
+                helperText={formik.touched.budget && formik.errors.budget}
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                variant="outlined"
               />
             </Grid>
             <Grid
@@ -91,20 +96,12 @@ export const ProjectProfileDetails = ({ project, ...props }) => {
                 label="Payment Method"
                 margin="none"
                 value={formik.values.paymentMethod}
-                disabled={true}
-              />
-            </Grid>
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
-              <TextField
-                fullWidth
-                label="Description"
-                margin="none"
-                value={formik.values.description}
-                disabled={true}
+                name="paymentMethod"
+                error={Boolean(formik.touched.paymentMethod && formik.errors.paymentMethod)}
+                helperText={formik.touched.paymentMethod && formik.errors.paymentMethod}
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                variant="outlined"
               />
             </Grid>
             <Grid
@@ -117,7 +114,12 @@ export const ProjectProfileDetails = ({ project, ...props }) => {
                 label="Max Number of Benefits"
                 margin="none"
                 value={formik.values.maxNumberOfBenefits}
-                disabled={true}
+                name="maxNumberOfBenefits"
+                error={Boolean(formik.touched.maxNumberOfBenefits && formik.errors.maxNumberOfBenefits)}
+                helperText={formik.touched.maxNumberOfBenefits && formik.errors.maxNumberOfBenefits}
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                variant="outlined"
               />
             </Grid>
             <Grid
@@ -126,11 +128,34 @@ export const ProjectProfileDetails = ({ project, ...props }) => {
               xs={12}
             >
               <TextField
+                error={Boolean(formik.touched.maxBudgetForBenefits && formik.errors.maxBudgetForBenefits)}
                 fullWidth
+                helperText={formik.touched.maxBudgetForBenefits && formik.errors.maxBudgetForBenefits}
                 label="Max Budget for Benefits"
                 margin="none"
+                name="maxBudgetForBenefits"
                 value={formik.values.maxBudgetForBenefits}
-                disabled={true}
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                variant="outlined"
+              />
+            </Grid>
+            <Grid
+              item
+              md={12}
+              xs={12}
+            >
+              <TextField
+                fullWidth
+                label="Description"
+                margin="none"
+                value={formik.values.description}
+                name="description"
+                error={Boolean(formik.touched.description && formik.errors.description)}
+                helperText={formik.touched.description && formik.errors.description}
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                variant="outlined"
               />
             </Grid>
           </Grid>
@@ -146,7 +171,6 @@ export const ProjectProfileDetails = ({ project, ...props }) => {
           <Button
             color="primary"
             variant="contained"
-            disabled={formik.isSubmitting}
             type="submit"
           >
             Save details

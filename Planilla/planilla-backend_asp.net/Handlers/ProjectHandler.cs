@@ -140,20 +140,28 @@ namespace planilla_backend_asp.net.Handlers
       connection.Close();
     }
 
-    public DataTable GetSpecificProjectInfo(string projectName, string employerID)
+    public ProjectModel GetSpecificProjectInfo(string projectName, string employerID)
     {
       string consult = @"SELECT ProjectName, EmployerID, Budget, PaymentMethod, Description, MaxNumberOfBenefits, MaxBudgetForBenefits
                       FROM Projects
                       WHERE EmployerID = @employerID and ProjectName = @projectName";
+      var project = new ProjectModel();
       SqlCommand queryCommand = new SqlCommand(consult, connection);
       queryCommand.Parameters.AddWithValue("@projectName", projectName);
       queryCommand.Parameters.AddWithValue("@employerID", employerID);
       SqlDataAdapter tableAdapter = new SqlDataAdapter(queryCommand);
-      DataTable tableFormatConsult = new DataTable();
-      connection.Open();
-      tableAdapter.Fill(tableFormatConsult);
-      connection.Close();
-      return tableFormatConsult;
+      DataTable tableFormatConsult = CreateTableConsult(tableAdapter);
+      foreach (DataRow column in tableFormatConsult.Rows)
+        {
+        project.projectName = Convert.ToString(column["ProjectName"]);
+        project.employerID = Convert.ToString(column["EmployerID"]);
+        project.budget = Convert.ToString(column["Budget"]);
+        project.paymentMethod = Convert.ToString(column["PaymentMethod"]);
+        project.description = Convert.ToString(column["Description"]);
+        project.maxNumberOfBenefits = Convert.ToString(column["MaxNumberOfBenefits"]);
+        project.maxBudgetForBenefits = Convert.ToString(column["MaxBudgetForBenefits"]);
+        };
+      return project;
     }
 
   }
