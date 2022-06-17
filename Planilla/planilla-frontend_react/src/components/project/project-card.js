@@ -9,10 +9,20 @@ import { useRouter } from 'next/router';
 
 export const ProjectCard = ({ project, ...rest }) => {
   const router = useRouter();
+
   function editProject() {
     sessionStorage.setItem("project", project.projectName);
     router.push('/specificProject');
   };
+
+  function viewEmployees() {
+    alert('View employees');
+  }
+
+  function payProject() {
+    alert('Pay project');
+  }
+
   return (
     <Card
       sx={{
@@ -56,13 +66,14 @@ export const ProjectCard = ({ project, ...rest }) => {
         <Grid
           container
           spacing={2}
-          sx={{ justifyContent: 'space-between' }}
+          sx={{ justifyContent: 'space-around' }}
         >
           <Grid
             item
             sx={{
               alignItems: 'center',
-              display: 'flex'
+              display: 'flex',
+              justifyContent: 'space-between'
             }}
           >
             <Button
@@ -74,14 +85,22 @@ export const ProjectCard = ({ project, ...rest }) => {
             >
               More info
             </Button>
-          </Grid>
-          <Grid
-            item
-            sx={{
-              alignItems: 'center',
-              display: 'flex'
-            }}
-          >
+            <Button
+              color="primary"
+              display="inline"
+              sx={{ pl: 1 }}
+              onClick={viewEmployees}
+            >
+              Employees
+            </Button>
+            <Button
+              color="error"
+              display="inline"
+              sx={{ pl: 1 }}
+              onClick={payProject}
+            >
+              Pay
+            </Button>
           </Grid>
         </Grid>
       </Box>

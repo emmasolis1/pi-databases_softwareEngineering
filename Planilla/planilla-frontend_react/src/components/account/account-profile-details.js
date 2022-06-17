@@ -88,7 +88,8 @@ export const AccountProfileDetails = ({user, ...props}) => {
       // alert(JSON.stringify(data, null, 2));
       axios.put('https://localhost:7150/api/account', data).then((response) => {
         alert("User data updated successfully");
-        router.push('/account');
+        // router.push('/account');
+        window.location.reload(false);
       });
     }
   });
@@ -347,7 +348,6 @@ export const AccountProfileDetails = ({user, ...props}) => {
           <Button
             color="primary"
             variant="contained"
-            disabled={formik.isSubmitting}
             type="submit"
           >
             Save details

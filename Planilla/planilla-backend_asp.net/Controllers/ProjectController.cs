@@ -21,7 +21,7 @@ namespace planilla_backend_asp.net.Controllers
     [Route("projects")]
     public ActionResult CreateProject([FromBody] ProjectModel project)
     {
-      // Create new employee
+      // Create new project
       ProjectHandler handler = new ProjectHandler();
       handler.CreateProject(project);
       return Ok();

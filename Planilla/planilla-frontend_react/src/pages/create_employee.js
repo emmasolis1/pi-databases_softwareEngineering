@@ -105,7 +105,7 @@ const Register = () => {
       };
       // alert(JSON.stringify(data, null, 2));
       axios.post('https://localhost:7150/api/employees', data);
-      router.push('/customers');
+      router.push('/employees');
     }
   });
 
@@ -127,7 +127,7 @@ const Register = () => {
       >
         <Container maxWidth="sm">
           <NextLink
-            href="/customers"
+            href="/employees"
             passHref
           >
             <Button
