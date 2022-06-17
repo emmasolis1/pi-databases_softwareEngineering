@@ -38,7 +38,7 @@ export const AccountProfile = ({user, ...props}) => (
           color="textSecondary"
           variant="body2"
         >
-          {`${user.City} ${user.Country}`}
+          {`${user.City == null ? '' : user.city} ${user.Country}`}
         </Typography>
         <Typography
           color="textSecondary"
