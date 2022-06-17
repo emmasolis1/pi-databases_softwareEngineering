@@ -2,7 +2,7 @@ import Head from 'next/head';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
-import axios from "axios";
+import axios from 'axios';
 import * as Yup from 'yup';
 import {
   Box,
@@ -20,40 +20,20 @@ const Register = () => {
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
-      identification: '',
-      firstName: '',
-      lastName: '',
-      lastName2: '',
       email: '',
-      password: '',
+      firstName: '',
+      surname: '',
+      secondSurname: '',
+      identification: '',
+      phone: '',
       country: '',
       state: '',
       city: '',
-      zipCode: '',
       address: '',
-      phone: '',
-      userType: ''
+      zipCode: '',
+      password: ''
     },
     validationSchema: Yup.object({
-      identification: Yup
-        .string()
-        .min(10)
-        .max(10)
-        .required(
-          'Identification is required'),
-      firstName: Yup
-        .string()
-        .max(255)
-        .required(
-          'First name is required'),
-      lastName: Yup
-        .string()
-        .max(255)
-        .required(
-           'Last name is required'),
-      lastName2: Yup
-        .string()
-        .max(255),
       email: Yup
         .string()
         .email(
@@ -61,52 +41,71 @@ const Register = () => {
         .max(255)
         .required(
           'Email is required'),
-      password: Yup
+      firstName: Yup
         .string()
         .max(255)
         .required(
-           'Password is required'),
-      country: Yup
+          'First name is required'),
+      surname: Yup
+        .string()
+        .max(255)
+        .required(
+          'Surname is required'),
+      secondSurname: Yup
         .string()
         .max(50),
-      state: Yup
+      identification: Yup
         .string()
-        .max(20),
-      city: Yup
-        .string()
-        .max(35),
-      zipCode: Yup
-        .string()
-        .min(5)
-        .max(5),
-      address: Yup
-        .string()
-        .max(255),
+        .max(10)
+        .min(10)
+        .required(
+          'Identification is required'),
       phone: Yup
         .string()
         .min(8)
         .max(8)
         .required(
-          'Phone is required')
+          'Phone number is required'),
+      country: Yup
+        .string()
+        .max(20),
+      state: Yup
+        .string()
+        .max(50),
+      city: Yup
+        .string()
+        .max(50),
+      address: Yup
+        .string()
+        .max(255),
+      zipCode: Yup
+        .string()
+        .max(5),
+      password: Yup
+        .string()
+        .max(255)
+        .min(8, 'Password must be at least 8 characters long')
+        .required(
+          'Password is required'),
     }),
-
     onSubmit: values => {
-        var data = {
-            Identification: values.identification,
-            FirstName: values.firstName,
-            LastName: values.lastName,
-            LastName2: values.lastName2,
-            Email: values.email,
-            Password: values.password,
-            Country: values.country,
-            State: values.state,
-            City: values.city,
-            ZipCode: values.zipCode,
-            Address: values.address,
-            Phone: values.phone
-        };
-        axios.post('https://localhost:7150/api/register', data);
-        router.push('/login');
+      var data = {
+        Identification: values.identification,
+        Firstname: values.firstName,
+        LastName: values.surname,
+        LastName2: values.secondSurname,
+        Email: values.email,
+        Password: values.password,
+        Country: values.country,
+        State: values.state,
+        City: values.city,
+        ZipCode: values.zipCode,
+        Address: values.address,
+        Phone: values.phone
+      };
+      // alert(JSON.stringify(data, null, 2));
+      axios.post('https://localhost:7150/api/employees', data);
+      router.push('/customers');
     }
   });
 
@@ -114,7 +113,7 @@ const Register = () => {
     <>
       <Head>
         <title>
-          Register Employer | Ta' Bueno
+          New Employee | Ta' Bueno
         </title>
       </Head>
       <Box
@@ -128,14 +127,14 @@ const Register = () => {
       >
         <Container maxWidth="sm">
           <NextLink
-            href="/login"
+            href="/customers"
             passHref
           >
             <Button
               component="a"
               startIcon={<ArrowBackIcon fontSize="small" />}
             >
-              Dashboard
+              Employees
             </Button>
           </NextLink>
           <form onSubmit={formik.handleSubmit}>
@@ -144,28 +143,16 @@ const Register = () => {
                 color="textPrimary"
                 variant="h4"
               >
-                Create a new employer account
+                Register a new employee
               </Typography>
               <Typography
                 color="textSecondary"
                 gutterBottom
                 variant="body2"
               >
-                Use your email to create a new account
+                Use the employee's email to create the new account
               </Typography>
             </Box>
-             <TextField 
-              error={Boolean(formik.touched.identification && formik.errors.identification)}
-              fullWidth
-              helperText={formik.touched.identification && formik.errors.identification}
-              label="Identification*"
-              margin="normal"
-              name="identification"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.identification}
-              variant="outlined"
-            /> 
             <TextField
               error={Boolean(formik.touched.firstName && formik.errors.firstName)}
               fullWidth
@@ -179,27 +166,111 @@ const Register = () => {
               variant="outlined"
             />
             <TextField
-              error={Boolean(formik.touched.lastName && formik.errors.lastName)}
+              error={Boolean(formik.touched.surname && formik.errors.surname)}
               fullWidth
-              helperText={formik.touched.lastName && formik.errors.lastName}
-              label="Last Name*"
+              helperText={formik.touched.surname && formik.errors.surname}
+              label="Surname*"
               margin="normal"
-              name="lastName"
+              name="surname"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              value={formik.values.lastName}
+              value={formik.values.surname}
               variant="outlined"
             />
             <TextField
-              error={Boolean(formik.touched.lastName2 && formik.errors.lastName2)}
+              error={Boolean(formik.touched.secondSurname && formik.errors.secondSurname)}
               fullWidth
-              helperText={formik.touched.lastName2 && formik.errors.lastName2}
-              label="Second Last Name"
+              helperText={formik.touched.secondSurname && formik.errors.secondSurname}
+              label="Second Surname"
               margin="normal"
-              name="lastName2"
+              name="secondSurname"
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              value={formik.values.lastName2}
+              value={formik.values.secondSurname}
+              variant="outlined"
+            />
+            <TextField
+              error={Boolean(formik.touched.identification && formik.errors.identification)}
+              fullWidth
+              helperText={formik.touched.identification && formik.errors.identification}
+              label="Identification (SSN)*"
+              margin="normal"
+              name="identification"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.identification}
+              variant="outlined"
+            />
+            <TextField
+              error={Boolean(formik.touched.phone && formik.errors.phone)}
+              fullWidth
+              helperText={formik.touched.phone && formik.errors.phone}
+              label="Phone Number*"
+              margin="normal"
+              name="phone"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.phone}
+              variant="outlined"
+            />
+            <TextField
+              error={Boolean(formik.touched.state && formik.errors.state)}
+              fullWidth
+              helperText={formik.touched.state && formik.errors.state}
+              label="Country"
+              margin="normal"
+              name="country"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.country}
+              variant="outlined"
+            />
+            <TextField
+              error={Boolean(formik.touched.state && formik.errors.state)}
+              fullWidth
+              helperText={formik.touched.state && formik.errors.state}
+              label="State"
+              margin="normal"
+              name="state"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.state}
+              variant="outlined"
+            />
+            <TextField
+              error={Boolean(formik.touched.city && formik.errors.city)}
+              fullWidth
+              helperText={formik.touched.city && formik.errors.city}
+              label="City"
+              margin="normal"
+              name="city"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.city}
+              variant="outlined"
+            />
+            <TextField
+              error={Boolean(formik.touched.zipCode && formik.errors.zipCode)}
+              fullWidth
+              helperText={formik.touched.zipCode && formik.errors.zipCode}
+              label="Address"
+              margin="normal"
+              name="address"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.address}
+              variant="outlined"
+            />
+            <TextField
+              error={Boolean(formik.touched.zipCode && formik.errors.zipCode)}
+              fullWidth
+              helperText={formik.touched.zipCode && formik.errors.zipCode}
+              label="Zip Code"
+              margin="normal"
+              name="zipCode"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.zipCode}
               variant="outlined"
             />
             <TextField
@@ -228,78 +299,6 @@ const Register = () => {
               value={formik.values.password}
               variant="outlined"
             />
-            <TextField 
-              error={Boolean(formik.touched.country && formik.errors.country)}
-              fullWidth
-              helperText={formik.touched.country && formik.errors.country}
-              label="Country"
-              margin="normal"
-              name="country"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.country}
-              variant="outlined"
-            />
-           <TextField 
-              error={Boolean(formik.touched.state && formik.errors.state)}
-              fullWidth
-              helperText={formik.touched.state && formik.errors.state}
-              label="State"
-              margin="normal"
-              name="state"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.state}
-              variant="outlined"
-            />
-           <TextField 
-              error={Boolean(formik.touched.city && formik.errors.city)}
-              fullWidth
-              helperText={formik.touched.city && formik.errors.city}
-              label="City"
-              margin="normal"
-              name="city"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.city}
-              variant="outlined"
-            />
-           <TextField 
-              error={Boolean(formik.touched.zipCode && formik.errors.zipCode)}
-              fullWidth
-              helperText={formik.touched.zipCode && formik.errors.zipCode}
-              label="Zip code"
-              margin="normal"
-              name="zipCode"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.zipCode}
-              variant="outlined"
-            />
-            <TextField 
-              error={Boolean(formik.touched.address && formik.errors.address)}
-              fullWidth
-              helperText={formik.touched.address && formik.errors.address}
-              label="Address"
-              margin="normal"
-              name="address"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.address}
-              variant="outlined"
-            />
-           <TextField 
-              error={Boolean(formik.touched.phone && formik.errors.phone)}
-              fullWidth
-              helperText={formik.touched.phone && formik.errors.phone}
-              label="Phone*"
-              margin="normal"
-              name="phone"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.phone}
-              variant="outlined"
-            />
             <Box sx={{ py: 2 }}>
               <Button
                 color="primary"
@@ -309,27 +308,9 @@ const Register = () => {
                 type="submit"
                 variant="contained"
               >
-                Sign Up Now
+                Register Employee
               </Button>
             </Box>
-            <Typography
-              color="textSecondary"
-              variant="body2"
-            >
-              Have an account?
-              {' '}
-              <NextLink
-                href="/login"
-                passHref
-              >
-                <Link
-                  variant="subtitle2"
-                  underline="hover"
-                >
-                  Sign In
-                </Link>
-              </NextLink>
-            </Typography>
           </form>
         </Container>
       </Box>

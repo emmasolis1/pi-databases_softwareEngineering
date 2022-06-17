@@ -9,10 +9,8 @@ import {
 } from '@mui/material';
 import NextLink from 'next/link';
 import { Search as SearchIcon } from '../../icons/search';
-import { Upload as UploadIcon } from '../../icons/upload';
-import { Download as DownloadIcon } from '../../icons/download';
 
-export const CustomerListToolbar = (props) => (
+export const BenefitListToolbar = (props) => (
   <Box {...props}>
     <Box
       sx={{
@@ -27,38 +25,20 @@ export const CustomerListToolbar = (props) => (
         sx={{ m: 1 }}
         variant="h4"
       >
-        Employees
+        Benefits
       </Typography>
       <Box sx={{ m: 1 }}>
-        {/* <Button
-          startIcon={(<UploadIcon fontSize="small" />)}
-          sx={{ mr: 1 }}
-        >
-          Import
-        </Button>
-        <Button
-          startIcon={(<DownloadIcon fontSize="small" />)}
-          sx={{ mr: 1 }}
-        >
-          Export
-        </Button> */}
-        {/* <Button
-          color="primary"
-          variant="contained"
-        >
-          Add Employee
-        </Button> */}
         <NextLink
-            href="/create_employee"
-            passHref
+          href="/create_benefit"
+          passHref
+        >
+          <Button
+            color="primary"
+            variant="contained"
           >
-            <Button
-              color="primary"
-              variant="contained"
-            >
-              Add Employee
-            </Button>
-          </NextLink>
+            Add Benefit
+          </Button>
+        </NextLink>
       </Box>
     </Box>
     <Box sx={{ mt: 3 }}>
@@ -79,7 +59,7 @@ export const CustomerListToolbar = (props) => (
                   </InputAdornment>
                 )
               }}
-              placeholder="Search employee"
+              placeholder="Search benefit"
               variant="outlined"
             />
           </Box>
