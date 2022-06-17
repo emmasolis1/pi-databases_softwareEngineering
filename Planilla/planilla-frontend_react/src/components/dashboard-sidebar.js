@@ -54,7 +54,7 @@ const items = [
     },
     {
         href: '/projects',
-        icon: (<UsersIcon fontSize="small" />),
+        icon: (<ChartBarIcon fontSize="small" />),
         title: 'Projects'
     },
   {

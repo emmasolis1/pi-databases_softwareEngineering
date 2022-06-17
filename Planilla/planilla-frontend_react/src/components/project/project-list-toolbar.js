@@ -11,6 +11,7 @@ import {
 import { Download as DownloadIcon } from '../../icons/download';
 import { Search as SearchIcon } from '../../icons/search';
 import { Upload as UploadIcon } from '../../icons/upload';
+import NextLink from 'next/link';
 
 export const ProjectListToolbar = (props) => (
   <Box {...props}>
@@ -30,12 +31,17 @@ export const ProjectListToolbar = (props) => (
         Projects
       </Typography>
       <Box sx={{ m: 1 }}>
-        <Button
-          color="primary"
-          variant="contained"
+        <NextLink
+          href="/project_form"
+          passHref
         >
-          Add projects
-        </Button>
+          <Button
+            color="primary"
+            variant="contained"
+          >
+            Add projects
+          </Button>
+        </NextLink>
       </Box>
     </Box>
     <Box sx={{ mt: 3 }}>

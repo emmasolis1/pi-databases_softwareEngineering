@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using planilla_backend_asp.net.Models;
 using planilla_backend_asp.net.Handlers;
 
 namespace planilla_backend_asp.net.Controllers
@@ -15,5 +16,49 @@ namespace planilla_backend_asp.net.Controllers
           var data = handler.GetProyectsData(employerID);
           return Ok(data);
         }
+
+    [HttpPost]
+    [Route("projects")]
+    public ActionResult CreateProject([FromBody] ProjectModel project)
+    {
+      // Create new employee
+      ProjectHandler handler = new ProjectHandler();
+      handler.CreateProject(project);
+      return Ok();
     }
+
+    [HttpGet]
+    [Route("specificProject")]
+    public ActionResult EditProject(string project, string employerID)
+    {
+      try
+      {
+        ProjectHandler handler = new ProjectHandler();
+        var data = handler.GetSpecificProjectInfo(project, employerID);
+        return Ok(data);
+      }
+      catch (Exception error)
+      {
+        Console.WriteLine(error);
+        return BadRequest(error.Message);
+      }
+    }
+
+    [HttpPut]
+    [Route("specificProject")]
+    public ActionResult EditProject([FromBody] ProjectModel project)
+    {
+      try
+      {
+        ProjectHandler handler = new ProjectHandler();
+        handler.UpdateProjectInfo(project);
+        return Ok();
+      }
+      catch (Exception error)
+      {
+        Console.WriteLine(error);
+        return BadRequest(error.Message);
+      }
+    }
+  }
 }
