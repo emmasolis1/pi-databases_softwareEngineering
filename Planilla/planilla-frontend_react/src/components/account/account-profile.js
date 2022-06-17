@@ -10,7 +10,6 @@ import {
 } from '@mui/material';
 
 const user = {
-  avatar: '/static/images/avatars/avatar_6.png',
   city: 'Los Angeles',
   country: 'USA',
   jobTitle: 'Senior Developer',
@@ -18,7 +17,7 @@ const user = {
   timezone: 'GTM-7'
 };
 
-export const AccountProfile = (props) => (
+export const AccountProfile = ({user, ...props}) => (
   <Card {...props}>
     <CardContent>
       <Box
@@ -28,26 +27,18 @@ export const AccountProfile = (props) => (
           flexDirection: 'column'
         }}
       >
-        <Avatar
-          src={user.avatar}
-          sx={{
-            height: 64,
-            mb: 2,
-            width: 64
-          }}
-        />
         <Typography
           color="textPrimary"
           gutterBottom
           variant="h5"
         >
-          {user.name}
+          {user.FirstName + ' ' + user.LastName}
         </Typography>
         <Typography
           color="textSecondary"
           variant="body2"
         >
-          {`${user.city} ${user.country}`}
+          {`${user.City} ${user.Country}`}
         </Typography>
         <Typography
           color="textSecondary"

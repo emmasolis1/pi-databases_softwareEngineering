@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
-import { format } from 'date-fns';
 import {
   Avatar,
   Box,
@@ -17,45 +16,45 @@ import {
 } from '@mui/material';
 import { getInitials } from '../../utils/get-initials';
 
-export const CustomerListResults = ({ employees, ...rest }) => {
-  const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
-  const [limit, setLimit] = useState(10);
+export const BenefitListResults = ({ benefits, ...rest }) => {
+  const [selectedBenefitIds, setSelectedBenefitIds] = useState([]);
+  const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(0);
 
   const handleSelectAll = (event) => {
-    let newSelectedCustomerIds;
+    let newSelectedBenefitIds;
 
     if (event.target.checked) {
-      newSelectedCustomerIds = employees.map((employee) => employee.id);
+      newSelectedBenefitIds = benefits.map((benefit) => benefit.benefitName);
     } else {
-      newSelectedCustomerIds = [];
+      newSelectedBenefitIds = [];
     }
-
-    setSelectedCustomerIds(newSelectedCustomerIds);
+    setSelectedBenefitIds(newSelectedBenefitIds);
   };
 
   const handleSelectOne = (event, id) => {
-    const selectedIndex = selectedCustomerIds.indexOf(id);
-    let newSelectedCustomerIds = [];
+    const selectedIndex = selectedBenefitIds.indexOf(id);
+    let newSelectedBenefitIds = [];
 
     if (selectedIndex === -1) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds, id);
+      newSelectedBenefitIds = newSelectedBenefitIds.concat(selectedBenefitIds, id);
     } else if (selectedIndex === 0) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(1));
-    } else if (selectedIndex === selectedCustomerIds.length - 1) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(0, -1));
+      newSelectedBenefitIds = newSelectedBenefitIds.concat(selectedBenefitIds.slice(1));
+    } else if (selectedIndex === selectedBenefitIds.length - 1) {
+      newSelectedBenefitIds = newSelectedBenefitIds.concat(selectedBenefitIds.slice(0, -1));
     } else if (selectedIndex > 0) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(
-        selectedCustomerIds.slice(0, selectedIndex),
-        selectedCustomerIds.slice(selectedIndex + 1)
+      newSelectedBenefitIds = newSelectedBenefitIds.concat(
+        selectedBenefitIds.slice(0, selectedIndex),
+        selectedBenefitIds.slice(selectedIndex + 1)
       );
     }
 
-    setSelectedCustomerIds(newSelectedCustomerIds);
+    setSelectedBenefitIds(newSelectedBenefitIds);
   };
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
+    setPage(0);
   };
 
   const handlePageChange = (event, newPage) => {
@@ -71,11 +70,11 @@ export const CustomerListResults = ({ employees, ...rest }) => {
               <TableRow>
                 <TableCell padding="checkbox">
                   <Checkbox
-                    checked={selectedCustomerIds.length === employees.length}
+                    checked={selectedBenefitIds.length === benefits.length}
                     color="primary"
                     indeterminate={
-                      selectedCustomerIds.length > 0
-                      && selectedCustomerIds.length < employees.length
+                      selectedBenefitIds.length > 0
+                      && selectedBenefitIds.length < benefits.length
                     }
                     onChange={handleSelectAll}
                   />
@@ -84,30 +83,24 @@ export const CustomerListResults = ({ employees, ...rest }) => {
                   Name
                 </TableCell>
                 <TableCell>
-                  Identification
+                  Description
                 </TableCell>
                 <TableCell>
-                  Email
-                </TableCell>
-                <TableCell>
-                  Location
-                </TableCell>
-                <TableCell>
-                  Phone
+                  Cost
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {employees.slice(0, limit).map((employee) => (
+              {benefits.slice(page * limit, page * limit + limit).map(benefit => (
                 <TableRow
                   hover
-                  key={employee.id}
-                  selected={selectedCustomerIds.indexOf(employee.id) !== -1}
+                  key={benefit.benefitName + benefit.projectName + benefit.employerID}
+                  selected={selectedBenefitIds.indexOf(benefit.benefitName) !== -1}
                 >
                   <TableCell padding="checkbox">
                     <Checkbox
-                      checked={selectedCustomerIds.indexOf(employee.id) !== -1}
-                      onChange={(event) => handleSelectOne(event, employee.id)}
+                      checked={selectedBenefitIds.indexOf(benefit.benefitName) !== -1}
+                      onChange={(event) => handleSelectOne(event, benefit.benefitName)}
                       value="true"
                     />
                   </TableCell>
@@ -119,31 +112,24 @@ export const CustomerListResults = ({ employees, ...rest }) => {
                       }}
                     >
                       <Avatar
-                        src={employee.avatarUrl}
+                        src={benefit.avatarUrl}
                         sx={{ mr: 2 }}
                       >
-                        {getInitials(employee.FullName)}
+                        {getInitials(benefit.benefitName)}
                       </Avatar>
                       <Typography
                         color="textPrimary"
                         variant="body1"
                       >
-                        {employee.FullName}
+                        {benefit.benefitName}
                       </Typography>
                     </Box>
                   </TableCell>
                   <TableCell>
-                    {employee.Identification}
+                    {benefit.description}
                   </TableCell>
                   <TableCell>
-                    {employee.Email}
-                  </TableCell>
-                  <TableCell>
-                    {employee.Address}
-                  </TableCell>
-                  <TableCell>
-                    {/* {format(employee.createdAt, 'dd/MM/yyyy')} */}
-                    {employee.Phone}
+                    {benefit.cost}
                   </TableCell>
                 </TableRow>
               ))}
@@ -153,7 +139,7 @@ export const CustomerListResults = ({ employees, ...rest }) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={employees.length}
+        count={benefits.length}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}
@@ -164,6 +150,6 @@ export const CustomerListResults = ({ employees, ...rest }) => {
   );
 };
 
-CustomerListResults.propTypes = {
-  employees: PropTypes.array.isRequired
+BenefitListResults.propTypes = {
+  benefits: PropTypes.array.isRequired
 };

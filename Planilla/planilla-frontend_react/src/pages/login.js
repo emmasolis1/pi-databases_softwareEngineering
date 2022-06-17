@@ -1,19 +1,21 @@
 import Head from 'next/head';
+import axios from 'axios';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Box, Button, Container, Grid, Link, TextField, Typography } from '@mui/material';
+import {
+  Box, Button, Container, FormControl, FormControlLabel,
+  FormLabel, Link, Radio, RadioGroup, TextField, Typography
+} from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Facebook as FacebookIcon } from '../icons/facebook';
-import { Google as GoogleIcon } from '../icons/google';
 
 const Login = () => {
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
-      email: 'demo@devias.io',
-      password: 'Password123'
+      email: '',
+      password: ''
     },
     validationSchema: Yup.object({
       email: Yup
@@ -30,7 +32,29 @@ const Login = () => {
           'Password is required')
     }),
     onSubmit: () => {
-      router.push('/');
+      // Validate user and password, and get user ID
+      axios.get('https://localhost:7150/api/getUserData' + "?email=" + formik.values.email + "&password=" + formik.values.password)
+        .then(response => {
+          if (response.data[0] != "" && response.data[1] != "") {
+            // Stores the user's data on sessionStorage
+            sessionStorage.setItem("email", formik.values.email);
+            sessionStorage.setItem("userType", response.data[1]);
+            // Stores the user's ID on sessionStorage and sends them to their respective main page
+            if (response.data[1] === "0") {
+              sessionStorage.removeItem("employeeID");
+              sessionStorage.setItem("employerID", response.data[0]);
+              router.push('/');
+            }
+            else {
+              sessionStorage.removeItem("employerID");
+              sessionStorage.setItem("employeeID", response.data[0]);
+              router.push('/');
+            }
+            sessionStorage.setItem("userID", response.data[0]);
+          } else {
+            alert("Error: User doesn't exist or password is incorrect");
+          }
+        });
     }
   });
 
@@ -76,57 +100,6 @@ const Login = () => {
                 Sign in on the internal platform
               </Typography>
             </Box>
-            <Grid
-              container
-              spacing={3}
-            >
-              <Grid
-                item
-                xs={12}
-                md={6}
-              >
-                <Button
-                  color="info"
-                  fullWidth
-                  startIcon={<FacebookIcon />}
-                  onClick={formik.handleSubmit}
-                  size="large"
-                  variant="contained"
-                >
-                  Login with Facebook
-                </Button>
-              </Grid>
-              <Grid
-                item
-                xs={12}
-                md={6}
-              >
-                <Button
-                  fullWidth
-                  color="error"
-                  startIcon={<GoogleIcon />}
-                  onClick={formik.handleSubmit}
-                  size="large"
-                  variant="contained"
-                >
-                  Login with Google
-                </Button>
-              </Grid>
-            </Grid>
-            <Box
-              sx={{
-                pb: 1,
-                pt: 3
-              }}
-            >
-              <Typography
-                align="center"
-                color="textSecondary"
-                variant="body1"
-              >
-                or login with email address
-              </Typography>
-            </Box>
             <TextField
               error={Boolean(formik.touched.email && formik.errors.email)}
               fullWidth
@@ -156,7 +129,6 @@ const Login = () => {
             <Box sx={{ py: 2 }}>
               <Button
                 color="primary"
-                disabled={formik.isSubmitting}
                 fullWidth
                 size="large"
                 type="submit"
