@@ -81,7 +81,7 @@ class Projects extends React.Component {
                 page={this.state.page}
                 onChange={(event, newPage) => this.handlePageChange(event, newPage)}
                 siblingCount={0}
-                variant="outlined"
+                variant="text"
               />
             </Box>
         </Container>
