@@ -26,7 +26,7 @@ class Projects extends React.Component {
             <>
                 <Head>
                     <title>
-                        Projects | Material Kit
+                        Projects | Ta' Bueno
                     </title>
                 </Head>
                 <Box

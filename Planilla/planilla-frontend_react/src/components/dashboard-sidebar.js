@@ -93,7 +93,7 @@ export const DashboardSidebar = (props) => {
         <div>
           <Box sx={{ p: 3 }}>
             <NextLink
-              href="/"
+              href="/dashboard"
               passHref
             >
               <a>
@@ -182,7 +182,7 @@ export const DashboardSidebar = (props) => {
           >
             PI - Databases / Software
           </Typography>
-          <Box
+          {/* <Box
             sx={{
               display: 'flex',
               mt: 2,
@@ -195,9 +195,9 @@ export const DashboardSidebar = (props) => {
           >
             <img
               alt="Go to pro"
-              src="/static/images/sidebar_pro.png"
+              src="/static/images/ta_bueno_logo.png"
             />
-          </Box>
+          </Box> */}
         </Box>
       </Box>
     </>

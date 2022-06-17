@@ -11,6 +11,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { format } from 'date-fns';
 import { getInitials } from '../../utils/get-initials';
 import IconButton from '@mui/material/IconButton';
+import ReadMoreIcon from '@mui/icons-material/ReadMore';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
 import Router from 'next/router';
@@ -183,8 +184,8 @@ export const EmployeeListResults = ({ employees, ...rest }) => {
                   </TableCell>
                   <TableCell>
                     <Stack direction="row" spacing={1}>
-                      <IconButton aria-label="edit" color="secondary" edge="false" onClick={editEmployee}>
-                        <EditIcon />
+                      <IconButton aria-label="edit" color="primary" edge="false" onClick={editEmployee}>
+                        <ReadMoreIcon />
                       </IconButton>
                       <IconButton aria-label="delete" color="error" edge="false" onClick={handleClickOpen}>
                         <DeleteForeverIcon />
