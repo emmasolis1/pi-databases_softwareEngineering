@@ -33,7 +33,7 @@ import {
 
 export const EmployeeListResults = ({ employees, ...rest }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
-  const [limit, setLimit] = useState(10);
+  const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(0);
   const [open, setOpen] = React.useState(false);
 
@@ -71,6 +71,7 @@ export const EmployeeListResults = ({ employees, ...rest }) => {
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
+    setPage(0);
   };
 
   const handlePageChange = (event, newPage) => {
@@ -135,7 +136,7 @@ export const EmployeeListResults = ({ employees, ...rest }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {employees.slice(0, limit).map((employee) => (
+              {employees.slice(page * limit, page * limit + limit).map((employee) => (
                 <TableRow
                   hover
                   key={employee.id}
