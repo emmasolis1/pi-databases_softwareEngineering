@@ -3,8 +3,8 @@ import React from 'react';
 import axios from 'axios';
 import { v4 as uuid } from 'uuid';
 import { Box, Container } from '@mui/material';
-import { CustomerListResults } from '../components/customer/customer-list-results';
-import { CustomerListToolbar } from '../components/customer/customer-list-toolbar';
+import { EmployeeListResults } from '../components/employee/employee-list-results';
+import { EmployeeListToolbar } from '../components/employee/employee-list-toolbar';
 import { DashboardLayout } from '../components/dashboard-layout';
 
 class Employees extends React.Component {
@@ -49,9 +49,9 @@ class Employees extends React.Component {
           }}
         >
           <Container maxWidth={false}>
-            <CustomerListToolbar />
+            <EmployeeListToolbar />
             <Box sx={{ mt: 3 }}>
-              <CustomerListResults employees={this.state.employees} />
+              <EmployeeListResults employees={this.state.employees} />
             </Box>
           </Container>
         </Box>

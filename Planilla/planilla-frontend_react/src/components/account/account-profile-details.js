@@ -347,7 +347,6 @@ export const AccountProfileDetails = ({user, ...props}) => {
           <Button
             color="primary"
             variant="contained"
-            disabled={formik.isSubmitting}
             type="submit"
           >
             Save details

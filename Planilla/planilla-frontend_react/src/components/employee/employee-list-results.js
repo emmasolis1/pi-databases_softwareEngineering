@@ -30,7 +30,7 @@ import {
   Typography
 } from '@mui/material';
 
-export const CustomerListResults = ({ employees, ...rest }) => {
+export const EmployeeListResults = ({ employees, ...rest }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
@@ -230,6 +230,6 @@ export const CustomerListResults = ({ employees, ...rest }) => {
   );
 };
 
-CustomerListResults.propTypes = {
+EmployeeListResults.propTypes = {
   employees: PropTypes.array.isRequired
 };

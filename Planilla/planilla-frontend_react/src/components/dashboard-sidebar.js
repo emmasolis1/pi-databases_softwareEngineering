@@ -23,7 +23,7 @@ const items = [
     title: 'Dashboard'
   },
   {
-    href: '/customers',
+    href: '/employees',
     icon: (<UsersIcon fontSize="small" />),
     title: 'Employees'
   },
@@ -171,14 +171,16 @@ export const DashboardSidebar = (props) => {
           <Typography
             color="neutral.100"
             variant="subtitle2"
+            align="center"
           >
-            Need more features?
+            &copy; Ta' Bueno - 2022
           </Typography>
           <Typography
             color="neutral.500"
             variant="body2"
+            align='center'
           >
-            Check out our Pro solution template.
+            PI - Databases / Software
           </Typography>
           <Box
             sx={{
@@ -196,21 +198,6 @@ export const DashboardSidebar = (props) => {
               src="/static/images/sidebar_pro.png"
             />
           </Box>
-          <NextLink
-            href="https://material-kit-pro-react.devias.io/"
-            passHref
-          >
-            <Button
-              color="secondary"
-              component="a"
-              endIcon={(<OpenInNewIcon />)}
-              fullWidth
-              sx={{ mt: 2 }}
-              variant="contained"
-            >
-              Pro Live Preview
-            </Button>
-          </NextLink>
         </Box>
       </Box>
     </>
