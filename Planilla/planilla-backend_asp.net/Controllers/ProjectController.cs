@@ -3,15 +3,16 @@ using planilla_backend_asp.net.Handlers;
 
 namespace planilla_backend_asp.net.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/")]
     [ApiController]
     public class ProjectController : ControllerBase
     {
         [HttpGet]
-        public ActionResult GetProjects()
+        [Route("projects")]
+        public ActionResult GetProjects(string employerID)
         {
           var handler = new ProjectHandler();
-          var data = handler.GetProyectsData();
+          var data = handler.GetProyectsData(employerID);
           return Ok(data);
         }
     }
