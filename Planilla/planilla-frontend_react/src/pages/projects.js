@@ -55,7 +55,8 @@ class Projects extends React.Component {
                 container
                 spacing={3}
               >
-                {this.state.projects.slice(this.state.page * this.state.limit, this.state.page * this.state.limit + this.state.limit).map((project) => (
+                {/* {this.state.projects.slice(this.state.page * this.state.limit, this.state.page * this.state.limit + this.state.limit).map((project) => ( */}
+                {this.state.projects.map((project) => (
                   <Grid
                     item
                     key={project.projectName + project.employerID}
