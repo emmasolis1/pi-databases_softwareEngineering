@@ -58,7 +58,6 @@ namespace planilla_backend_asp.net.Handlers
 
     public bool CreateProject(ProjectModel project)
     {
-      Console.WriteLine(project.projectName);
       var consult = @"INSERT INTO Projects ([ProjectName], [EmployerID], [Budget], [PaymentMethod], [Description], [MaxNumberOfBenefits], [MaxBudgetForBenefits]) 
                       VALUES (@projectName, @employerID, @budget, @paymentMethod, @description, @maxNumberOfBenefits, @maxBudgetForBenefits)";
       var queryCommand = new SqlCommand(consult, connection);
@@ -119,5 +118,43 @@ namespace planilla_backend_asp.net.Handlers
 
       return status;
     }
+
+
+    // editar
+    public void UpdateProjectInfo(ProjectModel info)
+    {
+      // Prepare command
+      string consult = "update Projects set [Budget] = @budget, [PaymentMethod] = @paymentMethod, [Description] = @description, [MaxNumberOfBenefits] = @maxNumberOfBenefits, [MaxBudgetForBenefits] = @maxBudgetForBenefits where [ProjectName] = @projectName and [EmployerID] = @employerID";
+      SqlCommand queryCommand = new SqlCommand(consult, connection);
+      queryCommand.Parameters.AddWithValue("@projectName", info.projectName);
+      queryCommand.Parameters.AddWithValue("@employerID", info.employerID);
+      queryCommand.Parameters.AddWithValue("@budget", info.budget);
+      queryCommand.Parameters.AddWithValue("@paymentMethod", info.paymentMethod);
+      queryCommand.Parameters.AddWithValue("@description", info.description);
+      queryCommand.Parameters.AddWithValue("@maxNumberOfBenefits", info.maxNumberOfBenefits);
+      queryCommand.Parameters.AddWithValue("@maxBudgetForBenefits", info.maxBudgetForBenefits);
+
+      // Execute command
+      connection.Open();
+      queryCommand.ExecuteNonQuery();
+      connection.Close();
+    }
+
+    public DataTable GetSpecificProjectInfo(string projectName, string employerID)
+    {
+      string consult = @"SELECT ProjectName, EmployerID, Budget, PaymentMethod, Description, MaxNumberOfBenefits, MaxBudgetForBenefits
+                      FROM Projects
+                      WHERE EmployerID = @employerID and ProjectName = @projectName";
+      SqlCommand queryCommand = new SqlCommand(consult, connection);
+      queryCommand.Parameters.AddWithValue("@projectName", projectName);
+      queryCommand.Parameters.AddWithValue("@employerID", employerID);
+      SqlDataAdapter tableAdapter = new SqlDataAdapter(queryCommand);
+      DataTable tableFormatConsult = new DataTable();
+      connection.Open();
+      tableAdapter.Fill(tableFormatConsult);
+      connection.Close();
+      return tableFormatConsult;
+    }
+
   }
 }

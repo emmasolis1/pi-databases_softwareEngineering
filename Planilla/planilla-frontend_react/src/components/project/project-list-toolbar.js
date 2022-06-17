@@ -30,18 +30,18 @@ export const ProjectListToolbar = (props) => (
       >
         Projects
       </Typography>
-            <Box sx={{ m: 1 }}>
-                <NextLink
-                    href="/project_form"
-                    passHref
-                >
-        <Button
-          color="primary"
-          variant="contained"
+      <Box sx={{ m: 1 }}>
+        <NextLink
+          href="/project_form"
+          passHref
         >
-          Add projects
-                </Button>
-                </NextLink>
+          <Button
+            color="primary"
+            variant="contained"
+          >
+            Add projects
+          </Button>
+        </NextLink>
       </Box>
     </Box>
     <Box sx={{ mt: 3 }}>

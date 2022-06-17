@@ -26,6 +26,39 @@ namespace planilla_backend_asp.net.Controllers
       handler.CreateProject(project);
       return Ok();
     }
-  }
 
+    [HttpGet]
+    [Route("specificProject")]
+    public ActionResult EditProject(string project, string employerID)
+    {
+      try
+      {
+        ProjectHandler handler = new ProjectHandler();
+        var data = handler.GetSpecificProjectInfo(project, employerID);
+        return Ok(data);
+      }
+      catch (Exception error)
+      {
+        Console.WriteLine(error);
+        return BadRequest(error.Message);
+      }
+    }
+
+    [HttpPut]
+    [Route("specificProject")]
+    public ActionResult EditProject([FromBody] ProjectModel project)
+    {
+      try
+      {
+        ProjectHandler handler = new ProjectHandler();
+        handler.UpdateProjectInfo(project);
+        return Ok();
+      }
+      catch (Exception error)
+      {
+        Console.WriteLine(error);
+        return BadRequest(error.Message);
+      }
+    }
+  }
 }

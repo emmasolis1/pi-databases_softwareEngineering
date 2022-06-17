@@ -16,12 +16,6 @@ class Projects extends React.Component {
     }
 
     componentDidMount() {
-        // -------------------------------------------------------------------
-        // Eliminar esta linea cuando la conexión con los proyectos esté lista
-        sessionStorage.setItem("project", "TaBueno Planilla CR");
-        sessionStorage.setItem("employerID", "0116800871");
-        // -------------------------------------------------------------------
-
         axios.get(this.state.APIUrl + "?employerID=" + sessionStorage.getItem("employerID")).then(response => {
             this.setState({ projects: response.data });
         });
