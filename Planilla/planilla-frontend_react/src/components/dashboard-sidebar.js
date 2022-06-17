@@ -51,7 +51,12 @@ const items = [
     href: '/register',
     icon: (<UserAddIcon fontSize="small" />),
     title: 'Register'
-  },
+    },
+    {
+        href: '/projects',
+        icon: (<ChartBarIcon fontSize="small" />),
+        title: 'Projects'
+    },
   {
     href: '/404',
     icon: (<XCircleIcon fontSize="small" />),
