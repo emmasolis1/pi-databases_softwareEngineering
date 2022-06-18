@@ -20,7 +20,8 @@ const CreateVoluntaryDeduction = () => {
       voluntaryDeductionName: '',
       projectName: '',
       employerID: '',
-      description: ''
+      description: '',
+      cost: ''
     },
     validationSchema: Yup.object({
       voluntaryDeductionName: Yup
@@ -38,6 +39,7 @@ const CreateVoluntaryDeduction = () => {
         projectName: sessionStorage.getItem("project"),
         employerID: sessionStorage.getItem("employerID"),
         description: values.description,
+        cost: ""
       };
       axios.post('https://localhost:7150/api/voluntaryDeductions', data)
         .then(function () {
