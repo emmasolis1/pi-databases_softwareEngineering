@@ -10,7 +10,7 @@ class VoluntaryDeductions extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      benefits: [],
+      voluntaryDeductions: [],
       APIUrl: 'https://localhost:7150/api/voluntaryDeductions',
     };
   }
@@ -25,7 +25,7 @@ class VoluntaryDeductions extends React.Component {
       <>
         <Head>
           <title>
-            Voluntary Deductions | Material Kit
+            Voluntary Deductions | Ta' Bueno
           </title>
         </Head>
         <Box
