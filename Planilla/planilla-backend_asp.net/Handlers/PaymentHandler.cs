@@ -1,4 +1,5 @@
-﻿using System.Data.SqlClient;
+﻿using planilla_backend_asp.net.Models;
+using System.Data.SqlClient;
 using System.Data;
 
 namespace planilla_backend_asp.net.Handlers
@@ -24,9 +25,17 @@ namespace planilla_backend_asp.net.Handlers
             return tableFormatQuery;
         }
 
+        private bool ExecuteCommand(SqlCommand command)
+        {
+            connection.Open();
+            bool result = command.ExecuteNonQuery() >= 1;
+            connection.Close();
+            return result;
+        }
+
         //This method is assuming that Cost is the amount of money that has to be deducted
         //This method needs to change if Cost in the database reprsent a percentage, thats the meaning of the commented code
-        private double GetSalaryDeductionFromVoluntaryDeductions(/*double salary, */string projectName, string employerId, string employeeId)
+        private double GetDeductionFromVoluntaryDeductions(/*double salary, */string projectName, string employerId, string employeeId)
         {
             var consult = "EXECUTE GetEmployeeVoluntaryDeductionsToday @project_name, @employer_id, @employee_id";
             var queryCommand = new SqlCommand(consult, connection);
@@ -63,19 +72,52 @@ namespace planilla_backend_asp.net.Handlers
             return totalHours;
         }
 
-        private List<string> GetEmployeesWorkingOnProject(string projectName, string employerId)
+        private List<PaymentModel> GetEmployeesWorkingOnProject(string projectName, string employerId)
         {
             var consult = "EXECUTE GetEmployeesWorkingOnProjectToday @project_name, @employer_id";
             var queryCommand = new SqlCommand(consult, connection);
             queryCommand.Parameters.AddWithValue("@project_name", projectName);
             queryCommand.Parameters.AddWithValue("@employer_id", employerId);
             DataTable resultTable = CreateTableConsult(queryCommand);
-            List<string> employees = new List<string>();
+            List<PaymentModel> employees = new List<PaymentModel>();
             foreach (DataRow column in resultTable.Rows)
             {
-                employees.Add(Convert.ToString(column["EmployeeID"]));
+                employees.Add(new PaymentModel
+                { 
+                    employeeId = Convert.ToString(column["EmployeeID"]),
+                    netSalary = Convert.ToDouble(column["NetSalary"])
+                });
             }
             return employees;
+        }
+
+        //Assumes that Percentage is a value between 0 and 1 in the database
+        private double GetDeductionFromMandatoryDeductions(double salary)
+        {
+            var consult = @"SELECT MandatoryDeductionName, Percentage
+                            FROM MandatoryDeductions";
+            var queryCommand = new SqlCommand(consult, connection);
+            DataTable resultTable = CreateTableConsult(queryCommand);
+            double totalDeduction = 0;
+            foreach(DataRow column in resultTable.Rows)
+            {
+                double percentage = Convert.ToDouble(column["Percentage"]);
+                totalDeduction = totalDeduction + (salary * percentage);
+            }
+            return totalDeduction;
+        }
+
+        private bool CreatePayment(string projectName, string employerId, string employeeId, string startContractDay, string paymentDate = "cast (getdate() as date)")
+        {
+            var command = @"INSERT INTO Payments ([ProjectName], [EmployerID], [EmployeeID], [StartDate], [PaymentDate])
+                            VALUES (@project_name, @employer_id, @employee_id, @start_date, @payment_date)";
+            SqlCommand queryCommand = new SqlCommand(command, connection);
+            queryCommand.Parameters.AddWithValue("@project_name", projectName);
+            queryCommand.Parameters.AddWithValue("@employer_id", employerId);
+            queryCommand.Parameters.AddWithValue("@employee_id", employeeId);
+            queryCommand.Parameters.AddWithValue("@start_date", startContractDay);
+            queryCommand.Parameters.AddWithValue("@payment_date", paymentDate);
+            return ExecuteCommand(queryCommand);
         }
     }
 }
