@@ -6,7 +6,8 @@ import {
   CardHeader,
   Divider,
   Grid,
-  TextField
+  TextField,
+  Stack
 } from '@mui/material';
 import { useFormik } from 'formik';
 import axios from 'axios';
@@ -168,13 +169,22 @@ export const ProjectProfileDetails = ({ project, ...props }) => {
             p: 2
           }}
         >
-          <Button
-            color="primary"
-            variant="contained"
-            type="submit"
-          >
-            Save details
-          </Button>
+          <Stack direction="row" spacing={2}>
+            <Button
+              color="primary"
+              variant="contained"
+              type="submit"
+            >
+              Save details
+            </Button>
+            <Button
+              color="error"
+              variant="contained"
+              type="submit"
+            >
+              Delete Project
+            </Button>
+          </Stack>
         </Box>
       </Card>
     </form>

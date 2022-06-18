@@ -11,6 +11,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { format } from 'date-fns';
 import { getInitials } from '../../utils/get-initials';
 import IconButton from '@mui/material/IconButton';
+import ReadMoreIcon from '@mui/icons-material/ReadMore';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
 import Router from 'next/router';
@@ -30,9 +31,9 @@ import {
   Typography
 } from '@mui/material';
 
-export const CustomerListResults = ({ employees, ...rest }) => {
+export const EmployeeListResults = ({ employees, ...rest }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
-  const [limit, setLimit] = useState(10);
+  const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(0);
   const [open, setOpen] = React.useState(false);
 
@@ -70,6 +71,7 @@ export const CustomerListResults = ({ employees, ...rest }) => {
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
+    setPage(0);
   };
 
   const handlePageChange = (event, newPage) => {
@@ -134,7 +136,7 @@ export const CustomerListResults = ({ employees, ...rest }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {employees.slice(0, limit).map((employee) => (
+              {employees.slice(page * limit, page * limit + limit).map((employee) => (
                 <TableRow
                   hover
                   key={employee.id}
@@ -183,8 +185,8 @@ export const CustomerListResults = ({ employees, ...rest }) => {
                   </TableCell>
                   <TableCell>
                     <Stack direction="row" spacing={1}>
-                      <IconButton aria-label="edit" color="secondary" edge="false" onClick={editEmployee}>
-                        <EditIcon />
+                      <IconButton aria-label="edit" color="primary" edge="false" onClick={editEmployee}>
+                        <ReadMoreIcon />
                       </IconButton>
                       <IconButton aria-label="delete" color="error" edge="false" onClick={handleClickOpen}>
                         <DeleteForeverIcon />
@@ -230,6 +232,6 @@ export const CustomerListResults = ({ employees, ...rest }) => {
   );
 };
 
-CustomerListResults.propTypes = {
+EmployeeListResults.propTypes = {
   employees: PropTypes.array.isRequired
 };

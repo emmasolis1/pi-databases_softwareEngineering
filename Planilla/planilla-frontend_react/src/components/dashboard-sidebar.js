@@ -18,55 +18,45 @@ import { NavItem } from './nav-item';
 
 const items = [
   {
-    href: '/',
+    href: '/dashboard',
     icon: (<ChartBarIcon fontSize="small" />),
     title: 'Dashboard'
   },
   {
-    href: '/customers',
+    href: '/employees',
     icon: (<UsersIcon fontSize="small" />),
-    title: 'Customers'
+    title: 'Employees'
   },
+  // {
+  //   href: '/settings',
+  //   icon: (<CogIcon fontSize="small" />),
+  //   title: 'Settings'
+  // },
   {
-    href: '/products',
-    icon: (<ShoppingBagIcon fontSize="small" />),
-    title: 'Products'
-  },
-  {
-    href: '/account',
-    icon: (<UserIcon fontSize="small" />),
-    title: 'Account'
-  },
-  {
-    href: '/settings',
-    icon: (<CogIcon fontSize="small" />),
-    title: 'Settings'
-  },
-  {
-    href: '/login',
-    icon: (<LockIcon fontSize="small" />),
-    title: 'Login'
-  },
-  {
-    href: '/register',
-    icon: (<UserAddIcon fontSize="small" />),
-    title: 'Register'
-    },
-    {
-        href: '/projects',
-        icon: (<ChartBarIcon fontSize="small" />),
-        title: 'Projects'
-    },
-  {
-    href: '/404',
-    icon: (<XCircleIcon fontSize="small" />),
-    title: 'Error'
+      href: '/projects',
+      icon: (<ChartBarIcon fontSize="small" />),
+      title: 'Projects'
   },
   {
     href: '/benefits',
     icon: (<ShoppingBagIcon fontSize="small" />),
     title: 'Benefits'
+  },
+  {
+    href: '/products',
+    icon: (<LockIcon fontSize="small" />),
+    title: 'Mandatory Deductions'
+  },
+  {
+    href: '/products',
+    icon: (<LockIcon fontSize="small" />),
+    title: 'Voluntary Deductions'
   }
+  // {
+  //   href: '/404',
+  //   icon: (<XCircleIcon fontSize="small" />),
+  //   title: 'Error'
+  // },
 ];
 
 export const DashboardSidebar = (props) => {
@@ -103,7 +93,7 @@ export const DashboardSidebar = (props) => {
         <div>
           <Box sx={{ p: 3 }}>
             <NextLink
-              href="/"
+              href="/dashboard"
               passHref
             >
               <a>
@@ -181,16 +171,18 @@ export const DashboardSidebar = (props) => {
           <Typography
             color="neutral.100"
             variant="subtitle2"
+            align="center"
           >
-            Need more features?
+            &copy; Ta' Bueno - 2022
           </Typography>
           <Typography
             color="neutral.500"
             variant="body2"
+            align='center'
           >
-            Check out our Pro solution template.
+            PI - Databases / Software
           </Typography>
-          <Box
+          {/* <Box
             sx={{
               display: 'flex',
               mt: 2,
@@ -203,24 +195,9 @@ export const DashboardSidebar = (props) => {
           >
             <img
               alt="Go to pro"
-              src="/static/images/sidebar_pro.png"
+              src="/static/images/ta_bueno_logo.png"
             />
-          </Box>
-          <NextLink
-            href="https://material-kit-pro-react.devias.io/"
-            passHref
-          >
-            <Button
-              color="secondary"
-              component="a"
-              endIcon={(<OpenInNewIcon />)}
-              fullWidth
-              sx={{ mt: 2 }}
-              variant="contained"
-            >
-              Pro Live Preview
-            </Button>
-          </NextLink>
+          </Box> */}
         </Box>
       </Box>
     </>

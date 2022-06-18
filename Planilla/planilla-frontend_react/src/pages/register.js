@@ -106,7 +106,7 @@ const Register = () => {
             Phone: values.phone
         };
         axios.post('https://localhost:7150/api/register', data);
-        router.push('/login');
+        router.push('/');
     }
   });
 
@@ -128,14 +128,14 @@ const Register = () => {
       >
         <Container maxWidth="sm">
           <NextLink
-            href="/login"
+            href="/"
             passHref
           >
             <Button
               component="a"
               startIcon={<ArrowBackIcon fontSize="small" />}
             >
-              Dashboard
+              Sign In
             </Button>
           </NextLink>
           <form onSubmit={formik.handleSubmit}>

@@ -119,8 +119,6 @@ namespace planilla_backend_asp.net.Handlers
       return status;
     }
 
-
-    // editar
     public void UpdateProjectInfo(ProjectModel info)
     {
       // Prepare command
