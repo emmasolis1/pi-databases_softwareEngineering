@@ -139,7 +139,7 @@ export const VoluntaryDeductionListResults = ({ voluntaryDeductions, ...rest }) 
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={voluntaryDeduction.length}
+        count={voluntaryDeductions.length}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}

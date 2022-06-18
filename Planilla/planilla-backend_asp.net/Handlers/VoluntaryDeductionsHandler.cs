@@ -25,21 +25,21 @@ namespace planilla_backend_asp.net.Handlers
       return consultTable;
     }
 
-    public bool CreateVoluntaryDeductions(VoluntaryDeductionsModel voluntaryDeductions)
+    public bool CreateVoluntaryDeductions(VoluntaryDeductionsModel voluntaryDeduction)
     {
       var consult = @"INSERT INTO VoluntaryDeductions ([VoluntaryDeductionName], [ProjectName], [EmployerID], [Description]) 
                       VALUES (@voluntaryDeductionName, @projectName, @employerID, @description)";
       var queryCommand = new SqlCommand(consult, connection);
 
       // Insertion of key attributes
-      queryCommand.Parameters.AddWithValue("@voluntaryDeductionName", voluntaryDeductions.voluntaryDeductionName);
-      queryCommand.Parameters.AddWithValue("@projectName", voluntaryDeductions.projectName);
-      queryCommand.Parameters.AddWithValue("@employerID", voluntaryDeductions.employerID);
+      queryCommand.Parameters.AddWithValue("@voluntaryDeductionName", voluntaryDeduction.voluntaryDeductionName);
+      queryCommand.Parameters.AddWithValue("@projectName", voluntaryDeduction.projectName);
+      queryCommand.Parameters.AddWithValue("@employerID", voluntaryDeduction.employerID);
 
       // Insertion of optional attributes
-      if (voluntaryDeductions.description != null && voluntaryDeductions.description != "")
+      if (voluntaryDeduction.description != null && voluntaryDeduction.description != "")
       {
-        queryCommand.Parameters.AddWithValue("@description", voluntaryDeductions.description);
+        queryCommand.Parameters.AddWithValue("@description", voluntaryDeduction.description);
       }
       else
       {

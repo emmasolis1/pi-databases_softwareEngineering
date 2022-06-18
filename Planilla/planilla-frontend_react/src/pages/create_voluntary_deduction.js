@@ -20,8 +20,7 @@ const CreateVoluntaryDeduction = () => {
       voluntaryDeductionName: '',
       projectName: '',
       employerID: '',
-      description: '',
-      cost: ''
+      description: ''
     },
     validationSchema: Yup.object({
       voluntaryDeductionName: Yup
@@ -42,7 +41,7 @@ const CreateVoluntaryDeduction = () => {
       };
       axios.post('https://localhost:7150/api/voluntaryDeductions', data)
         .then(function () {
-            alert("Voluntary Deduction successfully created, returning to voluntary deduction list");
+          alert("Voluntary Deduction successfully created, returning to voluntary deduction list");
           router.push('/voluntaryDeductions');
         })
         .catch(function (error) {
