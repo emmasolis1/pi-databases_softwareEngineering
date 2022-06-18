@@ -8,6 +8,7 @@ namespace planilla_backend_asp.net.Controllers
   [ApiController]
   public class VoluntaryDeductionsController : ControllerBase
   {
+
     [HttpGet]
     [Route("voluntaryDeductions")]
     public ActionResult GetVoluntaryDeductions(string project, string employerID)
