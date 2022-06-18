@@ -39,10 +39,11 @@ const CreateVoluntaryDeduction = () => {
         projectName: sessionStorage.getItem("project"),
         employerID: sessionStorage.getItem("employerID"),
         description: values.description,
+        cost: ""
       };
       axios.post('https://localhost:7150/api/voluntaryDeductions', data)
         .then(function () {
-            alert("Voluntary Deduction successfully created, returning to voluntary deduction list");
+          alert("Voluntary Deduction successfully created, returning to voluntary deduction list");
           router.push('/voluntaryDeductions');
         })
         .catch(function (error) {

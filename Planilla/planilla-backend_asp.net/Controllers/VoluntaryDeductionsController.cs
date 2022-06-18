@@ -8,11 +8,20 @@ namespace planilla_backend_asp.net.Controllers
   [ApiController]
   public class VoluntaryDeductionsController : ControllerBase
   {
+
+    [HttpGet]
+    [Route("voluntaryDeductions")]
+    public ActionResult GetVoluntaryDeductions(string project, string employerID)
+    {
+      var handler = new VoluntaryDeductionsHandler();
+      var data = handler.GetVoluntaryDeductionsData(project, employerID);
+      return Ok(data);
+    }
+
     [HttpPost]
     [Route("voluntaryDeductions")]
     public ActionResult CreateVoluntaryDeduction([FromBody] VoluntaryDeductionsModel voluntaryDeductions)
     {
-      // Create new benefit
       VoluntaryDeductionsHandler handler = new VoluntaryDeductionsHandler();
       handler.CreateVoluntaryDeductions(voluntaryDeductions);
       return Ok();

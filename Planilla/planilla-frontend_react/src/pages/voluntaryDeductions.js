@@ -2,7 +2,7 @@ import Head from 'next/head';
 import React from 'react';
 import axios from 'axios';
 import { Box, Container } from '@mui/material';
-//import { VoluntaryDeductionListResults } from '../components/voluntaryDeduction/voluntaryDeduction-list-results';
+import { VoluntaryDeductionListResults } from '../components/voluntaryDeduction/voluntaryDeduction-list-results';
 import { VoluntaryDeductionListToolbar } from '../components/voluntaryDeduction/voluntaryDeduction-list-toolbar';
 import { DashboardLayout } from '../components/dashboard-layout';
 
@@ -10,7 +10,7 @@ class VoluntaryDeductions extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      benefits: [],
+      voluntaryDeductions: [],
       APIUrl: 'https://localhost:7150/api/voluntaryDeductions',
     };
   }
@@ -25,7 +25,7 @@ class VoluntaryDeductions extends React.Component {
       <>
         <Head>
           <title>
-            Voluntary Deductions | Material Kit
+            Voluntary Deductions | Ta' Bueno
           </title>
         </Head>
         <Box
@@ -38,7 +38,7 @@ class VoluntaryDeductions extends React.Component {
           <Container maxWidth={false}>
             <VoluntaryDeductionListToolbar />
             <Box sx={{ mt: 3 }}>
-              {/*<VoluntaryDeductionListResults voluntaryDeductions={this.state.voluntaryDeductions} />*/}
+              {<VoluntaryDeductionListResults voluntaryDeductions={this.state.voluntaryDeductions} />}
             </Box>
           </Container>
         </Box>

@@ -25,21 +25,21 @@ namespace planilla_backend_asp.net.Handlers
       return consultTable;
     }
 
-    public bool CreateVoluntaryDeductions(VoluntaryDeductionsModel voluntaryDeductions)
+    public bool CreateVoluntaryDeductions(VoluntaryDeductionsModel voluntaryDeduction)
     {
       var consult = @"INSERT INTO VoluntaryDeductions ([VoluntaryDeductionName], [ProjectName], [EmployerID], [Description]) 
                       VALUES (@voluntaryDeductionName, @projectName, @employerID, @description)";
       var queryCommand = new SqlCommand(consult, connection);
 
       // Insertion of key attributes
-      queryCommand.Parameters.AddWithValue("@voluntaryDeductionName", voluntaryDeductions.voluntaryDeductionName);
-      queryCommand.Parameters.AddWithValue("@projectName", voluntaryDeductions.projectName);
-      queryCommand.Parameters.AddWithValue("@employerID", voluntaryDeductions.employerID);
+      queryCommand.Parameters.AddWithValue("@voluntaryDeductionName", voluntaryDeduction.voluntaryDeductionName);
+      queryCommand.Parameters.AddWithValue("@projectName", voluntaryDeduction.projectName);
+      queryCommand.Parameters.AddWithValue("@employerID", voluntaryDeduction.employerID);
 
       // Insertion of optional attributes
-      if (voluntaryDeductions.description != null && voluntaryDeductions.description != "")
+      if (voluntaryDeduction.description != null && voluntaryDeduction.description != "")
       {
-        queryCommand.Parameters.AddWithValue("@description", voluntaryDeductions.description);
+        queryCommand.Parameters.AddWithValue("@description", voluntaryDeduction.description);
       }
       else
       {
@@ -51,6 +51,35 @@ namespace planilla_backend_asp.net.Handlers
       connection.Close();
 
       return status;
+    }
+
+    public List<VoluntaryDeductionsModel> GetVoluntaryDeductionsData(string project, string employerID)
+    {
+      List<VoluntaryDeductionsModel> voluntaryDeductions = new List<VoluntaryDeductionsModel>();
+      var consult = @"SELECT VoluntaryDeductionName, ProjectName, EmployerID, Description
+                      FROM VoluntaryDeductions
+                      WHERE ProjectName = @project AND EmployerID = @employerID
+                      ORDER BY VoluntaryDeductionName";
+      var queryCommand = new SqlCommand(consult, connection);
+
+      // Uses user's email and the name of the active project to get only related benefits
+      queryCommand.Parameters.AddWithValue("@project", project);
+      queryCommand.Parameters.AddWithValue("@employerID", employerID);
+
+      SqlDataAdapter tableAdapter = new SqlDataAdapter(queryCommand);
+      DataTable tablaResultado = CreateTableConsult(tableAdapter);
+      foreach (DataRow columna in tablaResultado.Rows)
+      {
+        voluntaryDeductions.Add(new VoluntaryDeductionsModel
+        {
+          voluntaryDeductionName = Convert.ToString(columna["VoluntaryDeductionName"]),
+          projectName = Convert.ToString(columna["ProjectName"]),
+          employerID = Convert.ToString(columna["EmployerID"]),
+          description = Convert.ToString(columna["Description"]),
+        });
+      }
+
+      return voluntaryDeductions;
     }
   }
 }
