@@ -17,5 +17,14 @@ namespace planilla_backend_asp.net.Controllers
       handler.CreateVoluntaryDeductions(voluntaryDeductions);
       return Ok();
     }
+
+    [HttpGet]
+    [Route("voluntaryDeductions")]
+    public ActionResult GetVoluntaryDeductions(string project, string employerID)
+    {
+      var handler = new VoluntaryDeductionsHandler();
+      var data = handler.GetVoluntaryDeductionsData(project, employerID);
+      return Ok(data);
+    }
   }
 }

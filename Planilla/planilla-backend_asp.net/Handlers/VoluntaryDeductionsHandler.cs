@@ -52,5 +52,34 @@ namespace planilla_backend_asp.net.Handlers
 
       return status;
     }
+
+    public List<VoluntaryDeductionsModel> GetVoluntaryDeductionsData(string project, string employerID)
+    {
+      List<VoluntaryDeductionsModel> voluntaryDeductions = new List<VoluntaryDeductionsModel>();
+      var consult = @"SELECT VoluntaryDeductionName, ProjectName, EmployerID, Description
+                      FROM VoluntaryDeductions
+                      WHERE ProjectName = @project AND EmployerID = @employerID
+                      ORDER BY VoluntaryDeductionName";
+      var queryCommand = new SqlCommand(consult, connection);
+
+      // Uses user's email and the name of the active project to get only related benefits
+      queryCommand.Parameters.AddWithValue("@project", project);
+      queryCommand.Parameters.AddWithValue("@employerID", employerID);
+
+      SqlDataAdapter tableAdapter = new SqlDataAdapter(queryCommand);
+      DataTable tablaResultado = CreateTableConsult(tableAdapter);
+      foreach (DataRow columna in tablaResultado.Rows)
+      {
+        voluntaryDeductions.Add(new VoluntaryDeductionsModel
+        {
+          voluntaryDeductionName = Convert.ToString(columna["VoluntaryDeductionName"]),
+          projectName = Convert.ToString(columna["ProjectName"]),
+          employerID = Convert.ToString(columna["EmployerID"]),
+          description = Convert.ToString(columna["Description"]),
+        });
+      }
+
+      return voluntaryDeductions;
+    }
   }
 }
