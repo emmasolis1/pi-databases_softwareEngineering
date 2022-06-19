@@ -16,6 +16,7 @@ import { XCircle as XCircleIcon } from '../icons/x-circle';
 import { Logo } from './logo';
 import { NavItem } from './nav-item';
 
+    name: 'Project 1',
 const items = [
   {
     href: '/dashboard',
