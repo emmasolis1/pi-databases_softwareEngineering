@@ -114,5 +114,22 @@ namespace planilla_backend_asp.net.Controllers
         return BadRequest(error.Message);
       }
     }
+
+    [HttpGet]
+    [Route("viewEmployee/")]
+    public ActionResult ViewEmployee([FromQuery] string id)
+    {
+      try
+      {
+        UserHandler handler = new UserHandler();
+        var data = handler.ViewEmployeeInfo(id);
+        return Ok(data);
+      }
+      catch(Exception error)
+      {
+        Console.WriteLine(error);
+        return BadRequest(error.Message);
+      }
+    }
   }
 }
