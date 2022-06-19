@@ -16,7 +16,9 @@ class SpecificProjectEmployees extends React.Component {
   }
 
   componentDidMount() {
-
+    axios.get(this.state.APIUrl + "?projectName=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID")).then(response => {
+      this.setState({ employees: response.data });
+    });
   }
 
   render() {

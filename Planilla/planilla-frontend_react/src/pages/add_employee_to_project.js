@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import React from 'react';
 import axios from 'axios';
-import { v4 as uuid } from 'uuid';
 import { Box, Container } from '@mui/material';
 import { EmployeeListResults } from '../components/employee/employee-list-results';
 import { EmployeeListToolbar } from '../components/employee/employee-list-toolbar';
@@ -12,13 +11,12 @@ class AddEmployeeToProject extends React.Component {
     super(props);
     this.state = {
       employees: [],
-      APIUrl: 'https://localhost:7150/api/employees'
-      //APIUrl: 'https://localhost:7150/api/employeesNotInProject'
+      APIUrl: 'https://localhost:7150/api/employeesNotInProject'
     };
   }
 
   componentDidMount() {
-    axios.get(this.state.APIUrl).then(response => {
+    axios.get(this.state.APIUrl + "?projectName=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID")).then(response => {
       this.setState({ employees: response.data });
     });
   }

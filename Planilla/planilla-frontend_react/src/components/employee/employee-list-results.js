@@ -58,7 +58,7 @@ export const EmployeeListResults = ({ employees, ...rest }) => {
     let newSelectedCustomerIds;
 
     if (event.target.checked) {
-      newSelectedCustomerIds = employees.map((employee) => employee.id);
+      newSelectedCustomerIds = employees.map((employee) => employee.Identification);
     } else {
       newSelectedCustomerIds = [];
     }
@@ -95,17 +95,32 @@ export const EmployeeListResults = ({ employees, ...rest }) => {
     setPage(newPage);
   };
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (id) => {
+    sessionStorage.setItem("employeeID", id);
     setOpen(true);
   };
 
-  const handleClose = (agreed, id) => {
+  const handleClickOpenProject = (id) => {
+    sessionStorage.setItem("employeeID", id);
+    setOpen(true);
+  };
+
+  const handleClose = (agreed) => {
     setOpen(false);
     if (agreed === true) {
-      axios.delete("https://localhost:7150/api/deleteEmployee?id=" + id).then(() => {
+      axios.delete("https://localhost:7150/api/deleteEmployee?id=" + sessionStorage.getItem("employeeID")).then(() => {
         alert("Employee deleted successfully");
-        // Router.push("/customers");
         window.location.reload(false);
+      });
+    }
+  };
+
+  const handleCloseProject = (agreed) => {
+    setOpen(false);
+    if (agreed === true) {
+      axios.delete("https://localhost:7150/api/deleteEmployeeFromProject?projectName=" + sessionStorage.getItem("project") + "&id=" + sessionStorage.getItem("employeeID")).then(() => {
+        alert("Employee deleted from project successfully");
+        //window.location.reload(false);
       });
     }
   };
@@ -167,13 +182,13 @@ export const EmployeeListResults = ({ employees, ...rest }) => {
               {employees.slice(page * limit, page * limit + limit).map((employee) => (
                 <TableRow
                   hover
-                  key={employee.id}
-                  selected={selectedCustomerIds.indexOf(employee.id) !== -1}
+                  key={employee.Identification}
+                  selected={selectedCustomerIds.indexOf(employee.Identification) !== -1}
                 >
                   <TableCell padding="checkbox">
                     <Checkbox
-                      checked={selectedCustomerIds.indexOf(employee.id) !== -1}
-                      onChange={(event) => handleSelectOne(event, employee.id)}
+                      checked={selectedCustomerIds.indexOf(employee.Identification) !== -1}
+                      onChange={(event) => handleSelectOne(event, employee.Identification)}
                       value="true"
                     />
                   </TableCell>
@@ -214,10 +229,10 @@ export const EmployeeListResults = ({ employees, ...rest }) => {
                   <TableCell>
                     {showEditAndDeleteEmployeeButton ?
                       <Stack direction="row" spacing={1}>
-                        <IconButton aria-label="edit" color="primary" edge="false" onClick={() => viewEmployee(employee.Identification)}>
+                        <IconButton aria-label="edit" color="primary" onClick={() => viewEmployee(employee.Identification)}>
                           <ReadMoreIcon />
                         </IconButton>
-                        <IconButton aria-label="delete" color="error" edge="false" onClick={handleClickOpen}>
+                        <IconButton aria-label="delete" color="error" onClick={() => handleClickOpen(employee.Identification)}>
                           <DeleteForeverIcon />
                         </IconButton>
                         <Dialog
@@ -232,12 +247,12 @@ export const EmployeeListResults = ({ employees, ...rest }) => {
                           <DialogContent>
                             <DialogContentText id="alert-dialog-description">
                               You are about to delete (fire) an employee this means
-                              that you also will have to liquidate him. Are you sure?
+                              that you also will have to liquidate them. Are you sure?
                             </DialogContentText>
                           </DialogContent>
                           <DialogActions>
                             <Button onClick={handleClose} autoFocus>NO</Button>
-                            <Button onClick={() => handleClose(true, employee.Identification)}>Yes</Button>
+                            <Button onClick={() => handleClose(true)}>Yes</Button>
                           </DialogActions>
                         </Dialog>
                       </Stack>
@@ -246,18 +261,38 @@ export const EmployeeListResults = ({ employees, ...rest }) => {
                     }
                     {showSeeEmployeeContractButton ?
                       <Stack direction="row" spacing={1}>
-                        <IconButton aria-label="contract" color="primary" edge="false" onClick={seeContract}>
+                        <IconButton aria-label="contract" color="primary" onClick={seeContract}>
                           <ReadMoreIcon />
                         </IconButton>
-                        <IconButton aria-label="delete" color="error" edge="false" onClick={handleClickOpen}>
+                        <IconButton aria-label="delete" color="error" onClick={() => handleClickOpenProject(employee.Identification)}>
                           <DeleteForeverIcon />
                         </IconButton>
+                        <Dialog
+                          open={open}
+                          onClose={handleCloseProject}
+                          aria-labelledby="alert-dialog-title"
+                          aria-describedby="alert-dialog-description"
+                        >
+                          <DialogTitle id="alert-dialog-title">
+                            {"Alert: Please read!!!"}
+                          </DialogTitle>
+                          <DialogContent>
+                            <DialogContentText id="alert-dialog-description">
+                              You are about to delete (fire) an employee from this project,
+                              this implies ending their contract. Are you sure?
+                            </DialogContentText>
+                          </DialogContent>
+                          <DialogActions>
+                            <Button onClick={handleCloseProject} autoFocus>NO</Button>
+                            <Button onClick={() => handleCloseProject(true)}>Yes</Button>
+                          </DialogActions>
+                        </Dialog>
                       </Stack>
                       :
                       ""
                     }
                     {showAddEmployeeToProjectButton ?
-                      <IconButton aria-label="add" color="primary" edge="false" onClick={() => addEmployeeToProject(employee)}>
+                      <IconButton aria-label="add" color="primary" onClick={() => addEmployeeToProject(employee)}>
                         <AddBoxIcon />
                       </IconButton>
                       :

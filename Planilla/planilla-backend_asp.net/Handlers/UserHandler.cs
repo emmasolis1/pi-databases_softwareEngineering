@@ -25,6 +25,23 @@ namespace planilla_backend_asp.net.Handlers
       List<UserModelSummarized> employees = new List<UserModelSummarized>();
       foreach (DataRow columna in employeesResult.Rows)
       {
+        var rowAddress = "";
+        if (Convert.ToString(columna["State"]) != "" && Convert.ToString(columna["Country"]) != "")
+        {
+          rowAddress = Convert.ToString(columna["State"]) + ", " + Convert.ToString(columna["Country"]);
+        }
+        else if (Convert.ToString(columna["State"]) == "" && Convert.ToString(columna["Country"]) != "")
+        {
+          rowAddress = "No registered State" + ", " + Convert.ToString(columna["Country"]);
+        }
+        else if (Convert.ToString(columna["State"]) != "" && Convert.ToString(columna["Country"]) == "")
+        {
+          rowAddress = Convert.ToString(columna["State"] + ", " + "No registered Country");
+        }
+        else if (Convert.ToString(columna["State"]) + ", " + Convert.ToString(columna["Country"]) == ", ")
+        {
+          rowAddress = "No registered address";
+        }
         employees.Add(
           new UserModelSummarized
           {
@@ -32,7 +49,7 @@ namespace planilla_backend_asp.net.Handlers
             Identification = Convert.ToString(columna["Identification"]),
             Email = Convert.ToString(columna["Email"]),
             Phone = Convert.ToString(columna["Phone"]),
-            Address = Convert.ToString(columna["State"] + ", " + Convert.ToString(columna["Country"])),
+            Address = rowAddress
           });
       }
 
@@ -81,6 +98,102 @@ namespace planilla_backend_asp.net.Handlers
       data.Add(userFullname);
 
       return data;
+    }
+
+    public List<UserModelSummarized> GetSpecificProjectEmployees(string projectName, string employerID)
+    {
+      // Make consult to database
+      string consult = "EXEC GetEmployeesWorkingOnProject @projectName = @thisProjectName, @employerID = @thisEmployerID";
+      var queryCommand = new SqlCommand(consult, conexion);
+
+      // Uses user's email to get their ID
+      queryCommand.Parameters.AddWithValue("@thisProjectName", projectName);
+      queryCommand.Parameters.AddWithValue("@thisEmployerID", employerID);
+
+      List<UserModelSummarized> employees = new List<UserModelSummarized>();
+
+      conexion.Open();
+      SqlDataReader reader = queryCommand.ExecuteReader();
+      while (reader.Read())
+      {
+        var rowAddress = "";
+        if (reader["State"].ToString() != "" && reader["Country"].ToString() != "")
+        {
+          rowAddress = reader["State"].ToString() + ", " + reader["Country"].ToString();
+        }
+        else if (reader["State"].ToString() == "" && reader["Country"].ToString() != "")
+        {
+          rowAddress = "No registered State" + ", " + reader["Country"].ToString();
+        }
+        else if (reader["State"].ToString() != "" && reader["Country"].ToString() == "")
+        {
+          rowAddress = reader["State"].ToString() + ", " + "No registered Country";
+        }
+        else if (reader["State"].ToString() + ", " + reader["Country"].ToString() == ", ")
+        {
+          rowAddress = "No registered address";
+        }
+        employees.Add(
+          new UserModelSummarized
+          {
+            FullName = reader["FirstName"].ToString() + " " + reader["LastName"].ToString() + " " + reader["LastName2"].ToString(),
+            Identification = reader["Identification"].ToString(),
+            Email = reader["Email"].ToString(),
+            Phone = reader["Phone"].ToString(),
+            Address = rowAddress
+          });
+      }
+      conexion.Close();
+
+      return employees;
+    }
+
+    public List<UserModelSummarized> GetEmployeesNotInProject(string projectName, string employerID)
+    {
+      // Make consult to database
+      string consult = "EXEC GetEmployeesNotWorkingOnProject @projectName = @thisProjectName, @employerID = @thisEmployerID";
+      var queryCommand = new SqlCommand(consult, conexion);
+
+      // Uses user's email to get their ID
+      queryCommand.Parameters.AddWithValue("@thisProjectName", projectName);
+      queryCommand.Parameters.AddWithValue("@thisEmployerID", employerID);
+
+      List<UserModelSummarized> employees = new List<UserModelSummarized>();
+
+      conexion.Open();
+      SqlDataReader reader = queryCommand.ExecuteReader();
+      while (reader.Read())
+      {
+        var rowAddress = "";
+        if (reader["State"].ToString() != "" && reader["Country"].ToString() != "")
+        {
+          rowAddress = reader["State"].ToString() + ", " + reader["Country"].ToString();
+        }
+        else if (reader["State"].ToString() == "" && reader["Country"].ToString() != "")
+        {
+          rowAddress = "No registered State" + ", " + reader["Country"].ToString();
+        }
+        else if (reader["State"].ToString() != "" && reader["Country"].ToString() == "")
+        {
+          rowAddress = reader["State"].ToString() + ", " + "No registered Country";
+        }
+        else if (reader["State"].ToString() + ", " + reader["Country"].ToString() == ", ")
+        {
+          rowAddress = "No registered address";
+        }
+        employees.Add(
+          new UserModelSummarized
+          {
+            FullName = reader["FirstName"].ToString() + " " + reader["LastName"].ToString() + " " + reader["LastName2"].ToString(),
+            Identification = reader["Identification"].ToString(),
+            Email = reader["Email"].ToString(),
+            Phone = reader["Phone"].ToString(),
+            Address = rowAddress
+          });
+      }
+      conexion.Close();
+
+      return employees;
     }
 
     public void CreateEmployee(UserModel employee)
@@ -309,5 +422,21 @@ namespace planilla_backend_asp.net.Handlers
       conexion.Close();
     }
 
+    public void DeleteEmployeeFromProject(string projectName, string id)
+    {
+      // Prepare command
+      string consult = @"UPDATE Contracts
+                        SET RealEndedDate = @date 
+                        WHERE ProjectName = @projectName AND EmployeeID = @employeeID";
+      SqlCommand queryCommand = new SqlCommand(consult, conexion);
+      queryCommand.Parameters.AddWithValue("@date", DateTime.Now.ToString("yyyy/MM/dd"));
+      queryCommand.Parameters.AddWithValue("@projectName", projectName);
+      queryCommand.Parameters.AddWithValue("@employeeID", id);
+
+      // Execute command
+      conexion.Open();
+      queryCommand.ExecuteNonQuery();
+      conexion.Close();
+    }
   }
 }
