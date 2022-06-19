@@ -7,6 +7,8 @@ import NextLink from 'next/link';
 import { Bell as BellIcon } from '../icons/bell';
 import { UserCircle as UserCircleIcon } from '../icons/user-circle';
 import { Users as UsersIcon } from '../icons/users';
+import { getInitials } from 'src/utils/get-initials';
+import {useEffect, useState} from 'react';
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -15,6 +17,12 @@ const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
 
 export const DashboardNavbar = (props) => {
   const { onSidebarOpen, ...other } = props;
+  const [fullName, setFullName] = useState('');
+
+  useEffect(() => {
+    setFullName(sessionStorage.getItem('userFullname'));
+  }, [fullName]);
+
 
   return (
     <>
@@ -83,7 +91,8 @@ export const DashboardNavbar = (props) => {
                 }}
                 // src="/static/images/avatars/avatar_1.png"
                 >
-                  <UserCircleIcon fontSize="medium" />
+                  {/* <UserCircleIcon fontSize="medium" /> */}
+                  {getInitials(fullName)}
                 </Avatar>
               </IconButton>
             </Tooltip>
