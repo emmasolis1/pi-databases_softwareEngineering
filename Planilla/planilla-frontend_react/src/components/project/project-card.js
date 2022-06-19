@@ -16,10 +16,12 @@ export const ProjectCard = ({ project, ...rest }) => {
   };
 
   function viewEmployees() {
-    alert('View employees');
+    sessionStorage.setItem("project", project.projectName);
+    router.push('/specific_project_employees');
   }
 
   function payProject() {
+    sessionStorage.setItem("project", project.projectName);
     alert('Pay project');
   }
 

@@ -12,9 +12,10 @@ import { format } from 'date-fns';
 import { getInitials } from '../../utils/get-initials';
 import IconButton from '@mui/material/IconButton';
 import ReadMoreIcon from '@mui/icons-material/ReadMore';
+import AddBoxIcon from '@mui/icons-material/AddBox';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 import Stack from '@mui/material/Stack';
 import { useState } from 'react';
 import {
@@ -32,6 +33,22 @@ import {
 } from '@mui/material';
 
 export const EmployeeListResults = ({ employees, ...rest }) => {
+  const router = useRouter();
+  const showEditAndDeleteEmployeeButton = true;
+  const showSeeEmployeeContractButton = false;
+  const showAddEmployeeToProjectButton = false;
+
+  if (sessionStorage.getItem("showSpecificProjectEmployees") == "specific") {
+    showEditAndDeleteEmployeeButton = false;
+    showSeeEmployeeContractButton = true;
+    showAddEmployeeToProjectButton = false;
+  }
+  else if (sessionStorage.getItem("showSpecificProjectEmployees") == "allNoButton") {
+    showEditAndDeleteEmployeeButton = false;
+    showSeeEmployeeContractButton = false;
+    showAddEmployeeToProjectButton = true;
+  }
+
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(0);
@@ -93,8 +110,18 @@ export const EmployeeListResults = ({ employees, ...rest }) => {
     }
   };
 
+  const addEmployeeToProject = (employee) => {
+    sessionStorage.setItem("employeeFullName", employee.FullName);
+    sessionStorage.setItem("employeeID", employee.Identification);
+    router.push('/insert_contract');
+  }
+
   function editEmployee() {
     alert('Edit employee!');
+  }
+
+  function seeContract() {
+    alert('See contract');
   }
 
   return (
@@ -184,34 +211,57 @@ export const EmployeeListResults = ({ employees, ...rest }) => {
                     {employee.Phone}
                   </TableCell>
                   <TableCell>
-                    <Stack direction="row" spacing={1}>
-                      <IconButton aria-label="edit" color="primary" edge="false" onClick={editEmployee}>
-                        <ReadMoreIcon />
+                    {showEditAndDeleteEmployeeButton ?
+                      <Stack direction="row" spacing={1}>
+                        <IconButton aria-label="edit" color="primary" edge="false" onClick={editEmployee}>
+                          <ReadMoreIcon />
+                        </IconButton>
+                        <IconButton aria-label="delete" color="error" edge="false" onClick={handleClickOpen}>
+                          <DeleteForeverIcon />
+                        </IconButton>
+                        <Dialog
+                          open={open}
+                          onClose={handleClose}
+                          aria-labelledby="alert-dialog-title"
+                          aria-describedby="alert-dialog-description"
+                        >
+                          <DialogTitle id="alert-dialog-title">
+                            {"Alert: Please read!!!"}
+                          </DialogTitle>
+                          <DialogContent>
+                            <DialogContentText id="alert-dialog-description">
+                              You are about to delete (fire) an employee this means
+                              that you also will have to liquidate him. Are you sure?
+                            </DialogContentText>
+                          </DialogContent>
+                          <DialogActions>
+                            <Button onClick={handleClose} autoFocus>NO</Button>
+                            <Button onClick={() => handleClose(true, employee.Identification)}>Yes</Button>
+                          </DialogActions>
+                        </Dialog>
+                      </Stack>
+                      :
+                      ""
+                    }
+                    {showSeeEmployeeContractButton ?
+                      <Stack direction="row" spacing={1}>
+                        <IconButton aria-label="contract" color="primary" edge="false" onClick={seeContract}>
+                          <ReadMoreIcon />
+                        </IconButton>
+                        <IconButton aria-label="delete" color="error" edge="false" onClick={handleClickOpen}>
+                          <DeleteForeverIcon />
+                        </IconButton>
+                      </Stack>
+                      :
+                      ""
+                    }
+                    {showAddEmployeeToProjectButton ?
+                      <IconButton aria-label="add" color="primary" edge="false" onClick={() => addEmployeeToProject(employee)}>
+                        <AddBoxIcon />
                       </IconButton>
-                      <IconButton aria-label="delete" color="error" edge="false" onClick={handleClickOpen}>
-                        <DeleteForeverIcon />
-                      </IconButton>
-                      <Dialog
-                        open={open}
-                        onClose={handleClose}
-                        aria-labelledby="alert-dialog-title"
-                        aria-describedby="alert-dialog-description"
-                      >
-                        <DialogTitle id="alert-dialog-title">
-                          {"Alert: Please read!!!"}
-                        </DialogTitle>
-                        <DialogContent>
-                          <DialogContentText id="alert-dialog-description">
-                            You are about to delete (fire) an employee this means
-                            that you also will have to liquidate him. Are you sure?
-                          </DialogContentText>
-                        </DialogContent>
-                        <DialogActions>
-                          <Button onClick={handleClose} autoFocus>NO</Button>
-                          <Button onClick={() => handleClose(true, employee.Identification)}>Yes</Button>
-                        </DialogActions>
-                      </Dialog>
-                    </Stack>
+                      :
+                      ""
+                    }
                   </TableCell>
                 </TableRow>
               ))}
