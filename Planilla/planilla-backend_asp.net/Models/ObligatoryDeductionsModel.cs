@@ -2,8 +2,9 @@
 {
     public class ObligatoryDeductionsModel
     {   
-        public string nombre { get; set; }
+        public string Name { get; set; }
 
-        public double porcentaje { get; set; }
+        public double Percentage { get; set; }
+        public string Description { get; set; }
     }
 }

@@ -26,17 +26,18 @@ namespace planilla_backend_asp.net.Handlers
       return consultaFormatoTabla;
     }
 
-    public List<ObligatoryDeductionsModel> getMandatoryDeductions()
+    public List<ObligatoryDeductionsModel> GetMandatoryDeductions()
     {
       List<ObligatoryDeductionsModel> obligatoryDeductions = new List<ObligatoryDeductionsModel>();
-      string consult = "SELECT * FROM DeduccionesObligatorias";
+      string consult = "SELECT * FROM MandatoryDeductions";
       DataTable tablaResultado = CreateTableConsult(consult);
       foreach (DataRow columna in tablaResultado.Rows)
       {
         obligatoryDeductions.Add(new ObligatoryDeductionsModel
         {
-          nombre = Convert.ToString(columna["Nombre"]),
-          porcentaje = Convert.ToDouble(columna["Porcentaje"])
+          Name = Convert.ToString(columna["MandatoryDeductionName"]),
+          Percentage = Convert.ToDouble(columna["Percentage"]),
+          Description = Convert.ToString(columna["Description"])
         });
       }
       

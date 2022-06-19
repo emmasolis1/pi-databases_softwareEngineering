@@ -11,7 +11,7 @@ namespace planilla_backend_asp.net.Controllers
         public ActionResult GetObligatoryDeductions()
         {
           var handler = new MandatoryDeductionsHandler();
-          var data = handler.getMandatoryDeductions();
+          var data = handler.GetMandatoryDeductions();
           return Ok(data);
         }
     }
