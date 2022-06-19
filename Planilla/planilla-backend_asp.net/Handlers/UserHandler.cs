@@ -1,6 +1,9 @@
 ﻿using planilla_backend_asp.net.Models;
 using System.Data.SqlClient;
 using System.Data;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+using System;
 
 namespace planilla_backend_asp.net.Handlers
 {
@@ -96,8 +99,44 @@ namespace planilla_backend_asp.net.Handlers
       data.Add(userID);
       data.Add(userType);
       data.Add(userFullname);
+      data.Add(GetUserProjects(userID, userType).ToString());
 
       return data;
+    }
+
+    private string GetUserProjects(string id, string userType)
+    {
+      string response = "";
+      if (userType.Equals("0")) // It's an employer
+      {
+        List<string> projects = new List<string>();
+        var consult = @"select distinct ProjectName from Projects where EmployerID=@id";
+        var queryCommand = new SqlCommand(consult, conexion);
+        queryCommand.Parameters.AddWithValue("@id", id);
+        conexion.Open();
+        SqlDataReader reader = queryCommand.ExecuteReader();
+        while (reader.Read())
+        {
+          projects.Add(reader["ProjectName"].ToString());
+        }
+        conexion.Close();
+        response = JsonConvert.SerializeObject(projects);
+      } else if (userType.Equals("1")) // It's an employee
+      {
+        List<string> projects = new List<string>();
+        var consult = @"select distinct ProjectName from Contracts where EmployeeID=@id and RealEndedDate is not null";
+        var queryCommand = new SqlCommand(consult, conexion);
+        queryCommand.Parameters.AddWithValue("@id", id);
+        conexion.Open();
+        SqlDataReader reader = queryCommand.ExecuteReader();
+        while (reader.Read())
+        {
+          projects.Add(reader["ProjectName"].ToString());
+        }
+        conexion.Close();
+        response = JsonConvert.SerializeObject(projects);
+      }
+      return response;
     }
 
     public List<UserModelSummarized> GetSpecificProjectEmployees(string projectName, string employerID)
