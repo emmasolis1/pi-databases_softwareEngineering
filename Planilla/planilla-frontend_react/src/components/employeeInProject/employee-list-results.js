@@ -85,16 +85,15 @@ export const EmployeeListResults = ({ employees, ...rest }) => {
   const handleClose = (agreed) => {
     setOpen(false);
     if (agreed === true) {
-      axios.delete("https://localhost:7150/api/deleteEmployee?id=" + sessionStorage.getItem("employeeID")).then(() => {
-        alert("Employee deleted successfully");
+      axios.delete("https://localhost:7150/api/deleteEmployeeFromProject?projectName=" + sessionStorage.getItem("project") + "&id=" + sessionStorage.getItem("employeeID")).then(() => {
+        alert("Employee deleted from project successfully");
         window.location.reload(false);
       });
     }
   };
 
-  const viewEmployee = (employee_id) => {
-    sessionStorage.setItem("employeeToVisualize", employee_id);
-    router.push('/specific_employee');
+  function seeContract() {
+    alert('See contract');
   }
 
   return (
@@ -184,7 +183,7 @@ export const EmployeeListResults = ({ employees, ...rest }) => {
                   </TableCell>
                   <TableCell>
                       <Stack direction="row" spacing={1}>
-                        <IconButton aria-label="edit" color="primary" onClick={() => viewEmployee(employee.Identification)}>
+                        <IconButton aria-label="contract" color="primary" onClick={seeContract}>
                           <ReadMoreIcon />
                         </IconButton>
                         <IconButton aria-label="delete" color="error" onClick={() => handleClickOpen(employee.Identification)}>
@@ -192,7 +191,7 @@ export const EmployeeListResults = ({ employees, ...rest }) => {
                         </IconButton>
                         <Dialog
                           open={open}
-                          onClose={handleClose}
+                        onClose={handleClose}
                           aria-labelledby="alert-dialog-title"
                           aria-describedby="alert-dialog-description"
                         >
@@ -201,12 +200,12 @@ export const EmployeeListResults = ({ employees, ...rest }) => {
                           </DialogTitle>
                           <DialogContent>
                             <DialogContentText id="alert-dialog-description">
-                              You are about to delete (fire) an employee this means
-                              that you also will have to liquidate them. Are you sure?
+                              You are about to delete (fire) an employee from this project,
+                              this implies ending their contract. Are you sure?
                             </DialogContentText>
                           </DialogContent>
                           <DialogActions>
-                            <Button onClick={handleClose} autoFocus>NO</Button>
+                          <Button onClick={handleClose} autoFocus>NO</Button>
                             <Button onClick={() => handleClose(true)}>Yes</Button>
                           </DialogActions>
                         </Dialog>

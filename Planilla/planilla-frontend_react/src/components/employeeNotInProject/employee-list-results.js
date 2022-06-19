@@ -1,19 +1,10 @@
 import * as React from 'react';
-import axios from 'axios';
-import Button from '@mui/material/Button';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 import { getInitials } from '../../utils/get-initials';
 import IconButton from '@mui/material/IconButton';
-import ReadMoreIcon from '@mui/icons-material/ReadMore';
+import AddBoxIcon from '@mui/icons-material/AddBox';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
-import Stack from '@mui/material/Stack';
 import { useState } from 'react';
 import {
   Avatar,
@@ -34,7 +25,6 @@ export const EmployeeListResults = ({ employees, ...rest }) => {
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(0);
-  const [open, setOpen] = React.useState(false);
 
   const handleSelectAll = (event) => {
     let newSelectedCustomerIds;
@@ -77,24 +67,9 @@ export const EmployeeListResults = ({ employees, ...rest }) => {
     setPage(newPage);
   };
 
-  const handleClickOpen = (id) => {
-    sessionStorage.setItem("employeeID", id);
-    setOpen(true);
-  };
-
-  const handleClose = (agreed) => {
-    setOpen(false);
-    if (agreed === true) {
-      axios.delete("https://localhost:7150/api/deleteEmployee?id=" + sessionStorage.getItem("employeeID")).then(() => {
-        alert("Employee deleted successfully");
-        window.location.reload(false);
-      });
-    }
-  };
-
-  const viewEmployee = (employee_id) => {
-    sessionStorage.setItem("employeeToVisualize", employee_id);
-    router.push('/specific_employee');
+  const addEmployeeToProject = (employee) => {
+    sessionStorage.setItem("employeeID", employee.Identification);
+    router.push('/insert_contract');
   }
 
   return (
@@ -183,34 +158,9 @@ export const EmployeeListResults = ({ employees, ...rest }) => {
                     {employee.Phone}
                   </TableCell>
                   <TableCell>
-                      <Stack direction="row" spacing={1}>
-                        <IconButton aria-label="edit" color="primary" onClick={() => viewEmployee(employee.Identification)}>
-                          <ReadMoreIcon />
-                        </IconButton>
-                        <IconButton aria-label="delete" color="error" onClick={() => handleClickOpen(employee.Identification)}>
-                          <DeleteForeverIcon />
-                        </IconButton>
-                        <Dialog
-                          open={open}
-                          onClose={handleClose}
-                          aria-labelledby="alert-dialog-title"
-                          aria-describedby="alert-dialog-description"
-                        >
-                          <DialogTitle id="alert-dialog-title">
-                            {"Alert: Please read!!!"}
-                          </DialogTitle>
-                          <DialogContent>
-                            <DialogContentText id="alert-dialog-description">
-                              You are about to delete (fire) an employee this means
-                              that you also will have to liquidate them. Are you sure?
-                            </DialogContentText>
-                          </DialogContent>
-                          <DialogActions>
-                            <Button onClick={handleClose} autoFocus>NO</Button>
-                            <Button onClick={() => handleClose(true)}>Yes</Button>
-                          </DialogActions>
-                        </Dialog>
-                      </Stack>
+                      <IconButton aria-label="add" color="primary" onClick={() => addEmployeeToProject(employee)}>
+                        <AddBoxIcon />
+                      </IconButton>
                   </TableCell>
                 </TableRow>
               ))}

@@ -2,8 +2,8 @@ import Head from 'next/head';
 import React from 'react';
 import axios from 'axios';
 import { Box, Container } from '@mui/material';
-import { EmployeeListResults } from '../components/employee/employee-list-results';
-import { EmployeeListToolbar } from '../components/employee/employee-list-toolbar';
+import { EmployeeListResults } from '../components/employeeInProject/employee-list-results';
+import { EmployeeListToolbar } from '../components/employeeInProject/employee-list-toolbar';
 import { DashboardLayout } from '../components/dashboard-layout';
 
 class SpecificProjectEmployees extends React.Component {
@@ -22,12 +22,11 @@ class SpecificProjectEmployees extends React.Component {
   }
 
   render() {
-    sessionStorage.setItem("showSpecificProjectEmployees", "specific");
     return (
       <>
         <Head>
           <title>
-            {sessionStorage.getItem("project")}'s employees | Ta' Bueno
+            This project's employees | Ta' Bueno
           </title>
         </Head>
         <Box
