@@ -116,8 +116,9 @@ export const EmployeeListResults = ({ employees, ...rest }) => {
     router.push('/insert_contract');
   }
 
-  function editEmployee() {
-    alert('Edit employee!');
+  const viewEmployee = (employee_id) => {
+    sessionStorage.setItem("employeeToVisualize", employee_id);
+    router.push('/specific_employee');
   }
 
   function seeContract() {
@@ -213,7 +214,7 @@ export const EmployeeListResults = ({ employees, ...rest }) => {
                   <TableCell>
                     {showEditAndDeleteEmployeeButton ?
                       <Stack direction="row" spacing={1}>
-                        <IconButton aria-label="edit" color="primary" edge="false" onClick={editEmployee}>
+                        <IconButton aria-label="edit" color="primary" edge="false" onClick={() => viewEmployee(employee.Identification)}>
                           <ReadMoreIcon />
                         </IconButton>
                         <IconButton aria-label="delete" color="error" edge="false" onClick={handleClickOpen}>
