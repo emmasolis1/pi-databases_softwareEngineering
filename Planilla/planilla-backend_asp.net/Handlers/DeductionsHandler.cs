@@ -4,11 +4,11 @@ using System.Data;
 
 namespace planilla_backend_asp.net.Handlers
 {
-  public class VoluntaryDeductionsHandler
+  public class DeductionsHandler
   {
     private static SqlConnection connection;
     private string connectionRoute;
-    public VoluntaryDeductionsHandler()
+    public DeductionsHandler()
     {
       var builder = WebApplication.CreateBuilder();
       connectionRoute = builder.Configuration.GetConnectionString("EmpleadorContext");
@@ -80,6 +80,25 @@ namespace planilla_backend_asp.net.Handlers
       }
 
       return voluntaryDeductions;
+    }
+
+    public List<MandatoryDeductionsModel> GetMandatoryDeductions()
+    {
+      List<MandatoryDeductionsModel> mandatoryDeductions = new List<MandatoryDeductionsModel>();
+      string consult = @"SELECT * FROM MandatoryDeductions";
+      SqlDataAdapter tableAdapter = new SqlDataAdapter(consult, connection);
+      DataTable tablaResultado = CreateTableConsult(tableAdapter);
+      foreach (DataRow columna in tablaResultado.Rows)
+      {
+        mandatoryDeductions.Add(new MandatoryDeductionsModel
+        {
+          Name = Convert.ToString(columna["MandatoryDeductionName"]),
+          Percentage = Convert.ToDouble(columna["Percentage"]),
+          Description = Convert.ToString(columna["Description"])
+        });
+      }
+      
+      return mandatoryDeductions;
     }
   }
 }

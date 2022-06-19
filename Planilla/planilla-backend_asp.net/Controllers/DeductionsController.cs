@@ -6,14 +6,14 @@ namespace planilla_backend_asp.net.Controllers
 {
   [Route("api/")]
   [ApiController]
-  public class VoluntaryDeductionsController : ControllerBase
+  public class DeductionsController : ControllerBase
   {
 
     [HttpGet]
     [Route("voluntaryDeductions")]
     public ActionResult GetVoluntaryDeductions(string project, string employerID)
     {
-      var handler = new VoluntaryDeductionsHandler();
+      var handler = new DeductionsHandler();
       var data = handler.GetVoluntaryDeductionsData(project, employerID);
       return Ok(data);
     }
@@ -22,9 +22,18 @@ namespace planilla_backend_asp.net.Controllers
     [Route("voluntaryDeductions")]
     public ActionResult CreateVoluntaryDeduction([FromBody] VoluntaryDeductionsModel voluntaryDeductions)
     {
-      VoluntaryDeductionsHandler handler = new VoluntaryDeductionsHandler();
+      DeductionsHandler handler = new DeductionsHandler();
       handler.CreateVoluntaryDeductions(voluntaryDeductions);
       return Ok();
+    }
+
+    [HttpGet]
+    [Route("mandatoryDeductions")]
+    public ActionResult GetObligatoryDeductions()
+    {
+      var handler = new DeductionsHandler();
+      var data = handler.GetMandatoryDeductions();
+      return Ok(data);
     }
   }
 }

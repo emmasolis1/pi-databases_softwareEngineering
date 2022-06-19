@@ -65,7 +65,7 @@ const items = [
     title: 'Benefits'
   },
   {
-    href: '/products',
+    href: '/mandatoryDeductions',
     icon: (<LockIcon fontSize="small" />),
     title: 'Mandatory Deductions'
   },
