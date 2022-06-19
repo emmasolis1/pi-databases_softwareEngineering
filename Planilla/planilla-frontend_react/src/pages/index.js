@@ -40,6 +40,7 @@ const Login = () => {
             sessionStorage.setItem("email", formik.values.email);
             sessionStorage.setItem("userType", response.data[1]);
             sessionStorage.setItem("userFullname", response.data[2]);
+            sessionStorage.setItem("userProjects", response.data[3]);
             // Stores the user's ID on sessionStorage and sends them to their respective main page
             if (response.data[1] === "0") {
               sessionStorage.removeItem("employeeID");
