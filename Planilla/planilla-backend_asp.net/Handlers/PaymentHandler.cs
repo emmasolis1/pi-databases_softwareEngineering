@@ -22,7 +22,7 @@ namespace planilla_backend_asp.net.Handlers
             {
                 CreatePayment(projectName, employerId, employee.employeeId, employee.contractStartDate, employee.paymentDate);
                 double voluntaryDeductions = GetDeductionFromVoluntaryDeductions(projectName, employerId, employee.employeeId, employee.contractStartDate, employee.paymentDate);
-                double mandatoryDeductions = GetDeductionFromMandatoryDeductions(employee.netSalary);
+                double mandatoryDeductions = GetDeductionFromMandatoryDeductions(employee.netSalary, projectName, employerId, employee.employeeId, employee.contractStartDate, employee.paymentDate);
                 employee.payment = employee.netSalary - voluntaryDeductions - mandatoryDeductions;
             }
             return employees;
@@ -130,7 +130,7 @@ namespace planilla_backend_asp.net.Handlers
             return employees;
         }
 
-        private double GetDeductionFromMandatoryDeductions(double salary)
+        private double GetDeductionFromMandatoryDeductions(double salary, string projectName, string employerId, string employeeId, string dateStartContract, string paymentDate)
         {
             var consult = @"SELECT MandatoryDeductionName, Percentage
                             FROM MandatoryDeductions";
@@ -139,6 +139,16 @@ namespace planilla_backend_asp.net.Handlers
             double totalDeduction = 0;
             foreach(DataRow column in resultTable.Rows)
             {
+                consult = @"INSERT INTO IncludesMandatoryDeductions ([MandatoryDeductionName], [ProjectName], [EmployerID], [EmployeeID], [ContractDate], [PaymentDate])
+                            VALUES (@deduction_name, @project_name, @employer_id, @employee_id, @contract_date, @payment_date)";
+                queryCommand = new SqlCommand(consult, connection);
+                queryCommand.Parameters.AddWithValue("@deduction_name", Convert.ToString(column["MandatoryDeductionName"]));
+                queryCommand.Parameters.AddWithValue("@project_name", projectName);
+                queryCommand.Parameters.AddWithValue("@employer_id", employerId);
+                queryCommand.Parameters.AddWithValue("@employee_id", employeeId);
+                queryCommand.Parameters.AddWithValue("@contract_date", dateStartContract);
+                queryCommand.Parameters.AddWithValue("@payment_date", paymentDate);
+                ExecuteCommand(queryCommand);
                 double percentage = Convert.ToDouble(column["Percentage"]);
                 totalDeduction = totalDeduction + (salary * percentage / 100);
             }
