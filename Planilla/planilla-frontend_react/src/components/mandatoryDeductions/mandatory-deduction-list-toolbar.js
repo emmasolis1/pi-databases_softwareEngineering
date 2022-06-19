@@ -27,19 +27,6 @@ export const MandatoryDeductionListToolbar = (props) => (
       >
         Mandatory Deductions
       </Typography>
-      <Box sx={{ m: 1 }}>
-        <NextLink
-          href="/create_voluntary_deduction"
-          passHref
-        >
-          <Button
-            color="primary"
-            variant="contained"
-          >
-            Add Mandatory Deduction
-          </Button>
-        </NextLink>
-      </Box>
     </Box>
     <Box sx={{ mt: 3 }}>
       <Card>

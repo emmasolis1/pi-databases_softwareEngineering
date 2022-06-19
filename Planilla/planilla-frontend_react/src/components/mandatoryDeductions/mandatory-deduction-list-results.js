@@ -129,7 +129,7 @@ export const MandatoryDeductionListResults = ({ mandatoryDeductions, ...rest }) 
                     {mandatoryDeduction.Description}
                   </TableCell>
                   <TableCell>
-                    {mandatoryDeduction.Percentage}
+                    {mandatoryDeduction.Percentage + "%"}
                   </TableCell>
                 </TableRow>
               ))}
