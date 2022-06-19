@@ -27,6 +27,24 @@ namespace planilla_backend_asp.net.Controllers
       return Ok(data);
     }
 
+    [HttpGet]
+    [Route("specificProjectEmployees")]
+    public ActionResult GetSpecificProjectEmployees(string projectName, string employerID)
+    {
+      var handler = new UserHandler();
+      var data = handler.GetSpecificProjectEmployees(projectName, employerID);
+      return Ok(data);
+    }
+
+    [HttpGet]
+    [Route("employeesNotInProject")]
+    public ActionResult GetEmployeesNotInProject(string projectName, string employerID)
+    {
+      var handler = new UserHandler();
+      var data = handler.GetEmployeesNotInProject(projectName, employerID);
+      return Ok(data);
+    }
+
     [HttpPost]
     [Route("employees")]
     public ActionResult CreateEmployee([FromBody] UserModel employee)
@@ -109,6 +127,23 @@ namespace planilla_backend_asp.net.Controllers
         return Ok();
       }
       catch(Exception error)
+      {
+        Console.WriteLine(error);
+        return BadRequest(error.Message);
+      }
+    }
+
+    [HttpDelete]
+    [Route("deleteEmployeeFromProject/")]
+    public ActionResult DeleteEmployeeFromProject([FromQuery] string projectName, string id)
+    {
+      try
+      {
+        UserHandler handler = new UserHandler();
+        handler.DeleteEmployeeFromProject(projectName, id);
+        return Ok();
+      }
+      catch (Exception error)
       {
         Console.WriteLine(error);
         return BadRequest(error.Message);

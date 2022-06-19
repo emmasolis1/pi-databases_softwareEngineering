@@ -80,6 +80,68 @@ namespace planilla_backend_asp.net.Handlers
       return data;
     }
 
+    public List<UserModelSummarized> GetSpecificProjectEmployees(string projectName, string employerID)
+    {
+      // Make consult to database
+      string consult = "EXEC GetEmployeesWorkingOnProject @projectName = @thisProjectName, @employerID = @thisEmployerID";
+      var queryCommand = new SqlCommand(consult, conexion);
+
+      // Uses user's email to get their ID
+      queryCommand.Parameters.AddWithValue("@thisProjectName", projectName);
+      queryCommand.Parameters.AddWithValue("@thisEmployerID", employerID);
+
+      List<UserModelSummarized> employees = new List<UserModelSummarized>();
+
+      conexion.Open();
+      SqlDataReader reader = queryCommand.ExecuteReader();
+      while (reader.Read())
+      {
+        employees.Add(
+          new UserModelSummarized
+          {
+            FullName = reader["FirstName"].ToString() + " " + reader["LastName"].ToString() + " " + reader["LastName2"].ToString(),
+            Identification = reader["Identification"].ToString(),
+            Email = reader["Email"].ToString(),
+            Phone = reader["Phone"].ToString(),
+            Address = reader["State"].ToString() + ", " + reader["Country"].ToString()
+          });
+      }
+      conexion.Close();
+
+      return employees;
+    }
+
+    public List<UserModelSummarized> GetEmployeesNotInProject(string projectName, string employerID)
+    {
+      // Make consult to database
+      string consult = "EXEC GetEmployeesNotWorkingOnProject @projectName = @thisProjectName, @employerID = @thisEmployerID";
+      var queryCommand = new SqlCommand(consult, conexion);
+
+      // Uses user's email to get their ID
+      queryCommand.Parameters.AddWithValue("@thisProjectName", projectName);
+      queryCommand.Parameters.AddWithValue("@thisEmployerID", employerID);
+
+      List<UserModelSummarized> employees = new List<UserModelSummarized>();
+
+      conexion.Open();
+      SqlDataReader reader = queryCommand.ExecuteReader();
+      while (reader.Read())
+      {
+        employees.Add(
+          new UserModelSummarized
+          {
+            FullName = reader["FirstName"].ToString() + " " + reader["LastName"].ToString() + " " + reader["LastName2"].ToString(),
+            Identification = reader["Identification"].ToString(),
+            Email = reader["Email"].ToString(),
+            Phone = reader["Phone"].ToString(),
+            Address = reader["State"].ToString() + ", " + reader["Country"].ToString()
+          });
+      }
+      conexion.Close();
+
+      return employees;
+    }
+
     public void CreateEmployee(UserModel employee)
     {
       string consult = "insert into Users ([FirstName], [LastName], [LastName2], [Identification], [Email], [Password], [Country], [State], [City], [Address], [ZipCode], [UserType], [Phone]) values (@FirstName, @LastName, @LastName2, @Identification, @Email, @Password, @Country, @State, @City, @Address, @ZipCode, @UserType, @Phone)";
@@ -299,5 +361,21 @@ namespace planilla_backend_asp.net.Handlers
       conexion.Close();
     }
 
+    public void DeleteEmployeeFromProject(string projectName, string id)
+    {
+      // Prepare command
+      string consult = @"UPDATE Contracts
+                        SET RealEndedDate = @date 
+                        WHERE ProjectName = @projectName AND EmployeeID = @employeeID";
+      SqlCommand queryCommand = new SqlCommand(consult, conexion);
+      queryCommand.Parameters.AddWithValue("@date", DateTime.Now.ToString("yyyy/MM/dd"));
+      queryCommand.Parameters.AddWithValue("@projectName", projectName);
+      queryCommand.Parameters.AddWithValue("@employeeID", id);
+
+      // Execute command
+      conexion.Open();
+      queryCommand.ExecuteNonQuery();
+      conexion.Close();
+    }
   }
 }
