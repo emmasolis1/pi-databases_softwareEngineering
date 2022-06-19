@@ -55,7 +55,8 @@ namespace planilla_backend_asp.net.Handlers
     {
       var userID = "";
       var userType = "";
-      var consult = @"SELECT Identification, UserType
+      var userFullname = "";
+      var consult = @"SELECT Identification, UserType, FirstName, LastName, LastName2
                       FROM Users
                       WHERE Email = @email AND Password = @password";
       var queryCommand = new SqlCommand(consult, conexion);
@@ -70,12 +71,14 @@ namespace planilla_backend_asp.net.Handlers
       {
         userID = reader["Identification"].ToString();
         userType = reader["UserType"].ToString();
+        userFullname = reader["FirstName"].ToString() + " " + reader["LastName"].ToString() + " " + reader["LastName2"].ToString();
       }
       conexion.Close();
 
       List<string> data = new List<string>();
       data.Add(userID);
       data.Add(userType);
+      data.Add(userFullname);
 
       return data;
     }
