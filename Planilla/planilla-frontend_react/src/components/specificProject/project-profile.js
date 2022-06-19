@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Button,
   Card,
@@ -8,11 +7,13 @@ import {
   Divider,
   Typography
 } from '@mui/material';
+import { useRouter } from 'next/router';
 
 export const ProjectProfile = ({ project, ...props }) => {
+  const router = useRouter();
 
   function viewEmployees() {
-    alert('View employees');
+    router.push('/specific_project_employees');
   }
 
   function payProject() {
