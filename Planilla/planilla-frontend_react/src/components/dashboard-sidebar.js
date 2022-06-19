@@ -16,6 +16,28 @@ import { XCircle as XCircleIcon } from '../icons/x-circle';
 import { Logo } from './logo';
 import { NavItem } from './nav-item';
 
+import * as React from 'react';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+
+const projects = [
+  {
+    name: 'Project 1',
+  },
+  {
+    name: 'Project 2',
+  },
+  {
+    name: 'Project 3',
+  },
+  {
+    name: 'Project 4',
+  },
+  {
+    name: 'Project 5',
+  },
+];
+
 const items = [
   {
     href: '/dashboard',
@@ -81,6 +103,15 @@ export const DashboardSidebar = (props) => {
     [router.asPath]
   );
 
+  // const [anchorEl, setAnchorEl] = React.useState(null);
+  // const open2 = Boolean(anchorEl);
+  // const handleClick = (event) => {
+  //   setAnchorEl(event.currentTarget);
+  // };
+  // const handleClose = () => {
+  //   setAnchorEl(null);
+  // };
+
   const content = (
     <>
       <Box
@@ -142,6 +173,42 @@ export const DashboardSidebar = (props) => {
                   height: 14
                 }}
               />
+              {/* <Button
+                id="basic-button"
+                aria-controls={open2 ? 'basic-menu' : undefined}
+                aria-haspopup="true"
+                fullWidth
+                aria-expanded={open2 ? 'true' : undefined}
+                onClick={handleClick}
+              >
+                Dashboard
+                <SelectorIcon
+                sx={{
+                  color: 'neutral.500',
+                  width: 14,
+                  height: 14
+                }}
+              />
+              </Button>
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={open2}
+                onClose={handleClose}
+                MenuListProps={{
+                  'aria-labelledby': 'basic-button',
+                }}
+              >
+                {projects.map((project) => (
+                  <MenuItem
+                    key={project.href}
+                    onClick={handleClose}
+                    selected={router.asPath === project.href}
+                  >
+                    {project.name}
+                  </MenuItem>
+                ))}
+              </Menu> */}
             </Box>
           </Box>
         </div>
