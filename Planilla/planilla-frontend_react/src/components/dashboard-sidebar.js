@@ -34,9 +34,9 @@ const items = [
   //   title: 'Settings'
   // },
   {
-      href: '/projects',
-      icon: (<ChartBarIcon fontSize="small" />),
-      title: 'Projects'
+    href: '/projects',
+    icon: (<ChartBarIcon fontSize="small" />),
+    title: 'Projects'
   },
   {
     href: '/benefits',

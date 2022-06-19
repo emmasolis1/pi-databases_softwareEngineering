@@ -55,6 +55,16 @@ namespace planilla_backend_asp.net.Controllers
     }
 
     [HttpPost]
+    [Route("addEmployeeToProject")]
+    public ActionResult AddEmployeeToProject([FromBody] ContractModel contract)
+    {
+      // Save new contract
+      UserHandler handler = new UserHandler();
+      handler.AddEmployeeToProject(contract);
+      return Ok();
+    }
+
+    [HttpPost]
     [Route("account")]
     public ActionResult EditEmployeeProfile([FromBody] ReciberModel id)
     {

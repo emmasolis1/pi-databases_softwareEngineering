@@ -25,7 +25,7 @@ class Benefits extends React.Component {
       <>
         <Head>
           <title>
-            Benefits | Material Kit
+            Benefits | Ta' Bueno
           </title>
         </Head>
         <Box
