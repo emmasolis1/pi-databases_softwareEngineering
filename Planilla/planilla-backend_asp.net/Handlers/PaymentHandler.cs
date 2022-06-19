@@ -20,10 +20,10 @@ namespace planilla_backend_asp.net.Handlers
             List<PaymentModel> employees = GetEmployeesWorkingOnProject(projectName, employerId);
             foreach (PaymentModel employee in employees)
             {
-                double voluntaryDeductions = GetDeductionFromVoluntaryDeductions(projectName, employerId, employee.employeeId);
+                CreatePayment(projectName, employerId, employee.employeeId, employee.contractStartDate, employee.paymentDate);
+                double voluntaryDeductions = GetDeductionFromVoluntaryDeductions(projectName, employerId, employee.employeeId, employee.contractStartDate, employee.paymentDate);
                 double mandatoryDeductions = GetDeductionFromMandatoryDeductions(employee.netSalary);
                 employee.payment = employee.netSalary - voluntaryDeductions - mandatoryDeductions;
-                //CreatePayment(projectName, employerId, employee.employeeId, employee.contractStartDate, "2022-6-16");
             }
             return employees;
         }
@@ -47,20 +47,30 @@ namespace planilla_backend_asp.net.Handlers
         }
 
         //This method is assuming that Cost is the amount of money that has to be deducted
-        //This method needs to change if Cost in the database reprsent a percentage, thats the meaning of the commented code
-        private double GetDeductionFromVoluntaryDeductions(/*double salary, */string projectName, string employerId, string employeeId)
+        private double GetDeductionFromVoluntaryDeductions(string projectName, string employerId, string employeeId, string dateStartContract, string paymentDate)
         {
-            var consult = "EXECUTE GetEmployeeVoluntaryDeductionsToday @project_name, @employer_id, @employee_id";
+            var consult = "EXECUTE GetEmployeeVoluntaryDeductionsToDate @project_name, @employer_id, @employee_id, @date";
             var queryCommand = new SqlCommand(consult, connection);
             queryCommand.Parameters.AddWithValue("@project_name", projectName);
             queryCommand.Parameters.AddWithValue("@employer_id", employerId);
             queryCommand.Parameters.AddWithValue("@employee_id", employeeId);
+            queryCommand.Parameters.AddWithValue("@date", paymentDate);
             DataTable resultTable = CreateTableConsult(queryCommand);
             double totalDeduction = 0;
             foreach (DataRow column in resultTable.Rows)
             {
+                consult = @"INSERT INTO IncludesVoluntaryDeductions ([VoluntaryDeductionName], [ProjectName], [EmployerID], [EmployeeID], [StartDate], [ContractDate], [PaymentDate])
+                            VALUES (@deduction_name, @project_name, @employer_id, @employee_id, @start_date, @contract_date, @payment_date)";
+                queryCommand = new SqlCommand(consult, connection);
+                queryCommand.Parameters.AddWithValue("@deduction_name", Convert.ToString(column["VoluntaryDeductionName"]));
+                queryCommand.Parameters.AddWithValue("@project_name", projectName);
+                queryCommand.Parameters.AddWithValue("@employer_id", employerId);
+                queryCommand.Parameters.AddWithValue("@employee_id", employeeId);
+                queryCommand.Parameters.AddWithValue("@start_date", Convert.ToString(column["StartDate"]));
+                queryCommand.Parameters.AddWithValue("@contract_date", dateStartContract);
+                queryCommand.Parameters.AddWithValue("@payment_date", paymentDate);
+                ExecuteCommand(queryCommand);
                 double deduction = Convert.ToDouble(column["Cost"]);
-                //deduction = salary * deduction;
                 totalDeduction = totalDeduction + deduction;
             }
             return totalDeduction;
@@ -85,19 +95,33 @@ namespace planilla_backend_asp.net.Handlers
             return totalHours;
         }
 
-        private List<PaymentModel> GetEmployeesWorkingOnProject(string projectName, string employerId)
+        private List<PaymentModel> GetEmployeesWorkingOnProject(string nameOfProject, string idOfEmployer, string dateOfPayment = "null")
         {
-            var consult = "EXECUTE GetEmployeesWorkingOnProjectToday @project_name, @employer_id";
-            var queryCommand = new SqlCommand(consult, connection);
-            queryCommand.Parameters.AddWithValue("@project_name", projectName);
-            queryCommand.Parameters.AddWithValue("@employer_id", employerId);
+            SqlCommand queryCommand = null;
+            if (dateOfPayment == "null")
+            {
+                var consult = "EXECUTE GetEmployeesWorkingOnProjectToDate @project_name, @employer_id, " + dateOfPayment;
+                queryCommand = new SqlCommand(consult, connection);
+                queryCommand.Parameters.AddWithValue("@project_name", nameOfProject);
+                queryCommand.Parameters.AddWithValue("@employer_id", idOfEmployer);
+            } else
+            {
+                var consult = "EXECUTE GetEmployeesWorkingOnProjectToDate @project_name, @employer_id, @date";
+                queryCommand = new SqlCommand(consult, connection);
+                queryCommand.Parameters.AddWithValue("@project_name", nameOfProject);
+                queryCommand.Parameters.AddWithValue("@employer_id", idOfEmployer);
+                queryCommand.Parameters.AddWithValue("@date", dateOfPayment);
+            }
             DataTable resultTable = CreateTableConsult(queryCommand);
             List<PaymentModel> employees = new List<PaymentModel>();
             foreach (DataRow column in resultTable.Rows)
             {
                 employees.Add(new PaymentModel
                 { 
+                    projectName = nameOfProject,
+                    employerId = idOfEmployer,
                     employeeId = Convert.ToString(column["EmployeeID"]),
+                    paymentDate = Convert.ToString(column["PaymentDate"]),
                     netSalary = Convert.ToDouble(column["NetSalary"]),
                     contractType = Convert.ToString(column["ContractType"]),
                     contractStartDate = Convert.ToString(column["StartDate"])
@@ -121,7 +145,7 @@ namespace planilla_backend_asp.net.Handlers
             return totalDeduction;
         }
 
-        private bool CreatePayment(string projectName, string employerId, string employeeId, string startContractDay, string paymentDate = "cast (getdate() as date)")
+        private bool CreatePayment(string projectName, string employerId, string employeeId, string startContractDay, string paymentDate)
         {
             var command = @"INSERT INTO Payments ([ProjectName], [EmployerID], [EmployeeID], [StartDate], [PaymentDate])
                             VALUES (@project_name, @employer_id, @employee_id, @start_date, @payment_date)";
