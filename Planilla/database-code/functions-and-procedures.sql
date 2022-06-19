@@ -53,7 +53,7 @@ go
 --Gets all the employees contracts' that work for a specified proyect
 create procedure GetEmployeesWorkingOnProjectToday @project_name varchar(255), @employer_id varchar(10)
 as 
-select EmployeeID, Schedule, ContractType, NetSalary, ExpectedEndingDate
+select EmployeeID, Schedule, ContractType, NetSalary, StartDate, ExpectedEndingDate
 from Contracts
 where ProjectName = @project_name and EmployerID = @employer_id and (dbo.TodayIsInRange(StartDate, RealEndedDate) = 1)
 go

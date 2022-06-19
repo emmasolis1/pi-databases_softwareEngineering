@@ -15,6 +15,18 @@ namespace planilla_backend_asp.net.Handlers
             connection = new SqlConnection(connectionRoute);
         }
 
+        public List<PaymentModel> PayProjectToday(string projectName, string employerId)
+        {
+            List<PaymentModel> employees = GetEmployeesWorkingOnProject(projectName, employerId);
+            foreach (PaymentModel employee in employees)
+            {
+                double voluntaryDeductions = GetDeductionFromVoluntaryDeductions(projectName, employerId, employee.employeeId);
+                double mandatoryDeductions = GetDeductionFromMandatoryDeductions(employee.netSalary);
+                employee.payment = employee.netSalary - voluntaryDeductions - mandatoryDeductions;
+            }
+            return employees;
+        }
+
         private DataTable CreateTableConsult(SqlCommand queryCommand)
         {
             SqlDataAdapter tableAdapter = new SqlDataAdapter(queryCommand);
@@ -85,7 +97,9 @@ namespace planilla_backend_asp.net.Handlers
                 employees.Add(new PaymentModel
                 { 
                     employeeId = Convert.ToString(column["EmployeeID"]),
-                    netSalary = Convert.ToDouble(column["NetSalary"])
+                    netSalary = Convert.ToDouble(column["NetSalary"]),
+                    contractType = Convert.ToString(column["ContractType"]),
+                    contractStartDate = Convert.ToString(column["StartDate"])
                 });
             }
             return employees;
