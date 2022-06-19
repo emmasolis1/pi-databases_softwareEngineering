@@ -2,7 +2,7 @@ import Head from 'next/head';
 import React from 'react';
 import { Box, Container, Grid, Typography } from '@mui/material';
 import { SpecificEmployeeProfile } from '../components/specificEmployee/specific-employee-profile';
-import { SpecificEmployeeProfileDetails } from '../components/account/account-profile-details';
+import { SpecificEmployeeProfileDetails } from '../components/specificEmployee/specific-employee-profile-details';
 import { DashboardLayout } from '../components/dashboard-layout';
 import axios from 'axios';
 
@@ -12,14 +12,13 @@ class SpecificEmployee extends React.Component {
     this.state = {
       user: [],
       isLoaded: false,
-      APIUrl: 'https://localhost:7150/api/account',
+      APIUrl: 'https://localhost:7150/api/viewEmployee?id='+sessionStorage.getItem('employeeToVisualize'),
     };
   }
 
   componentDidMount() {
     // var data = {id: localStorage.getItem('id')};
-    var data = {id: sessionStorage.getItem("userID")};
-    axios.post(this.state.APIUrl, data).then(response => {
+    axios.get(this.state.APIUrl).then(response => {
       this.setState({ isLoaded: true, user: (response.data)[0] });
     });
   }
@@ -32,7 +31,7 @@ class SpecificEmployee extends React.Component {
         <>
           <Head>
             <title>
-              Account | Ta' Bueno
+              Employee Info | Ta' Bueno
             </title>
           </Head>
           <Box
@@ -47,7 +46,7 @@ class SpecificEmployee extends React.Component {
                 sx={{ mb: 3 }}
                 variant="h4"
               >
-                Account
+                Employee's Account
               </Typography>
               <Grid
                 container

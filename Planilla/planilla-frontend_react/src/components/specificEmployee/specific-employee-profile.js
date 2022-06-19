@@ -66,7 +66,7 @@ export const SpecificEmployeeProfile = ({user, ...props}) => {
             color="textSecondary"
             variant="body2"
           >
-            {`${user.City == null ? '' : user.State + ', '} ${user.Country}`}
+            {`${user.State == null ? '' : user.State + ', '} ${user.Country}`}
           </Typography>
           <Typography
             color="textSecondary"
@@ -84,7 +84,7 @@ export const SpecificEmployeeProfile = ({user, ...props}) => {
           variant="text"
           onClick={handleClickOpen}
         >
-          Log Out
+          Fire employee
         </Button>
         <Dialog
           open={open}
