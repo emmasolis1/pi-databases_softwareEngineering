@@ -129,28 +129,28 @@ const InsertContract = () => {
             </Box>
 
             <Box sx={{ my: 3 }}>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DatePicker
-                label="Start Date"
-                value={formik.values.startDate}
-                onChange={(value) => {
-                  formik.setFieldValue('startDate', value.getFullYear() + "-" + (value.getMonth() + 1) + "-" + value.getDate());
-                }}
-                renderInput={(params) => <TextField {...params} />}
-              />
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DatePicker
+                  label="Start Date"
+                  value={formik.values.startDate}
+                  onChange={(value) => {
+                    formik.setFieldValue('startDate', value.getFullYear() + "-" + (value.getMonth() + 1) + "-" + value.getDate());
+                  }}
+                  renderInput={(params) => <TextField {...params} />}
+                />
               </LocalizationProvider>
             </Box>
 
             <Box sx={{ my: 3 }}>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DatePicker
-                label="Ending Date"
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <DatePicker
+                  label="Ending Date"
                   value={formik.values.expectedEndingDate}
-                onChange={(value) => {
-                  formik.setFieldValue('expectedEndingDate', value.getFullYear() + "-" + (value.getMonth() + 1) + "-" + value.getDate());
-                }}
-                renderInput={(params) => <TextField {...params} />}
-              />
+                  onChange={(value) => {
+                    formik.setFieldValue('expectedEndingDate', value.getFullYear() + "-" + (value.getMonth() + 1) + "-" + value.getDate());
+                  }}
+                  renderInput={(params) => <TextField {...params} />}
+                />
               </LocalizationProvider>
             </Box>
 

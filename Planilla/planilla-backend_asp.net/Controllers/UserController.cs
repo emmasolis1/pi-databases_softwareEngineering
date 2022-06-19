@@ -58,18 +58,7 @@ namespace planilla_backend_asp.net.Controllers
     [Route("addEmployeeToProject")]
     public ActionResult AddEmployeeToProject([FromBody] ContractModel contract)
     {
-      Console.WriteLine(contract.projectName);
-      Console.WriteLine(contract.employerID);
-      Console.WriteLine(contract.employeeID);
-      Console.WriteLine(contract.startDate);
-      Console.WriteLine(contract.expectedEndingDate);
-      Console.WriteLine(contract.realEndedDate);
-      Console.WriteLine(contract.position);
-      Console.WriteLine(contract.schedule);
-      Console.WriteLine(contract.netSalary);
-      Console.WriteLine(contract.contractType);
-
-      // Create new contract
+      // Save new contract
       UserHandler handler = new UserHandler();
       handler.AddEmployeeToProject(contract);
       return Ok();

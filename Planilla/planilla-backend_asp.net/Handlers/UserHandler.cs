@@ -17,7 +17,7 @@ namespace planilla_backend_asp.net.Handlers
 
     public List<UserModelSummarized> GetAllEmployeesSummarized()
     {
-       // Make consult to database
+      // Make consult to database
       string consult = "select FirstName, LastName, LastName2, Identification, Email, Country, State, City, Phone from Users where UserType=1 order by FirstName";
       DataTable employeesResult = CreateTableConsult(consult);
 
@@ -99,31 +99,41 @@ namespace planilla_backend_asp.net.Handlers
       {
         // queryCommand.Parameters.Add(new SqlParameter("LastName2", employee.LastName2));
         queryCommand.Parameters.AddWithValue("@LastName2", employee.LastName2);
-      } else {
+      }
+      else
+      {
         queryCommand.Parameters.AddWithValue("@LastName2", DBNull.Value);
       }
       if (employee.Country != null && employee.Country != "")
       {
         queryCommand.Parameters.AddWithValue("@Country", employee.Country);
-      } else {
+      }
+      else
+      {
         queryCommand.Parameters.AddWithValue("@Country", DBNull.Value);
       }
       if (employee.State != null && employee.State != "")
       {
         queryCommand.Parameters.AddWithValue("@State", employee.State);
-      } else {
+      }
+      else
+      {
         queryCommand.Parameters.AddWithValue("@State", DBNull.Value);
       }
       if (employee.City != null && employee.City != "")
       {
         queryCommand.Parameters.AddWithValue("@City", employee.City);
-      } else {
+      }
+      else
+      {
         queryCommand.Parameters.AddWithValue("@City", DBNull.Value);
       }
       if (employee.Address != null && employee.Address != "")
       {
         queryCommand.Parameters.AddWithValue("@Address", employee.Address);
-      } else {
+      }
+      else
+      {
         queryCommand.Parameters.AddWithValue("@Address", DBNull.Value);
       }
       if (employee.ZipCode != null && employee.ZipCode != "")
@@ -134,12 +144,12 @@ namespace planilla_backend_asp.net.Handlers
       {
         queryCommand.Parameters.AddWithValue("@ZipCode", DBNull.Value);
       }
-        conexion.Open();
-        queryCommand.ExecuteNonQuery();
-        conexion.Close();
+      conexion.Open();
+      queryCommand.ExecuteNonQuery();
+      conexion.Close();
     }
 
-    public void CreateEmployer(UserModel employer) 
+    public void CreateEmployer(UserModel employer)
     {
       string consult = "insert into Users ([FirstName], [LastName], [LastName2], [Identification], [Email], [Password], [Country], [State], [City], [Address], [ZipCode], [UserType], [Phone]) values (@FirstName, @LastName, @LastName2, @Identification, @Email, @Password, @Country, @State, @City, @Address, @ZipCode, @UserType, @Phone)";
       SqlCommand queryCommand = new SqlCommand(consult, conexion);
@@ -157,31 +167,41 @@ namespace planilla_backend_asp.net.Handlers
       if (employer.LastName2 != null && employer.LastName2 != "")
       {
         queryCommand.Parameters.AddWithValue("@LastName2", employer.LastName2);
-      } else {
+      }
+      else
+      {
         queryCommand.Parameters.AddWithValue("@LastName2", DBNull.Value);
       }
       if (employer.Country != null && employer.Country != "")
       {
         queryCommand.Parameters.AddWithValue("@Country", employer.Country);
-      } else {
+      }
+      else
+      {
         queryCommand.Parameters.AddWithValue("@Country", DBNull.Value);
       }
       if (employer.State != null && employer.State != "")
       {
         queryCommand.Parameters.AddWithValue("@State", employer.State);
-      } else {
+      }
+      else
+      {
         queryCommand.Parameters.AddWithValue("@State", DBNull.Value);
       }
       if (employer.City != null && employer.City != "")
       {
         queryCommand.Parameters.AddWithValue("@City", employer.City);
-      } else {
+      }
+      else
+      {
         queryCommand.Parameters.AddWithValue("@City", DBNull.Value);
       }
       if (employer.Address != null && employer.Address != "")
       {
         queryCommand.Parameters.AddWithValue("@Address", employer.Address);
-      } else {
+      }
+      else
+      {
         queryCommand.Parameters.AddWithValue("@Address", DBNull.Value);
       }
       if (employer.ZipCode != null && employer.ZipCode != "")
@@ -192,9 +212,9 @@ namespace planilla_backend_asp.net.Handlers
       {
         queryCommand.Parameters.AddWithValue("@ZipCode", DBNull.Value);
       }
-        conexion.Open();
-        queryCommand.ExecuteNonQuery();
-        conexion.Close();
+      conexion.Open();
+      queryCommand.ExecuteNonQuery();
+      conexion.Close();
     }
 
     public void AddEmployeeToProject(ContractModel contract)
@@ -246,8 +266,8 @@ namespace planilla_backend_asp.net.Handlers
       {
         UpdatePassword(info.Identification, info.Password);
       }
-    // Execute command
-    conexion.Open();
+      // Execute command
+      conexion.Open();
       queryCommand.ExecuteNonQuery();
       conexion.Close();
     }
@@ -278,6 +298,6 @@ namespace planilla_backend_asp.net.Handlers
       queryCommand.ExecuteNonQuery();
       conexion.Close();
     }
-    
+
   }
 }
