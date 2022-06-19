@@ -25,7 +25,6 @@ class Employees extends React.Component {
     // Using Axios, React library.
     axios.get(this.state.APIUrl).then(response => {
       this.setState({ employees: response.data });
-      sessionStorage.setItem("showSpecificProjectEmployees", "all");
     });
   }
 

@@ -21,7 +21,6 @@ const InsertContract = () => {
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
-      employeeFullName: sessionStorage.getItem("employeeFullName"),
       projectName: sessionStorage.getItem("project"),
       employerID: sessionStorage.getItem("employerID"),
       employeeID: sessionStorage.getItem("employeeID"),
@@ -127,7 +126,6 @@ const InsertContract = () => {
               >
               </Typography>
             </Box>
-
             <Box sx={{ my: 3 }}>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
@@ -140,7 +138,6 @@ const InsertContract = () => {
                 />
               </LocalizationProvider>
             </Box>
-
             <Box sx={{ my: 3 }}>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DatePicker
@@ -153,7 +150,6 @@ const InsertContract = () => {
                 />
               </LocalizationProvider>
             </Box>
-
             <TextField
               error={Boolean(formik.touched.position && formik.errors.position)}
               fullWidth
@@ -205,7 +201,7 @@ const InsertContract = () => {
             <Box sx={{ py: 2 }}>
               <Button
                 color="primary"
-
+                disabled={formik.isSubmitting}
                 fullWidth
                 size="large"
                 type="submit"
@@ -227,5 +223,3 @@ const InsertContract = () => {
 };
 
 export default InsertContract;
-
-// disabled={formik.isSubmitting}
