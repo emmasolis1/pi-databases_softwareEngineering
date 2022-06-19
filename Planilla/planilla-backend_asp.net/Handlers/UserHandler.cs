@@ -197,6 +197,29 @@ namespace planilla_backend_asp.net.Handlers
         conexion.Close();
     }
 
+    public void AddEmployeeToProject(ContractModel contract)
+    {
+      var consult = @"INSERT INTO Contracts ([ProjectName], [EmployerID], [EmployeeID], [StartDate], [ExpectedEndingDate], [RealEndedDate], [Position], [Schedule], [NetSalary], [ContractType]) 
+                      VALUES (@projectName, @employerID, @employeeID, @startDate, @expectedEndingDate, @realEndedDate, @position, @schedule, @netSalary, @contractType)";
+      var queryCommand = new SqlCommand(consult, conexion);
+
+      // Insertion of attribute
+      queryCommand.Parameters.AddWithValue("@projectName", contract.projectName);
+      queryCommand.Parameters.AddWithValue("@employerID", contract.employerID);
+      queryCommand.Parameters.AddWithValue("@employeeID", contract.employeeID);
+      queryCommand.Parameters.AddWithValue("@startDate", contract.startDate);
+      queryCommand.Parameters.AddWithValue("@expectedEndingDate", contract.expectedEndingDate);
+      queryCommand.Parameters.AddWithValue("@realEndedDate", DBNull.Value);
+      queryCommand.Parameters.AddWithValue("@position", contract.position);
+      queryCommand.Parameters.AddWithValue("@schedule", contract.schedule);
+      queryCommand.Parameters.AddWithValue("@netSalary", contract.netSalary);
+      queryCommand.Parameters.AddWithValue("@contractType", contract.contractType);
+
+      conexion.Open();
+      queryCommand.ExecuteNonQuery();
+      conexion.Close();
+    }
+
     public DataTable GetEmployeeInfo(ReciberModel id)
     {
       string consult = "select Identification, FirstName, LastName, LastName2, Email, Country, State, City, ZipCode, Address, Phone from Users where Identification =" + "'" + id.id + "'";

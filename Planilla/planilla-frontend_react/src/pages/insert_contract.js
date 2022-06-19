@@ -27,7 +27,7 @@ const InsertContract = () => {
       employeeID: sessionStorage.getItem("employeeID"),
       startDate: new Date(),
       expectedEndingDate: new Date(),
-      realEndedDate: null,
+      realEndedDate: '',
       position: '',
       schedule: '',
       netSalary: '',
@@ -60,7 +60,7 @@ const InsertContract = () => {
         employeeID: sessionStorage.getItem("employeeID"),
         startDate: values.startDate,
         expectedEndingDate: values.expectedEndingDate,
-        realEndedDate: null,
+        realEndedDate: '',
         position: values.position,
         schedule: values.schedule,
         netSalary: values.netSalary,
@@ -73,6 +73,7 @@ const InsertContract = () => {
         })
         .catch(function (error) {
           if (error.response) {
+            console.log(error.response)
             // The client was given an error response (5xx, 4xx)
             alert("Error: Contract may already exist, returning to project's employees list");
           } else {
@@ -140,16 +141,18 @@ const InsertContract = () => {
               </LocalizationProvider>
             </Box>
 
+            <Box sx={{ my: 3 }}>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DatePicker
                 label="Ending Date"
-                value={formik.values.expectedEndingDate}
+                  value={formik.values.expectedEndingDate}
                 onChange={(value) => {
                   formik.setFieldValue('expectedEndingDate', value.getFullYear() + "-" + (value.getMonth() + 1) + "-" + value.getDate());
                 }}
                 renderInput={(params) => <TextField {...params} />}
               />
               </LocalizationProvider>
+            </Box>
 
             <TextField
               error={Boolean(formik.touched.position && formik.errors.position)}
