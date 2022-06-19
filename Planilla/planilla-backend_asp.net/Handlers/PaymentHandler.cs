@@ -23,6 +23,7 @@ namespace planilla_backend_asp.net.Handlers
                 double voluntaryDeductions = GetDeductionFromVoluntaryDeductions(projectName, employerId, employee.employeeId);
                 double mandatoryDeductions = GetDeductionFromMandatoryDeductions(employee.netSalary);
                 employee.payment = employee.netSalary - voluntaryDeductions - mandatoryDeductions;
+                //CreatePayment(projectName, employerId, employee.employeeId, employee.contractStartDate, "2022-6-16");
             }
             return employees;
         }
@@ -105,7 +106,6 @@ namespace planilla_backend_asp.net.Handlers
             return employees;
         }
 
-        //Assumes that Percentage is a value between 0 and 1 in the database
         private double GetDeductionFromMandatoryDeductions(double salary)
         {
             var consult = @"SELECT MandatoryDeductionName, Percentage
@@ -116,7 +116,7 @@ namespace planilla_backend_asp.net.Handlers
             foreach(DataRow column in resultTable.Rows)
             {
                 double percentage = Convert.ToDouble(column["Percentage"]);
-                totalDeduction = totalDeduction + (salary * percentage);
+                totalDeduction = totalDeduction + (salary * percentage / 100);
             }
             return totalDeduction;
         }
