@@ -95,7 +95,8 @@ export const EmployeeListResults = ({ employees, ...rest }) => {
     setPage(newPage);
   };
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (id) => {
+    sessionStorage.setItem("employeeID", id);
     setOpen(true);
   };
 
@@ -104,11 +105,10 @@ export const EmployeeListResults = ({ employees, ...rest }) => {
     setOpen(true);
   };
 
-  const handleClose = (agreed, id) => {
+  const handleClose = (agreed) => {
     setOpen(false);
     if (agreed === true) {
-      alert(id);
-      axios.delete("https://localhost:7150/api/deleteEmployee?id=" + id).then(() => {
+      axios.delete("https://localhost:7150/api/deleteEmployee?id=" + sessionStorage.getItem("employeeID")).then(() => {
         alert("Employee deleted successfully");
         window.location.reload(false);
       });
@@ -131,8 +131,9 @@ export const EmployeeListResults = ({ employees, ...rest }) => {
     router.push('/insert_contract');
   }
 
-  function editEmployee() {
-    alert('Edit employee!');
+  const viewEmployee = (employee_id) => {
+    sessionStorage.setItem("employeeToVisualize", employee_id);
+    router.push('/specific_employee');
   }
 
   function seeContract() {
@@ -228,10 +229,10 @@ export const EmployeeListResults = ({ employees, ...rest }) => {
                   <TableCell>
                     {showEditAndDeleteEmployeeButton ?
                       <Stack direction="row" spacing={1}>
-                        <IconButton aria-label="edit" color="primary" onClick={editEmployee}>
+                        <IconButton aria-label="edit" color="primary" onClick={() => viewEmployee(employee.Identification)}>
                           <ReadMoreIcon />
                         </IconButton>
-                        <IconButton aria-label="delete" color="error" onClick={handleClickOpen}>
+                        <IconButton aria-label="delete" color="error" onClick={() => handleClickOpen(employee.Identification)}>
                           <DeleteForeverIcon />
                         </IconButton>
                         <Dialog
@@ -251,7 +252,7 @@ export const EmployeeListResults = ({ employees, ...rest }) => {
                           </DialogContent>
                           <DialogActions>
                             <Button onClick={handleClose} autoFocus>NO</Button>
-                            <Button onClick={() => handleClose(true, employee.Identification)}>Yes</Button>
+                            <Button onClick={() => handleClose(true)}>Yes</Button>
                           </DialogActions>
                         </Dialog>
                       </Stack>

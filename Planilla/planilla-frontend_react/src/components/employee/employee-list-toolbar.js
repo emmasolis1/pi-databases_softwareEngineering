@@ -35,7 +35,7 @@ export const EmployeeListToolbar = (props) => {
     pageTitle = "Employees";
   }
   else if (showAddEmployeeButton && !isNextPageCreateEmployee) {
-    prevPage = "/specificProject"
+    prevPage = "/projects"
     prevPageTitle = sessionStorage.getItem("project");
     nextPage = "/add_employee_to_project";
     pageTitle = sessionStorage.getItem("project") + "'s employees";

@@ -25,6 +25,23 @@ namespace planilla_backend_asp.net.Handlers
       List<UserModelSummarized> employees = new List<UserModelSummarized>();
       foreach (DataRow columna in employeesResult.Rows)
       {
+        var rowAddress = "";
+        if (Convert.ToString(columna["State"]) != "" && Convert.ToString(columna["Country"]) != "")
+        {
+          rowAddress = Convert.ToString(columna["State"]) + ", " + Convert.ToString(columna["Country"]);
+        }
+        else if (Convert.ToString(columna["State"]) == "" && Convert.ToString(columna["Country"]) != "")
+        {
+          rowAddress = "No registered State" + ", " + Convert.ToString(columna["Country"]);
+        }
+        else if (Convert.ToString(columna["State"]) != "" && Convert.ToString(columna["Country"]) == "")
+        {
+          rowAddress = Convert.ToString(columna["State"] + ", " + "No registered Country");
+        }
+        else if (Convert.ToString(columna["State"]) + ", " + Convert.ToString(columna["Country"]) == ", ")
+        {
+          rowAddress = "No registered address";
+        }
         employees.Add(
           new UserModelSummarized
           {
@@ -32,7 +49,7 @@ namespace planilla_backend_asp.net.Handlers
             Identification = Convert.ToString(columna["Identification"]),
             Email = Convert.ToString(columna["Email"]),
             Phone = Convert.ToString(columna["Phone"]),
-            Address = Convert.ToString(columna["State"] + ", " + Convert.ToString(columna["Country"])),
+            Address = rowAddress
           });
       }
 
@@ -55,7 +72,8 @@ namespace planilla_backend_asp.net.Handlers
     {
       var userID = "";
       var userType = "";
-      var consult = @"SELECT Identification, UserType
+      var userFullname = "";
+      var consult = @"SELECT Identification, UserType, FirstName, LastName, LastName2
                       FROM Users
                       WHERE Email = @email AND Password = @password";
       var queryCommand = new SqlCommand(consult, conexion);
@@ -70,12 +88,14 @@ namespace planilla_backend_asp.net.Handlers
       {
         userID = reader["Identification"].ToString();
         userType = reader["UserType"].ToString();
+        userFullname = reader["FirstName"].ToString() + " " + reader["LastName"].ToString() + " " + reader["LastName2"].ToString();
       }
       conexion.Close();
 
       List<string> data = new List<string>();
       data.Add(userID);
       data.Add(userType);
+      data.Add(userFullname);
 
       return data;
     }
@@ -96,6 +116,23 @@ namespace planilla_backend_asp.net.Handlers
       SqlDataReader reader = queryCommand.ExecuteReader();
       while (reader.Read())
       {
+        var rowAddress = "";
+        if (reader["State"].ToString() != "" && reader["Country"].ToString() != "")
+        {
+          rowAddress = reader["State"].ToString() + ", " + reader["Country"].ToString();
+        }
+        else if (reader["State"].ToString() == "" && reader["Country"].ToString() != "")
+        {
+          rowAddress = "No registered State" + ", " + reader["Country"].ToString();
+        }
+        else if (reader["State"].ToString() != "" && reader["Country"].ToString() == "")
+        {
+          rowAddress = reader["State"].ToString() + ", " + "No registered Country";
+        }
+        else if (reader["State"].ToString() + ", " + reader["Country"].ToString() == ", ")
+        {
+          rowAddress = "No registered address";
+        }
         employees.Add(
           new UserModelSummarized
           {
@@ -103,7 +140,7 @@ namespace planilla_backend_asp.net.Handlers
             Identification = reader["Identification"].ToString(),
             Email = reader["Email"].ToString(),
             Phone = reader["Phone"].ToString(),
-            Address = reader["State"].ToString() + ", " + reader["Country"].ToString()
+            Address = rowAddress
           });
       }
       conexion.Close();
@@ -127,6 +164,23 @@ namespace planilla_backend_asp.net.Handlers
       SqlDataReader reader = queryCommand.ExecuteReader();
       while (reader.Read())
       {
+        var rowAddress = "";
+        if (reader["State"].ToString() != "" && reader["Country"].ToString() != "")
+        {
+          rowAddress = reader["State"].ToString() + ", " + reader["Country"].ToString();
+        }
+        else if (reader["State"].ToString() == "" && reader["Country"].ToString() != "")
+        {
+          rowAddress = "No registered State" + ", " + reader["Country"].ToString();
+        }
+        else if (reader["State"].ToString() != "" && reader["Country"].ToString() == "")
+        {
+          rowAddress = reader["State"].ToString() + ", " + "No registered Country";
+        }
+        else if (reader["State"].ToString() + ", " + reader["Country"].ToString() == ", ")
+        {
+          rowAddress = "No registered address";
+        }
         employees.Add(
           new UserModelSummarized
           {
@@ -134,7 +188,7 @@ namespace planilla_backend_asp.net.Handlers
             Identification = reader["Identification"].ToString(),
             Email = reader["Email"].ToString(),
             Phone = reader["Phone"].ToString(),
-            Address = reader["State"].ToString() + ", " + reader["Country"].ToString()
+            Address = rowAddress
           });
       }
       conexion.Close();
@@ -305,6 +359,13 @@ namespace planilla_backend_asp.net.Handlers
     public DataTable GetEmployeeInfo(ReciberModel id)
     {
       string consult = "select Identification, FirstName, LastName, LastName2, Email, Country, State, City, ZipCode, Address, Phone from Users where Identification =" + "'" + id.id + "'";
+      DataTable tableResult = CreateTableConsult(consult);
+      return tableResult;
+    }
+
+    public DataTable ViewEmployeeInfo(string id)
+    {
+      string consult = "select Identification, FirstName, LastName, LastName2, Email, Country, State, City, ZipCode, Address, Phone from Users where Identification =" + "'" + id + "'";
       DataTable tableResult = CreateTableConsult(consult);
       return tableResult;
     }
