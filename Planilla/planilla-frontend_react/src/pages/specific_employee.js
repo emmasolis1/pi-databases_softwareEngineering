@@ -12,12 +12,13 @@ class SpecificEmployee extends React.Component {
     this.state = {
       user: [],
       isLoaded: false,
-      APIUrl: 'https://localhost:7150/api/viewEmployee?id='+sessionStorage.getItem('employeeToVisualize'),
+      APIUrl: 'https://localhost:7150/api/viewEmployee?id=',
     };
   }
 
   componentDidMount() {
     // var data = {id: localStorage.getItem('id')};
+    this.state.APIUrl = this.state.APIUrl + sessionStorage.getItem('employeeToVisualize');
     axios.get(this.state.APIUrl).then(response => {
       this.setState({ isLoaded: true, user: (response.data)[0] });
     });

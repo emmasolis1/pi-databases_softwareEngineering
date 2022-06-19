@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Button,
   Card,
@@ -15,15 +14,6 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import WarningIcon from '@mui/icons-material/Warning';
-
-const user = {
-  city: 'Los Angeles',
-  country: 'USA',
-  jobTitle: 'Senior Developer',
-  name: 'Katarina Smith',
-  timezone: 'GTM-7'
-};
 
 export const SpecificEmployeeProfile = ({user, ...props}) => {
   const router = useRouter();
@@ -36,13 +26,13 @@ export const SpecificEmployeeProfile = ({user, ...props}) => {
   const handleClose = (agreed) => {
     setOpen(false);
     if (agreed === true) {
-      logOut();
+      fireEmmployee();
     }
   };
 
-  function logOut() {
-    sessionStorage.clear();
-    router.push('/');
+  function fireEmmployee() {
+    // Call to backend to fire an employee.
+    router.push('/employees');
   }
 
   return (
@@ -93,16 +83,17 @@ export const SpecificEmployeeProfile = ({user, ...props}) => {
           aria-describedby="alert-dialog-description"
         >
           <DialogTitle id="alert-dialog-title">
-            Log Out
+            Alert: Please read!!!
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              Are you sure you want to log out?
+            You are about to delete (fire) an employee this means
+            that you also will have to liquidate him. Are you sure?
             </DialogContentText>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} variant="outlined" color="primary">Cancel</Button>
-            <Button onClick={() => handleClose(true)} variant="contained" color="error">Log Out</Button>
+            <Button onClick={() => handleClose(true)} variant="contained" color="error">Fire employee</Button>
           </DialogActions>
         </Dialog>
       </CardActions>
