@@ -8,4 +8,10 @@
     public string description { get; set; }
     public string cost { get; set; }
   }
+  public class MandatoryDeductionsModel
+    {   
+      public string Name { get; set; }
+      public double Percentage { get; set; }
+      public string Description { get; set; }
+    }
 }
