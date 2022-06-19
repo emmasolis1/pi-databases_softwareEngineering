@@ -47,24 +47,7 @@ export const ProjectProfile = ({ project, ...props }) => {
       </CardContent>
       <Divider />
       <CardActions>
-        <Button
-          color="primary"
-          display="inline"
-          fullWidth
-          sx={{ pl: 1 }}
-          onClick={viewEmployees}
-        >
-          View Employees
-        </Button>
-        <Button
-          color="error"
-          display="inline"
-          fullWidth
-          sx={{ pl: 1 }}
-          onClick={payProject}
-        >
-          Pay Project
-        </Button>
+        
       </CardActions>
     </Card>
   );
