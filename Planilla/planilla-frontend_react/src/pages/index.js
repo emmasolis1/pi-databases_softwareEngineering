@@ -49,7 +49,7 @@ const Login = () => {
             else {
               sessionStorage.removeItem("employerID");
               sessionStorage.setItem("employeeID", response.data[0]);
-              router.push('/dashboard');
+              router.push('/projects_employee');
             }
             sessionStorage.setItem("userID", response.data[0]);
           } else {
