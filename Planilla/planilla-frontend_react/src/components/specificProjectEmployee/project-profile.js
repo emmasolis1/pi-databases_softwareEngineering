@@ -11,13 +11,14 @@ import { useRouter } from 'next/router';
 
 export const ProjectProfile = ({ project, ...props }) => {
   const router = useRouter();
+  const showHourRegistrationButton = false;
 
-  function viewEmployees() {
-    router.push('/specific_project_employees');
+  if (sessionStorage.getItem("contractType") == "2") {
+    showHourRegistrationButton = true;
   }
 
-  function payProject() {
-    alert('Pay project');
+  function RegisterHours() {
+    router.push('/hour_registration');
   }
 
   return (
@@ -47,7 +48,17 @@ export const ProjectProfile = ({ project, ...props }) => {
       </CardContent>
       <Divider />
       <CardActions>
-        
+        {showHourRegistrationButton ?
+          <Button
+            color="primary"
+            display="inline"
+            fullWidth
+            sx={{ pl: 1 }}
+            onClick={RegisterHours}
+          >
+            Register hours
+          </Button>
+          : ""}
       </CardActions>
     </Card>
   );

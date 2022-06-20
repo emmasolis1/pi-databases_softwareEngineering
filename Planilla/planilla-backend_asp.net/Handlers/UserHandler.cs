@@ -395,6 +395,24 @@ namespace planilla_backend_asp.net.Handlers
       conexion.Close();
     }
 
+    public void RegisterHours(HourRegistrationModel hours)
+    {
+      var consult = @"INSERT INTO HoursRegistry ([ProjectName], [EmployerID], [EmployeeID], [Date], [NumberOfHours]) 
+                      VALUES (@projectName, @employerID, @employeeID, @date, @numberOfHours)";
+      var queryCommand = new SqlCommand(consult, conexion);
+
+      // Insertion of attribute
+      queryCommand.Parameters.AddWithValue("@projectName", hours.projectName);
+      queryCommand.Parameters.AddWithValue("@employerID", hours.employerID);
+      queryCommand.Parameters.AddWithValue("@employeeID", hours.employeeID);
+      queryCommand.Parameters.AddWithValue("@date", hours.date);
+      queryCommand.Parameters.AddWithValue("@numberOfHours", hours.numberOfHours);
+
+      conexion.Open();
+      queryCommand.ExecuteNonQuery();
+      conexion.Close();
+    }
+
     public DataTable GetEmployeeInfo(ReciberModel id)
     {
       string consult = "select Identification, FirstName, LastName, LastName2, Email, Country, State, City, ZipCode, Address, Phone from Users where Identification =" + "'" + id.id + "'";
