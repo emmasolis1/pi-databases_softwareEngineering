@@ -126,7 +126,7 @@ export const DashboardSidebar = (props) => {
             </NextLink>
           </Box>
           <Box sx={{ px: 2 }}>
-            {/* <Box
+            <Box
               sx={{
                 alignItems: 'center',
                 backgroundColor: 'rgba(255, 255, 255, 0.04)',
@@ -161,8 +161,8 @@ export const DashboardSidebar = (props) => {
                   height: 14
                 }}
               />
-            </Box> */}
-            <Button
+            </Box>
+            {/* <Button
                 id="basic-button"
                 aria-controls={open2 ? 'basic-menu' : undefined}
                 aria-haspopup="true"
@@ -170,7 +170,7 @@ export const DashboardSidebar = (props) => {
                 aria-expanded={open2 ? 'true' : undefined}
                 onClick={handleClick}
               >
-                {project?.name}
+                Project
                 <SelectorIcon
                 sx={{
                   color: 'neutral.500',
@@ -198,7 +198,7 @@ export const DashboardSidebar = (props) => {
                     {project}
                   </MenuItem>
                 ))}
-              </Menu>
+              </Menu> */}
           </Box>
         </div>
         <Divider
