@@ -20,24 +20,6 @@ import * as React from 'react';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
-const projects = [
-  {
-    name: 'Project 1',
-  },
-  {
-    name: 'Project 2',
-  },
-  {
-    name: 'Project 3',
-  },
-  {
-    name: 'Project 4',
-  },
-  {
-    name: 'Project 5',
-  },
-];
-
 const items = [
   {
     href: '/dashboard',
@@ -84,6 +66,10 @@ const items = [
 export const DashboardSidebar = (props) => {
   const { open, onClose } = props;
   const router = useRouter();
+  const [project, setProject] = React.useState(null);
+  const [projects, setProjects] = React.useState([]);
+  const open2 = Boolean(project);
+  
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'), {
     defaultMatches: true,
     noSsr: false
@@ -100,17 +86,19 @@ export const DashboardSidebar = (props) => {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [router.asPath]
+    [router.asPath],
   );
 
-  // const [anchorEl, setAnchorEl] = React.useState(null);
-  // const open2 = Boolean(anchorEl);
-  // const handleClick = (event) => {
-  //   setAnchorEl(event.currentTarget);
-  // };
-  // const handleClose = () => {
-  //   setAnchorEl(null);
-  // };
+  // useEffect(() => {
+  //   setProjects(JSON.parse(sessionStorage.getItem('userProjects')));
+  // }, [projects]);
+
+  const handleClick = (event) => {
+    setProject(event.currentTarget);
+  };
+  const handleClose = () => {
+    setProject(null);
+  };
 
   const content = (
     <>
@@ -173,7 +161,8 @@ export const DashboardSidebar = (props) => {
                   height: 14
                 }}
               />
-              {/* <Button
+            </Box>
+            {/* <Button
                 id="basic-button"
                 aria-controls={open2 ? 'basic-menu' : undefined}
                 aria-haspopup="true"
@@ -181,7 +170,7 @@ export const DashboardSidebar = (props) => {
                 aria-expanded={open2 ? 'true' : undefined}
                 onClick={handleClick}
               >
-                Dashboard
+                Project
                 <SelectorIcon
                 sx={{
                   color: 'neutral.500',
@@ -192,24 +181,24 @@ export const DashboardSidebar = (props) => {
               </Button>
               <Menu
                 id="basic-menu"
-                anchorEl={anchorEl}
+                anchorEl={project}
                 open={open2}
                 onClose={handleClose}
                 MenuListProps={{
                   'aria-labelledby': 'basic-button',
                 }}
               >
-                {projects.map((project) => (
+                {JSON.parse(sessionStorage.getItem('userProjects')).map((project) => (
                   <MenuItem
                     key={project.href}
                     onClick={handleClose}
                     selected={router.asPath === project.href}
+                    divider="true"
                   >
-                    {project.name}
+                    {project}
                   </MenuItem>
                 ))}
               </Menu> */}
-            </Box>
           </Box>
         </div>
         <Divider
