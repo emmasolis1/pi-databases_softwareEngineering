@@ -109,7 +109,7 @@ namespace planilla_backend_asp.net.Handlers
       connection.Close();
     }
 
-    public ProjectModel GetSpecificProjectInfo(string benefitName, string projectName, string employerID)
+    public BenefitsModel GetSpecificBenefitInfo(string benefitName, string projectName, string employerID)
     {
       string consult = @"SELECT BenefitName, ProjectName, EmployerID, Description, Cost
                       FROM Benefits
@@ -129,7 +129,7 @@ namespace planilla_backend_asp.net.Handlers
         benefit.description = Convert.ToString(column["Description"]);
         benefit.cost = Convert.ToString(column["cost"]);
       };
-      return project;
+      return benefit;
     }
   }
 }
