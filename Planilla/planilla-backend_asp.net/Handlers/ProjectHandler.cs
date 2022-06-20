@@ -56,6 +56,38 @@ namespace planilla_backend_asp.net.Handlers
       return projects;
     }
 
+    public List<ProjectModel> GetProjectsEmployeeSide(string employeeID)
+    {
+      List<ProjectModel> projects = new List<ProjectModel>();
+      var consult = @"SELECT Projects.ProjectName, Projects.EmployerID, Budget, PaymentMethod, Description, MaxNumberOfBenefits, MaxBudgetForBenefits
+                      FROM Projects JOIN Contracts ON Projects.ProjectName = Contracts.ProjectName
+                      WHERE EmployeeID = @employeeID
+                      AND RealEndedDate IS NULL
+                      ORDER BY ProjectName";
+      var queryCommand = new SqlCommand(consult, connection);
+
+      // Uses user's email and the name of the active project to get only related benefits
+      queryCommand.Parameters.AddWithValue("@employeeID", employeeID);
+
+      SqlDataAdapter tableAdapter = new SqlDataAdapter(queryCommand);
+      DataTable tablaResultado = CreateTableConsult(tableAdapter);
+      foreach (DataRow columna in tablaResultado.Rows)
+      {
+        projects.Add(new ProjectModel
+        {
+          projectName = Convert.ToString(columna["ProjectName"]),
+          employerID = Convert.ToString(columna["EmployerID"]),
+          budget = Convert.ToString(columna["Budget"]),
+          paymentMethod = Convert.ToString(columna["PaymentMethod"]),
+          description = Convert.ToString(columna["Description"]),
+          maxNumberOfBenefits = Convert.ToString(columna["MaxNumberOfBenefits"]),
+          maxBudgetForBenefits = Convert.ToString(columna["MaxBudgetForBenefits"])
+        });
+      }
+
+      return projects;
+    }
+
     public bool CreateProject(ProjectModel project)
     {
       var consult = @"INSERT INTO Projects ([ProjectName], [EmployerID], [Budget], [PaymentMethod], [Description], [MaxNumberOfBenefits], [MaxBudgetForBenefits]) 
