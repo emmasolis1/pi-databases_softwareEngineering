@@ -99,6 +99,16 @@ namespace planilla_backend_asp.net.Controllers
         }
     }
 
+    [HttpPost]
+    [Route("hourRegistration")]
+    public ActionResult RegisterHours([FromBody] HourRegistrationModel hours)
+    {
+      // Save new contract
+      UserHandler handler = new UserHandler();
+      handler.RegisterHours(hours);
+      return Ok();
+    }
+
     [HttpPut]
     [Route("account")]
     public ActionResult EditEmployeeProfile([FromBody] UserEmployeeInfoToModify employee)
