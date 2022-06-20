@@ -58,12 +58,12 @@ class Projects extends React.Component {
                 {this.state.projects.map((project) => (
                   <Grid
                     item
-                    key={project.projectName + project.employerID}
+                    key={project.Item1.projectName + project.Item1.employerID}
                     lg={4}
                     md={6}
                     xs={12}
                   >
-                    <ProjectCard project={project} />
+                    <ProjectCard project={project.Item1} contractType={project.Item2} />
                   </Grid>
                 ))}
               </Grid>

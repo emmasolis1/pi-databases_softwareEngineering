@@ -11,6 +11,11 @@ import { useRouter } from 'next/router';
 
 export const ProjectProfile = ({ project, ...props }) => {
   const router = useRouter();
+  const showHourRegistrationButton = false;
+
+  if (sessionStorage.getItem("contractType") == "2") {
+    showHourRegistrationButton = true;
+  }
 
   function RegisterHours() {
     router.push('/hour_registration');
@@ -43,15 +48,17 @@ export const ProjectProfile = ({ project, ...props }) => {
       </CardContent>
       <Divider />
       <CardActions>
-        <Button
-          color="primary"
-          display="inline"
-          fullWidth
-          sx={{ pl: 1 }}
-          onClick={RegisterHours}
-        >
-          Register hours
-        </Button>
+        {showHourRegistrationButton ?
+          <Button
+            color="primary"
+            display="inline"
+            fullWidth
+            sx={{ pl: 1 }}
+            onClick={RegisterHours}
+          >
+            Register hours
+          </Button>
+          : ""}
       </CardActions>
     </Card>
   );

@@ -3,12 +3,18 @@ import { Avatar, Box, Button, Card, CardContent, Divider, Grid, Typography } fro
 import { getInitials } from '../../utils/get-initials';
 import { useRouter } from 'next/router';
 
-export const ProjectCard = ({ project, ...rest }) => {
+export const ProjectCard = ({ project, contractType, ...rest }) => {
   const router = useRouter();
+  const showHourRegistrationButton = false;
+
+  if (contractType == "2") {
+    showHourRegistrationButton = true;
+  }
 
   function seeProject() {
     sessionStorage.setItem("project", project.projectName);
     sessionStorage.setItem("employerID", project.employerID);
+    sessionStorage.setItem("contractType", contractType);
     router.push('/specificProjectEmployee');
   };
 
@@ -80,14 +86,16 @@ export const ProjectCard = ({ project, ...rest }) => {
             >
               More info
             </Button>
-            <Button
-              color="primary"
-              display="inline"
-              sx={{ pl: 1 }}
-              onClick={RegisterHours}
-            >
-              Register hours
-            </Button>
+            {showHourRegistrationButton ?
+              <Button
+                color="primary"
+                display="inline"
+                sx={{ pl: 1 }}
+                onClick={RegisterHours}
+              >
+                Register hours
+              </Button>
+              : ""}
           </Grid>
         </Grid>
       </Box>
