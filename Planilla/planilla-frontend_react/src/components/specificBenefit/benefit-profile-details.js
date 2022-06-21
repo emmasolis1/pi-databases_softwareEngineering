@@ -32,10 +32,11 @@ export const BenefitProfileDetails = ({ benefit, ...props }) => {
     }),
     onSubmit: values => {
       var data = {
+        benefitName: benefit.benefitName,
         projectName: benefit.projectName,
         employerID: benefit.employerID,
-        description: benefit.description,
-        cost: benefit.cost
+        description: values.description,
+        cost: values.cost
       };
       axios.put('https://localhost:7150/api/specificBenefit', data).then((response) => {
         alert("Benefit updated successfully");

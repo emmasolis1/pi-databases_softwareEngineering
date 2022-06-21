@@ -10,15 +10,15 @@ class SpecificBenefit extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      project: [],
+      benefit: [],
       isLoaded: false,
       APIUrl: 'https://localhost:7150/api/specificBenefit',
     };
   }
 
   componentDidMount() {
-    axios.get(this.state.APIUrl + "?benefit=" + sessionStorage.getItem() +"&project=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID")).then(response => {
-        this.setState({ isLoaded: true, project: response.data });
+    axios.get(this.state.APIUrl + "?benefitName=" + sessionStorage.getItem("benefit") +"&projectName=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID")).then(response => {
+        this.setState({ isLoaded: true, benefit: response.data });
     });
   }
 

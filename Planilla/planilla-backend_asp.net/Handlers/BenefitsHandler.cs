@@ -102,7 +102,6 @@ namespace planilla_backend_asp.net.Handlers
       queryCommand.Parameters.AddWithValue("@employerID", info.employerID);
       queryCommand.Parameters.AddWithValue("@description", info.description);
       queryCommand.Parameters.AddWithValue("@cost", info.cost);
-
       // Execute command
       connection.Open();
       queryCommand.ExecuteNonQuery();
