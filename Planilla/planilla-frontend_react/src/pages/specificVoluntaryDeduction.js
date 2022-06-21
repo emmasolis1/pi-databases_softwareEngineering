@@ -10,15 +10,15 @@ class SpecificVoluntaryDeduction extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      project: [],
+      voluntaryDeduction: [],
       isLoaded: false,
       APIUrl: 'https://localhost:7150/api/specificVoluntaryDeduction',
     };
   }
 
   componentDidMount() {
-      axios.get(this.state.APIUrl + "?voluntaryDeduction=" + sessionStorage.getItem() + "&project=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID")).then(response => {
-      this.setState({ isLoaded: true, project: response.data });
+      axios.get(this.state.APIUrl + "?voluntaryDeductionName=" + sessionStorage.getItem() + "&project=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID")).then(response => {
+      this.setState({ isLoaded: true, voluntaryDeduction: response.data });
     });
   }
 

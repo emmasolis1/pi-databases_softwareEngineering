@@ -16,18 +16,15 @@ import { useRouter } from 'next/router';
 
 export const SpecificVoluntaryDeductionProfileDetails = ({ voluntaryDeduction, ...props }) => {
   const router = useRouter();
+  const [open, setOpen] = React.useState(false);
   const formik = useFormik({
     initialValues: {
-      voluntaryDeductionName: voluntaryDeduction.voluntaryDeductionName,
       projectName: voluntaryDeduction.projectName,
       employerID: voluntaryDeduction.employerID,
       description: voluntaryDeduction.description,
       cost: '',
     },
     validationSchema: Yup.object({
-      voluntaryDeductionName: Yup
-        .string()
-        .max(255),
       description: Yup
         .string()
         .max(255)
@@ -37,7 +34,7 @@ export const SpecificVoluntaryDeductionProfileDetails = ({ voluntaryDeduction, .
         voluntaryDeductionName: voluntaryDeduction.voluntaryDeductionName,
         projectName: voluntaryDeduction.projectName,
         employerID: voluntaryDeduction.employerID,
-        description: voluntaryDeduction.description,
+        description: values.description,
         cost: ""
       };
       axios.put('https://localhost:7150/api/specificVoluntaryDeduction', data).then((response) => {
@@ -79,18 +76,6 @@ export const SpecificVoluntaryDeductionProfileDetails = ({ voluntaryDeduction, .
               md={6}
               xs={12}
             >
-              <TextField
-                fullWidth
-                label="Voluntary Deduction Name"
-                margin="none"
-                value={formik.values.voluntaryDeductionName}
-                name="cost"
-                error={Boolean(formik.touched.voluntaryDeductionName && formik.errors.voluntaryDeductionName)}
-                helperText={formik.touched.voluntaryDeductionName && formik.errors.voluntaryDeductionName}
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                variant="outlined"
-              />
             </Grid>
             <Grid
               item
