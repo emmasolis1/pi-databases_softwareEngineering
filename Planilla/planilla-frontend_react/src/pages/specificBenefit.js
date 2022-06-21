@@ -30,7 +30,7 @@ class SpecificBenefit extends React.Component {
         <>
           <Head>
             <title>
-              Benefits | Ta' Bueno
+              Benefit | Ta' Bueno
             </title>
           </Head>
           <Box

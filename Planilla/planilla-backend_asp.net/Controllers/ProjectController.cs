@@ -69,5 +69,22 @@ namespace planilla_backend_asp.net.Controllers
         return BadRequest(error.Message);
       }
     }
+
+    [HttpDelete]
+    [Route("deleteProject/")]
+    public ActionResult DeleteProject([FromQuery] string projectName, string employerID)
+    {
+      try
+      {
+        ProjectHandler handler = new ProjectHandler();
+        handler.DeleteProject(projectName, employerID);
+        return Ok();
+      }
+      catch (Exception error)
+      {
+        Console.WriteLine(error);
+        return BadRequest(error.Message);
+      }
+    }
   }
 }
