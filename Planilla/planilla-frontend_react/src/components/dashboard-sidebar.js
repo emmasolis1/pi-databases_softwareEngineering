@@ -16,52 +16,84 @@ import { XCircle as XCircleIcon } from '../icons/x-circle';
 import { Logo } from './logo';
 import { NavItem } from './nav-item';
 
+import * as React from 'react';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+
 const items = [
   {
-    href: '/',
+    href: '/dashboard',
     icon: (<ChartBarIcon fontSize="small" />),
     title: 'Dashboard'
   },
   {
-    href: '/customers',
+    href: '/employees',
     icon: (<UsersIcon fontSize="small" />),
-    title: 'Customers'
+    title: 'Employees'
+  },
+  // {
+  //   href: '/settings',
+  //   icon: (<CogIcon fontSize="small" />),
+  //   title: 'Settings'
+  // },
+  {
+    href: '/projects',
+    icon: (<ChartBarIcon fontSize="small" />),
+    title: 'Projects'
   },
   {
-    href: '/products',
+    href: '/benefits',
     icon: (<ShoppingBagIcon fontSize="small" />),
-    title: 'Products'
+    title: 'Benefits'
   },
   {
-    href: '/account',
-    icon: (<UserIcon fontSize="small" />),
-    title: 'Account'
-  },
-  {
-    href: '/settings',
-    icon: (<CogIcon fontSize="small" />),
-    title: 'Settings'
-  },
-  {
-    href: '/login',
+    href: '/mandatoryDeductions',
     icon: (<LockIcon fontSize="small" />),
-    title: 'Login'
+    title: 'Mandatory Deductions'
   },
   {
-    href: '/register',
-    icon: (<UserAddIcon fontSize="small" />),
-    title: 'Register'
+    href: '/voluntaryDeductions',
+    icon: (<LockIcon fontSize="small" />),
+    title: 'Voluntary Deductions'
+  }
+  // {
+  //   href: '/404',
+  //   icon: (<XCircleIcon fontSize="small" />),
+  //   title: 'Error'
+  // },
+];
+
+const employeeItems = [
+  {
+    href: '/projects_employee',
+    icon: (<ChartBarIcon fontSize="small" />),
+    title: 'Projects'
   },
   {
-    href: '/404',
-    icon: (<XCircleIcon fontSize="small" />),
-    title: 'Error'
+    href: '/benefits_employee',
+    icon: (<ShoppingBagIcon fontSize="small" />),
+    title: 'Benefits'
+  },
+  {
+    href: '/mandatoryDeductions',
+    icon: (<LockIcon fontSize="small" />),
+    title: 'Mandatory Deductions'
+  },
+  {
+    href: '/voluntaryDeductionsEmployee',
+    icon: (<LockIcon fontSize="small" />),
+    title: 'Voluntary Deductions'
   }
 ];
 
 export const DashboardSidebar = (props) => {
   const { open, onClose } = props;
   const router = useRouter();
+  const [project, setProject] = React.useState(null);
+  const [projects, setProjects] = React.useState([]);
+  const open2 = Boolean(project);
+  const [isEmployee, setIsEmployee] = React.useState(false);
+  
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'), {
     defaultMatches: true,
     noSsr: false
@@ -76,10 +108,27 @@ export const DashboardSidebar = (props) => {
       if (open) {
         onClose?.();
       }
+
+      if (sessionStorage.getItem('userType') === '0') {
+        setIsEmployee(true);
+      } else {
+        setIsEmployee(false);
+      }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [router.asPath]
+    [router.asPath],
   );
+
+  // useEffect(() => {
+  //   setProjects(JSON.parse(sessionStorage.getItem('userProjects')));
+  // }, [projects]);
+
+  const handleClick = (event) => {
+    setProject(event.currentTarget);
+  };
+  const handleClose = () => {
+    setProject(null);
+  };
 
   const content = (
     <>
@@ -93,7 +142,150 @@ export const DashboardSidebar = (props) => {
         <div>
           <Box sx={{ p: 3 }}>
             <NextLink
-              href="/"
+              href="/dashboard"
+              passHref
+            >
+              <a>
+                <Logo
+                  sx={{
+                    height: 42,
+                    width: 42
+                  }}
+                />
+              </a>
+            </NextLink>
+          </Box>
+          <Box sx={{ px: 2 }}>
+            <Box
+              sx={{
+                alignItems: 'center',
+                backgroundColor: 'rgba(255, 255, 255, 0.04)',
+                cursor: 'pointer',
+                display: 'flex',
+                justifyContent: 'space-between',
+                px: 3,
+                py: '11px',
+                borderRadius: 1
+              }}
+            >
+              <div>
+                <Typography
+                  color="inherit"
+                  variant="subtitle1"
+                >
+                  Acme Inc
+                </Typography>
+                <Typography
+                  color="neutral.400"
+                  variant="body2"
+                >
+                  Your tier
+                  {' '}
+                  : Premium
+                </Typography>
+              </div>
+              <SelectorIcon
+                sx={{
+                  color: 'neutral.500',
+                  width: 14,
+                  height: 14
+                }}
+              />
+            </Box>
+            {/* <Button
+                id="basic-button"
+                aria-controls={open2 ? 'basic-menu' : undefined}
+                aria-haspopup="true"
+                fullWidth
+                aria-expanded={open2 ? 'true' : undefined}
+                onClick={handleClick}
+              >
+                Project
+                <SelectorIcon
+                sx={{
+                  color: 'neutral.500',
+                  width: 14,
+                  height: 14
+                }}
+              />
+              </Button>
+              <Menu
+                id="basic-menu"
+                anchorEl={project}
+                open={open2}
+                onClose={handleClose}
+                MenuListProps={{
+                  'aria-labelledby': 'basic-button',
+                }}
+              >
+                {JSON.parse(sessionStorage.getItem('userProjects')).map((project) => (
+                  <MenuItem
+                    key={project.href}
+                    onClick={handleClose}
+                    selected={router.asPath === project.href}
+                    divider="true"
+                  >
+                    {project}
+                  </MenuItem>
+                ))}
+              </Menu> */}
+          </Box>
+        </div>
+        <Divider
+          sx={{
+            borderColor: '#2D3748',
+            my: 3
+          }}
+        />
+        <Box sx={{ flexGrow: 1 }}>
+          {items.map((item) => (
+            <NavItem
+              key={item.title}
+              icon={item.icon}
+              href={item.href}
+              title={item.title}
+            />
+          ))}
+        </Box>
+        <Divider sx={{ borderColor: '#2D3748' }} />
+        <Box
+          sx={{
+            px: 2,
+            py: 3
+          }}
+        >
+          <Typography
+            color="neutral.100"
+            variant="subtitle2"
+            align="center"
+          >
+            &copy; Ta' Bueno - 2022
+          </Typography>
+          <Typography
+            color="neutral.500"
+            variant="body2"
+            align='center'
+          >
+            PI - Databases / Software
+          </Typography>
+        </Box>
+      </Box>
+    </>
+  );
+
+  const employeeContent = (
+    <>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100%'
+        }}
+      >
+        <div>
+          <Box sx={{ p: 3 }}>
+            <NextLink
+              href="/dashboard"
               passHref
             >
               <a>
@@ -152,7 +344,7 @@ export const DashboardSidebar = (props) => {
           }}
         />
         <Box sx={{ flexGrow: 1 }}>
-          {items.map((item) => (
+          {employeeItems.map((item) => (
             <NavItem
               key={item.title}
               icon={item.icon}
@@ -171,46 +363,17 @@ export const DashboardSidebar = (props) => {
           <Typography
             color="neutral.100"
             variant="subtitle2"
+            align="center"
           >
-            Need more features?
+            &copy; Ta' Bueno - 2022
           </Typography>
           <Typography
             color="neutral.500"
             variant="body2"
+            align='center'
           >
-            Check out our Pro solution template.
+            PI - Databases / Software
           </Typography>
-          <Box
-            sx={{
-              display: 'flex',
-              mt: 2,
-              mx: 'auto',
-              width: '160px',
-              '& img': {
-                width: '100%'
-              }
-            }}
-          >
-            <img
-              alt="Go to pro"
-              src="/static/images/sidebar_pro.png"
-            />
-          </Box>
-          <NextLink
-            href="https://material-kit-pro-react.devias.io/"
-            passHref
-          >
-            <Button
-              color="secondary"
-              component="a"
-              endIcon={(<OpenInNewIcon />)}
-              fullWidth
-              sx={{ mt: 2 }}
-              variant="contained"
-            >
-              Pro Live Preview
-            </Button>
-          </NextLink>
         </Box>
       </Box>
     </>
@@ -230,7 +393,7 @@ export const DashboardSidebar = (props) => {
         }}
         variant="permanent"
       >
-        {content}
+        {isEmployee ? content : employeeContent}
       </Drawer>
     );
   }
@@ -250,7 +413,7 @@ export const DashboardSidebar = (props) => {
       sx={{ zIndex: (theme) => theme.zIndex.appBar + 100 }}
       variant="temporary"
     >
-      {content}
+      {isEmployee ? content : employeeContent}
     </Drawer>
   );
 };

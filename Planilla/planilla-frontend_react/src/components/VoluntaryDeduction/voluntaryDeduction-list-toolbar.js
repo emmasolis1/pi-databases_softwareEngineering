@@ -7,11 +7,10 @@ import {
   InputAdornment,
   SvgIcon, Typography
 } from '@mui/material';
+import NextLink from 'next/link';
 import { Search as SearchIcon } from '../../icons/search';
-import { Upload as UploadIcon } from '../../icons/upload';
-import { Download as DownloadIcon } from '../../icons/download';
 
-export const CustomerListToolbar = (props) => (
+export const VoluntaryDeductionListToolbar = (props) => (
   <Box {...props}>
     <Box
       sx={{
@@ -26,27 +25,20 @@ export const CustomerListToolbar = (props) => (
         sx={{ m: 1 }}
         variant="h4"
       >
-        Customers
+        Voluntary Deduction
       </Typography>
       <Box sx={{ m: 1 }}>
-        <Button
-          startIcon={(<UploadIcon fontSize="small" />)}
-          sx={{ mr: 1 }}
+        <NextLink
+          href="/create_voluntary_deduction"
+          passHref
         >
-          Import
-        </Button>
-        <Button
-          startIcon={(<DownloadIcon fontSize="small" />)}
-          sx={{ mr: 1 }}
-        >
-          Export
-        </Button>
-        <Button
-          color="primary"
-          variant="contained"
-        >
-          Add Customers
-        </Button>
+          <Button
+            color="primary"
+            variant="contained"
+          >
+            Add Voluntary Deduction
+          </Button>
+        </NextLink>
       </Box>
     </Box>
     <Box sx={{ mt: 3 }}>
@@ -67,7 +59,7 @@ export const CustomerListToolbar = (props) => (
                   </InputAdornment>
                 )
               }}
-              placeholder="Search customer"
+              placeholder="Search Voluntary Deduction"
               variant="outlined"
             />
           </Box>

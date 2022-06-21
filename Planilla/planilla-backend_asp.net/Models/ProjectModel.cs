@@ -2,17 +2,12 @@
 {
     public  class ProjectModel
     {
-        public ProjectModel()
-        {
-            nombre = "";
-            cedulaUsuario = "";
-            presupuesto = 0;
-            modalidadPago = "";
-        }
-   
-        public string nombre { get; set; }
-        public string cedulaUsuario { get; set; }
-        public int presupuesto { get; set; }
-        public string modalidadPago { get; set; }
+        public string projectName { get; set; }
+        public string employerID { get; set; }
+        public string budget { get; set; }
+        public string paymentMethod { get; set; }
+        public string description { get; set; }
+        public string maxNumberOfBenefits { get; set; }
+        public string maxBudgetForBenefits { get; set; }
     }
 }

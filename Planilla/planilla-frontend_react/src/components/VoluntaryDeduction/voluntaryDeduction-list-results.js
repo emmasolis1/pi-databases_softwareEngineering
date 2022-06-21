@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
-import { format } from 'date-fns';
 import {
   Avatar,
   Box,
@@ -17,45 +16,45 @@ import {
 } from '@mui/material';
 import { getInitials } from '../../utils/get-initials';
 
-export const CustomerListResults = ({ customers, ...rest }) => {
-  const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
-  const [limit, setLimit] = useState(10);
+export const VoluntaryDeductionListResults = ({ voluntaryDeductions, ...rest }) => {
+  const [selectedVoluntaryDeductionIds, setSelectedVoluntaryDeductionIds] = useState([]);
+  const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(0);
 
   const handleSelectAll = (event) => {
-    let newSelectedCustomerIds;
+    let newSelectedVoluntaryDeductionIds;
 
     if (event.target.checked) {
-      newSelectedCustomerIds = customers.map((customer) => customer.id);
+      newSelectedVoluntaryDeductionIds = voluntaryDeductions.map((voluntaryDeduction) => voluntaryDeduction.voluntaryDeductionName);
     } else {
-      newSelectedCustomerIds = [];
+      newSelectedVoluntaryDeductionIds = [];
     }
-
-    setSelectedCustomerIds(newSelectedCustomerIds);
+    setSelectedVoluntaryDeductionIds(newSelectedVoluntaryDeductionIds);
   };
 
   const handleSelectOne = (event, id) => {
-    const selectedIndex = selectedCustomerIds.indexOf(id);
-    let newSelectedCustomerIds = [];
+    const selectedIndex = selectedVoluntaryDeductionIds.indexOf(id);
+    let newSelectedVoluntaryDeductionIds = [];
 
     if (selectedIndex === -1) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds, id);
+      newSelectedVoluntaryDeductionIds = newSelectedVoluntaryDeductionIds.concat(selectedVoluntaryDeductionIds, id);
     } else if (selectedIndex === 0) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(1));
-    } else if (selectedIndex === selectedCustomerIds.length - 1) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(0, -1));
+      newSelectedVoluntaryDeductionIds = newSelectedVoluntaryDeductionIds.concat(selectedVoluntaryDeductionIds.slice(1));
+    } else if (selectedIndex === selectedBenefitIds.length - 1) {
+        newSelectedVoluntaryDeductionIds = newSelectedVoluntaryDeductionIds.concat(selectedVoluntaryDeductionIds.slice(0, -1));
     } else if (selectedIndex > 0) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(
-        selectedCustomerIds.slice(0, selectedIndex),
-        selectedCustomerIds.slice(selectedIndex + 1)
+      newSelectedVoluntaryDeductionIds = newSelectedVoluntaryDeductionIds.concat(
+        selectedVoluntaryDeductionIds.slice(0, selectedIndex),
+        selectedVoluntaryDeductionIds.slice(selectedIndex + 1)
       );
     }
 
-    setSelectedCustomerIds(newSelectedCustomerIds);
+      setSelectedVoluntaryDeductionIds(newSelectedVoluntaryDeductionIds);
   };
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
+    setPage(0);
   };
 
   const handlePageChange = (event, newPage) => {
@@ -71,11 +70,11 @@ export const CustomerListResults = ({ customers, ...rest }) => {
               <TableRow>
                 <TableCell padding="checkbox">
                   <Checkbox
-                    checked={selectedCustomerIds.length === customers.length}
+                    checked={selectedVoluntaryDeductionIds.length === voluntaryDeductions.length}
                     color="primary"
                     indeterminate={
-                      selectedCustomerIds.length > 0
-                      && selectedCustomerIds.length < customers.length
+                      selectedVoluntaryDeductionIds.length > 0
+                      && selectedVoluntaryDeductionIds.length < voluntaryDeductions.length
                     }
                     onChange={handleSelectAll}
                   />
@@ -84,30 +83,24 @@ export const CustomerListResults = ({ customers, ...rest }) => {
                   Name
                 </TableCell>
                 <TableCell>
-                  Email
+                  Description
                 </TableCell>
                 <TableCell>
-                  Location
-                </TableCell>
-                <TableCell>
-                  Phone
-                </TableCell>
-                <TableCell>
-                  Registration date
+                  Cost
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {customers.slice(0, limit).map((customer) => (
+              {voluntaryDeductions.slice(page * limit, page * limit + limit).map(voluntaryDeduction => (
                 <TableRow
                   hover
-                  key={customer.id}
-                  selected={selectedCustomerIds.indexOf(customer.id) !== -1}
+                  key={voluntaryDeduction.voluntaryDeductionName + voluntaryDeduction.projectName + voluntaryDeduction.employerID}
+                  selected={selectedVoluntaryDeductionIds.indexOf(voluntaryDeduction.voluntaryDeductionName) !== -1}
                 >
                   <TableCell padding="checkbox">
                     <Checkbox
-                      checked={selectedCustomerIds.indexOf(customer.id) !== -1}
-                      onChange={(event) => handleSelectOne(event, customer.id)}
+                      checked={selectedVoluntaryDeductionIds.indexOf(voluntaryDeduction.voluntaryDeductionName) !== -1}
+                      onChange={(event) => handleSelectOne(event, voluntaryDeduction.voluntaryDeductionName)}
                       value="true"
                     />
                   </TableCell>
@@ -119,30 +112,24 @@ export const CustomerListResults = ({ customers, ...rest }) => {
                       }}
                     >
                       <Avatar
-                        src={customer.avatarUrl}
+                        src={voluntaryDeduction.avatarUrl}
                         sx={{ mr: 2 }}
                       >
-                        {getInitials(customer.name)}
+                        {getInitials(voluntaryDeduction.voluntaryDeductionName)}
                       </Avatar>
                       <Typography
                         color="textPrimary"
                         variant="body1"
                       >
-                        {customer.name}
+                        {voluntaryDeduction.voluntaryDeductionName}
                       </Typography>
                     </Box>
                   </TableCell>
                   <TableCell>
-                    {customer.email}
+                    {voluntaryDeduction.description}
                   </TableCell>
                   <TableCell>
-                    {`${customer.address.city}, ${customer.address.state}, ${customer.address.country}`}
-                  </TableCell>
-                  <TableCell>
-                    {customer.phone}
-                  </TableCell>
-                  <TableCell>
-                    {format(customer.createdAt, 'dd/MM/yyyy')}
+                    {voluntaryDeduction.cost}
                   </TableCell>
                 </TableRow>
               ))}
@@ -152,7 +139,7 @@ export const CustomerListResults = ({ customers, ...rest }) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={customers.length}
+        count={voluntaryDeductions.length}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}
@@ -163,6 +150,7 @@ export const CustomerListResults = ({ customers, ...rest }) => {
   );
 };
 
-CustomerListResults.propTypes = {
-  customers: PropTypes.array.isRequired
+VoluntaryDeductionListResults.propTypes = {
+  voluntaryDeductions: PropTypes.array.isRequired
 };
+
