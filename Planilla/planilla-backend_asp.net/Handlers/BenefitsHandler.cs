@@ -134,12 +134,26 @@ namespace planilla_backend_asp.net.Handlers
     public void DeleteBenefit(string benefitName, string projectName, string employerID)
     {
       // Prepare command to set benefit to inactive (1)
-      string consult = "UPDATE Benefit SET [IsActive] = 1 WHERE [BenefitName] = @benefitName AND [ProjectName] = @projectName AND [EmployerID] = @employerID";
+      string consult = "UPDATE Benefits SET [IsActive] = 1 WHERE [BenefitName] = @benefitName AND [ProjectName] = @projectName AND [EmployerID] = @employerID";
 
       SqlCommand queryCommand = new SqlCommand(consult, connection);
       queryCommand.Parameters.AddWithValue("@benefitName", benefitName);
       queryCommand.Parameters.AddWithValue("@projectName", projectName);
       queryCommand.Parameters.AddWithValue("@employerID", employerID);
+
+      // Execute command
+      connection.Open();
+      queryCommand.ExecuteNonQuery();
+      connection.Close();
+
+      // Prepare command to terminate a benefit requested by employees
+      consult = "UPDATE BenefitsStatus SET [EndDate] = @date WHERE [BenefitName] = @benefitName AND [ProjectName] = @projectName AND [EmployerID] = @employerID";
+
+      queryCommand = new SqlCommand(consult, connection);
+      queryCommand.Parameters.AddWithValue("@benefitName", benefitName);
+      queryCommand.Parameters.AddWithValue("@projectName", projectName);
+      queryCommand.Parameters.AddWithValue("@employerID", employerID);
+      queryCommand.Parameters.AddWithValue("@date", DateTime.Now.ToString("yyyy/MM/dd"));
 
       // Execute command
       connection.Open();
