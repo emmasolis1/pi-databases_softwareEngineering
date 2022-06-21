@@ -1,6 +1,20 @@
-import { useState } from 'react';
+import * as React from 'react';
+import axios from 'axios';
+import Button from '@mui/material/Button';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import { getInitials } from '../../utils/get-initials';
+import IconButton from '@mui/material/IconButton';
+import ReadMoreIcon from '@mui/icons-material/ReadMore';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
+import { useRouter } from 'next/router';
+import Stack from '@mui/material/Stack';
+import { useState } from 'react';
 import {
   Avatar,
   Box,
@@ -14,12 +28,13 @@ import {
   TableRow,
   Typography
 } from '@mui/material';
-import { getInitials } from '../../utils/get-initials';
 
 export const BenefitListResults = ({ benefits, ...rest }) => {
+  const router = useRouter();
   const [selectedBenefitIds, setSelectedBenefitIds] = useState([]);
   const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(0);
+  const [open, setOpen] = React.useState(false);
 
   const handleSelectAll = (event) => {
     let newSelectedBenefitIds;
@@ -61,6 +76,26 @@ export const BenefitListResults = ({ benefits, ...rest }) => {
     setPage(newPage);
   };
 
+  const handleClickOpen = (benefitName) => {
+    sessionStorage.setItem("benefit", benefitName);
+    setOpen(true);
+  };
+
+  const handleClose = (agreed) => {
+    setOpen(false);
+    if (agreed === true) {
+      axios.delete("https://localhost:7150/api/deleteBenefit?benefitName=" + sessionStorage.getItem("benefit") + "&projectName=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID")).then(() => {
+        alert("Benefit deleted successfully");
+        window.location.reload(false);
+      });
+    }
+  };
+
+  const viewBenefit = (benefitName) => {
+    sessionStorage.setItem("benefit", benefitName);
+    router.push('/specificBenefit');
+  }
+
   return (
     <Card {...rest}>
       <PerfectScrollbar>
@@ -87,6 +122,9 @@ export const BenefitListResults = ({ benefits, ...rest }) => {
                 </TableCell>
                 <TableCell>
                   Cost
+                </TableCell>
+                <TableCell>
+                  Actions
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -130,6 +168,37 @@ export const BenefitListResults = ({ benefits, ...rest }) => {
                   </TableCell>
                   <TableCell>
                     {benefit.cost}
+                  </TableCell>
+                  <TableCell>
+                    <Stack direction="row" spacing={1}>
+                      <IconButton aria-label="edit" color="primary" onClick={() => viewBenefit(benefit.benefitName)}>
+                        <ReadMoreIcon />
+                      </IconButton>
+                      <IconButton aria-label="delete" color="error" onClick={() => handleClickOpen(benefit.benefitName)}>
+                        <DeleteForeverIcon />
+                      </IconButton>
+                      <Dialog
+                        open={open}
+                        onClose={handleClose}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                      >
+                        <DialogTitle id="alert-dialog-title">
+                          {"Alert: Please read!!!"}
+                        </DialogTitle>
+                        <DialogContent>
+                          <DialogContentText id="alert-dialog-description">
+                            You are about to delete a benefit, this means
+                            that everyone linked to it will lose access to it.
+                            Are you sure?
+                          </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                          <Button onClick={handleClose} autoFocus>NO</Button>
+                          <Button onClick={() => handleClose(true)}>Yes</Button>
+                        </DialogActions>
+                      </Dialog>
+                    </Stack>
                   </TableCell>
                 </TableRow>
               ))}
