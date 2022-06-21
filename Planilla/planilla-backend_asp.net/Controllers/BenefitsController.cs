@@ -60,5 +60,22 @@ namespace planilla_backend_asp.net.Controllers
         return BadRequest(error.Message);
       }
     }
+
+    [HttpDelete]
+    [Route("deleteBenefit/")]
+    public ActionResult DeleteBenefit([FromQuery] string benefitName, string projectName, string employerID)
+    {
+      try
+      {
+        BenefitsHandler handler = new BenefitsHandler();
+        handler.DeleteBenefit(benefitName, projectName, employerID);
+        return Ok();
+      }
+      catch (Exception error)
+      {
+        Console.WriteLine(error);
+        return BadRequest(error.Message);
+      }
+    }
   }
 }
