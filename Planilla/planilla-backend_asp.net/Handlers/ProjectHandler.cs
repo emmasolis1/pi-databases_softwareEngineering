@@ -31,6 +31,7 @@ namespace planilla_backend_asp.net.Handlers
       var consult = @"SELECT ProjectName, EmployerID, Budget, PaymentMethod, Description, MaxNumberOfBenefits, MaxBudgetForBenefits
                       From Projects
                       WHERE EmployerID = @employerID
+                      AND IsActive = 0
                       ORDER BY ProjectName";
       var queryCommand = new SqlCommand(consult, connection);
 
@@ -63,6 +64,7 @@ namespace planilla_backend_asp.net.Handlers
                       FROM Projects JOIN Contracts ON Projects.ProjectName = Contracts.ProjectName
                       WHERE EmployeeID = @employeeID
                       AND RealEndedDate IS NULL
+                      AND IsActive = 0
                       ORDER BY ProjectName";
       var queryCommand = new SqlCommand(consult, connection);
 
@@ -90,8 +92,8 @@ namespace planilla_backend_asp.net.Handlers
 
     public bool CreateProject(ProjectModel project)
     {
-      var consult = @"INSERT INTO Projects ([ProjectName], [EmployerID], [Budget], [PaymentMethod], [Description], [MaxNumberOfBenefits], [MaxBudgetForBenefits]) 
-                      VALUES (@projectName, @employerID, @budget, @paymentMethod, @description, @maxNumberOfBenefits, @maxBudgetForBenefits)";
+      var consult = @"INSERT INTO Projects ([ProjectName], [EmployerID], [Budget], [PaymentMethod], [Description], [MaxNumberOfBenefits], [MaxBudgetForBenefits], [IsActive]) 
+                      VALUES (@projectName, @employerID, @budget, @paymentMethod, @description, @maxNumberOfBenefits, @maxBudgetForBenefits, 0)";
       var queryCommand = new SqlCommand(consult, connection);
 
       // Insertion of key attributes
@@ -194,5 +196,32 @@ namespace planilla_backend_asp.net.Handlers
       return project;
     }
 
+    public void DeleteProject(string projectName, string employerID)
+    {
+      // Prepare command to set project to inactive (1)
+      string consult = "UPDATE Projects SET [IsActive] = 1 WHERE [ProjectName] = @projectName AND [EmployerID] = @employerID";
+
+      SqlCommand queryCommand = new SqlCommand(consult, connection);
+      queryCommand.Parameters.AddWithValue("@projectName", projectName);
+      queryCommand.Parameters.AddWithValue("@employerID", employerID);
+
+      // Execute command
+      connection.Open();
+      queryCommand.ExecuteNonQuery();
+      connection.Close();
+
+      // Prepare command to terminate the contracts of the employees working on the project
+      consult = "UPDATE Contracts SET [RealEndedDate] = @date WHERE [ProjectName] = @projectName AND [EmployerID] = @employerID";
+
+      queryCommand = new SqlCommand(consult, connection);
+      queryCommand.Parameters.AddWithValue("@projectName", projectName);
+      queryCommand.Parameters.AddWithValue("@employerID", employerID);
+      queryCommand.Parameters.AddWithValue("@date", DateTime.Now.ToString("yyyy/MM/dd"));
+
+      // Execute command
+      connection.Open();
+      queryCommand.ExecuteNonQuery();
+      connection.Close();
+    }
   }
 }

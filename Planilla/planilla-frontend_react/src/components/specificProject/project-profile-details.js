@@ -1,9 +1,15 @@
+import * as React from 'react';
 import {
   Box,
   Button,
   Card,
   CardContent,
   CardHeader,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Divider,
   Grid,
   TextField,
@@ -54,6 +60,22 @@ export const ProjectProfileDetails = ({ project, ...props }) => {
       });
     }
   });
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (agreed) => {
+    setOpen(false);
+    if (agreed === true) {
+      axios.delete("https://localhost:7150/api/deleteProject?projectName=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID")).then(() => {
+        alert("Project deleted successfully");
+        router.push('/projects');
+      });
+    }
+  };
 
   return (
     <form
@@ -180,10 +202,31 @@ export const ProjectProfileDetails = ({ project, ...props }) => {
             <Button
               color="error"
               variant="contained"
-              type="submit"
+              onClick={() => handleClickOpen()}
             >
               Delete Project
             </Button>
+            <Dialog
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+            >
+              <DialogTitle id="alert-dialog-title">
+                {"Alert: Please read!!!"}
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  You are about to delete a project, this means
+                  that you also will terminate the contracts of all
+                  the involved employees. Are you sure?
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose} autoFocus>NO</Button>
+                <Button onClick={() => handleClose(true)}>Yes</Button>
+              </DialogActions>
+            </Dialog>
           </Stack>
         </Box>
       </Card>
