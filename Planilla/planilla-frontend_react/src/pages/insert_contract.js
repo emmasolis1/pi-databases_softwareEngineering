@@ -67,16 +67,16 @@ const InsertContract = () => {
       };
       axios.post('https://localhost:7150/api/addEmployeeToProject', data)
         .then(function () {
-          alert("Contract successfully saved, returning to project's employees list");
+          alert("Contract successfully saved, returning to project's employee list");
           router.push('/specific_project_employees');
         })
         .catch(function (error) {
           if (error.response) {
             console.log(error.response)
             // The client was given an error response (5xx, 4xx)
-            alert("Error: Contract may already exist, returning to project's employees list");
+            alert("Error: Contract may already exist, returning to project's employee list");
           } else {
-            alert("Error: Unknown error occurred, returning to project's employees list");
+            alert("Error: Unknown error occurred, returning to project's employee list");
           }
           router.push('/specific_project_employees');
         });

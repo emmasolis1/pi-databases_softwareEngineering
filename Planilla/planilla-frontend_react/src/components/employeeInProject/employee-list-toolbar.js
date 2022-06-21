@@ -11,10 +11,10 @@ import NextLink from 'next/link';
 import { Search as SearchIcon } from '../../icons/search';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-export const EmployeeListToolbar = (props) => {
+export const EmployeeListToolbar = ({ projectName, ...props }) => {
   const prevPage = "/projects";
   const nextPage = "/add_employee_to_project";
-  const pageTitle = "This project's employees";
+  const pageTitle = projectName + "'s employees";
   return (
     <Box {...props}>
       <Box

@@ -1,21 +1,14 @@
 import {
-  Box,
-  Button,
   Card,
   CardContent,
   CardHeader,
   Divider,
   Grid,
-  TextField,
-  Stack
+  TextField
 } from '@mui/material';
 import { useFormik } from 'formik';
-import axios from 'axios';
-import * as Yup from 'yup';
-import { useRouter } from 'next/router';
 
 export const ProjectProfileDetails = ({ project, ...props }) => {
-  const router = useRouter();
   const formik = useFormik({
     initialValues: {
       budget: project.budget,
@@ -23,42 +16,11 @@ export const ProjectProfileDetails = ({ project, ...props }) => {
       description: project.description,
       maxNumberOfBenefits: project.maxNumberOfBenefits,
       maxBudgetForBenefits: project.maxBudgetForBenefits,
-    },
-    validationSchema: Yup.object({
-      budget: Yup
-        .string(),
-      paymentMethod: Yup
-        .string()
-        .max(50),
-      description: Yup
-        .string()
-        .max(255),
-      maxNumberOfBenefits: Yup
-        .number().typeError("Invalid input, please insert a number"),
-      maxBudgetForBenefits: Yup
-        .string(),
-    }),
-    onSubmit: values => {
-      var data = {
-        projectName: project.projectName,
-        employerID: project.employerID,
-        budget: values.budget,
-        paymentMethod: values.paymentMethod,
-        description: values.description,
-        maxNumberOfBenefits: values.maxNumberOfBenefits,
-        maxBudgetForBenefits: values.maxBudgetForBenefits
-      };
-      axios.put('https://localhost:7150/api/specificProject', data).then((response) => {
-        alert("Project updated successfully");
-        router.push('/specificProject');
-      });
     }
   });
 
   return (
-    <form
-      onSubmit={formik.handleSubmit}
-    >
+    <form>
       <Card>
         <CardHeader
           title="Project's information:"

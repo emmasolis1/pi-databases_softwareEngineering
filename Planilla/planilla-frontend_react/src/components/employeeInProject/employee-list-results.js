@@ -92,8 +92,10 @@ export const EmployeeListResults = ({ employees, ...rest }) => {
     }
   };
 
-  function seeContract() {
-    alert('See contract');
+  const seeContract = (employeeID, employeeFullName) => {
+    sessionStorage.setItem("employeeID", employeeID);
+    sessionStorage.setItem("employeeFullName", employeeFullName);
+    router.push("specificContract");
   }
 
   return (
@@ -183,7 +185,7 @@ export const EmployeeListResults = ({ employees, ...rest }) => {
                   </TableCell>
                   <TableCell>
                       <Stack direction="row" spacing={1}>
-                        <IconButton aria-label="contract" color="primary" onClick={seeContract}>
+                      <IconButton aria-label="contract" color="primary" onClick={() => seeContract(employee.Identification, employee.FullName)}>
                           <ReadMoreIcon />
                         </IconButton>
                         <IconButton aria-label="delete" color="error" onClick={() => handleClickOpen(employee.Identification)}>

@@ -11,42 +11,50 @@ class SpecificProjectEmployees extends React.Component {
     super(props);
     this.state = {
       employees: [],
+      projectName: [],
+      isLoaded: false,
       APIUrl: 'https://localhost:7150/api/specificProjectEmployees'
     };
   }
 
   componentDidMount() {
     axios.get(this.state.APIUrl + "?projectName=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID")).then(response => {
-      this.setState({ employees: response.data });
+      this.setState({ isLoaded: true, employees: response.data });
     });
+    this.setState({ projectName: sessionStorage.getItem("project") });
   }
 
   render() {
-    return (
-      <>
-        <Head>
-          <title>
-            This project's employees | Ta' Bueno
-          </title>
-        </Head>
-        <Box
-          component="main"
-          sx={{
-            flexGrow: 1,
-            py: 8
-          }}
-        >
-          <Container maxWidth={false}>
-            <EmployeeListToolbar />
-            <Box sx={{ mt: 3 }}>
-              <EmployeeListResults employees={this.state.employees} />
-            </Box>
-          </Container>
-        </Box>
-      </>
-    );
+    if (!this.state.isLoaded) {
+      return <div>Loading...</div>;
+    } else {
+      return (
+        <>
+          <Head>
+            <title>
+              {this.state.projectName}'s employees | Ta' Bueno
+            </title>
+          </Head>
+          <Box
+            component="main"
+            sx={{
+              flexGrow: 1,
+              py: 8
+            }}
+          >
+            <Container maxWidth={false}>
+              <EmployeeListToolbar projectName={this.state.projectName} />
+              <Box sx={{ mt: 3 }}>
+                <EmployeeListResults employees={this.state.employees} />
+              </Box>
+            </Container>
+          </Box>
+        </>
+      );
+    }
   }
 }
+
 SpecificProjectEmployees.getLayout = (page) => (
   <DashboardLayout>
     {page}
