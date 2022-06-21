@@ -63,12 +63,36 @@ const items = [
   // },
 ];
 
+const employeeItems = [
+  {
+    href: '/projects_employee',
+    icon: (<ChartBarIcon fontSize="small" />),
+    title: 'Projects'
+  },
+  {
+    href: '/benefits_employee',
+    icon: (<ShoppingBagIcon fontSize="small" />),
+    title: 'Benefits'
+  },
+  {
+    href: '/mandatoryDeductions',
+    icon: (<LockIcon fontSize="small" />),
+    title: 'Mandatory Deductions'
+  },
+  {
+    href: '/voluntaryDeductions',
+    icon: (<LockIcon fontSize="small" />),
+    title: 'Voluntary Deductions'
+  }
+];
+
 export const DashboardSidebar = (props) => {
   const { open, onClose } = props;
   const router = useRouter();
   const [project, setProject] = React.useState(null);
   const [projects, setProjects] = React.useState([]);
   const open2 = Boolean(project);
+  const [isEmployee, setIsEmployee] = React.useState(false);
   
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'), {
     defaultMatches: true,
@@ -83,6 +107,12 @@ export const DashboardSidebar = (props) => {
 
       if (open) {
         onClose?.();
+      }
+
+      if (sessionStorage.getItem('userType') === '0') {
+        setIsEmployee(true);
+      } else {
+        setIsEmployee(false);
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -238,22 +268,112 @@ export const DashboardSidebar = (props) => {
           >
             PI - Databases / Software
           </Typography>
-          {/* <Box
-            sx={{
-              display: 'flex',
-              mt: 2,
-              mx: 'auto',
-              width: '160px',
-              '& img': {
-                width: '100%'
-              }
-            }}
-          >
-            <img
-              alt="Go to pro"
-              src="/static/images/ta_bueno_logo.png"
+        </Box>
+      </Box>
+    </>
+  );
+
+  const employeeContent = (
+    <>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100%'
+        }}
+      >
+        <div>
+          <Box sx={{ p: 3 }}>
+            <NextLink
+              href="/dashboard"
+              passHref
+            >
+              <a>
+                <Logo
+                  sx={{
+                    height: 42,
+                    width: 42
+                  }}
+                />
+              </a>
+            </NextLink>
+          </Box>
+          <Box sx={{ px: 2 }}>
+            <Box
+              sx={{
+                alignItems: 'center',
+                backgroundColor: 'rgba(255, 255, 255, 0.04)',
+                cursor: 'pointer',
+                display: 'flex',
+                justifyContent: 'space-between',
+                px: 3,
+                py: '11px',
+                borderRadius: 1
+              }}
+            >
+              <div>
+                <Typography
+                  color="inherit"
+                  variant="subtitle1"
+                >
+                  Acme Inc
+                </Typography>
+                <Typography
+                  color="neutral.400"
+                  variant="body2"
+                >
+                  Your tier
+                  {' '}
+                  : Premium
+                </Typography>
+              </div>
+              <SelectorIcon
+                sx={{
+                  color: 'neutral.500',
+                  width: 14,
+                  height: 14
+                }}
+              />
+            </Box>
+          </Box>
+        </div>
+        <Divider
+          sx={{
+            borderColor: '#2D3748',
+            my: 3
+          }}
+        />
+        <Box sx={{ flexGrow: 1 }}>
+          {employeeItems.map((item) => (
+            <NavItem
+              key={item.title}
+              icon={item.icon}
+              href={item.href}
+              title={item.title}
             />
-          </Box> */}
+          ))}
+        </Box>
+        <Divider sx={{ borderColor: '#2D3748' }} />
+        <Box
+          sx={{
+            px: 2,
+            py: 3
+          }}
+        >
+          <Typography
+            color="neutral.100"
+            variant="subtitle2"
+            align="center"
+          >
+            &copy; Ta' Bueno - 2022
+          </Typography>
+          <Typography
+            color="neutral.500"
+            variant="body2"
+            align='center'
+          >
+            PI - Databases / Software
+          </Typography>
         </Box>
       </Box>
     </>
@@ -273,7 +393,7 @@ export const DashboardSidebar = (props) => {
         }}
         variant="permanent"
       >
-        {content}
+        {isEmployee ? content : employeeContent}
       </Drawer>
     );
   }
@@ -293,7 +413,7 @@ export const DashboardSidebar = (props) => {
       sx={{ zIndex: (theme) => theme.zIndex.appBar + 100 }}
       variant="temporary"
     >
-      {content}
+      {isEmployee ? content : employeeContent}
     </Drawer>
   );
 };
