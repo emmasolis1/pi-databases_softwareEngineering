@@ -80,7 +80,7 @@ const employeeItems = [
     title: 'Mandatory Deductions'
   },
   {
-    href: '/voluntaryDeductions',
+    href: '/voluntaryDeductionsEmployee',
     icon: (<LockIcon fontSize="small" />),
     title: 'Voluntary Deductions'
   }
