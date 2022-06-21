@@ -20,10 +20,16 @@ namespace planilla_backend_asp.net.Handlers
             List<PaymentModel> employees = GetEmployeesWorkingOnProject(projectName, employerId);
             foreach (PaymentModel employee in employees)
             {
-                CreatePayment(projectName, employerId, employee.employeeId, employee.contractStartDate, employee.paymentDate);
-                double voluntaryDeductions = GetDeductionFromVoluntaryDeductions(projectName, employerId, employee.employeeId, employee.contractStartDate, employee.paymentDate);
-                double mandatoryDeductions = GetDeductionFromMandatoryDeductions(employee.netSalary, projectName, employerId, employee.employeeId, employee.contractStartDate, employee.paymentDate);
-                employee.payment = employee.netSalary - voluntaryDeductions - mandatoryDeductions;
+                if (employee.contractType == "2")
+                {
+                    CreatePayment(employee);
+                    employee.payment = GetHourlyEmployeePayment(employee);
+                } else {
+                    CreatePayment(employee);
+                    double voluntaryDeductions = GetDeductionFromVoluntaryDeductions(projectName, employerId, employee.employeeId, employee.contractStartDate, employee.paymentDate);
+                    double mandatoryDeductions = GetDeductionFromMandatoryDeductions(employee.netSalary, projectName, employerId, employee.employeeId, employee.contractStartDate, employee.paymentDate);
+                    employee.payment = employee.netSalary - voluntaryDeductions - mandatoryDeductions;
+                }
             }
             return employees;
         }
@@ -76,13 +82,35 @@ namespace planilla_backend_asp.net.Handlers
             return totalDeduction;
         }
 
-        private double GetEmployeeRegisteredHours(string projectName, string employerId, string employeeId, string startDate, string endDate)
+        private double GetHourlyEmployeePayment(PaymentModel employee)
+        {
+            var consult = "GetLatestPayment @employee_id, @employer_id, @project_name, @date";
+            var queryCommand = new SqlCommand(consult, connection);
+            queryCommand.Parameters.AddWithValue("@project_name", employee.projectName);
+            queryCommand.Parameters.AddWithValue("@employer_id", employee.employerId);
+            queryCommand.Parameters.AddWithValue("@employee_id", employee.employeeId);
+            queryCommand.Parameters.AddWithValue("@date", employee.paymentDate);
+            DataTable resultTable = CreateTableConsult(queryCommand);
+            string latestPaymentDay = "";
+            foreach (DataRow column in resultTable.Rows)
+            {
+                latestPaymentDay = Convert.ToString(column["PaymentDate"]);
+            }
+            if (latestPaymentDay == "")
+            {
+                latestPaymentDay = employee.contractStartDate;
+            }
+            double hoursWorked = GetEmployeeRegisteredHours(employee, latestPaymentDay, employee.paymentDate);
+            return hoursWorked * employee.netSalary;
+        }
+
+        private double GetEmployeeRegisteredHours(PaymentModel employee, string startDate, string endDate)
         {
             var consult = "EXECUTE GetEmployeeHourRegistryInRange @project_name, @employer_id, @employee_id, @start_date, @end_date";
             var queryCommand = new SqlCommand(consult, connection);
-            queryCommand.Parameters.AddWithValue("@project_name", projectName);
-            queryCommand.Parameters.AddWithValue("@employer_id", employerId);
-            queryCommand.Parameters.AddWithValue("@employee_id", employeeId);
+            queryCommand.Parameters.AddWithValue("@project_name", employee.projectName);
+            queryCommand.Parameters.AddWithValue("@employer_id", employee.employerId);
+            queryCommand.Parameters.AddWithValue("@employee_id", employee.employeeId);
             queryCommand.Parameters.AddWithValue("@start_date", startDate);
             queryCommand.Parameters.AddWithValue("@end_date", endDate);
             DataTable resultTable = CreateTableConsult(queryCommand);
@@ -155,16 +183,16 @@ namespace planilla_backend_asp.net.Handlers
             return totalDeduction;
         }
 
-        private bool CreatePayment(string projectName, string employerId, string employeeId, string startContractDay, string paymentDate)
+        private bool CreatePayment(PaymentModel employee)
         {
             var command = @"INSERT INTO Payments ([ProjectName], [EmployerID], [EmployeeID], [StartDate], [PaymentDate])
                             VALUES (@project_name, @employer_id, @employee_id, @start_date, @payment_date)";
             SqlCommand queryCommand = new SqlCommand(command, connection);
-            queryCommand.Parameters.AddWithValue("@project_name", projectName);
-            queryCommand.Parameters.AddWithValue("@employer_id", employerId);
-            queryCommand.Parameters.AddWithValue("@employee_id", employeeId);
-            queryCommand.Parameters.AddWithValue("@start_date", startContractDay);
-            queryCommand.Parameters.AddWithValue("@payment_date", paymentDate);
+            queryCommand.Parameters.AddWithValue("@project_name", employee.projectName);
+            queryCommand.Parameters.AddWithValue("@employer_id", employee.employerId);
+            queryCommand.Parameters.AddWithValue("@employee_id", employee.employeeId);
+            queryCommand.Parameters.AddWithValue("@start_date", employee.contractStartDate);
+            queryCommand.Parameters.AddWithValue("@payment_date", employee.paymentDate);
             return ExecuteCommand(queryCommand);
         }
     }
