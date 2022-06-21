@@ -91,5 +91,44 @@ namespace planilla_backend_asp.net.Handlers
 
       return status;
     }
+
+    public void UpdateBenefitInfo(BenefitsModel info)
+    {
+      // Prepare command
+      string consult = "update Benefits set [Description] = @description, [Cost] = @cost where [BenefitName] = @benefitName AND [ProjectName] = @projectName and [EmployerID] = @employerID";
+      SqlCommand queryCommand = new SqlCommand(consult, connection);
+      queryCommand.Parameters.AddWithValue("@benefitName", info.benefitName);
+      queryCommand.Parameters.AddWithValue("@projectName", info.projectName);
+      queryCommand.Parameters.AddWithValue("@employerID", info.employerID);
+      queryCommand.Parameters.AddWithValue("@description", info.description);
+      queryCommand.Parameters.AddWithValue("@cost", info.cost);
+      // Execute command
+      connection.Open();
+      queryCommand.ExecuteNonQuery();
+      connection.Close();
+    }
+
+    public BenefitsModel GetSpecificBenefitInfo(string benefitName, string projectName, string employerID)
+    {
+      string consult = @"SELECT BenefitName, ProjectName, EmployerID, Description, Cost
+                      FROM Benefits
+                      WHERE BenefitName = @benefitName and EmployerID = @employerID and ProjectName = @projectName";
+      var benefit = new BenefitsModel();
+      SqlCommand queryCommand = new SqlCommand(consult, connection);
+      queryCommand.Parameters.AddWithValue("@benefitName", benefitName);
+      queryCommand.Parameters.AddWithValue("@projectName", projectName);
+      queryCommand.Parameters.AddWithValue("@employerID", employerID);
+      SqlDataAdapter tableAdapter = new SqlDataAdapter(queryCommand);
+      DataTable tableFormatConsult = CreateTableConsult(tableAdapter);
+      foreach (DataRow column in tableFormatConsult.Rows)
+      {
+        benefit.benefitName = Convert.ToString(column["benefitName"]);
+        benefit.projectName = Convert.ToString(column["ProjectName"]);
+        benefit.employerID = Convert.ToString(column["EmployerID"]);
+        benefit.description = Convert.ToString(column["Description"]);
+        benefit.cost = Convert.ToString(column["cost"]);
+      };
+      return benefit;
+    }
   }
 }
