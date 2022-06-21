@@ -54,7 +54,7 @@ namespace planilla_backend_asp.net.Controllers
     }
 
     [HttpPut]
-    [Route("specificVoluntaryDeductions")]
+    [Route("specificVoluntaryDeduction")]
     public ActionResult UpdateVoluntaryDeductions([FromBody] VoluntaryDeductionsModel voluntaryDeductions)
     {
       try

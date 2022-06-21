@@ -83,7 +83,7 @@ export const VoluntaryDeductionListResults = ({ voluntaryDeductions, ...rest }) 
 
   const viewVoluntaryDeduction = (voluntaryDeductionName) => {
     sessionStorage.setItem("voluntaryDeduction", voluntaryDeductionName);
-    router.push('/specific_voluntaryDeduction');
+    router.push('/specificVoluntaryDeduction');
   }
 
   return (

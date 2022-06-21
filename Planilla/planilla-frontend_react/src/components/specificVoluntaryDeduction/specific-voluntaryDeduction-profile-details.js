@@ -16,7 +16,7 @@ import { useRouter } from 'next/router';
 
 export const SpecificVoluntaryDeductionProfileDetails = ({ voluntaryDeduction, ...props }) => {
   const router = useRouter();
-  const [open, setOpen] = React.useState(false);
+  //const [open, setOpen] = React.useState(false);
   const formik = useFormik({
     initialValues: {
       projectName: voluntaryDeduction.projectName,
@@ -39,7 +39,7 @@ export const SpecificVoluntaryDeductionProfileDetails = ({ voluntaryDeduction, .
       };
       axios.put('https://localhost:7150/api/specificVoluntaryDeduction', data).then((response) => {
         alert("Voluntary Deduction updated successfully");
-        router.push('/specificVoluntaryDeduction');
+        router.push('/voluntaryDeductions');
       });
     }
   });
@@ -63,13 +63,6 @@ export const SpecificVoluntaryDeductionProfileDetails = ({ voluntaryDeduction, .
               md={6}
               xs={12}
             >
-              <TextField
-                fullWidth
-                label="Employer ID"
-                margin="none"
-                value={formik.values.employerID}
-                disabled={true}
-              />
             </Grid>
             <Grid
               item

@@ -103,9 +103,9 @@ namespace planilla_backend_asp.net.Handlers
 
     public void UpdateVoluntaryDeductions(VoluntaryDeductionsModel voluntaryDeduction)
     {
-      string consult = "update VoluntaryDeductions set [VoluntaryDeductionName] = @voluntaryDeductionName, [Description] = @description where [projectName] = @projectName AND [employerID] = @employerID";
+      string consult = "update VoluntaryDeductions set [Description] = @description where [VoluntaryDeductionName] = @voluntaryDeductionName AND [projectName] = @projectName AND [employerID] = @employerID";
       SqlCommand queryCommand = new SqlCommand(consult, connection);
-      queryCommand.Parameters.AddWithValue("@VoluntaryDeductionName", voluntaryDeduction.voluntaryDeductionName);
+      queryCommand.Parameters.AddWithValue("@voluntaryDeductionName", voluntaryDeduction.voluntaryDeductionName);
       queryCommand.Parameters.AddWithValue("@projectName", voluntaryDeduction.projectName);
       queryCommand.Parameters.AddWithValue("@employerID", voluntaryDeduction.employerID);
       queryCommand.Parameters.AddWithValue("@description", voluntaryDeduction.description);
@@ -118,7 +118,7 @@ namespace planilla_backend_asp.net.Handlers
     {
       string consult = @"SELECT VoluntaryDeductionName, ProjectName, EmployerID, Description
                       FROM VoluntaryDeductions
-                      WHERE EmployerID = @employerID and ProjectName = @projectName";
+                      WHERE VoluntaryDeductionName = @voluntaryDeductionName and EmployerID = @employerID and ProjectName = @projectName";
       var voluntaryDeduction = new VoluntaryDeductionsModel();
       SqlCommand queryCommand = new SqlCommand(consult, connection);
       queryCommand.Parameters.AddWithValue("@voluntaryDeductionName", voluntaryDeductionName);
@@ -128,7 +128,7 @@ namespace planilla_backend_asp.net.Handlers
       DataTable tableFormatConsult = CreateTableConsult(tableAdapter);
       foreach (DataRow column in tableFormatConsult.Rows)
       {
-        voluntaryDeduction.voluntaryDeductionName = Convert.ToString(column["voluntaryDeductionName"]);
+        voluntaryDeduction.voluntaryDeductionName = Convert.ToString(column["VoluntaryDeductionName"]);
         voluntaryDeduction.projectName = Convert.ToString(column["ProjectName"]);
         voluntaryDeduction.employerID = Convert.ToString(column["EmployerID"]);
         voluntaryDeduction.description = Convert.ToString(column["Description"]);
