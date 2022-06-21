@@ -35,5 +35,39 @@ namespace planilla_backend_asp.net.Controllers
       var data = handler.GetMandatoryDeductions();
       return Ok(data);
     }
+
+    [HttpGet]
+    [Route("specificVoluntaryDeduction")]
+    public ActionResult UpdateVoluntaryDeduction(string voluntaryDeductionName, string projectName, string employerID)
+    {
+      try
+      {
+        DeductionsHandler handler = new DeductionsHandler();
+        var data = handler.GetSpecificVoluntaryDeductionInfo(voluntaryDeductionName, projectName, employerID);
+        return Ok(data);
+      }
+      catch (Exception error)
+      {
+        Console.WriteLine(error);
+        return BadRequest(error.Message);
+      }
+    }
+
+    [HttpPut]
+    [Route("specificVoluntaryDeductions")]
+    public ActionResult UpdateVoluntaryDeductions([FromBody] VoluntaryDeductionsModel voluntaryDeductions)
+    {
+      try
+      {
+        DeductionsHandler handler = new DeductionsHandler();
+        handler.UpdateVoluntaryDeductions(voluntaryDeductions);
+        return Ok();
+      }
+      catch(Exception error)
+      {
+        Console.WriteLine(error);
+        return BadRequest(error.Message);
+      }
+    }
   }
 }

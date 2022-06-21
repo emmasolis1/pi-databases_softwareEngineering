@@ -100,5 +100,54 @@ namespace planilla_backend_asp.net.Handlers
       
       return mandatoryDeductions;
     }
+
+    public void UpdateVoluntaryDeductions(VoluntaryDeductionsModel voluntaryDeduction)
+    {
+      string consult = "update VoluntaryDeductions set [VoluntaryDeductionName] = @voluntaryDeductionName, [Description] = @Description where [projectName] = @projectName AND [employerID] = @employerID";
+      SqlCommand queryCommand = new SqlCommand(consult, connection);
+      queryCommand.Parameters.AddWithValue("@VoluntaryDeductionName", voluntaryDeduction.voluntaryDeductionName);
+      queryCommand.Parameters.AddWithValue("@Description", voluntaryDeduction.description);
+
+      if (voluntaryDeduction.voluntaryDeductionName != null && voluntaryDeduction.voluntaryDeductionName != "")
+      {
+        queryCommand.Parameters.AddWithValue("@voluntaryDeductionName", voluntaryDeduction.voluntaryDeductionName);
+      }
+      else
+      {
+        queryCommand.Parameters.AddWithValue("@voluntaryDeductionName", DBNull.Value);
+      }
+      if (voluntaryDeduction.description != null && voluntaryDeduction.description != "")
+      {
+        queryCommand.Parameters.AddWithValue("@description", voluntaryDeduction.description);
+      }
+      else
+      {
+        queryCommand.Parameters.AddWithValue("@description", DBNull.Value);
+      }
+      // Execute command
+      connection.Open();
+      queryCommand.ExecuteNonQuery();
+      connection.Close();
+    }
+    public VoluntaryDeductionsModel GetSpecificVoluntaryDeductionInfo(string voluntaryDeductionName, string projectName, string employerID)
+    {
+      string consult = @"SELECT VoluntaryDeductionName, ProjectName, EmployerID, Description
+                      FROM VoluntaryDeduction
+                      WHERE EmployerID = @employerID and ProjectName = @projectName";
+      var voluntaryDeduction = new VoluntaryDeductionsModel();
+      SqlCommand queryCommand = new SqlCommand(consult, connection);
+      queryCommand.Parameters.AddWithValue("@voluntaryDeductionName", voluntaryDeductionName);
+      queryCommand.Parameters.AddWithValue("@projectName", projectName);
+      queryCommand.Parameters.AddWithValue("@employerID", employerID);
+      SqlDataAdapter tableAdapter = new SqlDataAdapter(queryCommand);
+      DataTable tableFormatConsult = CreateTableConsult(tableAdapter);
+      foreach (DataRow column in tableFormatConsult.Rows)
+      {
+        voluntaryDeduction.voluntaryDeductionName = Convert.ToString(column["voluntaryDeductionName"]);
+        voluntaryDeduction.projectName = Convert.ToString(column["ProjectName"]);
+        voluntaryDeduction.description = Convert.ToString(column["Description"]);
+      };
+      return voluntaryDeduction;
+    }
   }
 }
