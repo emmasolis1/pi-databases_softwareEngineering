@@ -1,28 +1,27 @@
 import PropTypes from 'prop-types';
 import { Avatar, Box, Button, Card, CardContent, Divider, Grid, Typography } from '@mui/material';
-import { Clock as ClockIcon } from '../../icons/clock';
-import { Download as DownloadIcon } from '../../icons/download';
 import { getInitials } from '../../utils/get-initials';
-import { useState } from 'react';
-import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 
-export const ProjectCard = ({ project, ...rest }) => {
+export const ProjectCard = ({ project, contractType, ...rest }) => {
   const router = useRouter();
+  const showHourRegistrationButton = false;
 
-  function editProject() {
-    sessionStorage.setItem("project", project.projectName);
-    router.push('/specificProject');
-  };
-
-  function viewEmployees() {
-    sessionStorage.setItem("project", project.projectName);
-    router.push('/specific_project_employees');
+  if (contractType == "2") {
+    showHourRegistrationButton = true;
   }
 
-  function payProject() {
+  function seeProject() {
     sessionStorage.setItem("project", project.projectName);
-    alert('Pay project');
+    sessionStorage.setItem("employerID", project.employerID);
+    sessionStorage.setItem("contractType", contractType);
+    router.push('/specificProjectEmployee');
+  };
+
+  function RegisterHours() {
+    sessionStorage.setItem("project", project.projectName);
+    sessionStorage.setItem("employerID", project.employerID);
+    router.push('/hour_registration');
   }
 
   return (
@@ -83,26 +82,20 @@ export const ProjectCard = ({ project, ...rest }) => {
               display="inline"
               sx={{ pl: 1 }}
               variant="body2"
-              onClick={editProject}
+              onClick={seeProject}
             >
               More info
             </Button>
-            <Button
-              color="primary"
-              display="inline"
-              sx={{ pl: 1 }}
-              onClick={viewEmployees}
-            >
-              Employees
-            </Button>
-            <Button
-              color="error"
-              display="inline"
-              sx={{ pl: 1 }}
-              onClick={payProject}
-            >
-              Pay
-            </Button>
+            {showHourRegistrationButton ?
+              <Button
+                color="primary"
+                display="inline"
+                sx={{ pl: 1 }}
+                onClick={RegisterHours}
+              >
+                Register hours
+              </Button>
+              : ""}
           </Grid>
         </Grid>
       </Box>

@@ -9,8 +9,11 @@ import {
 } from '@mui/material';
 import NextLink from 'next/link';
 import { Search as SearchIcon } from '../../icons/search';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 export const EmployeeListToolbar = (props) => {
+  const prevPage = "/specific_project_employees";
+  const pageTitle = "Add employee to this project";
   return (
     <Box {...props}>
       <Box
@@ -30,25 +33,23 @@ export const EmployeeListToolbar = (props) => {
             m: -1
           }}
         >
+            <NextLink
+              href={prevPage}
+              passHref
+            >
+              <Button
+                component="a"
+                startIcon={<ArrowBackIcon fontSize="small" />}
+              >
+              </Button>
+            </NextLink>
+
           <Typography
             sx={{ m: 1 }}
             variant="h4"
           >
-            Employees
+            {pageTitle}
           </Typography>
-        </Box>
-        <Box sx={{ m: 1 }}>
-          <NextLink
-            href="/create_employee"
-            passHref
-          >
-            <Button
-              color="primary"
-              variant="contained"
-            >
-              Add Employee
-            </Button>
-          </NextLink>
         </Box>
       </Box>
       <Box sx={{ mt: 3 }}>

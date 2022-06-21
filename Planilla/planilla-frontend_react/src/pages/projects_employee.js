@@ -2,8 +2,8 @@ import Head from 'next/head';
 import React from 'react';
 import axios from 'axios';
 import { Box, Container, Grid, Pagination } from '@mui/material';
-import { ProjectListToolbar } from '../components/project/project-list-toolbar';
-import { ProjectCard } from '../components/project/project-card';
+import { ProjectListToolbar } from '../components/projectEmployeeSide/project-list-toolbar';
+import { ProjectCard } from '../components/projectEmployeeSide/project-card';
 import { DashboardLayout } from '../components/dashboard-layout';
 
 class Projects extends React.Component {
@@ -11,7 +11,7 @@ class Projects extends React.Component {
     super(props);
     this.state = {
       projects: [],
-      APIUrl: 'https://localhost:7150/api/projects',
+      APIUrl: 'https://localhost:7150/api/projectsEmployeeSide',
       limit: 6,
       page: 0,
     };
@@ -27,7 +27,7 @@ class Projects extends React.Component {
   }
 
   componentDidMount() {
-    axios.get(this.state.APIUrl + "?employerID=" + sessionStorage.getItem("employerID")).then(response => {
+    axios.get(this.state.APIUrl + "?employeeID=" + sessionStorage.getItem("employeeID")).then(response => {
       this.setState({ projects: response.data });
     });
   }
@@ -58,12 +58,12 @@ class Projects extends React.Component {
                 {this.state.projects.map((project) => (
                   <Grid
                     item
-                    key={project.projectName + project.employerID}
+                    key={project.Item1.projectName + project.Item1.employerID}
                     lg={4}
                     md={6}
                     xs={12}
                   >
-                    <ProjectCard project={project} />
+                    <ProjectCard project={project.Item1} contractType={project.Item2} />
                   </Grid>
                 ))}
               </Grid>

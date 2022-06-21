@@ -2,21 +2,21 @@ import Head from 'next/head';
 import React from 'react';
 import axios from 'axios';
 import { Box, Container } from '@mui/material';
-import { BenefitListResults } from '../components/benefit/benefit-list-results';
-import { BenefitListToolbar } from '../components/benefit/benefit-list-toolbar';
+import { VoluntaryDeductionListResults } from '../components/voluntaryDeduction/voluntaryDeduction-list-results';
+import { VoluntaryDeductionListToolbar } from '../components/voluntaryDeduction/voluntaryDeduction-list-toolbar';
 import { DashboardLayout } from '../components/dashboard-layout';
 
-class Benefits extends React.Component {
+class VoluntaryDeductions extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      benefits: [],
-      APIUrl: 'https://localhost:7150/api/benefits',
+      voluntaryDeductions: [],
+      APIUrl: 'https://localhost:7150/api/voluntaryDeductions',
     };
   }
   componentDidMount() {    
     axios.get(this.state.APIUrl + "?project=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID")).then(response => {
-      this.setState({ benefits: response.data });
+      this.setState({ voluntaryDeductions: response.data });
     });
   }
 
@@ -25,7 +25,7 @@ class Benefits extends React.Component {
       <>
         <Head>
           <title>
-            Benefits | Ta' Bueno
+            Voluntary Deductions | Ta' Bueno
           </title>
         </Head>
         <Box
@@ -36,9 +36,9 @@ class Benefits extends React.Component {
           }}
         >
           <Container maxWidth={false}>
-            <BenefitListToolbar />
+            <VoluntaryDeductionListToolbar />
             <Box sx={{ mt: 3 }}>
-              <BenefitListResults benefits={this.state.benefits} />
+              {<VoluntaryDeductionListResults voluntaryDeductions={this.state.voluntaryDeductions} />}
             </Box>
           </Container>
         </Box>
@@ -47,10 +47,10 @@ class Benefits extends React.Component {
   }
 }
 
-Benefits.getLayout = (page) => (
+VoluntaryDeductions.getLayout = (page) => (
   <DashboardLayout>
     {page}
   </DashboardLayout>
 );
 
-export default Benefits;
+export default VoluntaryDeductions;

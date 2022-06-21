@@ -27,6 +27,24 @@ namespace planilla_backend_asp.net.Controllers
       return Ok(data);
     }
 
+    [HttpGet]
+    [Route("specificProjectEmployees")]
+    public ActionResult GetSpecificProjectEmployees(string projectName, string employerID)
+    {
+      var handler = new UserHandler();
+      var data = handler.GetSpecificProjectEmployees(projectName, employerID);
+      return Ok(data);
+    }
+
+    [HttpGet]
+    [Route("employeesNotInProject")]
+    public ActionResult GetEmployeesNotInProject(string projectName, string employerID)
+    {
+      var handler = new UserHandler();
+      var data = handler.GetEmployeesNotInProject(projectName, employerID);
+      return Ok(data);
+    }
+
     [HttpPost]
     [Route("employees")]
     public ActionResult CreateEmployee([FromBody] UserModel employee)
@@ -55,6 +73,16 @@ namespace planilla_backend_asp.net.Controllers
     }
 
     [HttpPost]
+    [Route("addEmployeeToProject")]
+    public ActionResult AddEmployeeToProject([FromBody] ContractModel contract)
+    {
+      // Save new contract
+      UserHandler handler = new UserHandler();
+      handler.AddEmployeeToProject(contract);
+      return Ok();
+    }
+
+    [HttpPost]
     [Route("account")]
     public ActionResult EditEmployeeProfile([FromBody] ReciberModel id)
     {
@@ -69,6 +97,16 @@ namespace planilla_backend_asp.net.Controllers
             Console.WriteLine(error);
             return BadRequest(error.Message);
         }
+    }
+
+    [HttpPost]
+    [Route("hourRegistration")]
+    public ActionResult RegisterHours([FromBody] HourRegistrationModel hours)
+    {
+      // Save new contract
+      UserHandler handler = new UserHandler();
+      handler.RegisterHours(hours);
+      return Ok();
     }
 
     [HttpPut]
@@ -99,6 +137,40 @@ namespace planilla_backend_asp.net.Controllers
         return Ok();
       }
       catch(Exception error)
+      {
+        Console.WriteLine(error);
+        return BadRequest(error.Message);
+      }
+    }
+
+    [HttpGet]
+    [Route("viewEmployee/")]
+    public ActionResult ViewEmployee([FromQuery] string id)
+    {
+      try
+      {
+        UserHandler handler = new UserHandler();
+        var data = handler.ViewEmployeeInfo(id);
+        return Ok(data);
+      }
+      catch(Exception error)
+      {
+        Console.WriteLine(error);
+        return BadRequest(error.Message);
+      }
+    }
+
+    [HttpDelete]
+    [Route("deleteEmployeeFromProject/")]
+    public ActionResult DeleteEmployeeFromProject([FromQuery] string projectName, string id)
+    {
+      try
+      {
+        UserHandler handler = new UserHandler();
+        handler.DeleteEmployeeFromProject(projectName, id);
+        return Ok();
+      }
+      catch (Exception error)
       {
         Console.WriteLine(error);
         return BadRequest(error.Message);

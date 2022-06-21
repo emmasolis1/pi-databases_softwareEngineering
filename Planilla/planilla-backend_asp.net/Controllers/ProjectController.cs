@@ -4,18 +4,27 @@ using planilla_backend_asp.net.Handlers;
 
 namespace planilla_backend_asp.net.Controllers
 {
-    [Route("api/")]
-    [ApiController]
-    public class ProjectController : ControllerBase
+  [Route("api/")]
+  [ApiController]
+  public class ProjectController : ControllerBase
+  {
+    [HttpGet]
+    [Route("projects")]
+    public ActionResult GetProjects(string employerID)
     {
-        [HttpGet]
-        [Route("projects")]
-        public ActionResult GetProjects(string employerID)
-        {
-          var handler = new ProjectHandler();
-          var data = handler.GetProyectsData(employerID);
-          return Ok(data);
-        }
+      var handler = new ProjectHandler();
+      var data = handler.GetProyectsData(employerID);
+      return Ok(data);
+    }
+
+    [HttpGet]
+    [Route("projectsEmployeeSide")]
+    public ActionResult GetProjectsEmployeeSide(string employeeID)
+    {
+      var handler = new ProjectHandler();
+      var data = handler.GetProjectsEmployeeSide(employeeID);
+      return Ok(data);
+    }
 
     [HttpPost]
     [Route("projects")]

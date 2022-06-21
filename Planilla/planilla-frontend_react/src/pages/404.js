@@ -78,7 +78,6 @@ const NotFound = () => {
               variant="contained"
               onClick={redirectToDashboard}
             >
-              {/* {sessionStorage.getItem("userID") == null ? "Go to home" : "Go to dashboard"} */}
               Go to home
             </Button>
             {/* </NextLink> */}

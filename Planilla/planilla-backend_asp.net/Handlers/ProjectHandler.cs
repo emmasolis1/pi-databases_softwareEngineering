@@ -15,7 +15,7 @@ namespace planilla_backend_asp.net.Handlers
       connection = new SqlConnection(connectionRoute);
     }
 
-      private DataTable CreateTableConsult(SqlDataAdapter tableAdapter)
+    private DataTable CreateTableConsult(SqlDataAdapter tableAdapter)
     {
       DataTable consultTable = new DataTable();
       connection.Open();
@@ -32,7 +32,7 @@ namespace planilla_backend_asp.net.Handlers
                       From Projects
                       WHERE EmployerID = @employerID
                       ORDER BY ProjectName";
-         var queryCommand = new SqlCommand(consult, connection);
+      var queryCommand = new SqlCommand(consult, connection);
 
       // Uses user's email and the name of the active project to get only related benefits
       queryCommand.Parameters.AddWithValue("@employerID", employerID);
@@ -51,6 +51,38 @@ namespace planilla_backend_asp.net.Handlers
           maxNumberOfBenefits = Convert.ToString(columna["MaxNumberOfBenefits"]),
           maxBudgetForBenefits = Convert.ToString(columna["MaxBudgetForBenefits"])
         });
+      }
+
+      return projects;
+    }
+
+    public List<Tuple<ProjectModel, string>> GetProjectsEmployeeSide(string employeeID)
+    {
+      List<Tuple<ProjectModel, string>> projects = new List<Tuple<ProjectModel, string>>();
+      var consult = @"SELECT Projects.ProjectName, Projects.EmployerID, Budget, PaymentMethod, Description, MaxNumberOfBenefits, MaxBudgetForBenefits, ContractType
+                      FROM Projects JOIN Contracts ON Projects.ProjectName = Contracts.ProjectName
+                      WHERE EmployeeID = @employeeID
+                      AND RealEndedDate IS NULL
+                      ORDER BY ProjectName";
+      var queryCommand = new SqlCommand(consult, connection);
+
+      // Uses user's email and the name of the active project to get only related benefits
+      queryCommand.Parameters.AddWithValue("@employeeID", employeeID);
+
+      SqlDataAdapter tableAdapter = new SqlDataAdapter(queryCommand);
+      DataTable tablaResultado = CreateTableConsult(tableAdapter);
+      foreach (DataRow columna in tablaResultado.Rows)
+      {
+        projects.Add(new Tuple<ProjectModel, string>(new ProjectModel
+        {
+          projectName = Convert.ToString(columna["ProjectName"]),
+          employerID = Convert.ToString(columna["EmployerID"]),
+          budget = Convert.ToString(columna["Budget"]),
+          paymentMethod = Convert.ToString(columna["PaymentMethod"]),
+          description = Convert.ToString(columna["Description"]),
+          maxNumberOfBenefits = Convert.ToString(columna["MaxNumberOfBenefits"]),
+          maxBudgetForBenefits = Convert.ToString(columna["MaxBudgetForBenefits"])
+        }, Convert.ToString(columna["ContractType"])));
       }
 
       return projects;
@@ -150,7 +182,7 @@ namespace planilla_backend_asp.net.Handlers
       SqlDataAdapter tableAdapter = new SqlDataAdapter(queryCommand);
       DataTable tableFormatConsult = CreateTableConsult(tableAdapter);
       foreach (DataRow column in tableFormatConsult.Rows)
-        {
+      {
         project.projectName = Convert.ToString(column["ProjectName"]);
         project.employerID = Convert.ToString(column["EmployerID"]);
         project.budget = Convert.ToString(column["Budget"]);
@@ -158,7 +190,7 @@ namespace planilla_backend_asp.net.Handlers
         project.description = Convert.ToString(column["Description"]);
         project.maxNumberOfBenefits = Convert.ToString(column["MaxNumberOfBenefits"]);
         project.maxBudgetForBenefits = Convert.ToString(column["MaxBudgetForBenefits"]);
-        };
+      };
       return project;
     }
 
