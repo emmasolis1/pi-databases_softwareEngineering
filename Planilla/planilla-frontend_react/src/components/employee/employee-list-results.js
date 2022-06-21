@@ -201,7 +201,7 @@ export const EmployeeListResults = ({ employees, ...rest }) => {
                           </DialogTitle>
                           <DialogContent>
                             <DialogContentText id="alert-dialog-description">
-                              You are about to delete (fire) an employee this means
+                              You are about to delete (fire) an employee, this means
                               that you also will have to liquidate them. Are you sure?
                             </DialogContentText>
                           </DialogContent>
