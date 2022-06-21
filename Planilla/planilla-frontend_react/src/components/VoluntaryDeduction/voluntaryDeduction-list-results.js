@@ -1,25 +1,40 @@
-import { useState } from 'react';
+import * as React from 'react';
+import axios from 'axios';
+import Button from '@mui/material/Button';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import { getInitials } from '../../utils/get-initials';
+import IconButton from '@mui/material/IconButton';
+import ReadMoreIcon from '@mui/icons-material/ReadMore';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
+import { useRouter } from 'next/router';
+import Stack from '@mui/material/Stack';
+import { useState } from 'react';
 import {
-  Avatar,
-  Box,
-  Card,
-  Checkbox,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TablePagination,
-  TableRow,
-  Typography
+    Avatar,
+    Box,
+    Card,
+    Checkbox,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TablePagination,
+    TableRow,
+    Typography
 } from '@mui/material';
-import { getInitials } from '../../utils/get-initials';
 
 export const VoluntaryDeductionListResults = ({ voluntaryDeductions, ...rest }) => {
+  const router = useRouter();
   const [selectedVoluntaryDeductionIds, setSelectedVoluntaryDeductionIds] = useState([]);
   const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(0);
+  const [open, setOpen] = React.useState(false);
 
   const handleSelectAll = (event) => {
     let newSelectedVoluntaryDeductionIds;
@@ -41,7 +56,7 @@ export const VoluntaryDeductionListResults = ({ voluntaryDeductions, ...rest }) 
     } else if (selectedIndex === 0) {
       newSelectedVoluntaryDeductionIds = newSelectedVoluntaryDeductionIds.concat(selectedVoluntaryDeductionIds.slice(1));
     } else if (selectedIndex === selectedBenefitIds.length - 1) {
-        newSelectedVoluntaryDeductionIds = newSelectedVoluntaryDeductionIds.concat(selectedVoluntaryDeductionIds.slice(0, -1));
+      newSelectedVoluntaryDeductionIds = newSelectedVoluntaryDeductionIds.concat(selectedVoluntaryDeductionIds.slice(0, -1));
     } else if (selectedIndex > 0) {
       newSelectedVoluntaryDeductionIds = newSelectedVoluntaryDeductionIds.concat(
         selectedVoluntaryDeductionIds.slice(0, selectedIndex),
@@ -60,6 +75,16 @@ export const VoluntaryDeductionListResults = ({ voluntaryDeductions, ...rest }) 
   const handlePageChange = (event, newPage) => {
     setPage(newPage);
   };
+
+  const handleClickOpen = (voluntaryDeductionName) => {
+    sessionStorage.setItem("voluntaryDeduction", voluntaryDeductionName);
+    setOpen(true);
+  };
+
+  const viewVoluntaryDeduction = (voluntaryDeductionName) => {
+    sessionStorage.setItem("voluntaryDeduction", voluntaryDeductionName);
+    router.push('/specificVoluntaryDeduction');
+  }
 
   return (
     <Card {...rest}>
@@ -87,6 +112,9 @@ export const VoluntaryDeductionListResults = ({ voluntaryDeductions, ...rest }) 
                 </TableCell>
                 <TableCell>
                   Cost
+                </TableCell>
+                <TableCell>
+                  Actions
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -130,6 +158,13 @@ export const VoluntaryDeductionListResults = ({ voluntaryDeductions, ...rest }) 
                   </TableCell>
                   <TableCell>
                     {voluntaryDeduction.cost}
+                  </TableCell>
+                  <TableCell>
+                  <Stack direction="row" spacing={1}>
+                  <IconButton aria-label="edit" color="primary" onClick={() => viewVoluntaryDeduction(voluntaryDeduction.voluntaryDeductionName)}>
+                  <ReadMoreIcon />
+                  </IconButton>
+                  </Stack>
                   </TableCell>
                 </TableRow>
               ))}
