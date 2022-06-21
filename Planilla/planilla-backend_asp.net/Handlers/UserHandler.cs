@@ -71,6 +71,16 @@ namespace planilla_backend_asp.net.Handlers
       return tableFormatConsult;
     }
 
+    private DataTable CreateTableConsultContract(SqlDataAdapter tableAdapter)
+    {
+      DataTable consultTable = new DataTable();
+      conexion.Open();
+      tableAdapter.Fill(consultTable);
+      conexion.Close();
+
+      return consultTable;
+    }
+
     public List<string> GetUserData(string email, string password)
     {
       var userID = "";
@@ -233,6 +243,34 @@ namespace planilla_backend_asp.net.Handlers
       conexion.Close();
 
       return employees;
+    }
+
+    public ContractModel GetSpecificContract(string projectName, string employerID, string employeeID)
+    {
+      string consult = @"SELECT ProjectName, EmployerID, EmployeeID, StartDate, ExpectedEndingDate, Position, Schedule, NetSalary, ContractType
+                      FROM Contracts
+                      WHERE ProjectName = @projectName AND EmployerID = @employerID AND EmployeeID = @employeeID";
+      var contract = new ContractModel();
+      SqlCommand queryCommand = new SqlCommand(consult, conexion);
+      queryCommand.Parameters.AddWithValue("@projectName", projectName);
+      queryCommand.Parameters.AddWithValue("@employerID", employerID);
+      queryCommand.Parameters.AddWithValue("@employeeID", employeeID);
+
+      SqlDataAdapter tableAdapter = new SqlDataAdapter(queryCommand);
+      DataTable tableFormatConsult = CreateTableConsultContract(tableAdapter);
+      foreach (DataRow column in tableFormatConsult.Rows)
+      {
+        contract.projectName = Convert.ToString(column["ProjectName"]);
+        contract.employerID = Convert.ToString(column["EmployerID"]);
+        contract.employeeID = Convert.ToString(column["EmployeeID"]);
+        contract.startDate = Convert.ToString(column["StartDate"]);
+        contract.expectedEndingDate = Convert.ToString(column["ExpectedEndingDate"]);
+        contract.position = Convert.ToString(column["Position"]);
+        contract.schedule = Convert.ToString(column["Schedule"]);
+        contract.netSalary = Convert.ToString(column["NetSalary"]);
+        contract.contractType = Convert.ToString(column["ContractType"]);
+      };
+      return contract;
     }
 
     public void CreateEmployee(UserModel employee)

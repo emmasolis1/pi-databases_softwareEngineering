@@ -45,6 +45,15 @@ namespace planilla_backend_asp.net.Controllers
       return Ok(data);
     }
 
+    [HttpGet]
+    [Route("specificContract")]
+    public ActionResult GetSpecificContract(string projectName, string employerID, string employeeID)
+    {
+      var handler = new UserHandler();
+      var data = handler.GetSpecificContract(projectName, employerID, employeeID);
+      return Ok(data);
+    }
+
     [HttpPost]
     [Route("employees")]
     public ActionResult CreateEmployee([FromBody] UserModel employee)
