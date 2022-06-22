@@ -27,8 +27,8 @@ namespace planilla_backend_asp.net.Handlers
 
     public bool CreateVoluntaryDeductions(VoluntaryDeductionsModel voluntaryDeduction)
     {
-      var consult = @"INSERT INTO VoluntaryDeductions ([VoluntaryDeductionName], [ProjectName], [EmployerID], [Description]) 
-                      VALUES (@voluntaryDeductionName, @projectName, @employerID, @description)";
+      var consult = @"INSERT INTO VoluntaryDeductions ([VoluntaryDeductionName], [ProjectName], [EmployerID], [Description], [isActive]) 
+                      VALUES (@voluntaryDeductionName, @projectName, @employerID, @description, 0)";
       var queryCommand = new SqlCommand(consult, connection);
 
       // Insertion of key attributes
@@ -58,7 +58,7 @@ namespace planilla_backend_asp.net.Handlers
       List<VoluntaryDeductionsModel> voluntaryDeductions = new List<VoluntaryDeductionsModel>();
       var consult = @"SELECT VoluntaryDeductionName, ProjectName, EmployerID, Description
                       FROM VoluntaryDeductions
-                      WHERE ProjectName = @project AND EmployerID = @employerID
+                      WHERE ProjectName = @project AND EmployerID = @employerID AND IsActive = 0
                       ORDER BY VoluntaryDeductionName";
       var queryCommand = new SqlCommand(consult, connection);
 
@@ -139,7 +139,7 @@ namespace planilla_backend_asp.net.Handlers
 
     public void DeleteVoluntaryDeduction(string voluntaryDeductionName, string projectName, string employerID)
     {
-      // Prepare command to set benefit to inactive (1)
+      // Prepare command to set voluntary deduction to inactive (1)
       string consult = "UPDATE VoluntaryDeductions SET [IsActive] = 1 WHERE [VoluntaryDeductionName] = @voluntaryDeductionName AND [ProjectName] = @projectName AND [EmployerID] = @employerID";
 
       SqlCommand queryCommand = new SqlCommand(consult, connection);
@@ -153,7 +153,7 @@ namespace planilla_backend_asp.net.Handlers
       connection.Close();
 
       // Prepare command to terminate a voluntary deduction requested by employees
-      consult = "UPDATE VoluntaryDeductionsStatus SET [EndDate] = @date WHERE [VoluntaryDeductionName] = @voluntaryDeductionName AND [ProjectName] = @projectName AND [EmployerID] = @employerID";
+      consult = "UPDATE VoluntaryDeductionsStatus SET [EndingDate] = @date WHERE [VoluntaryDeductionName] = @voluntaryDeductionName AND [ProjectName] = @projectName AND [EmployerID] = @employerID";
 
       queryCommand = new SqlCommand(consult, connection);
       queryCommand.Parameters.AddWithValue("@voluntaryDeductionName", voluntaryDeductionName);

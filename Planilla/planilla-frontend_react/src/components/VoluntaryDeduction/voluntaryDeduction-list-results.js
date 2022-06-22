@@ -174,7 +174,7 @@ export const VoluntaryDeductionListResults = ({ voluntaryDeductions, ...rest }) 
                   <IconButton aria-label="edit" color="primary" onClick={() => viewVoluntaryDeduction(voluntaryDeduction.voluntaryDeductionName)}>
                   <ReadMoreIcon />
                   </IconButton>
-                  <IconButton aria-label="delete" color="error" onClick={() => handleClickOpen(benefit.benefitName)}>
+                  <IconButton aria-label="delete" color="error" onClick={() => handleClickOpen(voluntaryDeduction.voluntaryDeductionName)}>
                     <DeleteForeverIcon />
                   </IconButton>
                   <Dialog
