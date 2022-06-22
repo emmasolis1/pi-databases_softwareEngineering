@@ -81,6 +81,16 @@ export const VoluntaryDeductionListResults = ({ voluntaryDeductions, ...rest }) 
     setOpen(true);
   };
 
+ const handleClose = (agreed) => {
+    setOpen(false);
+    if (agreed === true) {
+      axios.delete("https://localhost:7150/api/deleteVoluntaryDeduction?voluntaryDeductionName=" + sessionStorage.getItem("voluntaryDeduction") + "&projectName=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID")).then(() => {
+        alert("Voluntary deduction deleted successfully");
+        window.location.reload(false);
+      });
+    }
+  };
+
   const viewVoluntaryDeduction = (voluntaryDeductionName) => {
     sessionStorage.setItem("voluntaryDeduction", voluntaryDeductionName);
     router.push('/specificVoluntaryDeduction');
@@ -164,6 +174,30 @@ export const VoluntaryDeductionListResults = ({ voluntaryDeductions, ...rest }) 
                   <IconButton aria-label="edit" color="primary" onClick={() => viewVoluntaryDeduction(voluntaryDeduction.voluntaryDeductionName)}>
                   <ReadMoreIcon />
                   </IconButton>
+                  <IconButton aria-label="delete" color="error" onClick={() => handleClickOpen(voluntaryDeduction.voluntaryDeductionName)}>
+                    <DeleteForeverIcon />
+                  </IconButton>
+                  <Dialog
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                   >
+                        <DialogTitle id="alert-dialog-title">
+                        {"Alert: Please read!!!"}
+                        </DialogTitle>
+                        <DialogContent>
+                          <DialogContentText id="alert-dialog-description">
+                            You are about to delete a voluntary deduction, this means
+                            that everyone linked to it will lose access to it.
+                            Are you sure?
+                          </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                          <Button onClick={handleClose} autoFocus>NO</Button>
+                          <Button onClick={() => handleClose(true)}>Yes</Button>
+                        </DialogActions>
+                      </Dialog>
                   </Stack>
                   </TableCell>
                 </TableRow>

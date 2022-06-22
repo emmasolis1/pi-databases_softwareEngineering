@@ -69,5 +69,22 @@ namespace planilla_backend_asp.net.Controllers
         return BadRequest(error.Message);
       }
     }
+
+    [HttpDelete]
+    [Route("deleteVoluntaryDeduction/")]
+    public ActionResult DeleteVoluntaryDeduction([FromQuery] string voluntaryDeductionName, string projectName, string employerID)
+    {
+      try
+      {
+        DeductionsHandler handler = new DeductionsHandler();
+        handler.DeleteVoluntaryDeduction(voluntaryDeductionName, projectName, employerID);
+        return Ok();
+      }
+      catch (Exception error)
+      {
+        Console.WriteLine(error);
+        return BadRequest(error.Message);
+      }
+    }
   }
 }
