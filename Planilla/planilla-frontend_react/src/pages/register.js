@@ -105,8 +105,20 @@ const Register = () => {
             Address: values.address,
             Phone: values.phone
         };
-        axios.post('https://localhost:7150/api/register', data);
-        router.push('/');
+        axios.post('https://localhost:7150/api/register', data)
+        .then(function () {
+          alert("Employer successfully created, returning to login");
+          router.push('/');
+        })
+        .catch(function (error) {
+          if (error.response) {
+            // The client was given an error response (5xx, 4xx)
+            alert("Error: Employer may already exist, returning to register page");
+          } else {
+            alert("Error: Unknown error occurred, returning to register page");
+          }
+          router.push('/register');
+        });
     }
   });
 
