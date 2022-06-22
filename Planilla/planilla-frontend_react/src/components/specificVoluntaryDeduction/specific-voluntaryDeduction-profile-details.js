@@ -1,9 +1,15 @@
+import * as React from 'react';
 import {
   Box,
   Button,
   Card,
   CardContent,
   CardHeader,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Divider,
   Grid,
   TextField,
@@ -16,7 +22,7 @@ import { useRouter } from 'next/router';
 
 export const SpecificVoluntaryDeductionProfileDetails = ({ voluntaryDeduction, ...props }) => {
   const router = useRouter();
-  //const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
   const formik = useFormik({
     initialValues: {
       projectName: voluntaryDeduction.projectName,
@@ -44,6 +50,19 @@ export const SpecificVoluntaryDeductionProfileDetails = ({ voluntaryDeduction, .
     }
   });
 
+const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (agreed) => {
+    setOpen(false);
+    if (agreed === true) {
+      axios.delete("https://localhost:7150/api/deleteVoluntaryDeduction?voluntaryDeductionName=" + sessionStorage.getItem("voluntaryDeduction") + "&projectName=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID")).then(() => {
+        alert("Voluntary deduction deleted successfully");
+        router.push('/voluntaryDeductions');
+      });
+    }
+  };
   return (
     <form
       onSubmit={formik.handleSubmit}
@@ -106,13 +125,34 @@ export const SpecificVoluntaryDeductionProfileDetails = ({ voluntaryDeduction, .
             >
               Save details
             </Button>
-            <Button
+           <Button
               color="error"
               variant="contained"
-              type="submit"
+              onClick={() => handleClickOpen()}
             >
               Delete Voluntary Deduction
             </Button>
+            <Dialog
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+            >
+              <DialogTitle id="alert-dialog-title">
+                {"Alert: Please read!!!"}
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  You are about to delete a voluntary deduction, this means
+                  that everyone linked to it will lose access.
+                  Are you sure?
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose} autoFocus>NO</Button>
+                <Button onClick={() => handleClose(true)}>Yes</Button>
+              </DialogActions>
+            </Dialog>
           </Stack>
         </Box>
       </Card>
