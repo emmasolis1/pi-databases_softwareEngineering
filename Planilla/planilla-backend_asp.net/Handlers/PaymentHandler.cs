@@ -22,9 +22,11 @@ namespace planilla_backend_asp.net.Handlers
             {
                 if (employee.contractType == "2")
                 {
-                    CreatePayment(employee);
                     employee.payment = GetHourlyEmployeePayment(employee);
-                } else {
+                    CreatePayment(employee);
+                }
+                else
+                {
                     CreatePayment(employee);
                     double voluntaryDeductions = GetDeductionFromVoluntaryDeductions(projectName, employerId, employee.employeeId, employee.contractStartDate, employee.paymentDate);
                     double mandatoryDeductions = GetDeductionFromMandatoryDeductions(employee.netSalary, projectName, employerId, employee.employeeId, employee.contractStartDate, employee.paymentDate);
@@ -91,15 +93,16 @@ namespace planilla_backend_asp.net.Handlers
             queryCommand.Parameters.AddWithValue("@employee_id", employee.employeeId);
             queryCommand.Parameters.AddWithValue("@date", employee.paymentDate);
             DataTable resultTable = CreateTableConsult(queryCommand);
-            string latestPaymentDay = "";
+            string latestPaymentDay = null;
             foreach (DataRow column in resultTable.Rows)
             {
                 latestPaymentDay = Convert.ToString(column["PaymentDate"]);
             }
-            if (latestPaymentDay == "")
+            if (latestPaymentDay == null)
             {
                 latestPaymentDay = employee.contractStartDate;
             }
+            
             double hoursWorked = GetEmployeeRegisteredHours(employee, latestPaymentDay, employee.paymentDate);
             return hoursWorked * employee.netSalary;
         }
