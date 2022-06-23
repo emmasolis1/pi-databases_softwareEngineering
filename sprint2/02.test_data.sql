@@ -41,32 +41,3 @@ delete from Users where Identification='1234567899'
 delete from Projects where EmployerID='0116800871'
 
 select * from Projects
-
-alter table Users
-add Phone varchar(17)
-
-drop table Phones
-
--- Proyectos
-insert into Proyecto values ('Sistema de Planilla CR', '1234567890', '0987654321', 0)
-
--- Deducciones Obligatorias
-insert into DeduccionesObligatorias values ('Caja Costarricense de Seguro Social', 0.10);
-insert into DeduccionesObligatorias values ('Impuesto al Valor Agregado', 0.05);
-Insert into DeduccionesObligatorias Values ('Enfermedad y Maternidad', 0.055)
-Insert into DeduccionesObligatorias Values ('Invalidez, Vejez y Muerte', 0.0384)
-Insert into DeduccionesObligatorias Values ('Aporte Trabajador', 0.1)
-Insert into DeduccionesObligatorias Values ('Bajo 863000', 0)
-Insert into DeduccionesObligatorias Values ('Hasta 1267000', 0.1)
-Insert into DeduccionesObligatorias Values ('Hasta 2223000', 0.15)
-Insert into DeduccionesObligatorias Values ('Hasta 4445000', 0.20)
-Insert into DeduccionesObligatorias Values ('Sobre 4445000', 0.25)
-
--- Beneficios
-insert into Beneficios values ('Plan Dental', '1234567890', 'Sistema de Planilla CR')
-
---------------- Consulting Values --------------
-select * from Usuario
-select * from Proyecto
-select * from Beneficios
-select * from DeduccionesObligatorias
