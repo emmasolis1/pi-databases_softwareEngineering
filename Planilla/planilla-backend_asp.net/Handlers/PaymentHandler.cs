@@ -199,5 +199,43 @@ namespace planilla_backend_asp.net.Handlers
             queryCommand.Parameters.AddWithValue("@net_salary", employee.payment);
             return ExecuteCommand(queryCommand);
         }
+
+        public List<PaymentModel> GetUserPayments(string projectName, string userID)
+        {
+            // Basic query preparation
+            string consult = @"select p.ProjectName, p.EmployerID, p.EmployeeID, p.StartDate, p.PaymentDate, p.NetSalary as GrossSalary, c.NetSalary, c.ContractType from Payments p, Contracts c where p.ProjectName = @projectName and p.EmployeeID = @UserID and c.ProjectName = @projectName and c.EmployeeID = @UserID";
+            var queryCommand = new SqlCommand(consult, connection);
+
+            // Adding the parameters
+            queryCommand.Parameters.AddWithValue("@projectName", projectName);
+            queryCommand.Parameters.AddWithValue("@UserID", userID);
+
+            // Table adapter
+            SqlDataAdapter adapter = new SqlDataAdapter(queryCommand);
+            DataTable tableConsult = new DataTable();
+
+            // Connection
+            connection.Open();
+            adapter.Fill(tableConsult);
+            connection.Close();
+
+            // Parsing data
+            List<PaymentModel> payments = new List<PaymentModel>();
+            foreach (DataRow row in tableConsult.Rows)
+            {
+                payments.Add( new PaymentModel {
+                    projectName = Convert.ToString(row["ProjectName"]),
+                    employerId = Convert.ToString(row["EmployerID"]),
+                    employeeId = Convert.ToString(row["EmployeeID"]),
+                    contractStartDate = Convert.ToString(row["StartDate"]),
+                    paymentDate = Convert.ToString(row["PaymentDate"]),
+                    netSalary = Convert.ToDouble(row["GrossSalary"]),
+                    contractType = Convert.ToString(row["ContractType"]),
+                    payment = Convert.ToDouble(row["NetSalary"])
+                });
+            }
+
+            return payments;
+        }
     }
 }
