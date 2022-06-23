@@ -43,6 +43,9 @@ create function DateIsInRange(
 returns bit
 as
 begin
+	if @date_check is null begin
+		set @date_check = convert (date, getdate())
+	end
 	declare @response as bit = 0
 	if (@end_date is not null and @date_check between @start_date and @end_date) or (@date_check > @start_date and @end_date is null)
 	begin
@@ -127,3 +130,27 @@ WHERE UserType = 1
 			AND Contracts.EmployerID = @employerID
 			AND Contracts.RealEndedDate IS NULL )
 		ORDER BY FirstName
+
+--------------- Triggers -----------------
+go
+create trigger UniqueEmail
+on Users
+instead of insert
+as
+declare @identification char(10), @first_name varchar(50), @last_name varchar(50), @last_name2 varchar(50), @email varchar(255), @password varchar(255), @country varchar(50), @state varchar(50), @city varchar(50), @zip_code varchar(255), @address varchar(255), @user_type tinyint, @phone varchar(17)
+declare cursor_insertado cursor for
+	select *
+	from inserted
+open cursor_insertado
+fetch next from cursor_insertado into @identification, @first_name, @last_name, @last_name2, @email, @password, @country, @state, @city, @zip_code, @address, @user_type, @phone
+while @@FETCH_STATUS = 0 begin
+	if @identification in (select Identification from Users) begin
+		print 'Denied: The email is already in use'
+	end
+	else begin
+		insert into Users
+		values (@identification, @first_name, @last_name, @last_name2, @email, @password, @country, @state, @city, @zip_code, @address, @user_type, @phone)
+	end
+end
+close cursor_insertado
+deallocate cursor_insertado

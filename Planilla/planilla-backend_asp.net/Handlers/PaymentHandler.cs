@@ -86,7 +86,7 @@ namespace planilla_backend_asp.net.Handlers
 
         private double GetHourlyEmployeePayment(PaymentModel employee)
         {
-            var consult = "GetLatestPayment @employee_id, @employer_id, @project_name, @date";
+            var consult = "EXECUTE GetLatestPayment @employee_id, @employer_id, @project_name, @date";
             var queryCommand = new SqlCommand(consult, connection);
             queryCommand.Parameters.AddWithValue("@project_name", employee.projectName);
             queryCommand.Parameters.AddWithValue("@employer_id", employee.employerId);
