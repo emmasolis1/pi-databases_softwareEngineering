@@ -171,8 +171,8 @@ export const BenefitProfileDetails = ({ benefit, ...props }) => {
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
-                <Button onClick={handleClose} autoFocus>NO</Button>
-                <Button onClick={() => handleClose(true)}>Yes</Button>
+                <Button onClick={handleClose} variant="outlined" color="primary">Cancel</Button>
+                <Button onClick={() => handleClose(true)} variant="contained" color="error">Delete</Button>
               </DialogActions>
             </Dialog>
           </Stack>
