@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using planilla_backend_asp.net.Handlers;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace planilla_backend_asp.net.Controllers
 {
@@ -9,11 +11,18 @@ namespace planilla_backend_asp.net.Controllers
     {
         [HttpGet]
         [Route("payments")]
-        public ActionResult PayProject()
+        public ActionResult PayProject(string projectName, string employerID)
         {
-            var handler = new PaymentHandler();
-            var data = handler.PayProjectToday("TaBueno Planilla CR", "0116800871");
-            return Ok(data);
+            try
+            {
+                var handler = new PaymentHandler();
+                var data = handler.PayProjectToday(projectName, employerID);
+                return Ok(data);
+            }
+            catch (System.Data.SqlClient.SqlException exception)
+            {
+                return BadRequest();
+            }
         }
     }
 }
