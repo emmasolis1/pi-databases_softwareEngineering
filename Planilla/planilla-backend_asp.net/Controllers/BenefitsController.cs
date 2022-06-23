@@ -60,23 +60,5 @@ namespace planilla_backend_asp.net.Controllers
         return BadRequest(error.Message);
       }
     }
-
-    [HttpGet]
-    [Route("benefitsEmployee")]
-    public ActionResult GetEmployeeBenefit(string projectName, string employerID, string employeeID)
-    {
-      try
-      {
-        BenefitsHandler handler = new BenefitsHandler();
-        var data = handler.GetEmployeeBenefit(projectName, employerID, employeeID);
-        return Ok(data);
-      }
-      catch (Exception error)
-      {
-        Console.WriteLine(error);
-        return BadRequest(error.Message);
-      }
-    }
-
   }
 }

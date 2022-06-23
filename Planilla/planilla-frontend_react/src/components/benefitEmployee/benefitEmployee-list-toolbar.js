@@ -10,7 +10,7 @@ import {
 import NextLink from 'next/link';
 import { Search as SearchIcon } from '../../icons/search';
 
-export const BenefitListToolbar = (props) => (
+export const BenefitEmployeeListToolbar = (props) => (
   <Box {...props}>
     <Box
       sx={{
@@ -29,14 +29,14 @@ export const BenefitListToolbar = (props) => (
       </Typography>
       <Box sx={{ m: 1 }}>
         <NextLink
-          href="/create_benefit"
+          href="/benefits_list"
           passHref
         >
           <Button
             color="primary"
             variant="contained"
           >
-            Add Benefit
+            Benefits list 
           </Button>
         </NextLink>
       </Box>

@@ -29,21 +29,11 @@ import {
   Typography
 } from '@mui/material';
 
-export const BenefitListResults = ({ benefits, ...rest }) => {
+export const SpecificBenefitEmployeeListResults = ({ benefits, ...rest }) => {
   const router = useRouter();
   const [selectedBenefitIds, setSelectedBenefitIds] = useState([]);
   const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(0);
-  const [open, setOpen] = React.useState(false);
-
-  const showCorrespondingButton = false;
-
-
-  const showButton = (isActive) => {
-    if (isActive == "1") {
-      showCorrespondingButton = true;
-    }
-  }
 
   const handleSelectAll = (event) => {
     let newSelectedBenefitIds;
@@ -85,24 +75,9 @@ export const BenefitListResults = ({ benefits, ...rest }) => {
     setPage(newPage);
   };
 
-  const handleClickOpen = (benefitName) => {
+  const viewBenefitEmployee = (benefitName) => {
     sessionStorage.setItem("benefit", benefitName);
-    setOpen(true);
-  };
-
-  const handleClose = (agreed) => {
-    setOpen(false);
-    if (agreed === true) {
-      axios.delete("https://localhost:7150/api/deleteBenefit?benefitName=" + sessionStorage.getItem("benefit") + "&projectName=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID")).then(() => {
-        alert("Benefit deleted successfully");
-        window.location.reload(false);
-      });
-    }
-  };
-
-  const viewBenefit = (benefitName) => {
-    sessionStorage.setItem("benefit", benefitName);
-    router.push('/specificBenefit');
+    router.push('/specificBenefitEmployee');
   }
 
   return (
@@ -186,25 +161,11 @@ export const BenefitListResults = ({ benefits, ...rest }) => {
                     {benefit.cost}
                   </TableCell>
                   <TableCell>
-                    {showCorrespondingButton ?
-                      <Button
-                        color="primary"
-                        display="inline"
-                        sx={{ pl: 1 }}
-                        onClick={addBenefit}
-                      >
-                        Request benefit
-                      </Button>
-                      :
-                      <Button
-                        color="primary"
-                        display="inline"
-                        sx={{ pl: 1 }}
-                        onClick={relinquishBenefit}
-                      >
-                        Relinquish benefit
-                      </Button>
-                    }
+                  <Stack direction="row" spacing={1}>
+                  <IconButton aria-label="edit" color="primary" onClick={() => viewBenefitEmployee(benefits.benefitName)}>
+                  <ReadMoreIcon />
+                  </IconButton>
+                  </Stack>
                   </TableCell>
                 </TableRow>
               ))}
@@ -225,6 +186,6 @@ export const BenefitListResults = ({ benefits, ...rest }) => {
   );
 };
 
-BenefitListResults.propTypes = {
+SpecificBenefitEmployeeListResults.propTypes = {
   benefits: PropTypes.array.isRequired
 };

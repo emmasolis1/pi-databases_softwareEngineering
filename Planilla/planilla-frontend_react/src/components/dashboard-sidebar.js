@@ -70,7 +70,7 @@ const employeeItems = [
     title: 'Projects'
   },
   {
-    href: '/benefits_employee',
+    href: '/benefitsEmployee',
     icon: (<ShoppingBagIcon fontSize="small" />),
     title: 'Benefits'
   },

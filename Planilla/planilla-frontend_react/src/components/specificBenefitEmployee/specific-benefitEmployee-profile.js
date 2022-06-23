@@ -8,7 +8,7 @@ import {
   Typography
 } from '@mui/material';
 
-export const BenefitProfile = ({ benefit, ...props }) => {
+export const SpecificBenefitEmployeeProfile = ({ benefit, ...props }) => {
   return (
     <Card {...props}>
       <CardContent>

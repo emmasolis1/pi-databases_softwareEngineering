@@ -14,7 +14,7 @@ import axios from 'axios';
 import * as Yup from 'yup';
 import { useRouter } from 'next/router';
 
-export const BenefitProfileDetails = ({ benefit, ...props }) => {
+export const SpecifictBenefitProfileDetails = ({ benefit, ...props }) => {
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
@@ -40,7 +40,7 @@ export const BenefitProfileDetails = ({ benefit, ...props }) => {
       };
       axios.put('https://localhost:7150/api/specificBenefit', data).then((response) => {
         alert("Benefit updated successfully");
-        router.push('/specificBenefit');
+        router.push('/benefit');
       });
     }
   });

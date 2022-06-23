@@ -2,8 +2,8 @@ import Head from 'next/head';
 import React from 'react';
 import axios from 'axios';
 import { Box, Container } from '@mui/material';
-import { BenefitListResults } from '../components/benefitEmployeeSide/benefitEmployee-list-results';
-import { BenefitListToolbar } from '../components/benefitEmployeeSide/benefitEmployee-list-toolbar';
+import { BenefitEmployeeListResults } from '../components/benefitEmployee/benefitEmployee-list-results';
+import { BenefitEmployeeListToolbar } from '../components/benefitEmployee/benefitEmployee-list-toolbar';
 import { DashboardLayout } from '../components/dashboard-layout';
 
 class BenefitsEmployee extends React.Component {
@@ -11,7 +11,7 @@ class BenefitsEmployee extends React.Component {
     super(props);
     this.state = {
       benefits: [],
-      APIUrl: 'https://localhost:7150/api/benefitsEmployee',
+      APIUrl: 'https://localhost:7150/api/benefits',
     };
   }
   componentDidMount() {    
@@ -37,9 +37,9 @@ class BenefitsEmployee extends React.Component {
           }}
         >
           <Container maxWidth={false}>
-            <BenefitListToolbar />
+            <BenefitEmployeeListToolbar />
             <Box sx={{ mt: 3 }}>
-              <BenefitListResults benefits={this.state.benefits} />
+            <BenefitEmployeeListResults benefits={this.state.benefits} />
             </Box>
           </Container>
         </Box>
