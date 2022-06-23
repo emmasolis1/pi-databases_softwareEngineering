@@ -141,7 +141,7 @@ export const ProjectProfileDetails = ({ project, ...props }) => {
                       Net Salary
                     </TableCell>
                     <TableCell>
-                      Employer ID
+                      Made by Employer
                     </TableCell>
                     <TableCell>
                       Contrat Type
@@ -161,10 +161,10 @@ export const ProjectProfileDetails = ({ project, ...props }) => {
                       key={payment.paymentDate}
                     >
                       <TableCell>
-                        {payment.payment}
+                        {"$" + payment.payment}
                       </TableCell>
                       <TableCell>
-                        {payment.netSalary}
+                        {"$" + payment.netSalary}
                       </TableCell>
                       <TableCell>
                         {payment.employerId}
