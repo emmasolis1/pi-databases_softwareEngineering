@@ -93,7 +93,7 @@ export const SpecificEmployeeProfile = ({user, ...props}) => {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} variant="outlined" color="primary">Cancel</Button>
-            <Button onClick={() => handleClose(true)} variant="contained" color="error">Fire employee</Button>
+            <Button onClick={() => handleClose(true)} variant="contained" color="error">Fire Employee</Button>
           </DialogActions>
         </Dialog>
       </CardActions>
