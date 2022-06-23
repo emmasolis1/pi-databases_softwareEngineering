@@ -13,6 +13,28 @@ begin
 end
 
 --------------- Pay Salary to an Employee -----------------
+create function GetRentDeduction(
+	@salary float
+)
+returns varchar(128)
+begin
+	declare @rent_deduction as varchar(128) = 'none'
+	if @salary between 842000 and 1236000 begin
+		set @rent_deduction = 'Renta I'
+	end
+	else if @salary between 1236000 and 2169000 begin
+		set @rent_deduction = 'Renta II'
+	end
+	else if @salary between 2169000 and 4337000 begin
+		set @rent_deduction = 'Renta III'
+	end
+	else if @salary > 4337000 begin
+		set @rent_deduction = 'Renta IV'
+	end
+	return @rent_deduction
+end
+go
+
 create function DateIsInRange(
 	@date_check date,
 	@start_date date,
@@ -67,6 +89,14 @@ select top 1 ProjectName, EmployerID, EmployeeID, StartDate, PaymentDate
 from Payments
 where EmployeeID = @employee_id and EmployerID = @employer_id and ProjectName = @project_name and PaymentDate <= @date
 order by PaymentDate desc
+go
+
+--Gets the correct deductions applicable to a base employee
+create procedure GetBasicMandatoryDeductions @salary float
+as
+select MandatoryDeductionName, Percentage
+from MandatoryDeductions
+where Condition = '0' or MandatoryDeductionName = dbo.GetRentDeduction(@salary)
 
 --------------- Get employees working and not working in a specific project -----------------
 CREATE PROCEDURE GetEmployeesWorkingOnProject
