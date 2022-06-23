@@ -8,6 +8,7 @@ import {
   Typography
 } from '@mui/material';
 import { useRouter } from 'next/router';
+import axios from 'axios';
 
 export const ProjectProfile = ({ project, ...props }) => {
   const router = useRouter();
@@ -17,7 +18,21 @@ export const ProjectProfile = ({ project, ...props }) => {
   }
 
   function payProject() {
-    alert('Pay project');
+    axios.get('https://localhost:7150/api/payments?projectName='+sessionStorage.getItem('project')+'&employerID='+sessionStorage.getItem('employerID')).then(response => {
+      if (response.data.length === 0) {
+        alert('No more employees to pay today.');
+      } else {
+        let employeesPaid = "Payment completed successfully.\nEmployees Paid:\n\n";
+        response.data.forEach(element => {
+          employeesPaid.concat(element.employeeId);
+          employeesPaid.concat('\n');
+        });
+        alert(employeesPaid);
+        window.location.reload(false);
+      }
+    }).catch(error => {
+      alert('No more employees to pay for today.');
+    });
   }
 
   return (
