@@ -130,5 +130,35 @@ namespace planilla_backend_asp.net.Handlers
       };
       return benefit;
     }
+
+    public List<BenefitEmployeeModel> GetEmployeeBenefit(string projectName, string employerID, string employeeID)
+    {
+      string consult = @"SELECT Benefits.BenefitName, Benefits.ProjectName, Benefits.EmployerID, Benefits.Description, Benefits.Cost, BenefitsStatus.StartDate, BenefitsStatus.EndDate, dbo.DateIsInRange(null, BenefitsStatus.StartDate, BenefitsStatus.EndDate) as IsActive
+                      FROM Benefits LEFT JOIN BenefitsStatus ON Benefits.BenefitName = BenefitsStatus.BenefitName AND Benefits.ProjectName = BenefitsStatus.ProjectName AND Benefits.EmployerID = BenefitsStatus.EmployerID
+                      WHERE BenefitsStatus.EmployeeID = @employeeID and Benefits.EmployerID = @employerID and Benefits.ProjectName = @projectName
+                      ORDER BY(BenefitName)";
+      List<BenefitEmployeeModel> benefit = new List<BenefitEmployeeModel>();
+      SqlCommand queryCommand = new SqlCommand(consult, connection);
+      queryCommand.Parameters.AddWithValue("@employeeID", employeeID);
+      queryCommand.Parameters.AddWithValue("@employerID", employerID);
+      queryCommand.Parameters.AddWithValue("@projectName", projectName);
+      SqlDataAdapter tableAdapter = new SqlDataAdapter(queryCommand);
+      DataTable tableFormatConsult = CreateTableConsult(tableAdapter);
+      foreach (DataRow column in tableFormatConsult.Rows)
+      {
+        benefit.Add(new BenefitEmployeeModel
+        {
+          benefit.benefitName = Convert.ToString(column["benefitName"]);
+        benefit.projectName = Convert.ToString(column["ProjectName"]);
+        benefit.employerID = Convert.ToString(column["EmployerID"]);
+        benefit.description = Convert.ToString(column["Description"]);
+        benefit.cost = Convert.ToString(column["cost"]);
+        benefit.startDate = Convert.ToString(column["StartDate"]);
+        benefit.endDate = Convert.ToString(column["EndDate"]);
+        benefit.isActive = Convert.ToString(column["IsActive"]);
+      });
+    }
+      return benefit;
+    }
   }
 }
