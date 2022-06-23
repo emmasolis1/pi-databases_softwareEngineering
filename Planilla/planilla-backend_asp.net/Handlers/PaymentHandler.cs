@@ -188,14 +188,15 @@ namespace planilla_backend_asp.net.Handlers
 
         private bool CreatePayment(PaymentModel employee)
         {
-            var command = @"INSERT INTO Payments ([ProjectName], [EmployerID], [EmployeeID], [StartDate], [PaymentDate])
-                            VALUES (@project_name, @employer_id, @employee_id, @start_date, @payment_date)";
+            var command = @"INSERT INTO Payments ([ProjectName], [EmployerID], [EmployeeID], [StartDate], [PaymentDate], [NetSalary])
+                            VALUES (@project_name, @employer_id, @employee_id, @start_date, @payment_date, @net_salary)";
             SqlCommand queryCommand = new SqlCommand(command, connection);
             queryCommand.Parameters.AddWithValue("@project_name", employee.projectName);
             queryCommand.Parameters.AddWithValue("@employer_id", employee.employerId);
             queryCommand.Parameters.AddWithValue("@employee_id", employee.employeeId);
             queryCommand.Parameters.AddWithValue("@start_date", employee.contractStartDate);
             queryCommand.Parameters.AddWithValue("@payment_date", employee.paymentDate);
+            queryCommand.Parameters.AddWithValue("@net_salary", employee.payment);
             return ExecuteCommand(queryCommand);
         }
     }
