@@ -11,14 +11,13 @@ class BenefitsEmployee extends React.Component {
     super(props);
     this.state = {
       benefits: [],
-      APIUrl: 'https://localhost:7150/api/benefits',
+      APIUrl: 'https://localhost:7150/api/benefitsBeingUsedByEmployee',
     };
   }
   componentDidMount() {    
     axios.get(this.state.APIUrl + "?projectName=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID") + "&employeeID=" + sessionStorage.getItem("employeeID")).then(response => {
       this.setState({ benefits: response.data });
     });
-    console.log(this.state.benefits.benefitName);
   }
 
   render() {

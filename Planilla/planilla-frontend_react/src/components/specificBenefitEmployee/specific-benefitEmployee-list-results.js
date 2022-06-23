@@ -9,6 +9,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { getInitials } from '../../utils/get-initials';
 import IconButton from '@mui/material/IconButton';
+import AddBoxIcon from '@mui/icons-material/AddBox';
 import ReadMoreIcon from '@mui/icons-material/ReadMore';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
@@ -75,9 +76,8 @@ export const SpecificBenefitEmployeeListResults = ({ benefits, ...rest }) => {
     setPage(newPage);
   };
 
-  const viewBenefitEmployee = (benefitName) => {
-    sessionStorage.setItem("benefit", benefitName);
-    router.push('/specificBenefitEmployee');
+  const addBenefit = () => {
+    alert("Add benefit");
   }
 
   return (
@@ -108,12 +108,6 @@ export const SpecificBenefitEmployeeListResults = ({ benefits, ...rest }) => {
                   Value
                 </TableCell>
                 <TableCell>
-                  Start date
-                </TableCell>
-                <TableCell>
-                  End date
-                </TableCell>
-                <TableCell>
                   Actions
                 </TableCell>
               </TableRow>
@@ -125,7 +119,6 @@ export const SpecificBenefitEmployeeListResults = ({ benefits, ...rest }) => {
                   key={benefit.benefitName + benefit.projectName + benefit.employerID}
                   selected={selectedBenefitIds.indexOf(benefit.benefitName) !== -1}
                 >
-                  {showButton(benefit.isActive)}
                   <TableCell padding="checkbox">
                     <Checkbox
                       checked={selectedBenefitIds.indexOf(benefit.benefitName) !== -1}
@@ -161,11 +154,9 @@ export const SpecificBenefitEmployeeListResults = ({ benefits, ...rest }) => {
                     {benefit.cost}
                   </TableCell>
                   <TableCell>
-                  <Stack direction="row" spacing={1}>
-                  <IconButton aria-label="edit" color="primary" onClick={() => viewBenefitEmployee(benefits.benefitName)}>
-                  <ReadMoreIcon />
-                  </IconButton>
-                  </Stack>
+                    <IconButton aria-label="add" color="primary" onClick={() => addBenefit()}>
+                      <AddBoxIcon />
+                    </IconButton>
                   </TableCell>
                 </TableRow>
               ))}

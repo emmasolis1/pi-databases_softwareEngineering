@@ -17,6 +17,24 @@ namespace planilla_backend_asp.net.Controllers
       return Ok(data);
     }
 
+    [HttpGet]
+    [Route("benefitsBeingUsedByEmployee")]
+    public ActionResult BenefitsBeingUsedByEmployee(string projectName, string employerID, string employeeID)
+    {
+      var handler = new BenefitsHandler();
+      var data = handler.BenefitsBeingUsedByEmployee(projectName, employerID, employeeID);
+      return Ok(data);
+    }
+
+    [HttpGet]
+    [Route("benefitsNotBeingUsedByEmployee")]
+    public ActionResult BenefitsNotBeingUsedByEmployee(string projectName, string employerID, string employeeID)
+    {
+      var handler = new BenefitsHandler();
+      var data = handler.BenefitsNotBeingUsedByEmployee(projectName, employerID, employeeID);
+      return Ok(data);
+    }
+
     [HttpPost]
     [Route("benefits")]
     public ActionResult CreateBenefit([FromBody] BenefitsModel benefit)

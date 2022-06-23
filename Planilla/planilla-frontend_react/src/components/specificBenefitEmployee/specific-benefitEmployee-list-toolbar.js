@@ -27,19 +27,6 @@ export const SpecificBenefitEmployeeListToolbar = (props) => (
       >
         Benefits
       </Typography>
-      <Box sx={{ m: 1 }}>
-        <NextLink
-          href="/benefits_list"
-          passHref
-        >
-          <Button
-            color="primary"
-            variant="contained"
-          >
-            Benefits list 
-          </Button>
-        </NextLink>
-      </Box>
     </Box>
     <Box sx={{ mt: 3 }}>
       <Card>
