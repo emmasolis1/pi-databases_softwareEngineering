@@ -92,6 +92,7 @@ create table Payments (
     EmployeeID              char(10)            NOT NULL,
     StartDate               date                NOT NULL,
     PaymentDate             date                NOT NULL,
+    NetSalary               float,
     primary key (ProjectName, EmployerID, EmployeeID, StartDate, PaymentDate),
     foreign key (ProjectName, EmployerID, EmployeeID, StartDate) references Contracts
 );
