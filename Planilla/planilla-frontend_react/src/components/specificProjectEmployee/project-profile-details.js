@@ -1,12 +1,21 @@
 import {
+  Box,
   Card,
   CardContent,
   CardHeader,
   Divider,
   Grid,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
   TextField
 } from '@mui/material';
+import axios from 'axios';
 import { useFormik } from 'formik';
+import React, {useEffect} from 'react';
+import PerfectScrollbar from 'react-perfect-scrollbar';
 
 export const ProjectProfileDetails = ({ project, ...props }) => {
   const formik = useFormik({
@@ -18,6 +27,19 @@ export const ProjectProfileDetails = ({ project, ...props }) => {
       maxBudgetForBenefits: project.maxBudgetForBenefits,
     }
   });
+
+  const [payments, setPayments] = React.useState([]);
+
+  useEffect(() => {
+    let APIUrl = 'https://localhost:7150/api/employeePayments?projectName=' + sessionStorage.getItem('project') + '&userID='+ sessionStorage.getItem('userID');
+    axios.get(APIUrl).then(response => {
+      console.log(response);
+      console.log(response.data);
+      setPayments(response.data);
+    }).catch(error => {
+      console.log(error);
+    });
+  }, []);
 
   return (
     <form>
@@ -100,6 +122,70 @@ export const ProjectProfileDetails = ({ project, ...props }) => {
         </CardContent>
         <Divider />
       </Card>
-    </form>
+
+      <Card>
+        <CardHeader
+          title="Payment history:"
+        />
+        <Divider />
+        <CardContent>
+          <PerfectScrollbar>
+            <Box >
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>
+                      Gross Salary
+                    </TableCell>
+                    <TableCell>
+                      Net Salary
+                    </TableCell>
+                    <TableCell>
+                      Employer ID
+                    </TableCell>
+                    <TableCell>
+                      Contrat Type
+                    </TableCell>
+                    <TableCell>
+                      Payment Date
+                    </TableCell>
+                    <TableCell>
+                      Contract Start Date
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {payments.map(payment => (
+                    <TableRow
+                      hover
+                      key={payment.paymentDate}
+                    >
+                      <TableCell>
+                        {payment.payment}
+                      </TableCell>
+                      <TableCell>
+                        {payment.netSalary}
+                      </TableCell>
+                      <TableCell>
+                        {payment.employerId}
+                      </TableCell>
+                      <TableCell>
+                        {payment.contractType}
+                      </TableCell>
+                      <TableCell>
+                        {payment.paymentDate}
+                      </TableCell>
+                      <TableCell>
+                        {payment.contractStartDate}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </Box>
+          </PerfectScrollbar>
+        </CardContent>
+      </Card>
+      </form>
   );
 };
