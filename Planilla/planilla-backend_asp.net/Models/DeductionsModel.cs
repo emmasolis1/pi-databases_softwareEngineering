@@ -8,6 +8,17 @@
     public string description { get; set; }
     public string cost { get; set; }
   }
+
+  public class VoluntaryDeductionsEmployeeModel
+  {
+    public string voluntaryDeductionName { get; set; }
+    public string projectName { get; set; }
+    public string employerID { get; set; }
+    public string employeeID { get; set; }
+    public string startDate { get; set; }
+    public string endingDate { get; set; }
+    public string cost { get; set; }
+  }
   public class MandatoryDeductionsModel
     {   
       public string Name { get; set; }

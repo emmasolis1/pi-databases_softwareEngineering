@@ -2,16 +2,16 @@ import Head from 'next/head';
 import React from 'react';
 import axios from 'axios';
 import { Box, Container } from '@mui/material';
-import { VoluntaryDeductionEmployeeListResults } from '../components/voluntaryDeductionEmployee/voluntaryDeductionEmployee-list-results';
-import { VoluntaryDeductionEmployeeListToolbar } from '../components/voluntaryDeductionEmployee/voluntaryDeductionEmployee-list-toolbar';
+import { SpecificVoluntaryDeductionEmployeeListResults } from '../components/specificVoluntaryDeductionEmployee/specific-voluntaryDeductionEmployee-list-results';
+import { SpecificVoluntaryDeductionEmployeeListToolbar } from '../components/specificVoluntaryDeductionEmployee/specific-voluntaryDeductionEmployee-list-toolbar';
 import { DashboardLayout } from '../components/dashboard-layout';
 
-class VoluntaryDeductions extends React.Component {
+class VoluntaryDeductionsList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       voluntaryDeductions: [],
-      APIUrl: 'https://localhost:7150/api/voluntaryDeductions',
+      APIUrl: 'https://localhost:7150/api/voluntaryDeductionsList',
     };
   }
   componentDidMount() {    
@@ -36,9 +36,9 @@ class VoluntaryDeductions extends React.Component {
           }}
         >
           <Container maxWidth={false}>
-            <VoluntaryDeductionEmployeeListToolbar />
+            <SpecificVoluntaryDeductionEmployeeListToolbar />
             <Box sx={{ mt: 3 }}>
-              {<VoluntaryDeductionEmployeeListResults voluntaryDeductions={this.state.voluntaryDeductions} />}
+              {<SpecificVoluntaryDeductionEmployeeListResults voluntaryDeductions={this.state.voluntaryDeductions} />}
             </Box>
           </Container>
         </Box>
@@ -47,10 +47,10 @@ class VoluntaryDeductions extends React.Component {
   }
 }
 
-VoluntaryDeductions.getLayout = (page) => (
+VoluntaryDeductionsList.getLayout = (page) => (
   <DashboardLayout>
     {page}
   </DashboardLayout>
 );
 
-export default VoluntaryDeductions;
+export default VoluntaryDeductionsList;
