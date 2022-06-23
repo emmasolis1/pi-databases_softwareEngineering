@@ -163,9 +163,9 @@ namespace planilla_backend_asp.net.Handlers
 
         private double GetDeductionFromMandatoryDeductions(double salary, string projectName, string employerId, string employeeId, string dateStartContract, string paymentDate)
         {
-            var consult = @"SELECT MandatoryDeductionName, Percentage
-                            FROM MandatoryDeductions";
+            var consult = "EXECUTE GetBasicMandatoryDeductions @salary";
             var queryCommand = new SqlCommand(consult, connection);
+            queryCommand.Parameters.AddWithValue("@salary", salary);
             DataTable resultTable = CreateTableConsult(queryCommand);
             double totalDeduction = 0;
             foreach(DataRow column in resultTable.Rows)
