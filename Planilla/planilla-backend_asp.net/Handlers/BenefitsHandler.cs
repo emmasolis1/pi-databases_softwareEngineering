@@ -30,7 +30,7 @@ namespace planilla_backend_asp.net.Handlers
       List<BenefitsModel> benefits = new List<BenefitsModel>();
       var consult = @"SELECT BenefitName, ProjectName, EmployerID, Description, Cost
                       FROM Benefits
-                      WHERE ProjectName = @project AND EmployerID = @employerID
+                      WHERE ProjectName = @project AND EmployerID = @employerID AND IsActive = 0
                       ORDER BY BenefitName";
       var queryCommand = new SqlCommand(consult, connection);
 
@@ -57,8 +57,8 @@ namespace planilla_backend_asp.net.Handlers
 
     public bool CreateBenefit(BenefitsModel benefit)
     {
-      var consult = @"INSERT INTO Benefits ([BenefitName], [ProjectName], [EmployerID], [Description], [Cost]) 
-                      VALUES (@benefitName, @projectName, @employerID, @description, @cost)";
+      var consult = @"INSERT INTO Benefits ([BenefitName], [ProjectName], [EmployerID], [Description], [Cost], [IsActive]) 
+                      VALUES (@benefitName, @projectName, @employerID, @description, @cost, 0)";
       var queryCommand = new SqlCommand(consult, connection);
 
       // Insertion of key attributes
@@ -129,6 +129,36 @@ namespace planilla_backend_asp.net.Handlers
         benefit.cost = Convert.ToString(column["cost"]);
       };
       return benefit;
+    }
+
+    public void DeleteBenefit(string benefitName, string projectName, string employerID)
+    {
+      // Prepare command to set benefit to inactive (1)
+      string consult = "UPDATE Benefits SET [IsActive] = 1 WHERE [BenefitName] = @benefitName AND [ProjectName] = @projectName AND [EmployerID] = @employerID";
+
+      SqlCommand queryCommand = new SqlCommand(consult, connection);
+      queryCommand.Parameters.AddWithValue("@benefitName", benefitName);
+      queryCommand.Parameters.AddWithValue("@projectName", projectName);
+      queryCommand.Parameters.AddWithValue("@employerID", employerID);
+
+      // Execute command
+      connection.Open();
+      queryCommand.ExecuteNonQuery();
+      connection.Close();
+
+      // Prepare command to terminate a benefit requested by employees
+      consult = "UPDATE BenefitsStatus SET [EndDate] = @date WHERE [BenefitName] = @benefitName AND [ProjectName] = @projectName AND [EmployerID] = @employerID";
+
+      queryCommand = new SqlCommand(consult, connection);
+      queryCommand.Parameters.AddWithValue("@benefitName", benefitName);
+      queryCommand.Parameters.AddWithValue("@projectName", projectName);
+      queryCommand.Parameters.AddWithValue("@employerID", employerID);
+      queryCommand.Parameters.AddWithValue("@date", DateTime.Now.ToString("yyyy/MM/dd"));
+
+      // Execute command
+      connection.Open();
+      queryCommand.ExecuteNonQuery();
+      connection.Close();
     }
 
     public List<BenefitEmployeeModel> BenefitsBeingUsedByEmployee(string projectName, string employerID, string employeeID)
