@@ -1,12 +1,12 @@
 import Head from 'next/head';
 import React from 'react';
 import { Box, Container, Grid, Typography } from '@mui/material';
-import { SpecificBenefitProfile } from '../components/specificBenefit/specifict-benefit-profile';
-import { SpecificBenefitProfileDetails } from '../components/specificBenefit/specifict-benefit-profile-details';
+import { SpecificBenefitEmployeeProfile } from '../components/specificBenefitEmployee/specific-benefitEmployee-profile';
+import { SpecificBenefitEmployeeProfileDetails } from '../components/specificBenefitEmployee/specific-benefitEmployee-profile-details';
 import { DashboardLayout } from '../components/dashboard-layout';
 import axios from 'axios';
 
-class SpecificBenefit extends React.Component {
+class SpecificBenefitEmployee extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -57,7 +57,7 @@ class SpecificBenefit extends React.Component {
                   md={6}
                   xs={12}
                 >
-                  <SpecificBenefitProfile benefit={this.state.benefit} />
+                  <SpecificBenefitEmployeeProfile benefit={this.state.benefit} />
                 </Grid>
                 <Grid
                   item
@@ -65,7 +65,7 @@ class SpecificBenefit extends React.Component {
                   md={6}
                   xs={12}
                 >
-                  <SpecificBenefitProfileDetails benefit={this.state.benefit} />
+                  <SpecificBenefitEmployeeProfileDetails benefit={this.state.benefit} />
                 </Grid>
               </Grid>
             </Container>
@@ -76,10 +76,10 @@ class SpecificBenefit extends React.Component {
   }
 }
 
-SpecificBenefit.getLayout = (page) => (
+SpecificBenefitEmployee.getLayout = (page) => (
   <DashboardLayout>
     {page}
   </DashboardLayout>
 );
 
-export default SpecificBenefit;
+export default SpecificBenefitEmployee;
