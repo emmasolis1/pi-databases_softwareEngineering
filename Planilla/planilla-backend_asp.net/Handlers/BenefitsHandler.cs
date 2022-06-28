@@ -192,6 +192,7 @@ namespace planilla_backend_asp.net.Handlers
             benefitName = reader["BenefitName"].ToString(),
             projectName = reader["ProjectName"].ToString(),
             employerID = reader["EmployerID"].ToString(),
+            employeeID = employeeID,
             description = reader["Description"].ToString(),
             cost = reader["Cost"].ToString(),
             startDate = reader["StartDate"].ToString(),
@@ -245,9 +246,9 @@ namespace planilla_backend_asp.net.Handlers
       return benefits;
     }
 
-    public bool EstablishBenefitStatus(BenefitsModel benefit, string employeeID)
+    public bool EstablishBenefitStatus(BenefitEmployeeModel benefit)
     {
-      var consult = @"INSERT INTO Benefits ([BenefitName], [ProjectName], [EmployerID], [EmployeeID], [StartDate]) 
+      var consult = @"INSERT INTO BenefitsStatus ([BenefitName], [ProjectName], [EmployerID], [EmployeeID], [StartDate]) 
                       VALUES (@benefitName, @projectName, @employerID, @employeeID, @startDate)";
       var queryCommand = new SqlCommand(consult, connection);
 
@@ -255,7 +256,7 @@ namespace planilla_backend_asp.net.Handlers
       queryCommand.Parameters.AddWithValue("@benefitName", benefit.benefitName);
       queryCommand.Parameters.AddWithValue("@projectName", benefit.projectName);
       queryCommand.Parameters.AddWithValue("@employerID", benefit.employerID);
-      queryCommand.Parameters.AddWithValue("@employeeID", employeeID);
+      queryCommand.Parameters.AddWithValue("@employeeID", benefit.employeeID);
       queryCommand.Parameters.AddWithValue("@startDate", DateTime.Now.ToString("yyyy/MM/dd"));
 
       connection.Open();

@@ -125,7 +125,6 @@ export const BenefitEmployeeListResults = ({ benefits, ...rest }) => {
                   key={benefit.benefitName + benefit.projectName + benefit.employerID}
                   selected={selectedBenefitIds.indexOf(benefit.benefitName) !== -1}
                 >
-                  {showButton(benefit.isActive)}
                   <TableCell padding="checkbox">
                     <Checkbox
                       checked={selectedBenefitIds.indexOf(benefit.benefitName) !== -1}
@@ -161,11 +160,17 @@ export const BenefitEmployeeListResults = ({ benefits, ...rest }) => {
                     {benefit.cost}
                   </TableCell>
                   <TableCell>
-                  <Stack direction="row" spacing={1}>
-                  <IconButton aria-label="edit" color="primary" onClick={() => viewBenefitEmployee(benefit.benefitName)}>
-                  <ReadMoreIcon />
-                  </IconButton>
-                  </Stack>
+                    {benefit.startDate}
+                  </TableCell>
+                  <TableCell>
+                    {benefit.endDate}
+                  </TableCell>
+                  <TableCell>
+                    <Stack direction="row" spacing={1}>
+                      <IconButton aria-label="edit" color="primary" onClick={() => viewBenefitEmployee(benefit.benefitName)}>
+                        <ReadMoreIcon />
+                      </IconButton>
+                    </Stack>
                   </TableCell>
                 </TableRow>
               ))}

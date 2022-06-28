@@ -76,8 +76,31 @@ export const SpecificBenefitEmployeeListResults = ({ benefits, ...rest }) => {
     setPage(newPage);
   };
 
-  const addBenefit = () => {
-    alert("Add benefit");
+  const addBenefit = (benefit) => {
+    var data = {
+      benefitName: benefit.benefitName,
+      projectName: benefit.projectName,
+      employerID: benefit.employerID,
+      employeeID: sessionStorage.getItem("employeeID"),
+      description: benefit.description,
+      cost: benefit.cost,
+      startDate: "",
+      endDate: ""
+    };
+    axios.post('https://localhost:7150/api/requestBenefit', data)
+      .then(function () {
+        alert("Benefit successfully established");
+        window.location.reload(false);
+      })
+      .catch(function (error) {
+        if (error.response) {
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.header);
+          alert("Error: Unknown error occurred");
+        }
+        window.location.reload(false);
+      });
   }
 
   return (
@@ -154,7 +177,7 @@ export const SpecificBenefitEmployeeListResults = ({ benefits, ...rest }) => {
                     {benefit.cost}
                   </TableCell>
                   <TableCell>
-                    <IconButton aria-label="add" color="primary" onClick={() => addBenefit()}>
+                    <IconButton aria-label="add" color="primary" onClick={() => addBenefit(benefit)}>
                       <AddBoxIcon />
                     </IconButton>
                   </TableCell>

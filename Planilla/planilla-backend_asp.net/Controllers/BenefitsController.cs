@@ -130,13 +130,13 @@ namespace planilla_backend_asp.net.Controllers
      
     [HttpPost]
     [Route("requestBenefit")]
-    public ActionResult EstablishBenefitStatus(BenefitsModel benefit, string employeeID)
+    public ActionResult EstablishBenefitStatus([FromBody] BenefitEmployeeModel benefit)
     {
       try
       {
         // Request a benefit
         BenefitsHandler handler = new BenefitsHandler();
-        handler.EstablishBenefitStatus(benefit, employeeID);
+        handler.EstablishBenefitStatus(benefit);
         return Ok();
       }
       catch (Exception error)
