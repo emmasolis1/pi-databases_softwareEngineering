@@ -244,5 +244,25 @@ namespace planilla_backend_asp.net.Handlers
 
       return benefits;
     }
+
+    public bool EstablishBenefitStatus(BenefitsModel benefit, string employeeID)
+    {
+      var consult = @"INSERT INTO Benefits ([BenefitName], [ProjectName], [EmployerID], [EmployeeID], [StartDate]) 
+                      VALUES (@benefitName, @projectName, @employerID, @employeeID, @startDate)";
+      var queryCommand = new SqlCommand(consult, connection);
+
+      // Insertion of key attributes
+      queryCommand.Parameters.AddWithValue("@benefitName", benefit.benefitName);
+      queryCommand.Parameters.AddWithValue("@projectName", benefit.projectName);
+      queryCommand.Parameters.AddWithValue("@employerID", benefit.employerID);
+      queryCommand.Parameters.AddWithValue("@employeeID", employeeID);
+      queryCommand.Parameters.AddWithValue("@startDate", DateTime.Now.ToString("yyyy/MM/dd"));
+
+      connection.Open();
+      bool status = queryCommand.ExecuteNonQuery() >= 1;
+      connection.Close();
+
+      return status;
+    }
   }
 }
