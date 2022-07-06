@@ -16,6 +16,7 @@ import axios from 'axios';
 import { useFormik } from 'formik';
 import React, {useEffect} from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
+import { URL } from 'src/utils/url';
 
 export const ProjectProfileDetails = ({ project, ...props }) => {
   const formik = useFormik({
@@ -31,7 +32,7 @@ export const ProjectProfileDetails = ({ project, ...props }) => {
   const [payments, setPayments] = React.useState([]);
 
   useEffect(() => {
-    let APIUrl = 'https://localhost:7150/api/employeePayments?projectName=' + sessionStorage.getItem('project') + '&userID='+ sessionStorage.getItem('userID');
+    let APIUrl = URL + 'employeePayments?projectName=' + sessionStorage.getItem('project') + '&userID='+ sessionStorage.getItem('userID');
     axios.get(APIUrl).then(response => {
       console.log(response);
       console.log(response.data);

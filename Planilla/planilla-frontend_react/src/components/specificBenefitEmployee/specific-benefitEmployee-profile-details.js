@@ -14,6 +14,7 @@ import { useFormik } from 'formik';
 import axios from 'axios';
 import * as Yup from 'yup';
 import { useRouter } from 'next/router';
+import { URL } from 'src/utils/url';
 
 export const SpecificBenefitEmployeeProfileDetails = ({ benefit, ...props }) => {
   const router = useRouter();
@@ -32,7 +33,7 @@ export const SpecificBenefitEmployeeProfileDetails = ({ benefit, ...props }) => 
         description: benefit.description,
         cost: benefit.cost
       };
-      axios.put('https://localhost:7150/api/specificBenefitEmployee', data).then((response) => {
+      axios.put(URL + 'specificBenefitEmployee', data).then((response) => {
         alert("Benefit select successfully");
         router.push('/BenefitEmployee');
       });

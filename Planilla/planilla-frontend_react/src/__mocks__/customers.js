@@ -1,9 +1,10 @@
 import { v4 as uuid } from 'uuid';
 import axios from 'axios';
+import { URL } from 'src/utils/url';
 
 const fetchUsers = () => {
   var data = [];
-  axios.get(`https://localhost:7150/api/employees`).then(response => {
+  axios.get(URL + `employees`).then(response => {
     data = response.data;  // this is an array of users.
   });
 

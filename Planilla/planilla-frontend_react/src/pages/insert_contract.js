@@ -16,6 +16,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { URL } from 'src/utils/url';
 
 const InsertContract = () => {
   const router = useRouter();
@@ -65,7 +66,7 @@ const InsertContract = () => {
         netSalary: values.netSalary,
         contractType: values.contractType
       };
-      axios.post('https://localhost:7150/api/addEmployeeToProject', data)
+      axios.post(URL + 'addEmployeeToProject', data)
         .then(function () {
           alert("Contract successfully saved, returning to project's employee list");
           router.push('/specific_project_employees');

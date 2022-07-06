@@ -12,6 +12,7 @@ import {
   Typography
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { URL } from 'src/utils/url';
 
 const CreateBenefit = () => {
   const router = useRouter();
@@ -46,7 +47,7 @@ const CreateBenefit = () => {
         description: values.description,
         cost: values.cost
       };
-      axios.post('https://localhost:7150/api/benefits', data)
+      axios.post(URL + 'benefits', data)
         .then(function () {
           alert("Benefit successfully created, returning to benefit list");
           router.push('/benefits');

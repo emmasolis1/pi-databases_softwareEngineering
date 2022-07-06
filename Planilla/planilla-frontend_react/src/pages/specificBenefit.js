@@ -5,6 +5,7 @@ import { SpecificBenefitProfile } from '../components/specificBenefit/specifict-
 import { SpecificBenefitProfileDetails } from '../components/specificBenefit/specifict-benefit-profile-details';
 import { DashboardLayout } from '../components/dashboard-layout';
 import axios from 'axios';
+import { URL } from 'src/utils/url';
 
 class SpecificBenefit extends React.Component {
   constructor(props) {
@@ -12,7 +13,7 @@ class SpecificBenefit extends React.Component {
     this.state = {
       benefit: [],
       isLoaded: false,
-      APIUrl: 'https://localhost:7150/api/specificBenefit',
+      APIUrl: URL + 'specificBenefit',
     };
   }
 

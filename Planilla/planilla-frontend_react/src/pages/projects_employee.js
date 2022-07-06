@@ -5,13 +5,14 @@ import { Box, Container, Grid, Pagination } from '@mui/material';
 import { ProjectListToolbar } from '../components/projectEmployeeSide/project-list-toolbar';
 import { ProjectCard } from '../components/projectEmployeeSide/project-card';
 import { DashboardLayout } from '../components/dashboard-layout';
+import { URL } from 'src/utils/url';
 
 class Projects extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       projects: [],
-      APIUrl: 'https://localhost:7150/api/projectsEmployeeSide',
+      APIUrl: URL + 'projectsEmployeeSide',
       limit: 6,
       page: 0,
     };

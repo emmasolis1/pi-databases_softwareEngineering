@@ -7,6 +7,7 @@ import { useState } from 'react';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import axios from 'axios';
+import { URL } from 'src/utils/url';
 
 export const ProjectCard = ({ project, ...rest }) => {
   const router = useRouter();
@@ -23,7 +24,7 @@ export const ProjectCard = ({ project, ...rest }) => {
 
   function payProject() {
     sessionStorage.setItem("project", project.projectName);
-    axios.get('https://localhost:7150/api/payments?projectName='+project.projectName+'&employerID='+project.employerID).then(response => {
+    axios.get(URL + 'payments?projectName='+project.projectName+'&employerID='+project.employerID).then(response => {
       if (response.data.length === 0) {
         alert('No more employees to pay today.');
       } else {

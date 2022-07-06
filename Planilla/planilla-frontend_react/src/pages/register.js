@@ -15,6 +15,7 @@ import {
   Typography
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { URL } from 'src/utils/url';
 
 const Register = () => {
   const router = useRouter();
@@ -105,7 +106,7 @@ const Register = () => {
             Address: values.address,
             Phone: values.phone
         };
-        axios.post('https://localhost:7150/api/register', data)
+        axios.post(URL + 'register', data)
         .then(function () {
           alert("Employer successfully created, returning to login");
           router.push('/');

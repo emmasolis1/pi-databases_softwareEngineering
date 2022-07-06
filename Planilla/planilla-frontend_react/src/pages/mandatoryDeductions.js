@@ -5,13 +5,14 @@ import { Box, Container } from '@mui/material';
 import { MandatoryDeductionListResults } from '../components/mandatoryDeductions/mandatory-deduction-list-results';
 import { MandatoryDeductionListToolbar } from '../components/mandatoryDeductions/mandatory-deduction-list-toolbar';
 import { DashboardLayout } from '../components/dashboard-layout';
+import { URL } from 'src/utils/url';
 
 class VoluntaryDeductions extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       mandatoryDeductions: [],
-      APIUrl: 'https://localhost:7150/api/mandatoryDeductions',
+      APIUrl: URL + 'mandatoryDeductions',
     };
   }
   componentDidMount() {    
