@@ -85,7 +85,7 @@ export const SpecificVoluntaryDeductionEmployeeListResults = ({ voluntaryDeducti
       description: voluntaryDeduction.description,
       cost: voluntaryDeduction.cost,
       startDate: "",
-      endDate: ""
+      endingDate: ""
     };
     axios.post('https://localhost:7150/api/requestVoluntaryDeduction', data)
       .then(function () {

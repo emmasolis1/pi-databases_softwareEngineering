@@ -177,9 +177,9 @@ namespace planilla_backend_asp.net.Handlers
                     
     public List<VoluntaryDeductionsEmployeeModel> VoluntaryDeductionsBeingUsedByEmployee(string projectName, string employerID, string employeeID)
     {
-      string consult = @"SELECT VoluntaryDeductions.VoluntaryDeductionName, VoluntaryDeductions.ProjectName, VoluntaryDeductions.EmployerID, Description, Cost, StartDate, EndingDate
+      string consult = @"SELECT VoluntaryDeductions.VoluntaryDeductionName, VoluntaryDeductions.ProjectName, VoluntaryDeductions.EmployerID, Description, VoluntaryDeductions.Cost, StartDate, EndingDate
                       FROM VoluntaryDeductions 
-                        JOIN VoluntaryDedutionsStatus ON VoluntaryDeductions.VoluntaryDeductionName = VoluntaryDeductionsStatus.VoluntaryDeductionName
+                        JOIN VoluntaryDeductionsStatus ON VoluntaryDeductions.VoluntaryDeductionName = VoluntaryDeductionsStatus.VoluntaryDeductionName
                         AND VoluntaryDeductions.ProjectName = VoluntaryDeductionsStatus.ProjectName 
                         AND VoluntaryDeductions.EmployerID = VoluntaryDeductionsStatus.EmployerID
                       WHERE VoluntaryDeductions.ProjectName = @projectName
@@ -203,7 +203,7 @@ namespace planilla_backend_asp.net.Handlers
         voluntaryDeductions.Add(
           new VoluntaryDeductionsEmployeeModel
           {
-            voluntaryDeductionName = reader["VoluntaryDedutionsName"].ToString(),
+            voluntaryDeductionName = reader["VoluntaryDeductionName"].ToString(),
             projectName = reader["ProjectName"].ToString(),
             employerID = reader["EmployerID"].ToString(),
             employeeID = employeeID,
@@ -227,7 +227,7 @@ namespace planilla_backend_asp.net.Handlers
 					            AND EmployerID = @employerID
                       AND VoluntaryDeductionName NOT IN (
                         SELECT VoluntaryDeductionName
-                        FROM VoluntaryDeductionStatus
+                        FROM VoluntaryDeductionsStatus
                         WHERE ProjectName = @projectName
                         AND EmployerID = @employerID
                         AND EmployeeID = @employeeID )
@@ -262,7 +262,7 @@ namespace planilla_backend_asp.net.Handlers
 
     public bool EstablishVoluntaryDeductionStatus(VoluntaryDeductionsEmployeeModel deduction)
     {
-      var consult = @"INSERT INTO VoluntaryDeductionStatus ([VoluntaryDeductionName], [ProjectName], [EmployerID], [EmployeeID], [StartDate]) 
+      var consult = @"INSERT INTO VoluntaryDeductionsStatus ([VoluntaryDeductionName], [ProjectName], [EmployerID], [EmployeeID], [StartDate]) 
                       VALUES (@voluntaryDeductionName, @projectName, @employerID, @employeeID, @startDate)";
       var queryCommand = new SqlCommand(consult, connection);
 
