@@ -2,17 +2,16 @@ import Head from 'next/head';
 import React from 'react';
 import axios from 'axios';
 import { Box, Container } from '@mui/material';
-import { VoluntaryDeductionEmployeeListResults } from '../components/voluntaryDeductionEmployee/voluntaryDeductionEmployee-list-results';
-import { VoluntaryDeductionEmployeeListToolbar } from '../components/voluntaryDeductionEmployee/voluntaryDeductionEmployee-list-toolbar';
+import { SpecificVoluntaryDeductionEmployeeListResults } from '../components/specificVoluntaryDeductionEmployee/specific-voluntaryDeductionEmployee-list-results';
+import { SpecificVoluntaryDeductionEmployeeListToolbar } from '../components/specificVoluntaryDeductionEmployee/specific-voluntaryDeductionEmployee-list-toolbar';
 import { DashboardLayout } from '../components/dashboard-layout';
-import { URL } from 'src/utils/url';
 
-class VoluntaryDeductionsEmployee extends React.Component {
+class VoluntaryDeductionsList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       voluntaryDeductions: [],
-      APIUrl: URL + 'voluntaryDeductions',
+      APIUrl: 'https://localhost:7150/api/voluntaryDeductionsNotBeingUsedByEmployee',
     };
   }
   componentDidMount() {    
@@ -37,9 +36,9 @@ class VoluntaryDeductionsEmployee extends React.Component {
           }}
         >
           <Container maxWidth={false}>
-            <VoluntaryDeductionEmployeeListToolbar />
+            <SpecificVoluntaryDeductionEmployeeListToolbar />
             <Box sx={{ mt: 3 }}>
-              {<VoluntaryDeductionEmployeeListResults voluntaryDeductions={this.state.voluntaryDeductions} />}
+              {<SpecificVoluntaryDeductionEmployeeListResults voluntaryDeductions={this.state.voluntaryDeductions} />}
             </Box>
           </Container>
         </Box>
@@ -48,10 +47,10 @@ class VoluntaryDeductionsEmployee extends React.Component {
   }
 }
 
-VoluntaryDeductionsEmployee.getLayout = (page) => (
+VoluntaryDeductionsList.getLayout = (page) => (
   <DashboardLayout>
     {page}
   </DashboardLayout>
 );
 
-export default VoluntaryDeductionsEmployee;
+export default VoluntaryDeductionsList;

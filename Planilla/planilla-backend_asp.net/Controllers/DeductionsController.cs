@@ -86,5 +86,56 @@ namespace planilla_backend_asp.net.Controllers
         return BadRequest(error.Message);
       }
     }
+        
+    [HttpGet]
+    [Route("voluntaryDeductionsBeingUsedByEmployee")]
+    public ActionResult VoluntaryDeductionsBeingUsedByEmployee(string projectName, string employerID, string employeeID)
+    {
+      try
+      {
+        var handler = new DeductionsHandler();
+        var data = handler.VoluntaryDeductionsBeingUsedByEmployee(projectName, employerID, employeeID);
+        return Ok(data);
+      }
+      catch (Exception error)
+      {
+        Console.WriteLine(error);
+        return BadRequest(error.Message);
+      }
+    }
+
+    [HttpGet]
+    [Route("voluntaryDeductionsNotBeingUsedByEmployee")]
+    public ActionResult VoluntaryDeductionsNotBeingUsedByEmployee(string projectName, string employerID, string employeeID)
+    {
+      try
+      {
+        var handler = new DeductionsHandler();
+        var data = handler.VoluntaryDeductionsNotBeingUsedByEmployee(projectName, employerID, employeeID);
+        return Ok(data);
+      }
+      catch (Exception error)
+      {
+        Console.WriteLine(error);
+        return BadRequest(error.Message);
+      }
+    }
+
+    [HttpPost]
+    [Route("requestVoluntaryDeduction")]
+    public ActionResult EstablishVoluntaryDeductionStatus([FromBody] VoluntaryDeductionsEmployeeModel deduction)
+    {
+      try
+      {
+        DeductionsHandler handler = new DeductionsHandler();
+        handler.EstablishVoluntaryDeductionStatus(deduction);
+        return Ok();
+      }
+      catch (Exception error)
+      {
+        Console.WriteLine(error);
+        return BadRequest(error.Message);
+      }
+    }
   }
 }

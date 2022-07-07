@@ -8,7 +8,7 @@ import {
   Typography
 } from '@mui/material';
 
-export const SpecificVoluntaryDeductionProfile = ({voluntaryDeduction, ...props}) => {
+export const SpecificVoluntaryDeductionEmployeeProfile = ({voluntaryDeduction, ...props}) => {
   return (
     <Card {...props}>
       <CardContent>
