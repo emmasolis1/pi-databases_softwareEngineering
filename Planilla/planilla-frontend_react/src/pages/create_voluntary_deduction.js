@@ -12,6 +12,7 @@ import {
   Typography
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { URL } from 'src/utils/url';
 
 const CreateVoluntaryDeduction = () => {
   const router = useRouter();
@@ -46,7 +47,7 @@ const CreateVoluntaryDeduction = () => {
         description: values.description,
         cost: values.cost
       };
-      axios.post('https://localhost:7150/api/voluntaryDeductions', data)
+      axios.post(URL + 'voluntaryDeductions', data)
         .then(function () {
           alert("Voluntary Deduction successfully created, returning to voluntary deduction list");
           router.push('/voluntaryDeductions');

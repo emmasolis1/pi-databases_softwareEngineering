@@ -160,5 +160,110 @@ namespace planilla_backend_asp.net.Handlers
       queryCommand.ExecuteNonQuery();
       connection.Close();
     }
+
+    public List<BenefitEmployeeModel> BenefitsBeingUsedByEmployee(string projectName, string employerID, string employeeID)
+    {
+      string consult = @"SELECT Benefits.BenefitName, Benefits.ProjectName, Benefits.EmployerID, Description, Cost, StartDate, EndDate
+                      FROM Benefits 
+                        JOIN BenefitsStatus ON Benefits.BenefitName = BenefitsStatus.BenefitName
+                        AND Benefits.ProjectName = BenefitsStatus.ProjectName 
+                        AND Benefits.EmployerID = BenefitsStatus.EmployerID
+                      WHERE Benefits.ProjectName = @projectName
+                        AND Benefits.EmployerID = @employerID
+                        AND BenefitsStatus.EmployeeID = @employeeID
+                        AND Benefits.IsActive = 0
+                      ORDER BY BenefitName";
+
+      var queryCommand = new SqlCommand(consult, connection);
+
+      queryCommand.Parameters.AddWithValue("@projectName", projectName);
+      queryCommand.Parameters.AddWithValue("@employerID", employerID);
+      queryCommand.Parameters.AddWithValue("@employeeID", employeeID);
+
+      List<BenefitEmployeeModel> benefits = new List<BenefitEmployeeModel>();
+
+      connection.Open();
+      SqlDataReader reader = queryCommand.ExecuteReader();
+      while (reader.Read())
+      {
+        benefits.Add(
+          new BenefitEmployeeModel
+          {
+            benefitName = reader["BenefitName"].ToString(),
+            projectName = reader["ProjectName"].ToString(),
+            employerID = reader["EmployerID"].ToString(),
+            employeeID = employeeID,
+            description = reader["Description"].ToString(),
+            cost = reader["Cost"].ToString(),
+            startDate = reader["StartDate"].ToString(),
+            endDate = reader["EndDate"].ToString(),
+          });
+      }
+      connection.Close();
+
+      return benefits;
+    }
+
+    public List<BenefitsModel> BenefitsNotBeingUsedByEmployee(string projectName, string employerID, string employeeID)
+    {
+      string consult = @"SELECT BenefitName, ProjectName, EmployerID, Description, Cost
+                      FROM Benefits
+                      WHERE IsActive = 0
+                      AND ProjectName = @projectName
+					            AND EmployerID = @employerID
+                      AND BenefitName NOT IN (
+                        SELECT BenefitName
+                        FROM BenefitsStatus
+                        WHERE ProjectName = @projectName
+                        AND EmployerID = @employerID
+                        AND EmployeeID = @employeeID )
+                      ORDER BY BenefitName";
+
+      var queryCommand = new SqlCommand(consult, connection);
+
+      queryCommand.Parameters.AddWithValue("@projectName", projectName);
+      queryCommand.Parameters.AddWithValue("@employerID", employerID);
+      queryCommand.Parameters.AddWithValue("@employeeID", employeeID);
+
+      List<BenefitsModel> benefits = new List<BenefitsModel>();
+
+      connection.Open();
+      SqlDataReader reader = queryCommand.ExecuteReader();
+      while (reader.Read())
+      {
+        benefits.Add(
+          new BenefitsModel
+          {
+            benefitName = reader["BenefitName"].ToString(),
+            projectName = reader["ProjectName"].ToString(),
+            employerID = reader["EmployerID"].ToString(),
+            description = reader["Description"].ToString(),
+            cost = reader["Cost"].ToString()
+          });
+      }
+      connection.Close();
+
+      return benefits;
+    }
+
+    public bool EstablishBenefitStatus(BenefitEmployeeModel benefit)
+    {
+      var consult = @"INSERT INTO BenefitsStatus ([BenefitName], [ProjectName], [EmployerID], [EmployeeID], [StartDate]) 
+                      VALUES (@benefitName, @projectName, @employerID, @employeeID, @startDate)";
+      var queryCommand = new SqlCommand(consult, connection);
+
+      // Insertion of key attributes
+      queryCommand.Parameters.AddWithValue("@benefitName", benefit.benefitName);
+      queryCommand.Parameters.AddWithValue("@projectName", benefit.projectName);
+      queryCommand.Parameters.AddWithValue("@employerID", benefit.employerID);
+      queryCommand.Parameters.AddWithValue("@employeeID", benefit.employeeID);
+      queryCommand.Parameters.AddWithValue("@startDate", DateTime.Now.ToString("yyyy/MM/dd"));
+
+      connection.Open();
+      bool status = queryCommand.ExecuteNonQuery() >= 1;
+      connection.Close();
+
+      return status;
+    }
   }
 }

@@ -5,6 +5,7 @@ import { SpecificEmployeeProfile } from '../components/specificEmployee/specific
 import { SpecificEmployeeProfileDetails } from '../components/specificEmployee/specific-employee-profile-details';
 import { DashboardLayout } from '../components/dashboard-layout';
 import axios from 'axios';
+import { URL } from 'src/utils/url';
 
 class SpecificEmployee extends React.Component {
   constructor(props) {
@@ -12,7 +13,7 @@ class SpecificEmployee extends React.Component {
     this.state = {
       user: [],
       isLoaded: false,
-      APIUrl: 'https://localhost:7150/api/viewEmployee?id=',
+      APIUrl: URL + 'viewEmployee?id=',
     };
   }
 

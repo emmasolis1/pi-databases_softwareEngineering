@@ -28,6 +28,7 @@ import {
   TableRow,
   Typography
 } from '@mui/material';
+import { URL } from 'src/utils/url';
 
 export const BenefitListResults = ({ benefits, ...rest }) => {
   const router = useRouter();
@@ -84,7 +85,7 @@ export const BenefitListResults = ({ benefits, ...rest }) => {
   const handleClose = (agreed) => {
     setOpen(false);
     if (agreed === true) {
-      axios.delete("https://localhost:7150/api/deleteBenefit?benefitName=" + sessionStorage.getItem("benefit") + "&projectName=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID")).then(() => {
+      axios.delete(URL + "deleteBenefit?benefitName=" + sessionStorage.getItem("benefit") + "&projectName=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID")).then(() => {
         alert("Benefit deleted successfully");
         window.location.reload(false);
       });
@@ -194,8 +195,8 @@ export const BenefitListResults = ({ benefits, ...rest }) => {
                           </DialogContentText>
                         </DialogContent>
                         <DialogActions>
-                          <Button onClick={handleClose} autoFocus>NO</Button>
-                          <Button onClick={() => handleClose(true)}>Yes</Button>
+                          <Button onClick={handleClose} variant="outlined" color="primary">Cancel</Button>
+                          <Button onClick={() => handleClose(true)} variant="contained" color="error">Delete</Button>
                         </DialogActions>
                       </Dialog>
                     </Stack>

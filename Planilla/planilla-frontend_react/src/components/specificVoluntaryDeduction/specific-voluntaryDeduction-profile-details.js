@@ -19,6 +19,7 @@ import { useFormik } from 'formik';
 import axios from 'axios';
 import * as Yup from 'yup';
 import { useRouter } from 'next/router';
+import { URL } from 'src/utils/url';
 
 export const SpecificVoluntaryDeductionProfileDetails = ({ voluntaryDeduction, ...props }) => {
   const router = useRouter();
@@ -45,7 +46,7 @@ export const SpecificVoluntaryDeductionProfileDetails = ({ voluntaryDeduction, .
         description: values.description,
         cost: values.cost
       };
-      axios.put('https://localhost:7150/api/specificVoluntaryDeduction', data).then((response) => {
+      axios.put(URL + 'specificVoluntaryDeduction', data).then((response) => {
         alert("Voluntary Deduction updated successfully");
         router.push('/voluntaryDeductions');
       });
@@ -59,7 +60,7 @@ const handleClickOpen = () => {
   const handleClose = (agreed) => {
     setOpen(false);
     if (agreed === true) {
-      axios.delete("https://localhost:7150/api/deleteVoluntaryDeduction?voluntaryDeductionName=" + sessionStorage.getItem("voluntaryDeduction") + "&projectName=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID")).then(() => {
+      axios.delete(URL + "deleteVoluntaryDeduction?voluntaryDeductionName=" + sessionStorage.getItem("voluntaryDeduction") + "&projectName=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID")).then(() => {
         alert("Voluntary deduction deleted successfully");
         router.push('/voluntaryDeductions');
       });
@@ -171,8 +172,8 @@ const handleClickOpen = () => {
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
-                <Button onClick={handleClose} autoFocus>NO</Button>
-                <Button onClick={() => handleClose(true)}>Yes</Button>
+                <Button onClick={handleClose} variant="outlined" color="primary">Cancel</Button>
+                <Button onClick={() => handleClose(true)} variant="contained" color="error">Delete</Button>
               </DialogActions>
             </Dialog>
           </Stack>

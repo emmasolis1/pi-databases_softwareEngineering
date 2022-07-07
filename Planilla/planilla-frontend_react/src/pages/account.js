@@ -5,6 +5,7 @@ import { AccountProfile } from '../components/account/account-profile';
 import { AccountProfileDetails } from '../components/account/account-profile-details';
 import { DashboardLayout } from '../components/dashboard-layout';
 import axios from 'axios';
+import { URL } from 'src/utils/url';
 
 class Account extends React.Component {
   constructor(props) {
@@ -12,7 +13,7 @@ class Account extends React.Component {
     this.state = {
       user: [],
       isLoaded: false,
-      APIUrl: 'https://localhost:7150/api/account',
+      APIUrl: URL + 'account',
     };
   }
 

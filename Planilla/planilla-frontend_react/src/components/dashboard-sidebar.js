@@ -70,7 +70,7 @@ const employeeItems = [
     title: 'Projects'
   },
   {
-    href: '/benefits_employee',
+    href: '/benefitsEmployee',
     icon: (<ShoppingBagIcon fontSize="small" />),
     title: 'Benefits'
   },
@@ -93,6 +93,7 @@ export const DashboardSidebar = (props) => {
   const [projects, setProjects] = React.useState([]);
   const open2 = Boolean(project);
   const [isEmployee, setIsEmployee] = React.useState(false);
+  const [currentProject, setCurrentProject] = React.useState('');
   
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'), {
     defaultMatches: true,
@@ -114,6 +115,7 @@ export const DashboardSidebar = (props) => {
       } else {
         setIsEmployee(false);
       }
+      setCurrentProject(sessionStorage.getItem('project'));
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [router.asPath],
@@ -173,15 +175,13 @@ export const DashboardSidebar = (props) => {
                   color="inherit"
                   variant="subtitle1"
                 >
-                  Acme Inc
+                  {currentProject}
                 </Typography>
                 <Typography
                   color="neutral.400"
                   variant="body2"
                 >
-                  Your tier
-                  {' '}
-                  : Premium
+                  Selected project
                 </Typography>
               </div>
               <SelectorIcon
@@ -316,15 +316,13 @@ export const DashboardSidebar = (props) => {
                   color="inherit"
                   variant="subtitle1"
                 >
-                  Acme Inc
+                  {currentProject}
                 </Typography>
                 <Typography
                   color="neutral.400"
                   variant="body2"
                 >
-                  Your tier
-                  {' '}
-                  : Premium
+                  Selected project
                 </Typography>
               </div>
               <SelectorIcon

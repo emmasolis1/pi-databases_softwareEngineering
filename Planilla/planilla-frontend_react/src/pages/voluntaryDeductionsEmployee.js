@@ -5,13 +5,14 @@ import { Box, Container } from '@mui/material';
 import { VoluntaryDeductionEmployeeListResults } from '../components/voluntaryDeductionEmployee/voluntaryDeductionEmployee-list-results';
 import { VoluntaryDeductionEmployeeListToolbar } from '../components/voluntaryDeductionEmployee/voluntaryDeductionEmployee-list-toolbar';
 import { DashboardLayout } from '../components/dashboard-layout';
+import { URL } from 'src/utils/url';
 
 class VoluntaryDeductionsEmployee extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       voluntaryDeductions: [],
-      APIUrl: 'https://localhost:7150/api/voluntaryDeductionsBeingUsedByEmployee',
+      APIUrl: URL + 'voluntaryDeductions',
     };
   }
   componentDidMount() {    

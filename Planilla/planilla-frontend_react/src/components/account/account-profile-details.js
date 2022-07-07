@@ -12,6 +12,7 @@ import { useFormik } from 'formik';
 import axios from 'axios';
 import * as Yup from 'yup';
 import { useRouter } from 'next/router';
+import { URL } from 'src/utils/url';
 
 const states = [
   {
@@ -86,7 +87,7 @@ export const AccountProfileDetails = ({user, ...props}) => {
         Phone: values.phone
       };
       // alert(JSON.stringify(data, null, 2));
-      axios.put('https://localhost:7150/api/account', data).then((response) => {
+      axios.put(URL + 'account', data).then((response) => {
         alert("User data updated successfully");
         // router.push('/account');
         window.location.reload(false);

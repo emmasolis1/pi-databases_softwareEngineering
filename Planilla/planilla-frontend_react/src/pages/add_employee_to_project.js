@@ -5,6 +5,7 @@ import { Box, Container } from '@mui/material';
 import { EmployeeListResults } from '../components/employeeNotInProject/employee-list-results';
 import { EmployeeListToolbar } from '../components/employeeNotInProject/employee-list-toolbar';
 import { DashboardLayout } from '../components/dashboard-layout';
+import { URL } from 'src/utils/url';
 
 class AddEmployeeToProject extends React.Component {
   constructor(props) {
@@ -13,7 +14,7 @@ class AddEmployeeToProject extends React.Component {
       employees: [],
       projectName: [],
       isLoaded: false,
-      APIUrl: 'https://localhost:7150/api/employeesNotInProject'
+      APIUrl: URL + 'employeesNotInProject'
     };
   }
 

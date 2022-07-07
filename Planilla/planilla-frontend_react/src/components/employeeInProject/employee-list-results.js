@@ -28,6 +28,7 @@ import {
   TableRow,
   Typography
 } from '@mui/material';
+import { URL } from 'src/utils/url';
 
 export const EmployeeListResults = ({ employees, ...rest }) => {
   const router = useRouter();
@@ -85,7 +86,7 @@ export const EmployeeListResults = ({ employees, ...rest }) => {
   const handleClose = (agreed) => {
     setOpen(false);
     if (agreed === true) {
-      axios.delete("https://localhost:7150/api/deleteEmployeeFromProject?projectName=" + sessionStorage.getItem("project") + "&id=" + sessionStorage.getItem("employeeID")).then(() => {
+      axios.delete(URL + "deleteEmployeeFromProject?projectName=" + sessionStorage.getItem("project") + "&id=" + sessionStorage.getItem("employeeID")).then(() => {
         alert("Employee deleted from project successfully");
         window.location.reload(false);
       });
@@ -207,8 +208,8 @@ export const EmployeeListResults = ({ employees, ...rest }) => {
                             </DialogContentText>
                           </DialogContent>
                           <DialogActions>
-                          <Button onClick={handleClose} autoFocus>NO</Button>
-                            <Button onClick={() => handleClose(true)}>Yes</Button>
+                          <Button onClick={handleClose} variant="outlined" color="primary">Cancel</Button>
+                            <Button onClick={() => handleClose(true)} variant="contained" color="error">Fire Employee</Button>
                           </DialogActions>
                         </Dialog>
                       </Stack>

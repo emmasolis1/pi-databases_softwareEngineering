@@ -86,7 +86,7 @@ namespace planilla_backend_asp.net.Handlers
 
         private double GetHourlyEmployeePayment(PaymentModel employee)
         {
-            var consult = "GetLatestPayment @employee_id, @employer_id, @project_name, @date";
+            var consult = "EXECUTE GetLatestPayment @employee_id, @employer_id, @project_name, @date";
             var queryCommand = new SqlCommand(consult, connection);
             queryCommand.Parameters.AddWithValue("@project_name", employee.projectName);
             queryCommand.Parameters.AddWithValue("@employer_id", employee.employerId);
@@ -163,9 +163,9 @@ namespace planilla_backend_asp.net.Handlers
 
         private double GetDeductionFromMandatoryDeductions(double salary, string projectName, string employerId, string employeeId, string dateStartContract, string paymentDate)
         {
-            var consult = @"SELECT MandatoryDeductionName, Percentage
-                            FROM MandatoryDeductions";
+            var consult = "EXECUTE GetBasicMandatoryDeductions @salary";
             var queryCommand = new SqlCommand(consult, connection);
+            queryCommand.Parameters.AddWithValue("@salary", salary);
             DataTable resultTable = CreateTableConsult(queryCommand);
             double totalDeduction = 0;
             foreach(DataRow column in resultTable.Rows)
@@ -188,15 +188,54 @@ namespace planilla_backend_asp.net.Handlers
 
         private bool CreatePayment(PaymentModel employee)
         {
-            var command = @"INSERT INTO Payments ([ProjectName], [EmployerID], [EmployeeID], [StartDate], [PaymentDate])
-                            VALUES (@project_name, @employer_id, @employee_id, @start_date, @payment_date)";
+            var command = @"INSERT INTO Payments ([ProjectName], [EmployerID], [EmployeeID], [StartDate], [PaymentDate], [NetSalary])
+                            VALUES (@project_name, @employer_id, @employee_id, @start_date, @payment_date, @net_salary)";
             SqlCommand queryCommand = new SqlCommand(command, connection);
             queryCommand.Parameters.AddWithValue("@project_name", employee.projectName);
             queryCommand.Parameters.AddWithValue("@employer_id", employee.employerId);
             queryCommand.Parameters.AddWithValue("@employee_id", employee.employeeId);
             queryCommand.Parameters.AddWithValue("@start_date", employee.contractStartDate);
             queryCommand.Parameters.AddWithValue("@payment_date", employee.paymentDate);
+            queryCommand.Parameters.AddWithValue("@net_salary", employee.payment);
             return ExecuteCommand(queryCommand);
+        }
+
+        public List<PaymentModel> GetUserPayments(string projectName, string userID)
+        {
+            // Basic query preparation
+            string consult = @"select p.ProjectName, p.EmployerID, p.EmployeeID, p.StartDate, p.PaymentDate, p.NetSalary as GrossSalary, c.NetSalary, c.ContractType from Payments p, Contracts c where p.ProjectName = @projectName and p.EmployeeID = @UserID and c.ProjectName = @projectName and c.EmployeeID = @UserID";
+            var queryCommand = new SqlCommand(consult, connection);
+
+            // Adding the parameters
+            queryCommand.Parameters.AddWithValue("@projectName", projectName);
+            queryCommand.Parameters.AddWithValue("@UserID", userID);
+
+            // Table adapter
+            SqlDataAdapter adapter = new SqlDataAdapter(queryCommand);
+            DataTable tableConsult = new DataTable();
+
+            // Connection
+            connection.Open();
+            adapter.Fill(tableConsult);
+            connection.Close();
+
+            // Parsing data
+            List<PaymentModel> payments = new List<PaymentModel>();
+            foreach (DataRow row in tableConsult.Rows)
+            {
+                payments.Add( new PaymentModel {
+                    projectName = Convert.ToString(row["ProjectName"]),
+                    employerId = Convert.ToString(row["EmployerID"]),
+                    employeeId = Convert.ToString(row["EmployeeID"]),
+                    contractStartDate = Convert.ToString(row["StartDate"]),
+                    paymentDate = Convert.ToString(row["PaymentDate"]),
+                    netSalary = Convert.ToDouble(row["GrossSalary"]),
+                    contractType = Convert.ToString(row["ContractType"]),
+                    payment = Convert.ToDouble(row["NetSalary"])
+                });
+            }
+
+            return payments;
         }
     }
 }

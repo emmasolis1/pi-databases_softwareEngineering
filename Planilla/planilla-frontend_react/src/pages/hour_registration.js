@@ -15,6 +15,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { URL } from 'src/utils/url';
 
 const HourRegistration = () => {
   const router = useRouter();
@@ -41,7 +42,7 @@ const HourRegistration = () => {
         date: values.date,
         numberOfHours: values.numberOfHours
       };
-      axios.post('https://localhost:7150/api/hourRegistration', data)
+      axios.post(URL + 'hourRegistration', data)
         .then(function () {
           alert("Hours successfully registered, returning to project list");
           router.push('/projects_employee');

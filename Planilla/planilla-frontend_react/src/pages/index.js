@@ -9,6 +9,7 @@ import {
   FormLabel, Link, Radio, RadioGroup, TextField, Typography
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { URL } from 'src/utils/url';
 
 const Login = () => {
   const router = useRouter();
@@ -33,7 +34,7 @@ const Login = () => {
     }),
     onSubmit: () => {
       // Validate user and password, and get user ID
-      axios.get('https://localhost:7150/api/getUserData' + "?email=" + formik.values.email + "&password=" + formik.values.password)
+      axios.get(URL + 'getUserData' + "?email=" + formik.values.email + "&password=" + formik.values.password)
         .then(response => {
           if (response.data[0] != "" && response.data[1] != "") {
             // Stores the user's data on sessionStorage
