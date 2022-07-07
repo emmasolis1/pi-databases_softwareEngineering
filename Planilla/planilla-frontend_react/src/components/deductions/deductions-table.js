@@ -14,12 +14,13 @@ import {
 } from '@mui/material';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import React, { useState, useEffect } from 'react';
+import { URL } from 'src/utils/url';
 
 export function VoluntaryDeductionsTable() {
     const [deductions, setDeductions] = useState(null);
     useEffect(() => {
         const getDeductions = async () => {
-            const response = await fetch('https://localhost:7150/api/deductions');
+            const response = await fetch(URL + 'deductions');
             const data = await response.json();
             setDeductions(data);
         };

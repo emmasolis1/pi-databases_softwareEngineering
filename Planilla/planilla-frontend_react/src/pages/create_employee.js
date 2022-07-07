@@ -15,6 +15,7 @@ import {
   Typography
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { URL } from 'src/utils/url';
 
 const Register = () => {
   const router = useRouter();
@@ -104,7 +105,7 @@ const Register = () => {
         Phone: values.phone
       };
       // alert(JSON.stringify(data, null, 2));
-      axios.post('https://localhost:7150/api/employees', data);
+      axios.post(URL + 'employees', data);
       router.push('/employees');
     }
   });

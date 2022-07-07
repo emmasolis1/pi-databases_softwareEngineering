@@ -15,6 +15,7 @@ import {
   Typography
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { URL } from 'src/utils/url';
 
 const Register = () => {
   const router = useRouter();
@@ -45,7 +46,7 @@ const Register = () => {
         maxNumberOfBenefits: values.maxNumberOfBenefits,
         maxBudgetForBenefits: values.maxBudgetForBenefits
       };
-      axios.post('https://localhost:7150/api/projects', data)
+      axios.post(URL + 'projects', data)
         .then(function () {
           alert("Project successfully created, returning to project list");
           router.push('/projects');

@@ -29,6 +29,7 @@ import {
   TableRow,
   Typography
 } from '@mui/material';
+import { URL } from 'src/utils/url';
 
 export const SpecificBenefitEmployeeListResults = ({ benefits, ...rest }) => {
   const router = useRouter();
@@ -87,7 +88,7 @@ export const SpecificBenefitEmployeeListResults = ({ benefits, ...rest }) => {
       startDate: "",
       endDate: ""
     };
-    axios.post('https://localhost:7150/api/requestBenefit', data)
+    axios.post(URL + 'requestBenefit', data)
       .then(function () {
         alert("Benefit successfully established");
         window.location.reload(false);

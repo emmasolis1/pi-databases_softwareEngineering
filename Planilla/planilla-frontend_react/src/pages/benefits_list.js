@@ -5,13 +5,14 @@ import { Box, Container } from '@mui/material';
 import { SpecificBenefitEmployeeListResults } from '../components/specificBenefitEmployee/specific-benefitEmployee-list-results';
 import { SpecificBenefitEmployeeListToolbar } from '../components/specificBenefitEmployee/specific-benefitEmployee-list-toolbar';
 import { DashboardLayout } from '../components/dashboard-layout';
+import { URL } from 'src/utils/url';
 
 class BenefitsList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       benefits: [],
-      APIUrl: 'https://localhost:7150/api/benefitsNotBeingUsedByEmployee',
+      APIUrl: URL + 'benefitsNotBeingUsedByEmployee',
     };
   }
   componentDidMount() {

@@ -19,6 +19,7 @@ import { useFormik } from 'formik';
 import axios from 'axios';
 import * as Yup from 'yup';
 import { useRouter } from 'next/router';
+import { URL } from 'src/utils/url';
 
 export const ProjectProfileDetails = ({ project, ...props }) => {
   const router = useRouter();
@@ -54,7 +55,7 @@ export const ProjectProfileDetails = ({ project, ...props }) => {
         maxNumberOfBenefits: values.maxNumberOfBenefits,
         maxBudgetForBenefits: values.maxBudgetForBenefits
       };
-      axios.put('https://localhost:7150/api/specificProject', data).then((response) => {
+      axios.put(URL + 'specificProject', data).then((response) => {
         alert("Project updated successfully");
         router.push('/specificProject');
       });
@@ -70,7 +71,7 @@ export const ProjectProfileDetails = ({ project, ...props }) => {
   const handleClose = (agreed) => {
     setOpen(false);
     if (agreed === true) {
-      axios.delete("https://localhost:7150/api/deleteProject?projectName=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID")).then(() => {
+      axios.delete(URL + "deleteProject?projectName=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID")).then(() => {
         alert("Project deleted successfully");
         router.push('/projects');
       });

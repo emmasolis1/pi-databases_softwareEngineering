@@ -5,6 +5,7 @@ import { ProjectProfile } from '../components/specificProject/project-profile';
 import { ProjectProfileDetails } from '../components/specificProject/project-profile-details';
 import { DashboardLayout } from '../components/dashboard-layout';
 import axios from 'axios';
+import { URL } from 'src/utils/url';
 
 class SpecificProject extends React.Component {
   constructor(props) {
@@ -12,7 +13,7 @@ class SpecificProject extends React.Component {
     this.state = {
       project: [],
       isLoaded: false,
-      APIUrl: 'https://localhost:7150/api/specificProject',
+      APIUrl: URL + 'specificProject',
     };
   }
 

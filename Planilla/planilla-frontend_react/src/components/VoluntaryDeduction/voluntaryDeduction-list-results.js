@@ -28,6 +28,7 @@ import {
     TableRow,
     Typography
 } from '@mui/material';
+import { URL } from 'src/utils/url';
 
 export const VoluntaryDeductionListResults = ({ voluntaryDeductions, ...rest }) => {
   const router = useRouter();
@@ -84,7 +85,7 @@ export const VoluntaryDeductionListResults = ({ voluntaryDeductions, ...rest }) 
  const handleClose = (agreed) => {
     setOpen(false);
     if (agreed === true) {
-      axios.delete("https://localhost:7150/api/deleteVoluntaryDeduction?voluntaryDeductionName=" + sessionStorage.getItem("voluntaryDeduction") + "&projectName=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID")).then(() => {
+      axios.delete(URL + "deleteVoluntaryDeduction?voluntaryDeductionName=" + sessionStorage.getItem("voluntaryDeduction") + "&projectName=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID")).then(() => {
         alert("Voluntary deduction deleted successfully");
         window.location.reload(false);
       });

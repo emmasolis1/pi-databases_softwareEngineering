@@ -5,13 +5,14 @@ import { Box, Container } from '@mui/material';
 import { BenefitListResults } from '../components/benefit/benefit-list-results';
 import { BenefitListToolbar } from '../components/benefit/benefit-list-toolbar';
 import { DashboardLayout } from '../components/dashboard-layout';
+import { URL } from 'src/utils/url';
 
 class Benefits extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       benefits: [],
-      APIUrl: 'https://localhost:7150/api/benefits',
+      APIUrl: URL + 'benefits',
     };
   }
   componentDidMount() {

@@ -28,6 +28,7 @@ import {
   TableRow,
   Typography
 } from '@mui/material';
+import { URL } from 'src/utils/url';
 
 export const EmployeeListResults = ({ employees, ...rest }) => {
   const router = useRouter();
@@ -85,7 +86,7 @@ export const EmployeeListResults = ({ employees, ...rest }) => {
   const handleClose = (agreed) => {
     setOpen(false);
     if (agreed === true) {
-      axios.delete("https://localhost:7150/api/deleteEmployee?id=" + sessionStorage.getItem("employeeID")).then(() => {
+      axios.delete(URL + "deleteEmployee?id=" + sessionStorage.getItem("employeeID")).then(() => {
         alert("Employee deleted successfully");
         window.location.reload(false);
       });

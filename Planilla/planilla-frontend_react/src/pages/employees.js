@@ -6,19 +6,20 @@ import { Box, Container } from '@mui/material';
 import { EmployeeListResults } from '../components/employee/employee-list-results';
 import { EmployeeListToolbar } from '../components/employee/employee-list-toolbar';
 import { DashboardLayout } from '../components/dashboard-layout';
+import { URL } from 'src/utils/url';
 
 class Employees extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       employees: [],
-      APIUrl: 'https://localhost:7150/api/employees',
+      APIUrl: URL + 'employees',
     };
   }
 
   componentDidMount() {
     // Using Fetch(), JavaScript method.
-    // fetch('https://localhost:7150/api/employees')
+    // fetch(URL + 'employees')
     //   .then(response => response.json())
     //   .then(data => this.setState({ employees: data }));
 
