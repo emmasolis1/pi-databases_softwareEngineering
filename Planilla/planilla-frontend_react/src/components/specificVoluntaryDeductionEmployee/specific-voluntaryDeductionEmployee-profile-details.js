@@ -27,7 +27,7 @@ export const SpecificVoluntaryDeductionEmployeeProfileDetails = ({ voluntaryDedu
       projectName: voluntaryDeduction.projectName,
       employerID: voluntaryDeduction.employerID,
       description: voluntaryDeduction.description,
-      cost: '',
+      cost: voluntaryDeduction.cost,
     },
     validationSchema: Yup.object({
       cost: Yup

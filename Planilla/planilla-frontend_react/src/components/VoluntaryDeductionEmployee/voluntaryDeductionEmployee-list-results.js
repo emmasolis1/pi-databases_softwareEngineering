@@ -105,6 +105,15 @@ export const VoluntaryDeductionEmployeeListResults = ({ voluntaryDeductions, ...
                   Description
                 </TableCell>
                 <TableCell>
+                  Value
+                </TableCell>
+                <TableCell>
+                  Start date
+                </TableCell>
+                <TableCell>
+                  End date
+                </TableCell>
+                <TableCell>
                   Actions
                 </TableCell>
               </TableRow>
@@ -146,6 +155,15 @@ export const VoluntaryDeductionEmployeeListResults = ({ voluntaryDeductions, ...
                   </TableCell>
                   <TableCell>
                     {voluntaryDeduction.description}
+                  </TableCell>
+                  <TableCell>
+                    {voluntaryDeduction.cost}
+                  </TableCell>
+                  <TableCell>
+                    {voluntaryDeduction.startDate}
+                  </TableCell>
+                  <TableCell>
+                    {voluntaryDeduction.endingDate}
                   </TableCell>
                   <TableCell>
                   <Stack direction="row" spacing={1}>

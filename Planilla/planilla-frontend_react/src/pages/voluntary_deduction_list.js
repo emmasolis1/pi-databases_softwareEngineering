@@ -11,7 +11,7 @@ class VoluntaryDeductionsList extends React.Component {
     super(props);
     this.state = {
       voluntaryDeductions: [],
-      APIUrl: 'https://localhost:7150/api/voluntaryDeductionsList',
+      APIUrl: 'https://localhost:7150/api/voluntaryDeductionsNotBeingUsedByEmployee',
     };
   }
   componentDidMount() {    

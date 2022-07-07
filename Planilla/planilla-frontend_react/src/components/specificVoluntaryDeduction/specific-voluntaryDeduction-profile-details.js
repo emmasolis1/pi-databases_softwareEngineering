@@ -28,12 +28,14 @@ export const SpecificVoluntaryDeductionProfileDetails = ({ voluntaryDeduction, .
       projectName: voluntaryDeduction.projectName,
       employerID: voluntaryDeduction.employerID,
       description: voluntaryDeduction.description,
-      cost: '',
+      cost: voluntaryDeduction.cost,
     },
     validationSchema: Yup.object({
       description: Yup
         .string()
-        .max(255)
+        .max(255),
+      cost: Yup
+        .string(),
     }),
     onSubmit: values => {
       var data = {
@@ -41,7 +43,7 @@ export const SpecificVoluntaryDeductionProfileDetails = ({ voluntaryDeduction, .
         projectName: voluntaryDeduction.projectName,
         employerID: voluntaryDeduction.employerID,
         description: values.description,
-        cost: ""
+        cost: values.cost
       };
       axios.put('https://localhost:7150/api/specificVoluntaryDeduction', data).then((response) => {
         alert("Voluntary Deduction updated successfully");
@@ -88,6 +90,24 @@ const handleClickOpen = () => {
               md={6}
               xs={12}
             >
+            </Grid>
+           <Grid
+              item
+              md={6}
+              xs={12}
+            >
+              <TextField
+                fullWidth
+                label="Cost"
+                margin="none"
+                value={formik.values.cost}
+                name="cost"
+                error={Boolean(formik.touched.cost && formik.errors.cost)}
+                helperText={formik.touched.cost && formik.errors.cost}
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                variant="outlined"
+              />
             </Grid>
             <Grid
               item

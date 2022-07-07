@@ -75,11 +75,32 @@ export const SpecificVoluntaryDeductionEmployeeListResults = ({ voluntaryDeducti
     setPage(newPage);
   };
 
-  const viewVoluntaryDeductionEmployee = (voluntaryDeductionName) => {
-    sessionStorage.setItem("voluntaryDeduction", voluntaryDeductionName);
-    router.push('/specificVoluntaryDeductionEmployee');
+  const addVoluntaryDeduction = (voluntaryDeduction) => {
+    var data = {
+      voluntaryDeductionName: voluntaryDeduction.voluntaryDeductionName,
+      projectName: voluntaryDeduction.projectName,
+      employerID: voluntaryDeduction.employerID,
+      employeeID: sessionStorage.getItem("employeeID"),
+      description: voluntaryDeduction.description,
+      cost: voluntaryDeduction.cost,
+      startDate: "",
+      endDate: ""
+    };
+    axios.post('https://localhost:7150/api/requestVoluntaryDeduction', data)
+      .then(function () {
+        alert("Voluntary Deduction successfully established");
+        window.location.reload(false);
+      })
+      .catch(function (error) {
+        if (error.response) {
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.header);
+          alert("Error: Unknown error occurred");
+        }
+        window.location.reload(false);
+      });
   }
-
   return (
     <Card {...rest}>
       <PerfectScrollbar>
@@ -105,7 +126,7 @@ export const SpecificVoluntaryDeductionEmployeeListResults = ({ voluntaryDeducti
                   Description
                 </TableCell>
                 <TableCell>
-                  Cost
+                  Value
                 </TableCell>
                 <TableCell>
                   Actions
@@ -155,7 +176,7 @@ export const SpecificVoluntaryDeductionEmployeeListResults = ({ voluntaryDeducti
                   </TableCell>
                   <TableCell>
                   <Stack direction="row" spacing={1}>
-                  <IconButton aria-label="edit" color="primary" onClick={() => viewVoluntaryDeductionEmployee(voluntaryDeduction.voluntaryDeductionName)}>
+                  <IconButton aria-label="edit" color="primary" onClick={() => addVoluntaryDeduction(voluntaryDeduction)}>
                   <ReadMoreIcon />
                   </IconButton>
                   </Stack>
