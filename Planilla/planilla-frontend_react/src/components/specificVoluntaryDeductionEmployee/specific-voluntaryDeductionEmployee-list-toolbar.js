@@ -27,22 +27,9 @@ export const SpecificVoluntaryDeductionEmployeeListToolbar = (props) => (
       >
         Voluntary Deduction
       </Typography>
-   <Box sx={{ m: 1 }}>
-        <NextLink
-          href="/voluntary_deduction_list"
-          passHref
-        >
-          <Button
-            color="primary"
-            variant="contained"
-          >
-            Employee Voluntary Deduction List
-          </Button>
-        </NextLink>
       </Box>
-    </Box>
-    <Box sx={{ mt: 3 }}>
-      <Card>
+        <Box sx={{ m: 3 }}>
+        <Card>
         <CardContent>
           <Box sx={{ maxWidth: 500 }}>
             <TextField
@@ -59,7 +46,7 @@ export const SpecificVoluntaryDeductionEmployeeListToolbar = (props) => (
                   </InputAdornment>
                 )
               }}
-              placeholder="Search Voluntary Deduction"
+              placeholder="Search voluntary deduction"
               variant="outlined"
             />
           </Box>

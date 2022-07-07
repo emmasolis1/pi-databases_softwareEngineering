@@ -6,7 +6,7 @@ import { VoluntaryDeductionEmployeeListResults } from '../components/voluntaryDe
 import { VoluntaryDeductionEmployeeListToolbar } from '../components/voluntaryDeductionEmployee/voluntaryDeductionEmployee-list-toolbar';
 import { DashboardLayout } from '../components/dashboard-layout';
 
-class VoluntaryDeductions extends React.Component {
+class VoluntaryDeductionsEmployee extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -47,10 +47,10 @@ class VoluntaryDeductions extends React.Component {
   }
 }
 
-VoluntaryDeductions.getLayout = (page) => (
+VoluntaryDeductionsEmployee.getLayout = (page) => (
   <DashboardLayout>
     {page}
   </DashboardLayout>
 );
 
-export default VoluntaryDeductions;
+export default VoluntaryDeductionsEmployee;

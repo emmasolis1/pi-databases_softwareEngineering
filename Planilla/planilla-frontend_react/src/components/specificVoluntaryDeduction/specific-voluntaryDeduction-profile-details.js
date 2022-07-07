@@ -65,6 +65,7 @@ const handleClickOpen = () => {
       });
     }
   };
+
   return (
     <form
       onSubmit={formik.handleSubmit}
@@ -79,19 +80,20 @@ const handleClickOpen = () => {
             container
             spacing={3}
           >
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
-            </Grid>
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
-            </Grid>
            <Grid
+              item
+              md={6}
+              xs={12}
+            >
+            <TextField
+                fullWidth
+                label="Employer ID"
+                margin="none"
+                value={formik.values.employerID}
+                disabled={true}
+              />
+            </Grid>
+            <Grid
               item
               md={6}
               xs={12}

@@ -27,8 +27,8 @@ namespace planilla_backend_asp.net.Handlers
 
     public bool CreateVoluntaryDeductions(VoluntaryDeductionsModel voluntaryDeduction)
     {
-      var consult = @"INSERT INTO VoluntaryDeductions ([VoluntaryDeductionName], [ProjectName], [EmployerID], [Description], [isActive], [Cost]) 
-                      VALUES (@voluntaryDeductionName, @projectName, @employerID, @description, 0, @cost)";
+      var consult = @"INSERT INTO VoluntaryDeductions ([VoluntaryDeductionName], [ProjectName], [EmployerID], [Description],  [Cost], [isActive]) 
+                      VALUES (@voluntaryDeductionName, @projectName, @employerID, @description, @cost, 0)";
       var queryCommand = new SqlCommand(consult, connection);
 
       // Insertion of key attributes
@@ -110,12 +110,13 @@ namespace planilla_backend_asp.net.Handlers
 
     public void UpdateVoluntaryDeductions(VoluntaryDeductionsModel voluntaryDeduction)
     {
-      string consult = "update VoluntaryDeductions set [Description] = @description where [VoluntaryDeductionName] = @voluntaryDeductionName AND [projectName] = @projectName AND [employerID] = @employerID";
+      string consult = "update VoluntaryDeductions set [Description] = @description, [Cost] = @cost where [VoluntaryDeductionName] = @voluntaryDeductionName AND [projectName] = @projectName AND [employerID] = @employerID";
       SqlCommand queryCommand = new SqlCommand(consult, connection);
       queryCommand.Parameters.AddWithValue("@voluntaryDeductionName", voluntaryDeduction.voluntaryDeductionName);
       queryCommand.Parameters.AddWithValue("@projectName", voluntaryDeduction.projectName);
       queryCommand.Parameters.AddWithValue("@employerID", voluntaryDeduction.employerID);
       queryCommand.Parameters.AddWithValue("@description", voluntaryDeduction.description);
+      queryCommand.Parameters.AddWithValue("@cost", voluntaryDeduction.cost);
       // Execute command
       connection.Open();
       queryCommand.ExecuteNonQuery();
@@ -123,10 +124,10 @@ namespace planilla_backend_asp.net.Handlers
     }
     public VoluntaryDeductionsModel GetSpecificVoluntaryDeductionInfo(string voluntaryDeductionName, string projectName, string employerID)
     {
-      string consult = @"SELECT VoluntaryDeductionName, ProjectName, EmployerID, Description
+      string consult = @"SELECT VoluntaryDeductionName, ProjectName, EmployerID, Description, Cost 
                       FROM VoluntaryDeductions
                       WHERE VoluntaryDeductionName = @voluntaryDeductionName and EmployerID = @employerID and ProjectName = @projectName";
-      var voluntaryDeduction = new VoluntaryDeductionsModel();
+      var voluntaryDeduction = new VoluntaryDeductionsModel();  
       SqlCommand queryCommand = new SqlCommand(consult, connection);
       queryCommand.Parameters.AddWithValue("@voluntaryDeductionName", voluntaryDeductionName);
       queryCommand.Parameters.AddWithValue("@projectName", projectName);
@@ -139,7 +140,7 @@ namespace planilla_backend_asp.net.Handlers
         voluntaryDeduction.projectName = Convert.ToString(column["ProjectName"]);
         voluntaryDeduction.employerID = Convert.ToString(column["EmployerID"]);
         voluntaryDeduction.description = Convert.ToString(column["Description"]);
-        voluntaryDeduction.cost = "";
+        voluntaryDeduction.cost = Convert.ToString(column["cost"]);
       };
       return voluntaryDeduction;
     }

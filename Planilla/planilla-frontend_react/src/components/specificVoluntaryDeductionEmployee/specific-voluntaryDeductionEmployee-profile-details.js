@@ -5,11 +5,6 @@ import {
   Card,
   CardContent,
   CardHeader,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
   Divider,
   Grid,
   TextField,
@@ -29,18 +24,13 @@ export const SpecificVoluntaryDeductionEmployeeProfileDetails = ({ voluntaryDedu
       description: voluntaryDeduction.description,
       cost: voluntaryDeduction.cost,
     },
-    validationSchema: Yup.object({
-      cost: Yup
-        .string()
-        .max(255)
-    }),
     onSubmit: values => {
       var data = {
         voluntaryDeductionName: voluntaryDeduction.voluntaryDeductionName,
         projectName: voluntaryDeduction.projectName,
         employerID: voluntaryDeduction.employerID,
         description: voluntaryDeduction.description,
-        cost: values.cost,
+        cost: voluntaryDeduction.cost,
       };
       axios.put('https://localhost:7150/api/specificVoluntaryDeductionEmployee', data).then((response) => {
         alert("Voluntary Deduction selected successfully");
@@ -80,19 +70,18 @@ export const SpecificVoluntaryDeductionEmployeeProfileDetails = ({ voluntaryDedu
               md={12}
               xs={12}
             >
-
-              <TextField
-                fullWidth
-                label="Cost"
-                margin="none"
-                value={formik.values.cost}
-                name="cost"
-                error={Boolean(formik.touched.cost && formik.errors.cost)}
-                helperText={formik.touched.cost && formik.errors.cost}
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                variant="outlined"
-              />
+              {/*<TextField*/}
+              {/*  fullWidth*/}
+              {/*  label="Cost"*/}
+              {/*  margin="none"*/}
+              {/*  value={formik.values.cost}*/}
+              {/*  name="cost"*/}
+              {/*  error={Boolean(formik.touched.cost && formik.errors.cost)}*/}
+              {/*  helperText={formik.touched.cost && formik.errors.cost}*/}
+              {/*  onBlur={formik.handleBlur}*/}
+              {/*  onChange={formik.handleChange}*/}
+              {/*  variant="outlined"*/}
+              {/*/>*/}
             </Grid>
           </Grid>
         </CardContent>

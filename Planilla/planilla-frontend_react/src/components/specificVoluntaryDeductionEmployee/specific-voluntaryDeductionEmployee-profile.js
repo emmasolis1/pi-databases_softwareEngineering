@@ -7,7 +7,6 @@ import {
   Divider,
   Typography
 } from '@mui/material';
-import { useRouter } from 'next/router';
 
 export const SpecificVoluntaryDeductionEmployeeProfile = ({voluntaryDeduction, ...props}) => {
   return (

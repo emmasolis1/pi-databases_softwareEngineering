@@ -9,6 +9,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { getInitials } from '../../utils/get-initials';
 import IconButton from '@mui/material/IconButton';
+import AddBoxIcon from '@mui/icons-material/AddBox';
 import ReadMoreIcon from '@mui/icons-material/ReadMore';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
@@ -16,17 +17,17 @@ import { useRouter } from 'next/router';
 import Stack from '@mui/material/Stack';
 import { useState } from 'react';
 import {
-    Avatar,
-    Box,
-    Card,
-    Checkbox,
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TablePagination,
-    TableRow,
-    Typography
+  Avatar,
+  Box,
+  Card,
+  Checkbox,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TablePagination,
+  TableRow,
+  Typography
 } from '@mui/material';
 
 export const SpecificVoluntaryDeductionEmployeeListResults = ({ voluntaryDeductions, ...rest }) => {
@@ -101,6 +102,7 @@ export const SpecificVoluntaryDeductionEmployeeListResults = ({ voluntaryDeducti
         window.location.reload(false);
       });
   }
+
   return (
     <Card {...rest}>
       <PerfectScrollbar>
@@ -176,7 +178,7 @@ export const SpecificVoluntaryDeductionEmployeeListResults = ({ voluntaryDeducti
                   </TableCell>
                   <TableCell>
                   <Stack direction="row" spacing={1}>
-                  <IconButton aria-label="edit" color="primary" onClick={() => addVoluntaryDeduction(voluntaryDeduction)}>
+                  <IconButton aria-label="add" color="primary" onClick={() => addVoluntaryDeduction(voluntaryDeduction)}>
                   <ReadMoreIcon />
                   </IconButton>
                   </Stack>

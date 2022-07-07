@@ -30,7 +30,7 @@ class SpecificVoluntaryDeductionEmployee extends React.Component {
         <>
           <Head>
             <title>
-              Voluntary Deduction Info | Ta' Bueno
+              Voluntary Deduction | Ta' Bueno
             </title>
           </Head>
           <Box
