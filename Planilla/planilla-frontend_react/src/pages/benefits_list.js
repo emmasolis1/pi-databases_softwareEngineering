@@ -15,6 +15,7 @@ class BenefitsList extends React.Component {
       APIUrl: URL + 'benefitsNotBeingUsedByEmployee',
     };
   }
+
   componentDidMount() {
     axios.get(this.state.APIUrl + "?projectName=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID") + "&employeeID=" + sessionStorage.getItem("employeeID")).then(response => {
       this.setState({ benefits: response.data });

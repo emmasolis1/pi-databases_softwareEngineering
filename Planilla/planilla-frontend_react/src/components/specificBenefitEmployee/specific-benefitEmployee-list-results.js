@@ -1,26 +1,15 @@
 import * as React from 'react';
 import axios from 'axios';
-import Button from '@mui/material/Button';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 import { getInitials } from '../../utils/get-initials';
 import IconButton from '@mui/material/IconButton';
 import AddBoxIcon from '@mui/icons-material/AddBox';
-import ReadMoreIcon from '@mui/icons-material/ReadMore';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
-import { useRouter } from 'next/router';
-import Stack from '@mui/material/Stack';
 import { useState } from 'react';
 import {
   Avatar,
   Box,
   Card,
-  Checkbox,
   Table,
   TableBody,
   TableCell,
@@ -32,41 +21,8 @@ import {
 import { URL } from 'src/utils/url';
 
 export const SpecificBenefitEmployeeListResults = ({ benefits, ...rest }) => {
-  const router = useRouter();
-  const [selectedBenefitIds, setSelectedBenefitIds] = useState([]);
   const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(0);
-
-  const handleSelectAll = (event) => {
-    let newSelectedBenefitIds;
-
-    if (event.target.checked) {
-      newSelectedBenefitIds = benefits.map((benefit) => benefit.benefitName);
-    } else {
-      newSelectedBenefitIds = [];
-    }
-    setSelectedBenefitIds(newSelectedBenefitIds);
-  };
-
-  const handleSelectOne = (event, id) => {
-    const selectedIndex = selectedBenefitIds.indexOf(id);
-    let newSelectedBenefitIds = [];
-
-    if (selectedIndex === -1) {
-      newSelectedBenefitIds = newSelectedBenefitIds.concat(selectedBenefitIds, id);
-    } else if (selectedIndex === 0) {
-      newSelectedBenefitIds = newSelectedBenefitIds.concat(selectedBenefitIds.slice(1));
-    } else if (selectedIndex === selectedBenefitIds.length - 1) {
-      newSelectedBenefitIds = newSelectedBenefitIds.concat(selectedBenefitIds.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelectedBenefitIds = newSelectedBenefitIds.concat(
-        selectedBenefitIds.slice(0, selectedIndex),
-        selectedBenefitIds.slice(selectedIndex + 1)
-      );
-    }
-
-    setSelectedBenefitIds(newSelectedBenefitIds);
-  };
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
@@ -95,9 +51,6 @@ export const SpecificBenefitEmployeeListResults = ({ benefits, ...rest }) => {
       })
       .catch(function (error) {
         if (error.response) {
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.header);
           alert("Error: Unknown error occurred");
         }
         window.location.reload(false);
@@ -111,17 +64,6 @@ export const SpecificBenefitEmployeeListResults = ({ benefits, ...rest }) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell padding="checkbox">
-                  <Checkbox
-                    checked={selectedBenefitIds.length === benefits.length}
-                    color="primary"
-                    indeterminate={
-                      selectedBenefitIds.length > 0
-                      && selectedBenefitIds.length < benefits.length
-                    }
-                    onChange={handleSelectAll}
-                  />
-                </TableCell>
                 <TableCell>
                   Name
                 </TableCell>
@@ -141,15 +83,7 @@ export const SpecificBenefitEmployeeListResults = ({ benefits, ...rest }) => {
                 <TableRow
                   hover
                   key={benefit.benefitName + benefit.projectName + benefit.employerID}
-                  selected={selectedBenefitIds.indexOf(benefit.benefitName) !== -1}
                 >
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      checked={selectedBenefitIds.indexOf(benefit.benefitName) !== -1}
-                      onChange={(event) => handleSelectOne(event, benefit.benefitName)}
-                      value="true"
-                    />
-                  </TableCell>
                   <TableCell>
                     <Box
                       sx={{
@@ -175,7 +109,7 @@ export const SpecificBenefitEmployeeListResults = ({ benefits, ...rest }) => {
                     {benefit.description}
                   </TableCell>
                   <TableCell>
-                    {benefit.cost}
+                    {"$" + benefit.cost}
                   </TableCell>
                   <TableCell>
                     <IconButton aria-label="add" color="primary" onClick={() => addBenefit(benefit)}>

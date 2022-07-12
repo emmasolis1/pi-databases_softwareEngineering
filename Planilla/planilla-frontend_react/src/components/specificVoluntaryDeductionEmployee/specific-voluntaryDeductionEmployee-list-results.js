@@ -1,26 +1,16 @@
 import * as React from 'react';
 import axios from 'axios';
-import Button from '@mui/material/Button';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 import { getInitials } from '../../utils/get-initials';
 import IconButton from '@mui/material/IconButton';
-import AddBoxIcon from '@mui/icons-material/AddBox';
 import ReadMoreIcon from '@mui/icons-material/ReadMore';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
-import { useRouter } from 'next/router';
 import Stack from '@mui/material/Stack';
 import { useState } from 'react';
 import {
   Avatar,
   Box,
   Card,
-  Checkbox,
   Table,
   TableBody,
   TableCell,
@@ -29,43 +19,11 @@ import {
   TableRow,
   Typography
 } from '@mui/material';
+import { URL } from 'src/utils/url';
 
 export const SpecificVoluntaryDeductionEmployeeListResults = ({ voluntaryDeductions, ...rest }) => {
-  const router = useRouter();
-  const [selectedVoluntaryDeductionIds, setSelectedVoluntaryDeductionIds] = useState([]);
   const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(0);
-
-  const handleSelectAll = (event) => {
-    let newSelectedVoluntaryDeductionIds;
-
-    if (event.target.checked) {
-      newSelectedVoluntaryDeductionIds = voluntaryDeductions.map((voluntaryDeduction) => voluntaryDeduction.voluntaryDeductionName);
-    } else {
-      newSelectedVoluntaryDeductionIds = [];
-    }
-    setSelectedVoluntaryDeductionIds(newSelectedVoluntaryDeductionIds);
-  };
-
-  const handleSelectOne = (event, id) => {
-    const selectedIndex = selectedVoluntaryDeductionIds.indexOf(id);
-    let newSelectedVoluntaryDeductionIds = [];
-
-    if (selectedIndex === -1) {
-      newSelectedVoluntaryDeductionIds = newSelectedVoluntaryDeductionIds.concat(selectedVoluntaryDeductionIds, id);
-    } else if (selectedIndex === 0) {
-      newSelectedVoluntaryDeductionIds = newSelectedVoluntaryDeductionIds.concat(selectedVoluntaryDeductionIds.slice(1));
-    } else if (selectedIndex === selectedVoluntaryDeductionIds.length - 1) {
-      newSelectedVoluntaryDeductionIds = newSelectedVoluntaryDeductionIds.concat(selectedVoluntaryDeductionIds.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelectedVoluntaryDeductionIds = newSelectedVoluntaryDeductionIds.concat(
-        selectedVoluntaryDeductionIds.slice(0, selectedIndex),
-        selectedVoluntaryDeductionIds.slice(selectedIndex + 1)
-      );
-    }
-
-      setSelectedVoluntaryDeductionIds(newSelectedVoluntaryDeductionIds);
-  };
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
@@ -87,16 +45,13 @@ export const SpecificVoluntaryDeductionEmployeeListResults = ({ voluntaryDeducti
       startDate: "",
       endingDate: ""
     };
-    axios.post('https://localhost:7150/api/requestVoluntaryDeduction', data)
+    axios.post(URL + 'requestVoluntaryDeduction', data)
       .then(function () {
         alert("Voluntary Deduction successfully established");
         window.location.reload(false);
       })
       .catch(function (error) {
         if (error.response) {
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.header);
           alert("Error: Unknown error occurred");
         }
         window.location.reload(false);
@@ -110,17 +65,6 @@ export const SpecificVoluntaryDeductionEmployeeListResults = ({ voluntaryDeducti
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell padding="checkbox">
-                  <Checkbox
-                    checked={selectedVoluntaryDeductionIds.length === voluntaryDeductions.length}
-                    color="primary"
-                    indeterminate={
-                      selectedVoluntaryDeductionIds.length > 0
-                      && selectedVoluntaryDeductionIds.length < voluntaryDeductions.length
-                    }
-                    onChange={handleSelectAll}
-                  />
-                </TableCell>
                 <TableCell>
                   Name
                 </TableCell>
@@ -140,15 +84,7 @@ export const SpecificVoluntaryDeductionEmployeeListResults = ({ voluntaryDeducti
                 <TableRow
                   hover
                   key={voluntaryDeduction.voluntaryDeductionName + voluntaryDeduction.projectName + voluntaryDeduction.employerID}
-                  selected={selectedVoluntaryDeductionIds.indexOf(voluntaryDeduction.voluntaryDeductionName) !== -1}
                 >
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      checked={selectedVoluntaryDeductionIds.indexOf(voluntaryDeduction.voluntaryDeductionName) !== -1}
-                      onChange={(event) => handleSelectOne(event, voluntaryDeduction.voluntaryDeductionName)}
-                      value="true"
-                    />
-                  </TableCell>
                   <TableCell>
                     <Box
                       sx={{
@@ -174,7 +110,7 @@ export const SpecificVoluntaryDeductionEmployeeListResults = ({ voluntaryDeducti
                     {voluntaryDeduction.description}
                   </TableCell>
                   <TableCell>
-                    {voluntaryDeduction.cost}
+                    {"$" + voluntaryDeduction.cost}
                   </TableCell>
                   <TableCell>
                   <Stack direction="row" spacing={1}>

@@ -15,6 +15,7 @@ class Benefits extends React.Component {
       APIUrl: URL + 'benefits',
     };
   }
+
   componentDidMount() {
     axios.get(this.state.APIUrl + "?project=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID")).then(response => {
       this.setState({ benefits: response.data });

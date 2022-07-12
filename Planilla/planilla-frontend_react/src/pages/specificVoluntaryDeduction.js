@@ -13,7 +13,7 @@ class SpecificVoluntaryDeduction extends React.Component {
     this.state = {
       voluntaryDeduction: [],
       isLoaded: false,
-      APIUrl: URL + 'specificVoluntaryDeduction',
+      APIUrl: URL + 'specificVoluntaryDeduction'
     };
   }
 

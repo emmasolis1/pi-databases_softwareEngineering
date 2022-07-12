@@ -1,8 +1,8 @@
 import Head from 'next/head';
 import React from 'react';
 import { Box, Container, Grid, Typography } from '@mui/material';
-import { SpecificBenefitProfile } from '../components/specificBenefit/specifict-benefit-profile';
-import { SpecificBenefitProfileDetails } from '../components/specificBenefit/specifict-benefit-profile-details';
+import { SpecificBenefitProfile } from '../components/specificBenefit/specific-benefit-profile';
+import { SpecificBenefitProfileDetails } from '../components/specificBenefit/specific-benefit-profile-details';
 import { DashboardLayout } from '../components/dashboard-layout';
 import axios from 'axios';
 import { URL } from 'src/utils/url';
@@ -13,12 +13,12 @@ class SpecificBenefit extends React.Component {
     this.state = {
       benefit: [],
       isLoaded: false,
-      APIUrl: URL + 'specificBenefit',
+      APIUrl: URL + 'specificBenefit'
     };
   }
 
   componentDidMount() {
-    axios.get(this.state.APIUrl + "?benefitName=" + sessionStorage.getItem("benefit") +"&projectName=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID")).then(response => {
+    axios.get(this.state.APIUrl + "?benefitName=" + sessionStorage.getItem("benefit") + "&projectName=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID")).then(response => {
         this.setState({ isLoaded: true, benefit: response.data });
     });
   }

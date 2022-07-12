@@ -34,8 +34,6 @@ export const ProjectProfileDetails = ({ project, ...props }) => {
   useEffect(() => {
     let APIUrl = URL + 'employeePayments?projectName=' + sessionStorage.getItem('project') + '&userID='+ sessionStorage.getItem('userID');
     axios.get(APIUrl).then(response => {
-      console.log(response);
-      console.log(response.data);
       setPayments(response.data);
     }).catch(error => {
       console.log(error);

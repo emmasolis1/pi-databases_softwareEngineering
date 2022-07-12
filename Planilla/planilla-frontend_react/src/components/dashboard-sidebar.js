@@ -92,7 +92,7 @@ export const DashboardSidebar = (props) => {
   const [project, setProject] = React.useState(null);
   const [projects, setProjects] = React.useState([]);
   const open2 = Boolean(project);
-  const [isEmployee, setIsEmployee] = React.useState(false);
+  const [isEmployer, setIsEmployer] = React.useState(false);
   const [currentProject, setCurrentProject] = React.useState('');
   
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'), {
@@ -111,9 +111,9 @@ export const DashboardSidebar = (props) => {
       }
 
       if (sessionStorage.getItem('userType') === '0') {
-        setIsEmployee(true);
+        setIsEmployer(true);
       } else {
-        setIsEmployee(false);
+        setIsEmployer(false);
       }
       setCurrentProject(sessionStorage.getItem('project'));
     },
@@ -391,7 +391,7 @@ export const DashboardSidebar = (props) => {
         }}
         variant="permanent"
       >
-        {isEmployee ? content : employeeContent}
+        {isEmployer ? content : employeeContent}
       </Drawer>
     );
   }
@@ -411,7 +411,7 @@ export const DashboardSidebar = (props) => {
       sx={{ zIndex: (theme) => theme.zIndex.appBar + 100 }}
       variant="temporary"
     >
-      {isEmployee ? content : employeeContent}
+      {isEmployer ? content : employeeContent}
     </Drawer>
   );
 };
