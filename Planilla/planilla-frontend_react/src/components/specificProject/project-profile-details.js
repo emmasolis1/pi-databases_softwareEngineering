@@ -118,15 +118,32 @@ export const ProjectProfileDetails = ({ project, ...props }) => {
               <TextField
                 fullWidth
                 label="Payment Method"
-                margin="none"
-                value={formik.values.paymentMethod}
                 name="paymentMethod"
-                error={Boolean(formik.touched.paymentMethod && formik.errors.paymentMethod)}
-                helperText={formik.touched.paymentMethod && formik.errors.paymentMethod}
-                onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
+                select
+                SelectProps={{ native: true }}
+                value={formik.values.paymentMethod}
                 variant="outlined"
-              />
+              >
+                <option
+                  key="0"
+                  value="Weekly"
+                >
+                  Weekly
+                </option>
+                <option
+                  key="1"
+                  value="Biweekly"
+                >
+                  Biweekly
+                </option>
+                <option
+                  key="2"
+                  value="Monthly"
+                >
+                  Monthly
+                </option>
+              </TextField>
             </Grid>
             <Grid
               item

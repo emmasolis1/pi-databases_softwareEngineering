@@ -8,6 +8,7 @@ import {
   Box,
   Button,
   Container,
+  Stack,
   TextField,
   Typography
 } from '@mui/material';
@@ -139,28 +140,26 @@ const InsertContract = () => {
               >
               </Typography>
             </Box>
-            <Box sx={{ my: 3 }}>
+            <Box sx={{ my: 1 }}>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DatePicker
-                  label="Start Date"
-                  value={formik.values.startDate}
-                  onChange={(value) => {
-                    formik.setFieldValue('startDate', value.getFullYear() + "-" + (value.getMonth() + 1) + "-" + value.getDate());
-                  }}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </LocalizationProvider>
-            </Box>
-            <Box sx={{ my: 3 }}>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DatePicker
-                  label="Ending Date"
-                  value={formik.values.expectedEndingDate}
-                  onChange={(value) => {
-                    formik.setFieldValue('expectedEndingDate', value.getFullYear() + "-" + (value.getMonth() + 1) + "-" + value.getDate());
-                  }}
-                  renderInput={(params) => <TextField {...params} />}
-                />
+                <Stack spacing={3}>
+                  <DatePicker
+                    label="Start Date"
+                    value={formik.values.startDate}
+                    onChange={(value) => {
+                      formik.setFieldValue('startDate', value.getFullYear() + "-" + (value.getMonth() + 1) + "-" + value.getDate());
+                    }}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                  <DatePicker
+                    label="Ending Date"
+                    value={formik.values.expectedEndingDate}
+                    onChange={(value) => {
+                      formik.setFieldValue('expectedEndingDate', value.getFullYear() + "-" + (value.getMonth() + 1) + "-" + value.getDate());
+                    }}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </Stack>
               </LocalizationProvider>
             </Box>
             <TextField
@@ -199,10 +198,11 @@ const InsertContract = () => {
               value={formik.values.netSalary}
               variant="outlined"
             />
-            <Box sx={{ my: 3 }}>
+            <Box>
               <TextField
                 fullWidth
                 label="Contract Type"
+                margin="normal"
                 name="contractType"
                 onChange={formik.handleChange}
                 select
