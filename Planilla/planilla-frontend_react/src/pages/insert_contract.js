@@ -11,12 +11,6 @@ import {
   TextField,
   Typography
 } from '@mui/material';
-import {
-  Select,
-  InputLabel,
-  MenuItem,
-  FormControl
-} from "@material-ui/core";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useEffect, useState } from 'react';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -53,7 +47,7 @@ const InsertContract = () => {
       position: '',
       schedule: '',
       netSalary: '',
-      contractType: 'Full-time'
+      contractType: '0'
     },
     validationSchema: Yup.object({
       position: Yup
@@ -205,27 +199,43 @@ const InsertContract = () => {
               value={formik.values.netSalary}
               variant="outlined"
             />
-
             <Box sx={{ my: 3 }}>
-              <FormControl fullWidth>
-                <InputLabel id="contractTypeLabel">Contract Type</InputLabel>
-                <Select
-                  labelId="contractTypeLabel"
-                  id="contractType"
-                  label="Contract Type"
-                  value={formik.values.contractType}
-                  onChange={(value) => {
-                    formik.setFieldValue('contractType', value);
-                  }}
+              <TextField
+                fullWidth
+                label="Contract Type"
+                name="contractType"
+                onChange={formik.handleChange}
+                select
+                SelectProps={{ native: true }}
+                value={formik.values.contractType}
+                variant="outlined"
+              >
+                <option
+                  key="0"
+                  value="0"
                 >
-                  <MenuItem value="0">Full-time</MenuItem>
-                  <MenuItem value="1">Half-time</MenuItem>
-                  <MenuItem value="2">Hourly</MenuItem>
-                  <MenuItem value="3">Professional services</MenuItem>
-                </Select>
-              </FormControl>
+                  Full-time
+                </option>
+                <option
+                  key="1"
+                  value="1"
+                >
+                  Half-time
+                </option>
+                <option
+                  key="2"
+                  value="2"
+                >
+                  Hourly
+                </option>
+                <option
+                  key="3"
+                  value="3"
+                >
+                  Professional services
+                </option>
+              </TextField>
             </Box>
-
             <Box sx={{ py: 2 }}>
               <Button
                 color="primary"

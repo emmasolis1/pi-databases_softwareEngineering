@@ -1,13 +1,10 @@
 import {
-  Box,
-  Button,
   Card,
   CardContent,
   CardHeader,
   Divider,
   Grid,
   TextField,
-  Stack
 } from '@mui/material';
 import { useFormik } from 'formik';
 
@@ -58,8 +55,8 @@ export const ContractProfileDetails = ({ contract, ...props }) => {
                 fullWidth
                 label="Start date"
                 margin="none"
-                value={formik.values.startDate}
-                InputProps={{ readOnly: true }}
+                value={formik.values.startDate.slice(0, 10)}
+                disabled={true}
               />
             </Grid>
             <Grid
@@ -71,8 +68,8 @@ export const ContractProfileDetails = ({ contract, ...props }) => {
                 fullWidth
                 label="Ending date"
                 margin="none"
-                value={formik.values.expectedEndingDate}
-                InputProps={{ readOnly: true }}
+                value={formik.values.expectedEndingDate.slice(0, 10)}
+                disabled={true}
               />
             </Grid>
             <Grid
@@ -85,7 +82,7 @@ export const ContractProfileDetails = ({ contract, ...props }) => {
                 label="Position"
                 margin="none"
                 value={formik.values.position}
-                InputProps={{ readOnly: true }}
+                disabled={true}
               />
             </Grid>
             <Grid
@@ -98,7 +95,7 @@ export const ContractProfileDetails = ({ contract, ...props }) => {
                 label="Schedule"
                 margin="none"
                 value={formik.values.schedule}
-                InputProps={{ readOnly: true }}
+                disabled={true}
               />
             </Grid>
             <Grid
@@ -111,7 +108,7 @@ export const ContractProfileDetails = ({ contract, ...props }) => {
                 label="Net salary"
                 margin="none"
                 value={formik.values.netSalary}
-                InputProps={{ readOnly: true }}
+                disabled={true}
               />
             </Grid>
             <Grid
@@ -124,7 +121,7 @@ export const ContractProfileDetails = ({ contract, ...props }) => {
                 label="Contrac type"
                 margin="none"
                 value={formik.values.contractType}
-                InputProps={{ readOnly: true }}
+                disabled={true}
               />
             </Grid>
           </Grid>
