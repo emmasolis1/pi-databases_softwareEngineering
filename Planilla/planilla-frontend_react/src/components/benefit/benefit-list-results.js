@@ -19,7 +19,6 @@ import {
   Avatar,
   Box,
   Card,
-  Checkbox,
   Table,
   TableBody,
   TableCell,
@@ -32,41 +31,9 @@ import { URL } from 'src/utils/url';
 
 export const BenefitListResults = ({ benefits, ...rest }) => {
   const router = useRouter();
-  const [selectedBenefitIds, setSelectedBenefitIds] = useState([]);
   const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(0);
   const [open, setOpen] = React.useState(false);
-
-  const handleSelectAll = (event) => {
-    let newSelectedBenefitIds;
-
-    if (event.target.checked) {
-      newSelectedBenefitIds = benefits.map((benefit) => benefit.benefitName);
-    } else {
-      newSelectedBenefitIds = [];
-    }
-    setSelectedBenefitIds(newSelectedBenefitIds);
-  };
-
-  const handleSelectOne = (event, id) => {
-    const selectedIndex = selectedBenefitIds.indexOf(id);
-    let newSelectedBenefitIds = [];
-
-    if (selectedIndex === -1) {
-      newSelectedBenefitIds = newSelectedBenefitIds.concat(selectedBenefitIds, id);
-    } else if (selectedIndex === 0) {
-      newSelectedBenefitIds = newSelectedBenefitIds.concat(selectedBenefitIds.slice(1));
-    } else if (selectedIndex === selectedBenefitIds.length - 1) {
-      newSelectedBenefitIds = newSelectedBenefitIds.concat(selectedBenefitIds.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelectedBenefitIds = newSelectedBenefitIds.concat(
-        selectedBenefitIds.slice(0, selectedIndex),
-        selectedBenefitIds.slice(selectedIndex + 1)
-      );
-    }
-
-    setSelectedBenefitIds(newSelectedBenefitIds);
-  };
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
@@ -104,17 +71,6 @@ export const BenefitListResults = ({ benefits, ...rest }) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell padding="checkbox">
-                  <Checkbox
-                    checked={selectedBenefitIds.length === benefits.length}
-                    color="primary"
-                    indeterminate={
-                      selectedBenefitIds.length > 0
-                      && selectedBenefitIds.length < benefits.length
-                    }
-                    onChange={handleSelectAll}
-                  />
-                </TableCell>
                 <TableCell>
                   Name
                 </TableCell>
@@ -134,15 +90,7 @@ export const BenefitListResults = ({ benefits, ...rest }) => {
                 <TableRow
                   hover
                   key={benefit.benefitName + benefit.projectName + benefit.employerID}
-                  selected={selectedBenefitIds.indexOf(benefit.benefitName) !== -1}
                 >
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      checked={selectedBenefitIds.indexOf(benefit.benefitName) !== -1}
-                      onChange={(event) => handleSelectOne(event, benefit.benefitName)}
-                      value="true"
-                    />
-                  </TableCell>
                   <TableCell>
                     <Box
                       sx={{

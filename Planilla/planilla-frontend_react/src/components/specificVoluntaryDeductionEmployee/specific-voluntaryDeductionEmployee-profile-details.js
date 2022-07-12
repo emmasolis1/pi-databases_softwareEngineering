@@ -7,13 +7,12 @@ import {
   CardHeader,
   Divider,
   Grid,
-  TextField,
   Stack
 } from '@mui/material';
 import { useFormik } from 'formik';
 import axios from 'axios';
-import * as Yup from 'yup';
 import { useRouter } from 'next/router';
+import { URL } from 'src/utils/url';
 
 export const SpecificVoluntaryDeductionEmployeeProfileDetails = ({ voluntaryDeduction, ...props }) => {
   const router = useRouter();
@@ -32,7 +31,7 @@ export const SpecificVoluntaryDeductionEmployeeProfileDetails = ({ voluntaryDedu
         description: voluntaryDeduction.description,
         cost: voluntaryDeduction.cost,
       };
-      axios.put('https://localhost:7150/api/specificVoluntaryDeductionEmployee', data).then((response) => {
+      axios.put(URL + 'specificVoluntaryDeductionEmployee', data).then((response) => {
         alert("Voluntary Deduction selected successfully");
         router.push('/voluntaryDeductionsEmployee');
       });

@@ -15,6 +15,7 @@ class VoluntaryDeductionsEmployee extends React.Component {
       APIUrl: URL + 'voluntaryDeductions',
     };
   }
+
   componentDidMount() {    
     axios.get(this.state.APIUrl + "?projectName=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID") + "&employeeID=" + sessionStorage.getItem("employeeID")).then(response => {
       this.setState({ voluntaryDeductions: response.data });

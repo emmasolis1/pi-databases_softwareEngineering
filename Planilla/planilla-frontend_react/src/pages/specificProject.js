@@ -13,7 +13,7 @@ class SpecificProject extends React.Component {
     this.state = {
       project: [],
       isLoaded: false,
-      APIUrl: URL + 'specificProject',
+      APIUrl: URL + 'specificProject'
     };
   }
 

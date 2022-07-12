@@ -11,10 +11,10 @@ namespace planilla_backend_asp.net.Controllers
 
     [HttpGet]
     [Route("voluntaryDeductions")]
-    public ActionResult GetVoluntaryDeductions(string project, string employerID)
+    public ActionResult GetVoluntaryDeductions(string projectName, string employerID)
     {
       var handler = new DeductionsHandler();
-      var data = handler.GetVoluntaryDeductionsData(project, employerID);
+      var data = handler.GetVoluntaryDeductionsData(projectName, employerID);
       return Ok(data);
     }
 

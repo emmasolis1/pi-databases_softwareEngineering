@@ -21,7 +21,7 @@ import * as Yup from 'yup';
 import { useRouter } from 'next/router';
 import { URL } from 'src/utils/url';
 
-export const SpecifictBenefitProfileDetails = ({ benefit, ...props }) => {
+export const SpecificBenefitProfileDetails = ({ benefit, ...props }) => {
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
   const formik = useFormik({

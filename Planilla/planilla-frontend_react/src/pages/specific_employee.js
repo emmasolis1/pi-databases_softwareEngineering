@@ -13,7 +13,7 @@ class SpecificEmployee extends React.Component {
     this.state = {
       user: [],
       isLoaded: false,
-      APIUrl: URL + 'viewEmployee?id=',
+      APIUrl: URL + 'viewEmployee?id='
     };
   }
 

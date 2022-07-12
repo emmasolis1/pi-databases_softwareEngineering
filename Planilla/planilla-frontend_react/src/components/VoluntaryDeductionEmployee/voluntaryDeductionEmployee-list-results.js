@@ -1,12 +1,4 @@
 import * as React from 'react';
-import axios from 'axios';
-import Button from '@mui/material/Button';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 import { getInitials } from '../../utils/get-initials';
 import IconButton from '@mui/material/IconButton';
 import ReadMoreIcon from '@mui/icons-material/ReadMore';
@@ -19,7 +11,6 @@ import {
     Avatar,
     Box,
     Card,
-    Checkbox,
     Table,
     TableBody,
     TableCell,
@@ -31,40 +22,8 @@ import {
 
 export const VoluntaryDeductionEmployeeListResults = ({ voluntaryDeductions, ...rest }) => {
   const router = useRouter();
-  const [selectedVoluntaryDeductionIds, setSelectedVoluntaryDeductionIds] = useState([]);
   const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(0);
-
-  const handleSelectAll = (event) => {
-    let newSelectedVoluntaryDeductionIds;
-
-    if (event.target.checked) {
-      newSelectedVoluntaryDeductionIds = voluntaryDeductions.map((voluntaryDeduction) => voluntaryDeduction.voluntaryDeductionName);
-    } else {
-      newSelectedVoluntaryDeductionIds = [];
-    }
-    setSelectedVoluntaryDeductionIds(newSelectedVoluntaryDeductionIds);
-  };
-
-  const handleSelectOne = (event, id) => {
-    const selectedIndex = selectedVoluntaryDeductionIds.indexOf(id);
-    let newSelectedVoluntaryDeductionIds = [];
-
-    if (selectedIndex === -1) {
-      newSelectedVoluntaryDeductionIds = newSelectedVoluntaryDeductionIds.concat(selectedVoluntaryDeductionIds, id);
-    } else if (selectedIndex === 0) {
-      newSelectedVoluntaryDeductionIds = newSelectedVoluntaryDeductionIds.concat(selectedVoluntaryDeductionIds.slice(1));
-    } else if (selectedIndex === selectedVoluntaryDeductionIds.length - 1) {
-      newSelectedVoluntaryDeductionIds = newSelectedVoluntaryDeductionIds.concat(selectedVoluntaryDeductionIds.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelectedVoluntaryDeductionIds = newSelectedVoluntaryDeductionIds.concat(
-        selectedVoluntaryDeductionIds.slice(0, selectedIndex),
-        selectedVoluntaryDeductionIds.slice(selectedIndex + 1)
-      );
-    }
-
-      setSelectedVoluntaryDeductionIds(newSelectedVoluntaryDeductionIds);
-  };
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
@@ -87,17 +46,6 @@ export const VoluntaryDeductionEmployeeListResults = ({ voluntaryDeductions, ...
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell padding="checkbox">
-                  <Checkbox
-                    checked={selectedVoluntaryDeductionIds.length === voluntaryDeductions.length}
-                    color="primary"
-                    indeterminate={
-                      selectedVoluntaryDeductionIds.length > 0
-                      && selectedVoluntaryDeductionIds.length < voluntaryDeductions.length
-                    }
-                    onChange={handleSelectAll}
-                  />
-                </TableCell>
                 <TableCell>
                   Name
                 </TableCell>
@@ -123,15 +71,7 @@ export const VoluntaryDeductionEmployeeListResults = ({ voluntaryDeductions, ...
                 <TableRow
                   hover
                   key={voluntaryDeduction.voluntaryDeductionName + voluntaryDeduction.projectName + voluntaryDeduction.employerID}
-                  selected={selectedVoluntaryDeductionIds.indexOf(voluntaryDeduction.voluntaryDeductionName) !== -1}
                 >
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      checked={selectedVoluntaryDeductionIds.indexOf(voluntaryDeduction.voluntaryDeductionName) !== -1}
-                      onChange={(event) => handleSelectOne(event, voluntaryDeduction.voluntaryDeductionName)}
-                      value="true"
-                    />
-                  </TableCell>
                   <TableCell>
                     <Box
                       sx={{
