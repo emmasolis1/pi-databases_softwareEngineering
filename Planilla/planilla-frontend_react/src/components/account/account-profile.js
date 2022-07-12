@@ -62,7 +62,12 @@ export const AccountProfile = ({user, ...props}) => {
             color="textSecondary"
             variant="body2"
           >
-            {`${user.State == null ? '' : user.State + ','} ${user.Country == null ? '' : user.Country} ${user.State == null && user.Country == null ? 'No registered address' : ''}`}
+            {`
+            ${user.State != '' && user.Country != '' && user.State != null && user.Country != null ? user.State + ', ' + user.Country : ''}
+            ${user.State != '' && user.State != null && user.Country == '' || user.State != '' && user.State != null && user.Country == null ? user.State : ''}
+            ${user.State == '' && user.Country != '' && user.Country != null || user.State == null && user.Country != '' && user.Country != null ? user.Country : ''}
+            ${user.State == '' && user.Country == '' || user.State == '' && user.Country == null || user.State == null && user.Country == '' || user.State == null && user.Country == null  ? 'No registered location' : ''}
+            `}
           </Typography>
         </Box>
       </CardContent>

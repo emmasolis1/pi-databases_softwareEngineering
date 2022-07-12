@@ -97,7 +97,7 @@ export const VoluntaryDeductionEmployeeListResults = ({ voluntaryDeductions, ...
                     {voluntaryDeduction.description}
                   </TableCell>
                   <TableCell>
-                    {voluntaryDeduction.cost}
+                    {"$" + voluntaryDeduction.cost}
                   </TableCell>
                   <TableCell>
                     {voluntaryDeduction.startDate}

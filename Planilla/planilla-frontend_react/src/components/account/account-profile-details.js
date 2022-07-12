@@ -14,22 +14,7 @@ import * as Yup from 'yup';
 import { useRouter } from 'next/router';
 import { URL } from 'src/utils/url';
 
-const states = [
-  {
-    value: 'alabama',
-    label: 'Alabama'
-  },
-  {
-    value: 'new-york',
-    label: 'New York'
-  },
-  {
-    value: 'san-francisco',
-    label: 'San Francisco'
-  }
-];
-
-export const AccountProfileDetails = ({user, ...props}) => {
+export const AccountProfileDetails = ({ user, ...props }) => {
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
@@ -55,20 +40,25 @@ export const AccountProfileDetails = ({user, ...props}) => {
           'Phone number is required'),
       country: Yup
         .string()
-        .max(20),
+        .max(20)
+        .nullable(),
       state: Yup
         .string()
-        .max(50),
+        .max(50)
+        .nullable(),
       city: Yup
         .string()
-        .max(50),
+        .max(50)
+        .nullable(),
       address: Yup
         .string()
-        .max(255),
+        .max(255)
+        .nullable(),
       zipCode: Yup
         .string()
         .max(5, 'Zip Code is a 5 digits number')
-        .min(5, 'Zip Code is a 5 digits number'),
+        .min(5, 'Zip Code is a 5 digits number')
+        .nullable(),
       password: Yup
         .string()
         .max(255)
@@ -86,6 +76,21 @@ export const AccountProfileDetails = ({user, ...props}) => {
         Address: values.address,
         Phone: values.phone
       };
+      if (data.Country == null) {
+        data.Country = '';
+      }
+      if (data.State == null) {
+        data.State = '';
+      }
+      if (data.City == null) {
+        data.City = '';
+      }
+      if (data.ZipCode == null) {
+        data.ZipCode = '';
+      }
+      if (data.Address == null) {
+        data.Address = '';
+      }
       // alert(JSON.stringify(data, null, 2));
       axios.put(URL + 'account', data).then((response) => {
         alert("User data updated successfully");
