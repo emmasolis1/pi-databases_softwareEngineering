@@ -24,7 +24,7 @@ const Register = () => {
       projectName: '',
       employerID: '',
       budget: '',
-      paymentMethod: '',
+      paymentMethod: 'Weekly',
       description: '',
       maxNumberOfBenefits: '',
       maxBudgetForBenefits: ''
@@ -125,18 +125,37 @@ const Register = () => {
               value={formik.values.description}
               variant="outlined"
             />
-            <TextField
-              error={Boolean(formik.touched.paymentMethod && formik.errors.paymentMethod)}
-              fullWidth
-              helperText={formik.touched.paymentMethod && formik.errors.paymentMethod}
-              label="Payment Method"
-              margin="normal"
-              name="paymentMethod"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.paymentMethod}
-              variant="outlined"
-            />
+            <Box sx={{ my: 3 }}>
+              <TextField
+                fullWidth
+                label="Payment Method"
+                name="paymentMethod"
+                onChange={formik.handleChange}
+                select
+                SelectProps={{ native: true }}
+                value={formik.values.contractType}
+                variant="outlined"
+              >
+                <option
+                  key="0"
+                  value="Weekly"
+                >
+                  Weekly
+                </option>
+                <option
+                  key="1"
+                  value="Biweekly"
+                >
+                  Biweekly
+                </option>
+                <option
+                  key="2"
+                  value="Monthly"
+                >
+                  Monthly
+                </option>
+              </TextField>
+            </Box>
             <TextField
               error={Boolean(formik.touched.budget && formik.errors.budget)}
               fullWidth
