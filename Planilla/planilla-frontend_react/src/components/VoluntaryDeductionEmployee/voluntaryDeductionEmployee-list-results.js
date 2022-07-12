@@ -28,14 +28,12 @@ import {
     TableRow,
     Typography
 } from '@mui/material';
-import { URL } from 'src/utils/url';
 
-export const VoluntaryDeductionListResults = ({ voluntaryDeductions, ...rest }) => {
+export const VoluntaryDeductionEmployeeListResults = ({ voluntaryDeductions, ...rest }) => {
   const router = useRouter();
   const [selectedVoluntaryDeductionIds, setSelectedVoluntaryDeductionIds] = useState([]);
   const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(0);
-  const [open, setOpen] = React.useState(false);
 
   const handleSelectAll = (event) => {
     let newSelectedVoluntaryDeductionIds;
@@ -77,24 +75,9 @@ export const VoluntaryDeductionListResults = ({ voluntaryDeductions, ...rest }) 
     setPage(newPage);
   };
 
-  const handleClickOpen = (voluntaryDeductionName) => {
+  const viewVoluntaryDeductionEmployee = (voluntaryDeductionName) => {
     sessionStorage.setItem("voluntaryDeduction", voluntaryDeductionName);
-    setOpen(true);
-  };
-
- const handleClose = (agreed) => {
-    setOpen(false);
-    if (agreed === true) {
-      axios.delete(URL + "deleteVoluntaryDeduction?voluntaryDeductionName=" + sessionStorage.getItem("voluntaryDeduction") + "&projectName=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID")).then(() => {
-        alert("Voluntary deduction deleted successfully");
-        window.location.reload(false);
-      });
-    }
-  };
-
-  const viewVoluntaryDeduction = (voluntaryDeductionName) => {
-    sessionStorage.setItem("voluntaryDeduction", voluntaryDeductionName);
-    router.push('/specificVoluntaryDeduction');
+    router.push('/specificVoluntaryDeductionEmployee');
   }
 
   return (
@@ -120,6 +103,15 @@ export const VoluntaryDeductionListResults = ({ voluntaryDeductions, ...rest }) 
                 </TableCell>
                 <TableCell>
                   Description
+                </TableCell>
+                <TableCell>
+                  Value
+                </TableCell>
+                <TableCell>
+                  Start date
+                </TableCell>
+                <TableCell>
+                  End date
                 </TableCell>
                 <TableCell>
                   Actions
@@ -165,34 +157,19 @@ export const VoluntaryDeductionListResults = ({ voluntaryDeductions, ...rest }) 
                     {voluntaryDeduction.description}
                   </TableCell>
                   <TableCell>
+                    {voluntaryDeduction.cost}
+                  </TableCell>
+                  <TableCell>
+                    {voluntaryDeduction.startDate}
+                  </TableCell>
+                  <TableCell>
+                    {voluntaryDeduction.endingDate}
+                  </TableCell>
+                  <TableCell>
                   <Stack direction="row" spacing={1}>
-                  <IconButton aria-label="edit" color="primary" onClick={() => viewVoluntaryDeduction(voluntaryDeduction.voluntaryDeductionName)}>
+                  <IconButton aria-label="edit" color="primary" onClick={() => viewVoluntaryDeductionEmployee(voluntaryDeduction.voluntaryDeductionName)}>
                   <ReadMoreIcon />
                   </IconButton>
-                  <IconButton aria-label="delete" color="error" onClick={() => handleClickOpen(voluntaryDeduction.voluntaryDeductionName)}>
-                    <DeleteForeverIcon />
-                  </IconButton>
-                  <Dialog
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
-                   >
-                        <DialogTitle id="alert-dialog-title">
-                        {"Alert: Please read!!!"}
-                        </DialogTitle>
-                        <DialogContent>
-                          <DialogContentText id="alert-dialog-description">
-                            You are about to delete a voluntary deduction, this means
-                            that everyone linked to it will lose access to it.
-                            Are you sure?
-                          </DialogContentText>
-                        </DialogContent>
-                        <DialogActions>
-                          <Button onClick={handleClose} variant="outlined" color="primary">Cancel</Button>
-                          <Button onClick={() => handleClose(true)} variant="contained" color="error">Delete</Button>
-                        </DialogActions>
-                      </Dialog>
                   </Stack>
                   </TableCell>
                 </TableRow>
@@ -214,7 +191,7 @@ export const VoluntaryDeductionListResults = ({ voluntaryDeductions, ...rest }) 
   );
 };
 
-VoluntaryDeductionListResults.propTypes = {
+VoluntaryDeductionEmployeeListResults.propTypes = {
   voluntaryDeductions: PropTypes.array.isRequired
 };
 
