@@ -12,3 +12,8 @@ Repository for course CI-0128: "Proyecto Integrador de Ingeniería de Software y 
 1: Half-time employee
 2: Hourly employee
 3: Professional services
+
+## Meaning of "HoursApprovalStatus" values:
+0: Pending approval
+1: Approved
+2: Denied
