@@ -26,8 +26,7 @@ class Dashboard extends React.Component {
   }
 
   componentDidMount() {
-    var projects = JSON.parse(sessionStorage.getItem('userProjects'));
-    let requestAPI = this.state.APIUrl + "?employerID=" + sessionStorage.getItem("employerID") + "&projectName=" + projects[0];
+    let requestAPI = this.state.APIUrl + "?employerID=" + sessionStorage.getItem("employerID") + "&projectName=" + sessionStorage.getItem('project');
     axios.get(requestAPI).then(response => {
       this.setState({ isLoaded: true, info: response.data });
     });
@@ -63,7 +62,7 @@ class Dashboard extends React.Component {
                   xl={3}
                   xs={12}
                 >
-                  <Budget />
+                  <Budget totalProjects={this.state.info.totalProjects} />
                 </Grid>
                 <Grid
                   item
@@ -72,7 +71,7 @@ class Dashboard extends React.Component {
                   sm={6}
                   xs={12}
                 >
-                  <TotalCustomers />
+                  <TotalCustomers totalEmployeesCompany={this.state.info.totalEmployees} />
                 </Grid>
                 <Grid
                   item
@@ -81,7 +80,7 @@ class Dashboard extends React.Component {
                   sm={6}
                   xs={12}
                 >
-                  <TasksProgress />
+                  <TasksProgress totalEmployeesProject={this.state.info.totalEmployeesByProject} />
                 </Grid>
                 <Grid
                   item
@@ -90,7 +89,7 @@ class Dashboard extends React.Component {
                   sm={6}
                   xs={12}
                 >
-                  <TotalProfit sx={{ height: '100%' }} />
+                  <TotalProfit totalBenefitCost={this.state.info.costForBenefits} sx={{ height: '100%' }} />
                 </Grid>
                 <Grid
                   item
@@ -108,7 +107,7 @@ class Dashboard extends React.Component {
                   xl={3}
                   xs={12}
                 >
-                  <TrafficByDevice sx={{ height: '100%' }} />
+                  <TrafficByDevice fulltime={this.state.info.totalFulltimeEmployees} parttime={this.state.info.totalPartTimeEmployees} hourly={this.state.info.totalHourlyEmployees} professional_services={this.state.info.totalProfessionalServicesEmployees} sx={{ height: '100%' }} />
                 </Grid>
                 <Grid
                   item
