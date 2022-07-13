@@ -1,21 +1,22 @@
 ------------------------- Oficial Ta' Bueno SQL Query -------------------------
-use TaBueno
+USE TaBueno
 
 --------------- Creating Tables --------------
 CREATE TABLE Users (
-    Identification      char(10)        PRIMARY KEY,
-    FirstName           varchar(50)     NOT NULL,
-    LastName            varchar(50)     NOT NULL,
-    LastName2           varchar(50)     NULL,
-    Email               varchar(255)    NOT NULL,
-    Password            varchar(255)    NOT NULL,
-    Country             varchar(50)     NULL,
-    State               varchar(50)     NULL,
-    City                varchar(50)     NULL,
-    ZipCode             char(5)         NULL,
-    Address             varchar(255)    NULL,
-    Phone               varchar(17)     NOT NULL,
-    UserType            tinyint         NOT NULL
+    Identification          char(10)            NOT NULL,
+    FirstName               varchar(50)         NOT NULL,
+    LastName                varchar(50)         NOT NULL,
+    LastName2               varchar(50)         NULL,
+    Email                   varchar(255)        NOT NULL,
+    Password                varchar(255)        NOT NULL,
+    Country                 varchar(50)         NULL,
+    State                   varchar(50)         NULL,
+    City                    varchar(50)         NULL,
+    ZipCode                 char(5)             NULL,
+    Address                 varchar(255)        NULL,
+    Phone                   varchar(17)         NOT NULL,
+    UserType                tinyint             NOT NULL,
+    PRIMARY KEY (Identification)
 );
 
 CREATE TABLE Projects (
@@ -26,7 +27,7 @@ CREATE TABLE Projects (
     Description             varchar(255)        NULL,
     MaxNumberOfBenefits     int                 NULL,
     MaxBudgetForBenefits    float               NULL,
-	IsActive				tinyint             NOT NULL,
+    IsActive                tinyint             NOT NULL,
     PRIMARY KEY (ProjectName, EmployerID),
     FOREIGN KEY (EmployerID) REFERENCES Users 
 );
@@ -36,8 +37,8 @@ CREATE TABLE HoursRegistry (
     EmployerID              char(10)            NOT NULL,
     EmployeeID              char(10)            NOT NULL,
     Date                    date                NOT NULL,
-    NumberOfHours           decimal(4, 1)		NOT NULL,
-	HoursApprovalStatus		tinyint				NOT NULL,
+    NumberOfHours           decimal(4, 1)       NOT NULL,
+    HoursApprovalStatus     tinyint             NOT NULL,
     PRIMARY KEY (ProjectName, EmployerID, EmployeeID, Date),
     FOREIGN KEY (ProjectName, EmployerID) REFERENCES Projects,
     FOREIGN KEY (EmployeeID) REFERENCES Users
@@ -49,7 +50,7 @@ CREATE TABLE Benefits (
     EmployerID              char(10)            NOT NULL,
     Description             varchar(255)        NULL,
     Cost                    float               NOT NULL,
-	IsActive				tinyint             NOT NULL,
+    IsActive                tinyint             NOT NULL,
     PRIMARY KEY (BenefitName, ProjectName, EmployerID),
     FOREIGN KEY (ProjectName, EmployerID) REFERENCES Projects
 );
@@ -88,7 +89,7 @@ CREATE TABLE Payments (
     EmployeeID              char(10)            NOT NULL,
     StartDate               date                NOT NULL,
     PaymentDate             date                NOT NULL,
-    NetSalary               float				NULL,
+    NetSalary               float               NULL,
     PRIMARY KEY (ProjectName, EmployerID, EmployeeID, StartDate, PaymentDate),
     FOREIGN KEY (ProjectName, EmployerID, EmployeeID, StartDate) REFERENCES Contracts
 );
@@ -107,10 +108,10 @@ CREATE TABLE AppearsIn (
 );
 
 CREATE TABLE MandatoryDeductions (
-    MandatoryDeductionName      varchar(128)    NOT NULL,
-    Percentage                  decimal(9, 3)   NOT NULL,
-    Description                 varchar(255)    NULL,
-	Condition					varchar(30)		NULL,
+    MandatoryDeductionName  varchar(128)        NOT NULL,
+    Percentage              decimal(9, 3)       NOT NULL,
+    Description             varchar(255)        NULL,
+    Condition               varchar(30)         NULL,
     PRIMARY KEY (MandatoryDeductionName)
 );
 
@@ -131,8 +132,8 @@ CREATE TABLE VoluntaryDeductions (
     ProjectName             varchar(255)        NOT NULL,
     EmployerID              char(10)            NOT NULL,
     Description             varchar(255)        NULL,
-	Cost                    float               NULL,
-	IsActive				tinyint             NOT NULL,
+    Cost                    float               NULL,
+    IsActive                tinyint             NOT NULL,
     PRIMARY KEY (VoluntaryDeductionName, ProjectName, EmployerID),
     FOREIGN KEY (ProjectName, EmployerID) REFERENCES Projects
 );
