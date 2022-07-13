@@ -125,15 +125,16 @@ const Register = () => {
               value={formik.values.description}
               variant="outlined"
             />
-            <Box sx={{ my: 3 }}>
+            <Box>
               <TextField
                 fullWidth
                 label="Payment Method"
+                margin="normal"
                 name="paymentMethod"
                 onChange={formik.handleChange}
                 select
                 SelectProps={{ native: true }}
-                value={formik.values.contractType}
+                value={formik.values.paymentMethod}
                 variant="outlined"
               >
                 <option
