@@ -1,7 +1,7 @@
 import { Avatar, Card, CardContent, Grid, Typography } from '@mui/material';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 
-export const TotalProfit = (props) => (
+export const TotalProfit = ({ totalBenefitCost, ...props }) => (
   <Card {...props}>
     <CardContent>
       <Grid
@@ -15,13 +15,13 @@ export const TotalProfit = (props) => (
             gutterBottom
             variant="overline"
           >
-            TOTAL PROFIT
+            TOTAL BENEFITS COST FOR THIS PROJECTS
           </Typography>
           <Typography
             color="textPrimary"
             variant="h4"
           >
-            $23k
+            ${totalBenefitCost}
           </Typography>
         </Grid>
         <Grid item>
