@@ -130,4 +130,3 @@ WHERE UserType = 1
 			AND Contracts.EmployerID = @employerID
 			AND Contracts.RealEndedDate IS NULL )
 		ORDER BY FirstName
-
