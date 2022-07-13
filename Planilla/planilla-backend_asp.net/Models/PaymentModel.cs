@@ -11,4 +11,13 @@
         public string contractType { get; set; }
         public double payment { get; set; } = 0;
     }
+
+    public class PaymentModelSummarized
+    {
+        public string projectName { get; set; }
+        public string employeeId { get; set; }
+        public string paymentDate { get; set; }
+        public string contractType { get; set; }
+        public double payment { get; set; } = 0;
+    }
 }
