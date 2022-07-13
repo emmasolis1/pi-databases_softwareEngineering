@@ -3,21 +3,22 @@ import { Box, Card, CardContent, CardHeader, Divider, Typography, useTheme } fro
 import LaptopMacIcon from '@mui/icons-material/LaptopMac';
 import PhoneIcon from '@mui/icons-material/Phone';
 import TabletIcon from '@mui/icons-material/Tablet';
+import ScheduleIcon from '@mui/icons-material/Schedule';
 
-export const TrafficByDevice = (props) => {
+export const TrafficByDevice = ({ fulltime, parttime, hourly, professional_services, ...props }) => {
   const theme = useTheme();
 
   const data = {
     datasets: [
       {
-        data: [63, 15, 22],
-        backgroundColor: ['#3F51B5', '#e53935', '#FB8C00'],
+        data: [fulltime, parttime, hourly, professional_services],
+        backgroundColor: ['#3F51B5', '#e53935', '#FB8C00', '#00C853'],
         borderWidth: 8,
         borderColor: '#FFFFFF',
         hoverBorderColor: '#FFFFFF'
       }
     ],
-    labels: ['Desktop', 'Tablet', 'Mobile']
+    labels: ['Fulltime', 'Part-time', 'Hourly', 'Prof. Services']
   };
 
   const options = {
@@ -44,28 +45,38 @@ export const TrafficByDevice = (props) => {
 
   const devices = [
     {
-      title: 'Desktop',
-      value: 63,
+      title: 'Fulltime',
+      value: fulltime,
       icon: LaptopMacIcon,
-      color: '#3F51B5'
+      color: '#3F51B5',
+      total_sum: parseInt(fulltime) + parseInt(parttime) + parseInt(hourly) + parseInt(professional_services)
     },
     {
-      title: 'Tablet',
-      value: 15,
+      title: 'Part-time',
+      value: parttime,
       icon: TabletIcon,
-      color: '#E53935'
+      color: '#E53935',
+      total_sum: parseInt(fulltime) + parseInt(parttime) + parseInt(hourly) + parseInt(professional_services)
     },
     {
-      title: 'Mobile',
-      value: 23,
+      title: 'Hourly',
+      value: hourly,
+      icon: ScheduleIcon,
+      color: '#FB8C00',
+      total_sum: parseInt(fulltime) + parseInt(parttime) + parseInt(hourly) + parseInt(professional_services)
+    },
+    {
+      title: 'Professional Services',
+      value: professional_services,
       icon: PhoneIcon,
-      color: '#FB8C00'
+      color: '#00C853',
+      total_sum: parseInt(fulltime) + parseInt(parttime) + parseInt(hourly) + parseInt(professional_services)
     }
   ];
 
   return (
     <Card {...props}>
-      <CardHeader title="Traffic by Device" />
+      <CardHeader title={"Types of Employees in:\n" + sessionStorage.getItem('project')} />
       <Divider />
       <CardContent>
         <Box
@@ -90,7 +101,8 @@ export const TrafficByDevice = (props) => {
             color,
             icon: Icon,
             title,
-            value
+            value,
+            total_sum
           }) => (
             <Box
               key={title}
@@ -108,9 +120,9 @@ export const TrafficByDevice = (props) => {
               </Typography>
               <Typography
                 style={{ color }}
-                variant="h4"
+                variant="h6"
               >
-                {value}
+                {parseFloat(value / total_sum * 100).toFixed(0)}
                 %
               </Typography>
             </Box>
