@@ -4,13 +4,38 @@ namespace planilla_backend_asp.net.Models
   {
     public string totalEmployees { get; set; }
     public string totalProjects { get; set; }
-    public string totalEmployeesByProject { get; set; }
-    public string costForBenefits { get; set; }
-    public string totalFulltimeEmployees { get; set; }
-    public string totalPartTimeEmployees { get; set; }
-    public string totalHourlyEmployees { get; set; }
-    public string totalProfessionalServicesEmployees { get; set; }
-    public List<UserModelSummarized>? latestHirings { get; set; } = new List<UserModelSummarized>();
-    public List<PaymentModelSummarized>? latestPayments { get; set; } = new List<PaymentModelSummarized>();
+    public List<TotalEmployeesByProject>? totalEmployeesByProject { get; set; } = new List<TotalEmployeesByProject>();
+    public List<NextPayments>? nextPayments { get; set; } = new List<NextPayments>();
+    public List<LatestPayments>? latestPayments { get; set; } = new List<LatestPayments>();
+    public List<TotalProjectCost>? totalProjectCost { get; set; } = new List<TotalProjectCost>();
+  }
+
+  public class TotalEmployeesByProject
+  {
+    public string projectName { get; set; }
+    public string totalFullTime { get; set; }
+    public string totalPartTime { get; set; }
+    public string totalHourly { get; set; }
+    public string totalProfessionalServices { get; set; }
+  }
+
+  public class NextPayments
+  {
+    public string projectName { get; set; }
+    public string paymentFrequency { get; set; }
+    public string nextPayment { get; set; }
+  }
+
+  public class LatestPayments
+  {
+    public string projectName { get; set; }
+    public string lastPaidDate { get; set; }
+    public string lastPaidAmount { get; set; }
+  }
+
+  public class TotalProjectCost
+  {
+    public string projectName { get; set; }
+    public string totalCost { get; set; }
   }
 }
