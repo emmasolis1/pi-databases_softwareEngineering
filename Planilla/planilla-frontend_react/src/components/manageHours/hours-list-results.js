@@ -17,10 +17,10 @@ import {
 } from '@mui/material';
 import { URL } from 'src/utils/url';
 
-export const HoursListResults = ({ entries, ...rest }) => {
+export const HoursListResults = ({ entries, entriesStatuses, ...rest }) => {
   const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(0);
-  const [status, setStatus] = React.useState('');
+  const [statuses, setStatuses] = useState(entriesStatuses);
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
@@ -31,26 +31,30 @@ export const HoursListResults = ({ entries, ...rest }) => {
     setPage(newPage);
   };
 
-  const handleChange = (event, entry) => {
-    setStatus(event.target.value);
-    entry.hoursApprovalStatus = status;
+  const handleChange = (event, index, entry) => {
+    const newStatuses = [...statuses];
+    newStatuses[index] = event.target.value;
+    setStatuses(newStatuses);
+    entry.hoursApprovalStatus = event.target.value;
+
+    let month = entry.date.split(' ')[0].split('/')[1]
+    let day = entry.date.split(' ')[0].split('/')[0]
+    let year = entry.date.split(' ')[0].split('/')[2]
+    let newDate = new Date(month + "/" + day + "/" + year);
+
     var data = {
       projectName: entry.projectName,
       employerID: entry.employerID,
       employeeID: entry.employeeID,
-      date: new Date(entry.date.split(' ')[0]).getFullYear() + "-" + (new Date(entry.date.split(' ')[0]).getMonth() + 1) + "-" + new Date(entry.date.split(' ')[0]).getDate(),
+      date: newDate.getFullYear() + "-" + (newDate.getMonth() + 1) + "-" + newDate.getDate(),
       numberOfHours: entry.numberOfHours,
       hoursApprovalStatus: entry.hoursApprovalStatus
     };
 
-    console.log(status);
-    console.log(data.hoursApprovalStatus);
-    console.log(entry.hoursApprovalStatus);
+    axios.put(URL + 'manageHours', data).then((response) => {
+      alert("Entry updated successfully");
+    });
   };
-
-    //axios.put(URL + 'manageHours', data).then((response) => {
-      //alert("Entry updated successfully");
-    //});
 
   return (
     <Card {...rest}>
@@ -74,7 +78,7 @@ export const HoursListResults = ({ entries, ...rest }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {entries.slice(page * limit, page * limit + limit).map(entry => (
+              {entries.slice(page * limit, page * limit + limit).map((entry, index) => (
                 <TableRow
                   hover
                   key={entry.projectName + entry.employerID + entry.employeeID + entry.date}
@@ -96,12 +100,11 @@ export const HoursListResults = ({ entries, ...rest }) => {
                     >
                       <TextField
                         fullWidth
-                        label="Status"
                         name="hoursApprovalStatus"
-                        onChange={event => handleChange(event, entry)}
+                        onChange={event => handleChange(event, index + page * limit, entry)}
                         select
                         SelectProps={{ native: true }}
-                        value={entry.hoursApprovalStatus}
+                        value={statuses[index + page * limit]}
                         variant="outlined"
                       >
                         <option
