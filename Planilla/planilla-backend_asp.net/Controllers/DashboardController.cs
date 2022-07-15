@@ -10,12 +10,12 @@ namespace planilla_backend_asp.net.Controllers
   {
     [HttpGet]
     [Route("dashboard")]
-    public ActionResult GetDashboard(string employerID, string projectName)
+    public ActionResult GetDashboard(string employerID)
     {
       // Get data from database
       DashboardHandler handler = new DashboardHandler();
       try {
-        var data = handler.GetDashboard(employerID, projectName);
+        var data = handler.GetDashboard(employerID);
         return Ok(data);
       } catch (Exception e) {
         return BadRequest(e.Message);
