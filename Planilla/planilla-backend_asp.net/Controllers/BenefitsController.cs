@@ -10,12 +10,12 @@ namespace planilla_backend_asp.net.Controllers
   {
     [HttpGet]
     [Route("benefits")]
-    public ActionResult GetBenefits(string project, string employerID)
+    public ActionResult GetBenefits(string projectName, string employerID)
     {
       try
       {
         var handler = new BenefitsHandler();
-        var data = handler.GetBenefitsData(project, employerID);
+        var data = handler.GetBenefitsData(projectName, employerID);
         return Ok(data);
       }
       catch (Exception error)

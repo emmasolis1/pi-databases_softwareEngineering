@@ -131,7 +131,8 @@ namespace planilla_backend_asp.net.Handlers
         }
         conexion.Close();
         response = JsonConvert.SerializeObject(projects);
-      } else if (userType.Equals("1")) // It's an employee
+      }
+      else if (userType.Equals("1")) // It's an employee
       {
         List<string> projects = new List<string>();
         var consult = @"select distinct ProjectName from Contracts where EmployeeID=@id and RealEndedDate is not null";
@@ -155,7 +156,6 @@ namespace planilla_backend_asp.net.Handlers
       string consult = "EXEC GetEmployeesWorkingOnProject @projectName = @thisProjectName, @employerID = @thisEmployerID";
       var queryCommand = new SqlCommand(consult, conexion);
 
-      // Uses user's email to get their ID
       queryCommand.Parameters.AddWithValue("@thisProjectName", projectName);
       queryCommand.Parameters.AddWithValue("@thisEmployerID", employerID);
 
@@ -271,6 +271,40 @@ namespace planilla_backend_asp.net.Handlers
         contract.contractType = Convert.ToString(column["ContractType"]);
       };
       return contract;
+    }
+
+    public List<HourRegistrationModel> GetHours(string projectName, string employerID)
+    {
+      List<HourRegistrationModel> entries = new List<HourRegistrationModel>();
+      var consult = @"SELECT ProjectName, EmployerID, EmployeeID, Date, NumberOfHours, HoursApprovalStatus
+                      FROM HoursRegistry
+                      WHERE ProjectName = @projectName AND EmployerID = @employerID
+                      ORDER BY EmployeeID, Date";
+      var queryCommand = new SqlCommand(consult, conexion);
+
+      // Uses user's email and the name of the active project to get only related benefits
+      queryCommand.Parameters.AddWithValue("@projectName", projectName);
+      queryCommand.Parameters.AddWithValue("@employerID", employerID);
+
+      conexion.Open();
+      SqlDataReader reader = queryCommand.ExecuteReader();
+      while (reader.Read())
+      {
+        entries.Add(
+          new HourRegistrationModel
+          {
+            projectName = reader["ProjectName"].ToString(),
+            employerID = reader["EmployerID"].ToString(),
+            employeeID = reader["EmployeeID"].ToString(),
+            date = reader["Date"].ToString(),
+            numberOfHours = reader["NumberOfHours"].ToString(),
+            hoursApprovalStatus = reader["HoursApprovalStatus"].ToString()
+          }
+        );
+      }
+      conexion.Close();
+
+      return entries;
     }
 
     public void CreateEmployee(UserModel employee)
@@ -446,6 +480,23 @@ namespace planilla_backend_asp.net.Handlers
       queryCommand.Parameters.AddWithValue("@date", hours.date);
       queryCommand.Parameters.AddWithValue("@numberOfHours", hours.numberOfHours);
 
+      conexion.Open();
+      queryCommand.ExecuteNonQuery();
+      conexion.Close();
+    }
+
+    public void ManageHours(HourRegistrationModel hours)
+    {
+      // Prepare command
+      string consult = "UPDATE HoursRegistry SET [HoursApprovalStatus] = @hoursApprovalStatus WHERE [ProjectName] = @projectName AND [EmployerID] = @employerID AND [EmployeeID] = @employeeID AND [Date] = @date";
+      SqlCommand queryCommand = new SqlCommand(consult, conexion);
+      queryCommand.Parameters.AddWithValue("@hoursApprovalStatus", hours.hoursApprovalStatus);
+      queryCommand.Parameters.AddWithValue("@projectName", hours.projectName);
+      queryCommand.Parameters.AddWithValue("@employerID", hours.employerID);
+      queryCommand.Parameters.AddWithValue("@employeeID", hours.employeeID);
+      queryCommand.Parameters.AddWithValue("@date", hours.date);
+
+      // Execute command
       conexion.Open();
       queryCommand.ExecuteNonQuery();
       conexion.Close();

@@ -25,17 +25,17 @@ namespace planilla_backend_asp.net.Handlers
       return consultTable;
     }
 
-    public List<BenefitsModel> GetBenefitsData(string project, string employerID)
+    public List<BenefitsModel> GetBenefitsData(string projectName, string employerID)
     {
       List<BenefitsModel> benefits = new List<BenefitsModel>();
       var consult = @"SELECT BenefitName, ProjectName, EmployerID, Description, Cost
                       FROM Benefits
-                      WHERE ProjectName = @project AND EmployerID = @employerID AND IsActive = 0
+                      WHERE ProjectName = @projectName AND EmployerID = @employerID AND IsActive = 0
                       ORDER BY BenefitName";
       var queryCommand = new SqlCommand(consult, connection);
 
       // Uses user's email and the name of the active project to get only related benefits
-      queryCommand.Parameters.AddWithValue("@project", project);
+      queryCommand.Parameters.AddWithValue("@projectName", projectName);
       queryCommand.Parameters.AddWithValue("@employerID", employerID);
 
       SqlDataAdapter tableAdapter = new SqlDataAdapter(queryCommand);

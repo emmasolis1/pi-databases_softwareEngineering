@@ -25,7 +25,8 @@ const HourRegistration = () => {
       employerID: '',
       employeeID: '',
       date: new Date(new Date().getTime() + new Date().getTimezoneOffset() * -60000),
-      numberOfHours: ''
+      numberOfHours: '',
+      hoursApprovalStatus: ''
     },
     validationSchema: Yup.object({
       numberOfHours: Yup
@@ -40,7 +41,8 @@ const HourRegistration = () => {
         employerID: sessionStorage.getItem("employerID"),
         employeeID: sessionStorage.getItem("employeeID"),
         date: values.date,
-        numberOfHours: values.numberOfHours
+        numberOfHours: values.numberOfHours,
+        hoursApprovalStatus: values.hoursApprovalStatus
       };
       axios.post(URL + 'hourRegistration', data)
         .then(function () {
