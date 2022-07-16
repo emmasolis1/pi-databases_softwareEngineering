@@ -135,7 +135,7 @@ WHERE UserType = 1
 create procedure GetAllEmployeePayments
 @employeeID varchar(10)
 as
-select c.ProjectName, c.ContractType, p.PaymentDate, c.NetSalary
+select c.ProjectName, c.EmployerID, c.EmployeeID, c.StartDate, c.ContractType, p.PaymentDate, c.NetSalary
 from Payments p
 	join Contracts c on p.ProjectName = c.ProjectName and p.EmployerID = c.EmployerID and p.EmployeeID = c.EmployeeID and p.StartDate = c.StartDate
 where p.EmployeeID = @employeeID
@@ -147,9 +147,10 @@ go
 create procedure GetVoluntaryDeductionsFromPayment
 @project_name varchar(255), @employer_id varchar(10), @employee_id varchar(10), @contract_date date, @payment_date date
 as
-select VoluntaryDeductionName, ProjectName, EmployerID, StartDate, EmployeeID
-from IncludesVoluntaryDeductions
-where @project_name = ProjectName and @employer_id = EmployerID and @employee_id = EmployeeID and @contract_date = ContractDate and @payment_date = PaymentDate
+select i.VoluntaryDeductionName, i.ProjectName, i.EmployerID, i.StartDate, i.EmployeeID, s.Cost
+from IncludesVoluntaryDeductions i
+	join VoluntaryDeductionsStatus s on i.VoluntaryDeductionName = s.VoluntaryDeductionName and i.ProjectName = s.ProjectName and i.EmployerID = s.EmployerID and i.StartDate = s.StartDate and i.EmployeeID = s.EmployeeID
+where @project_name = i.ProjectName and @employer_id = i.EmployerID and @employee_id = i.EmployeeID and @contract_date = i.ContractDate and @payment_date = i.PaymentDate
 go
 
 create procedure GetMandatoryDeductionsFromPayment

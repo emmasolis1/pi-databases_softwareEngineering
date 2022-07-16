@@ -16,7 +16,7 @@
 		public double netSalary { get; set; }
 		public ICollection<MandatoryDeductionHistoryModel> mandatoryDeductions { get; set; }
 		public ICollection<VoluntaryDeductionHistoryModel> voluntaryDeductions { get; set; }
-		public double payment { get; set; }
+		public double payment { get; set; } = 0;
 	}
 	public class MandatoryDeductionHistoryModel
     {

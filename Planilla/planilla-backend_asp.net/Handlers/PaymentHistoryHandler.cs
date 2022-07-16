@@ -52,6 +52,32 @@ namespace planilla_backend_asp.net.Handlers
             queryCommand.Parameters.AddWithValue("@payment_date", payment.paymentDate);
             return CreateTableConsult(queryCommand);
         }
+        public List<PaymentHistoryModel> GetPaymentHistory(string employeeId)
+        {
+            DataTable resultTable = GetAllPayments(employeeId);
+            List<PaymentHistoryModel> payments = new List<PaymentHistoryModel>();
+            foreach (DataRow column in resultTable.Rows)
+            {
+                PaymentHistoryModel historyPayment = new PaymentHistoryModel
+                {
+                    projectName = Convert.ToString(column["ProjectName"]),
+                    employerId = Convert.ToString(column["EmployerID"]),
+                    employeeId = Convert.ToString(column["EmployeeID"]),
+                    contractDate = Convert.ToString(column["StartDate"]),
+                    contractType = Convert.ToString(column["ContractType"]),
+                    paymentDate = Convert.ToString(column["PaymentDate"]),
+                    netSalary = Convert.ToDouble(column["NetSalary"]),
+                };
+                // get voluntary deductions
+                DataTable volutaryDeductions = GetVoluntaryDeductions(historyPayment);
+                // get mandatory deductions
+                DataTable mandatoryDeductions = GetMandatoryDeductions(historyPayment);
+                // calculate payment
+
+                payments.Add(historyPayment);
+            }
+            return payments;
+        }
     }
 
 }
