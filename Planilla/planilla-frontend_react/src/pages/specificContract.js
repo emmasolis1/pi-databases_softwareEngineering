@@ -7,6 +7,7 @@ import { DashboardLayout } from '../components/dashboard-layout';
 import axios from 'axios';
 import NextLink from 'next/link';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { URL } from 'src/utils/url';
 
 class SpecificContract extends React.Component {
   constructor(props) {
@@ -15,7 +16,7 @@ class SpecificContract extends React.Component {
       contract: [],
       employeeFullName: [],
       isLoaded: false,
-      APIUrl: 'https://localhost:7150/api/specificContract',
+      APIUrl: URL + 'specificContract',
     };
   }
 

@@ -19,8 +19,9 @@ import { useFormik } from 'formik';
 import axios from 'axios';
 import * as Yup from 'yup';
 import { useRouter } from 'next/router';
+import { URL } from 'src/utils/url';
 
-export const BenefitProfileDetails = ({ benefit, ...props }) => {
+export const SpecificBenefitProfileDetails = ({ benefit, ...props }) => {
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
   const formik = useFormik({
@@ -45,9 +46,9 @@ export const BenefitProfileDetails = ({ benefit, ...props }) => {
         description: values.description,
         cost: values.cost
       };
-      axios.put('https://localhost:7150/api/specificBenefit', data).then((response) => {
+      axios.put(URL + 'specificBenefit', data).then((response) => {
         alert("Benefit updated successfully");
-        router.push('/specificBenefit');
+        router.push('/benefit');
       });
     }
   });
@@ -59,7 +60,7 @@ export const BenefitProfileDetails = ({ benefit, ...props }) => {
   const handleClose = (agreed) => {
     setOpen(false);
     if (agreed === true) {
-      axios.delete("https://localhost:7150/api/deleteBenefit?benefitName=" + sessionStorage.getItem("benefit") + "&projectName=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID")).then(() => {
+      axios.delete(URL + "deleteBenefit?benefitName=" + sessionStorage.getItem("benefit") + "&projectName=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID")).then(() => {
         alert("Benefit deleted successfully");
         router.push('/benefits');
       });

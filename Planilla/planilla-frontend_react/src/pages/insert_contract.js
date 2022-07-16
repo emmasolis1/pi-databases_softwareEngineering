@@ -1,36 +1,54 @@
 import Head from 'next/head';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
-import { useFormik } from 'formik';
+import { useFormik, Field } from 'formik';
 import axios from 'axios';
 import * as Yup from 'yup';
 import {
   Box,
   Button,
   Container,
+  Stack,
   TextField,
   Typography
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-
+import { useEffect, useState } from 'react';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { URL } from 'src/utils/url';
 
 const InsertContract = () => {
+  const [project, setProject] = useState('');
+  const [employerID, setEmployerID] = useState('');
+  const [employeeID, setEmployeeID] = useState('');
+
+  useEffect(() => {
+    setProject(sessionStorage.getItem('project'));
+  }, [project]);
+
+  useEffect(() => {
+    setEmployerID(sessionStorage.getItem('employerID'));
+  }, [employerID]);
+
+  useEffect(() => {
+    setEmployeeID(sessionStorage.getItem('employeeID'));
+  }, [employeeID]);
+
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
-      projectName: sessionStorage.getItem("project"),
-      employerID: sessionStorage.getItem("employerID"),
-      employeeID: sessionStorage.getItem("employeeID"),
+      projectName: project,
+      employerID: employerID,
+      employeeID: employeeID,
       startDate: new Date(new Date().getTime() + new Date().getTimezoneOffset() * -60000),
       expectedEndingDate: new Date(new Date().getTime() + new Date().getTimezoneOffset() * -60000),
       realEndedDate: '',
       position: '',
       schedule: '',
       netSalary: '',
-      contractType: ''
+      contractType: '0'
     },
     validationSchema: Yup.object({
       position: Yup
@@ -46,11 +64,7 @@ const InsertContract = () => {
       netSalary: Yup
         .string()
         .required(
-          'Net salary is required'),
-      contractType: Yup
-        .string()
-        .required(
-          'Contract type is required'),
+          'Net salary is required')
     }),
     onSubmit: values => {
       var data = {
@@ -65,7 +79,7 @@ const InsertContract = () => {
         netSalary: values.netSalary,
         contractType: values.contractType
       };
-      axios.post('https://localhost:7150/api/addEmployeeToProject', data)
+      axios.post(URL + 'addEmployeeToProject', data)
         .then(function () {
           alert("Contract successfully saved, returning to project's employee list");
           router.push('/specific_project_employees');
@@ -126,28 +140,26 @@ const InsertContract = () => {
               >
               </Typography>
             </Box>
-            <Box sx={{ my: 3 }}>
+            <Box sx={{ my: 1 }}>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DatePicker
-                  label="Start Date"
-                  value={formik.values.startDate}
-                  onChange={(value) => {
-                    formik.setFieldValue('startDate', value.getFullYear() + "-" + (value.getMonth() + 1) + "-" + value.getDate());
-                  }}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </LocalizationProvider>
-            </Box>
-            <Box sx={{ my: 3 }}>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DatePicker
-                  label="Ending Date"
-                  value={formik.values.expectedEndingDate}
-                  onChange={(value) => {
-                    formik.setFieldValue('expectedEndingDate', value.getFullYear() + "-" + (value.getMonth() + 1) + "-" + value.getDate());
-                  }}
-                  renderInput={(params) => <TextField {...params} />}
-                />
+                <Stack spacing={3}>
+                  <DatePicker
+                    label="Start Date"
+                    value={formik.values.startDate}
+                    onChange={(value) => {
+                      formik.setFieldValue('startDate', value.getFullYear() + "-" + (value.getMonth() + 1) + "-" + value.getDate());
+                    }}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                  <DatePicker
+                    label="Ending Date"
+                    value={formik.values.expectedEndingDate}
+                    onChange={(value) => {
+                      formik.setFieldValue('expectedEndingDate', value.getFullYear() + "-" + (value.getMonth() + 1) + "-" + value.getDate());
+                    }}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </Stack>
               </LocalizationProvider>
             </Box>
             <TextField
@@ -186,18 +198,44 @@ const InsertContract = () => {
               value={formik.values.netSalary}
               variant="outlined"
             />
-            <TextField
-              error={Boolean(formik.touched.contractType && formik.errors.contractType)}
-              fullWidth
-              helperText={formik.touched.contractType && formik.errors.contractType}
-              label="Contract Type"
-              margin="normal"
-              name="contractType"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.contractType}
-              variant="outlined"
-            />
+            <Box>
+              <TextField
+                fullWidth
+                label="Contract Type"
+                margin="normal"
+                name="contractType"
+                onChange={formik.handleChange}
+                select
+                SelectProps={{ native: true }}
+                value={formik.values.contractType}
+                variant="outlined"
+              >
+                <option
+                  key="0"
+                  value="0"
+                >
+                  Full-time
+                </option>
+                <option
+                  key="1"
+                  value="1"
+                >
+                  Half-time
+                </option>
+                <option
+                  key="2"
+                  value="2"
+                >
+                  Hourly
+                </option>
+                <option
+                  key="3"
+                  value="3"
+                >
+                  Professional services
+                </option>
+              </TextField>
+            </Box>
             <Box sx={{ py: 2 }}>
               <Button
                 color="primary"

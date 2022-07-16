@@ -19,7 +19,6 @@ import {
   Avatar,
   Box,
   Card,
-  Checkbox,
   Table,
   TableBody,
   TableCell,
@@ -28,45 +27,13 @@ import {
   TableRow,
   Typography
 } from '@mui/material';
+import { URL } from 'src/utils/url';
 
 export const EmployeeListResults = ({ employees, ...rest }) => {
   const router = useRouter();
-  const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(0);
   const [open, setOpen] = React.useState(false);
-
-  const handleSelectAll = (event) => {
-    let newSelectedCustomerIds;
-
-    if (event.target.checked) {
-      newSelectedCustomerIds = employees.map((employee) => employee.Identification);
-    } else {
-      newSelectedCustomerIds = [];
-    }
-
-    setSelectedCustomerIds(newSelectedCustomerIds);
-  };
-
-  const handleSelectOne = (event, id) => {
-    const selectedIndex = selectedCustomerIds.indexOf(id);
-    let newSelectedCustomerIds = [];
-
-    if (selectedIndex === -1) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds, id);
-    } else if (selectedIndex === 0) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(1));
-    } else if (selectedIndex === selectedCustomerIds.length - 1) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(
-        selectedCustomerIds.slice(0, selectedIndex),
-        selectedCustomerIds.slice(selectedIndex + 1)
-      );
-    }
-
-    setSelectedCustomerIds(newSelectedCustomerIds);
-  };
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
@@ -85,7 +52,7 @@ export const EmployeeListResults = ({ employees, ...rest }) => {
   const handleClose = (agreed) => {
     setOpen(false);
     if (agreed === true) {
-      axios.delete("https://localhost:7150/api/deleteEmployeeFromProject?projectName=" + sessionStorage.getItem("project") + "&id=" + sessionStorage.getItem("employeeID")).then(() => {
+      axios.delete(URL + "deleteEmployeeFromProject?projectName=" + sessionStorage.getItem("project") + "&id=" + sessionStorage.getItem("employeeID")).then(() => {
         alert("Employee deleted from project successfully");
         window.location.reload(false);
       });
@@ -105,17 +72,6 @@ export const EmployeeListResults = ({ employees, ...rest }) => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell padding="checkbox">
-                  <Checkbox
-                    checked={selectedCustomerIds.length === employees.length}
-                    color="primary"
-                    indeterminate={
-                      selectedCustomerIds.length > 0
-                      && selectedCustomerIds.length < employees.length
-                    }
-                    onChange={handleSelectAll}
-                  />
-                </TableCell>
                 <TableCell>
                   Name
                 </TableCell>
@@ -141,15 +97,7 @@ export const EmployeeListResults = ({ employees, ...rest }) => {
                 <TableRow
                   hover
                   key={employee.Identification}
-                  selected={selectedCustomerIds.indexOf(employee.Identification) !== -1}
                 >
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      checked={selectedCustomerIds.indexOf(employee.Identification) !== -1}
-                      onChange={(event) => handleSelectOne(event, employee.Identification)}
-                      value="true"
-                    />
-                  </TableCell>
                   <TableCell>
                     <Box
                       sx={{

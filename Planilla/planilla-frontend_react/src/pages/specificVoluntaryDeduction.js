@@ -5,6 +5,7 @@ import { SpecificVoluntaryDeductionProfile } from '../components/specificVolunta
 import { SpecificVoluntaryDeductionProfileDetails } from '../components/specificVoluntaryDeduction/specific-voluntaryDeduction-profile-details';
 import { DashboardLayout } from '../components/dashboard-layout';
 import axios from 'axios';
+import { URL } from 'src/utils/url';
 
 class SpecificVoluntaryDeduction extends React.Component {
   constructor(props) {
@@ -12,7 +13,7 @@ class SpecificVoluntaryDeduction extends React.Component {
     this.state = {
       voluntaryDeduction: [],
       isLoaded: false,
-      APIUrl: 'https://localhost:7150/api/specificVoluntaryDeduction',
+      APIUrl: URL + 'specificVoluntaryDeduction'
     };
   }
 

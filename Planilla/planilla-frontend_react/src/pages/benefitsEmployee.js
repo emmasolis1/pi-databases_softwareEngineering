@@ -2,20 +2,22 @@ import Head from 'next/head';
 import React from 'react';
 import axios from 'axios';
 import { Box, Container } from '@mui/material';
-import { BenefitListResults } from '../components/benefit/benefit-list-results';
-import { BenefitListToolbar } from '../components/benefit/benefit-list-toolbar';
+import { BenefitEmployeeListResults } from '../components/benefitEmployee/benefitEmployee-list-results';
+import { BenefitEmployeeListToolbar } from '../components/benefitEmployee/benefitEmployee-list-toolbar';
 import { DashboardLayout } from '../components/dashboard-layout';
+import { URL } from 'src/utils/url';
 
-class Benefits extends React.Component {
+class BenefitsEmployee extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       benefits: [],
-      APIUrl: 'https://localhost:7150/api/benefits',
+      APIUrl: URL + 'benefitsBeingUsedByEmployee',
     };
   }
+
   componentDidMount() {    
-    axios.get(this.state.APIUrl + "?project=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID")).then(response => {
+    axios.get(this.state.APIUrl + "?projectName=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID") + "&employeeID=" + sessionStorage.getItem("employeeID")).then(response => {
       this.setState({ benefits: response.data });
     });
   }
@@ -36,9 +38,9 @@ class Benefits extends React.Component {
           }}
         >
           <Container maxWidth={false}>
-            <BenefitListToolbar />
+            <BenefitEmployeeListToolbar />
             <Box sx={{ mt: 3 }}>
-              <BenefitListResults benefits={this.state.benefits} />
+            <BenefitEmployeeListResults benefits={this.state.benefits} />
             </Box>
           </Container>
         </Box>
@@ -47,10 +49,10 @@ class Benefits extends React.Component {
   }
 }
 
-Benefits.getLayout = (page) => (
+BenefitsEmployee.getLayout = (page) => (
   <DashboardLayout>
     {page}
   </DashboardLayout>
 );
 
-export default Benefits;
+export default BenefitsEmployee;

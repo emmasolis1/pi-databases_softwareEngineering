@@ -1,14 +1,9 @@
 import {
   Box,
   Button,
-  Card,
-  CardContent,
-  TextField,
-  InputAdornment,
-  SvgIcon, Typography
+  Typography
 } from '@mui/material';
 import NextLink from 'next/link';
-import { Search as SearchIcon } from '../../icons/search';
 
 export const EmployeeListToolbar = (props) => {
   return (
@@ -22,21 +17,12 @@ export const EmployeeListToolbar = (props) => {
           m: -1
         }}
       >
-        <Box
-          sx={{
-            alignItems: 'center',
-            display: 'flex',
-            flexWrap: 'wrap',
-            m: -1
-          }}
+        <Typography
+          sx={{ m: 1 }}
+          variant="h4"
         >
-          <Typography
-            sx={{ m: 1 }}
-            variant="h4"
-          >
-            Employees
-          </Typography>
-        </Box>
+          Employees
+        </Typography>
         <Box sx={{ m: 1 }}>
           <NextLink
             href="/create_employee"
@@ -51,31 +37,8 @@ export const EmployeeListToolbar = (props) => {
           </NextLink>
         </Box>
       </Box>
-      <Box sx={{ mt: 3 }}>
-        <Card>
-          <CardContent>
-            <Box sx={{ maxWidth: 500 }}>
-              <TextField
-                fullWidth
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <SvgIcon
-                        color="action"
-                        fontSize="small"
-                      >
-                        <SearchIcon />
-                      </SvgIcon>
-                    </InputAdornment>
-                  )
-                }}
-                placeholder="Search employee"
-                variant="outlined"
-              />
-            </Box>
-          </CardContent>
-        </Card>
-      </Box>
+      <br></br>
+      <hr></hr>
     </Box>
   );
 }

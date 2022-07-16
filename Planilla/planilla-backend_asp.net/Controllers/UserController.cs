@@ -112,7 +112,6 @@ namespace planilla_backend_asp.net.Controllers
     [Route("hourRegistration")]
     public ActionResult RegisterHours([FromBody] HourRegistrationModel hours)
     {
-      // Save new contract
       UserHandler handler = new UserHandler();
       handler.RegisterHours(hours);
       return Ok();

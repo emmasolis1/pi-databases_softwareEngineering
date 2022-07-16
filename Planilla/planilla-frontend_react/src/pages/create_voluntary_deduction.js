@@ -12,6 +12,7 @@ import {
   Typography
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { URL } from 'src/utils/url';
 
 const CreateVoluntaryDeduction = () => {
   const router = useRouter();
@@ -32,6 +33,11 @@ const CreateVoluntaryDeduction = () => {
       description: Yup
         .string()
         .max(255),
+      cost: Yup
+        .string()
+        .max(255)
+        .required(
+          'Cost is required'  ),
     }),
     onSubmit: values => {
       var data = {
@@ -39,9 +45,9 @@ const CreateVoluntaryDeduction = () => {
         projectName: sessionStorage.getItem("project"),
         employerID: sessionStorage.getItem("employerID"),
         description: values.description,
-        cost: ""
+        cost: values.cost
       };
-      axios.post('https://localhost:7150/api/voluntaryDeductions', data)
+      axios.post(URL + 'voluntaryDeductions', data)
         .then(function () {
           alert("Voluntary Deduction successfully created, returning to voluntary deduction list");
           router.push('/voluntaryDeductions');
@@ -123,6 +129,18 @@ const CreateVoluntaryDeduction = () => {
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               value={formik.values.description}
+              variant="outlined"
+            />
+           <TextField
+              error={Boolean(formik.touched.cost && formik.errors.cost)}
+              fullWidth
+              helperText={formik.touched.cost && formik.errors.cost}
+              label="Cost"
+              margin="normal"
+              name="cost"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              value={formik.values.cost}
               variant="outlined"
             />
             <Box sx={{ py: 2 }}>

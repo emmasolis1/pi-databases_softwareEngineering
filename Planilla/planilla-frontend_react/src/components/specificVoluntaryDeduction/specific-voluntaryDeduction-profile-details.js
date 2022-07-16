@@ -19,6 +19,7 @@ import { useFormik } from 'formik';
 import axios from 'axios';
 import * as Yup from 'yup';
 import { useRouter } from 'next/router';
+import { URL } from 'src/utils/url';
 
 export const SpecificVoluntaryDeductionProfileDetails = ({ voluntaryDeduction, ...props }) => {
   const router = useRouter();
@@ -28,12 +29,14 @@ export const SpecificVoluntaryDeductionProfileDetails = ({ voluntaryDeduction, .
       projectName: voluntaryDeduction.projectName,
       employerID: voluntaryDeduction.employerID,
       description: voluntaryDeduction.description,
-      cost: '',
+      cost: voluntaryDeduction.cost,
     },
     validationSchema: Yup.object({
       description: Yup
         .string()
-        .max(255)
+        .max(255),
+      cost: Yup
+        .string(),
     }),
     onSubmit: values => {
       var data = {
@@ -41,9 +44,9 @@ export const SpecificVoluntaryDeductionProfileDetails = ({ voluntaryDeduction, .
         projectName: voluntaryDeduction.projectName,
         employerID: voluntaryDeduction.employerID,
         description: values.description,
-        cost: ""
+        cost: values.cost
       };
-      axios.put('https://localhost:7150/api/specificVoluntaryDeduction', data).then((response) => {
+      axios.put(URL + 'specificVoluntaryDeduction', data).then((response) => {
         alert("Voluntary Deduction updated successfully");
         router.push('/voluntaryDeductions');
       });
@@ -57,12 +60,13 @@ const handleClickOpen = () => {
   const handleClose = (agreed) => {
     setOpen(false);
     if (agreed === true) {
-      axios.delete("https://localhost:7150/api/deleteVoluntaryDeduction?voluntaryDeductionName=" + sessionStorage.getItem("voluntaryDeduction") + "&projectName=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID")).then(() => {
+      axios.delete(URL + "deleteVoluntaryDeduction?voluntaryDeductionName=" + sessionStorage.getItem("voluntaryDeduction") + "&projectName=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID")).then(() => {
         alert("Voluntary deduction deleted successfully");
         router.push('/voluntaryDeductions');
       });
     }
   };
+
   return (
     <form
       onSubmit={formik.handleSubmit}
@@ -77,17 +81,36 @@ const handleClickOpen = () => {
             container
             spacing={3}
           >
-            <Grid
+           <Grid
               item
               md={6}
               xs={12}
             >
+            <TextField
+                fullWidth
+                label="Employer ID"
+                margin="none"
+                value={formik.values.employerID}
+                disabled={true}
+              />
             </Grid>
             <Grid
               item
               md={6}
               xs={12}
             >
+              <TextField
+                fullWidth
+                label="Cost"
+                margin="none"
+                value={formik.values.cost}
+                name="cost"
+                error={Boolean(formik.touched.cost && formik.errors.cost)}
+                helperText={formik.touched.cost && formik.errors.cost}
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                variant="outlined"
+              />
             </Grid>
             <Grid
               item

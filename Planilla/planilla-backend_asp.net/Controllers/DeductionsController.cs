@@ -11,10 +11,10 @@ namespace planilla_backend_asp.net.Controllers
 
     [HttpGet]
     [Route("voluntaryDeductions")]
-    public ActionResult GetVoluntaryDeductions(string project, string employerID)
+    public ActionResult GetVoluntaryDeductions(string projectName, string employerID)
     {
       var handler = new DeductionsHandler();
-      var data = handler.GetVoluntaryDeductionsData(project, employerID);
+      var data = handler.GetVoluntaryDeductionsData(projectName, employerID);
       return Ok(data);
     }
 
@@ -78,6 +78,57 @@ namespace planilla_backend_asp.net.Controllers
       {
         DeductionsHandler handler = new DeductionsHandler();
         handler.DeleteVoluntaryDeduction(voluntaryDeductionName, projectName, employerID);
+        return Ok();
+      }
+      catch (Exception error)
+      {
+        Console.WriteLine(error);
+        return BadRequest(error.Message);
+      }
+    }
+        
+    [HttpGet]
+    [Route("voluntaryDeductionsBeingUsedByEmployee")]
+    public ActionResult VoluntaryDeductionsBeingUsedByEmployee(string projectName, string employerID, string employeeID)
+    {
+      try
+      {
+        var handler = new DeductionsHandler();
+        var data = handler.VoluntaryDeductionsBeingUsedByEmployee(projectName, employerID, employeeID);
+        return Ok(data);
+      }
+      catch (Exception error)
+      {
+        Console.WriteLine(error);
+        return BadRequest(error.Message);
+      }
+    }
+
+    [HttpGet]
+    [Route("voluntaryDeductionsNotBeingUsedByEmployee")]
+    public ActionResult VoluntaryDeductionsNotBeingUsedByEmployee(string projectName, string employerID, string employeeID)
+    {
+      try
+      {
+        var handler = new DeductionsHandler();
+        var data = handler.VoluntaryDeductionsNotBeingUsedByEmployee(projectName, employerID, employeeID);
+        return Ok(data);
+      }
+      catch (Exception error)
+      {
+        Console.WriteLine(error);
+        return BadRequest(error.Message);
+      }
+    }
+
+    [HttpPost]
+    [Route("requestVoluntaryDeduction")]
+    public ActionResult EstablishVoluntaryDeductionStatus([FromBody] VoluntaryDeductionsEmployeeModel deduction)
+    {
+      try
+      {
+        DeductionsHandler handler = new DeductionsHandler();
+        handler.EstablishVoluntaryDeductionStatus(deduction);
         return Ok();
       }
       catch (Exception error)

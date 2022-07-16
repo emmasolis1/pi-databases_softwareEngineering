@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Button,
   Card,
@@ -15,15 +14,6 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import WarningIcon from '@mui/icons-material/Warning';
-
-const user = {
-  city: 'Los Angeles',
-  country: 'USA',
-  jobTitle: 'Senior Developer',
-  name: 'Katarina Smith',
-  timezone: 'GTM-7'
-};
 
 export const AccountProfile = ({user, ...props}) => {
   const router = useRouter();
@@ -66,13 +56,18 @@ export const AccountProfile = ({user, ...props}) => {
             color="textSecondary"
             variant="body2"
           >
-            {`${user.City == null ? '' : user.State + ', '} ${user.Country}`}
+            ID: {user.Identification}
           </Typography>
           <Typography
             color="textSecondary"
             variant="body2"
           >
-            {user.timezone}
+            {`
+            ${user.State != '' && user.Country != '' && user.State != null && user.Country != null ? user.State + ', ' + user.Country : ''}
+            ${user.State != '' && user.State != null && user.Country == '' || user.State != '' && user.State != null && user.Country == null ? user.State : ''}
+            ${user.State == '' && user.Country != '' && user.Country != null || user.State == null && user.Country != '' && user.Country != null ? user.Country : ''}
+            ${user.State == '' && user.Country == '' || user.State == '' && user.Country == null || user.State == null && user.Country == '' || user.State == null && user.Country == null  ? 'No registered location' : ''}
+            `}
           </Typography>
         </Box>
       </CardContent>

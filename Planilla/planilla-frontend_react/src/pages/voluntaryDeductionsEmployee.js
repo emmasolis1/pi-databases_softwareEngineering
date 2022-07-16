@@ -2,20 +2,22 @@ import Head from 'next/head';
 import React from 'react';
 import axios from 'axios';
 import { Box, Container } from '@mui/material';
-import { VoluntaryDeductionListResults } from '../components/voluntaryDeduction/voluntaryDeduction-list-results';
-import { VoluntaryDeductionListToolbar } from '../components/voluntaryDeduction/voluntaryDeduction-list-toolbar';
+import { VoluntaryDeductionEmployeeListResults } from '../components/voluntaryDeductionEmployee/voluntaryDeductionEmployee-list-results';
+import { VoluntaryDeductionEmployeeListToolbar } from '../components/voluntaryDeductionEmployee/voluntaryDeductionEmployee-list-toolbar';
 import { DashboardLayout } from '../components/dashboard-layout';
+import { URL } from 'src/utils/url';
 
-class VoluntaryDeductions extends React.Component {
+class VoluntaryDeductionsEmployee extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       voluntaryDeductions: [],
-      APIUrl: 'https://localhost:7150/api/voluntaryDeductions',
+      APIUrl: URL + 'voluntaryDeductions',
     };
   }
+
   componentDidMount() {    
-    axios.get(this.state.APIUrl + "?project=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID")).then(response => {
+    axios.get(this.state.APIUrl + "?projectName=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID") + "&employeeID=" + sessionStorage.getItem("employeeID")).then(response => {
       this.setState({ voluntaryDeductions: response.data });
     });
   }
@@ -36,9 +38,9 @@ class VoluntaryDeductions extends React.Component {
           }}
         >
           <Container maxWidth={false}>
-            <VoluntaryDeductionListToolbar />
+            <VoluntaryDeductionEmployeeListToolbar />
             <Box sx={{ mt: 3 }}>
-              {<VoluntaryDeductionListResults voluntaryDeductions={this.state.voluntaryDeductions} />}
+              {<VoluntaryDeductionEmployeeListResults voluntaryDeductions={this.state.voluntaryDeductions} />}
             </Box>
           </Container>
         </Box>
@@ -47,10 +49,10 @@ class VoluntaryDeductions extends React.Component {
   }
 }
 
-VoluntaryDeductions.getLayout = (page) => (
+VoluntaryDeductionsEmployee.getLayout = (page) => (
   <DashboardLayout>
     {page}
   </DashboardLayout>
 );
 
-export default VoluntaryDeductions;
+export default VoluntaryDeductionsEmployee;

@@ -12,19 +12,69 @@ namespace planilla_backend_asp.net.Controllers
     [Route("benefits")]
     public ActionResult GetBenefits(string project, string employerID)
     {
-      var handler = new BenefitsHandler();
-      var data = handler.GetBenefitsData(project, employerID);
-      return Ok(data);
+      try
+      {
+        var handler = new BenefitsHandler();
+        var data = handler.GetBenefitsData(project, employerID);
+        return Ok(data);
+      }
+      catch (Exception error)
+      {
+        Console.WriteLine(error);
+        return BadRequest(error.Message);
+      }
+    }
+
+    [HttpGet]
+    [Route("benefitsBeingUsedByEmployee")]
+    public ActionResult BenefitsBeingUsedByEmployee(string projectName, string employerID, string employeeID)
+    {
+      try
+      {
+        var handler = new BenefitsHandler();
+        var data = handler.BenefitsBeingUsedByEmployee(projectName, employerID, employeeID);
+        return Ok(data);
+      }
+      catch (Exception error)
+      {
+        Console.WriteLine(error);
+        return BadRequest(error.Message);
+      }
+    }
+
+    [HttpGet]
+    [Route("benefitsNotBeingUsedByEmployee")]
+    public ActionResult BenefitsNotBeingUsedByEmployee(string projectName, string employerID, string employeeID)
+    {
+      try
+      {
+        var handler = new BenefitsHandler();
+        var data = handler.BenefitsNotBeingUsedByEmployee(projectName, employerID, employeeID);
+        return Ok(data);
+      }
+      catch (Exception error)
+      {
+        Console.WriteLine(error);
+        return BadRequest(error.Message);
+      }
     }
 
     [HttpPost]
     [Route("benefits")]
     public ActionResult CreateBenefit([FromBody] BenefitsModel benefit)
     {
-      // Create new benefit
-      BenefitsHandler handler = new BenefitsHandler();
-      handler.CreateBenefit(benefit);
-      return Ok();
+      try
+      {
+        // Create new benefit
+        BenefitsHandler handler = new BenefitsHandler();
+        handler.CreateBenefit(benefit);
+        return Ok();
+      }
+      catch (Exception error)
+      {
+        Console.WriteLine(error);
+        return BadRequest(error.Message);
+      }
     }
 
     [HttpGet]
@@ -69,6 +119,24 @@ namespace planilla_backend_asp.net.Controllers
       {
         BenefitsHandler handler = new BenefitsHandler();
         handler.DeleteBenefit(benefitName, projectName, employerID);
+        return Ok();
+      }
+      catch (Exception error)
+      {
+        Console.WriteLine(error);
+        return BadRequest(error.Message);
+      }
+    }
+     
+    [HttpPost]
+    [Route("requestBenefit")]
+    public ActionResult EstablishBenefitStatus([FromBody] BenefitEmployeeModel benefit)
+    {
+      try
+      {
+        // Request a benefit
+        BenefitsHandler handler = new BenefitsHandler();
+        handler.EstablishBenefitStatus(benefit);
         return Ok();
       }
       catch (Exception error)

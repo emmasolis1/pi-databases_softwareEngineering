@@ -5,17 +5,19 @@ import { Box, Container } from '@mui/material';
 import { VoluntaryDeductionListResults } from '../components/voluntaryDeduction/voluntaryDeduction-list-results';
 import { VoluntaryDeductionListToolbar } from '../components/voluntaryDeduction/voluntaryDeduction-list-toolbar';
 import { DashboardLayout } from '../components/dashboard-layout';
+import { URL } from 'src/utils/url';
 
 class VoluntaryDeductions extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       voluntaryDeductions: [],
-      APIUrl: 'https://localhost:7150/api/voluntaryDeductions',
+      APIUrl: URL + 'voluntaryDeductions',
     };
   }
+
   componentDidMount() {    
-    axios.get(this.state.APIUrl + "?project=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID")).then(response => {
+    axios.get(this.state.APIUrl + "?projectName=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID")).then(response => {
       this.setState({ voluntaryDeductions: response.data });
     });
   }
