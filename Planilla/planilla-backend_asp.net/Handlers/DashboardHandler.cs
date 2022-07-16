@@ -54,6 +54,12 @@ namespace planilla_backend_asp.net.Handlers
         
         // Next Payments
         dashboard.nextPayments = GetNextPayments(employerID);
+
+        // Last Payments
+        dashboard.latestPayments = GetProjectsLastPayments(employerID);
+
+        // Total Projects Cost
+        dashboard.totalProjectCost = GetProjectCosts(employerID);
       }
       catch (Exception e)
       {
@@ -171,6 +177,58 @@ namespace planilla_backend_asp.net.Handlers
         Console.WriteLine(e);
         return "-1";
       }
+    }
+
+    private List<LatestPayments> GetProjectsLastPayments(string employerID)
+    {
+      List<LatestPayments> employeeTypes = new List<LatestPayments>();
+      var consult = @"select distinct p.ProjectName,
+            p.PaymentDate as DatePaid,
+            (select sum(paid.NetSalary) from Payments paid where paid.EmployerID=@employerID and paid.PaymentDate=p.PaymentDate) as TotalPaid
+        from Payments p
+        where p.EmployerID=@employerID
+        order by DatePaid desc";
+      var queryCommand = new SqlCommand(consult, conexion);
+
+      // Uses user's email and the name of the active project to get only related benefits
+      queryCommand.Parameters.AddWithValue("@employerID", employerID);
+
+      SqlDataAdapter tableAdapter = new SqlDataAdapter(queryCommand);
+      DataTable tablaResultado = CreateTableConsult(tableAdapter);
+      foreach (DataRow columna in tablaResultado.Rows)
+      {
+        employeeTypes.Add(new LatestPayments
+        {
+          projectName = Convert.ToString(columna["ProjectName"]),
+          lastPaidDate = Convert.ToString(columna["DatePaid"]),
+          lastPaidAmount = Convert.ToString(columna["TotalPaid"])
+        });
+      }
+
+      return employeeTypes;
+    }
+
+    private List<TotalProjectCost> GetProjectCosts(string employerID)
+    {
+      List<TotalProjectCost> employeeTypes = new List<TotalProjectCost>();
+      var consult = @"select p.ProjectName, p.Budget from Projects p where EmployerID=@employerID";
+      var queryCommand = new SqlCommand(consult, conexion);
+
+      // Uses user's email and the name of the active project to get only related benefits
+      queryCommand.Parameters.AddWithValue("@employerID", employerID);
+
+      SqlDataAdapter tableAdapter = new SqlDataAdapter(queryCommand);
+      DataTable tablaResultado = CreateTableConsult(tableAdapter);
+      foreach (DataRow columna in tablaResultado.Rows)
+      {
+        employeeTypes.Add(new TotalProjectCost
+        {
+          projectName = Convert.ToString(columna["ProjectName"]),
+          totalCost = Convert.ToString(columna["Budget"])
+        });
+      }
+
+      return employeeTypes;
     }
   }
 }
