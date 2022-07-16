@@ -294,6 +294,7 @@ namespace planilla_backend_asp.net.Handlers
       consult = @"SELECT ProjectName, EmployerID, EmployeeID, Date, NumberOfHours, HoursApprovalStatus
                       FROM HoursRegistry
                       WHERE ProjectName = @projectName AND EmployerID = @employerID AND Date > Convert(datetime, @lastPaymentDate)
+                      OR ProjectName = @projectName AND EmployerID = @employerID AND HoursApprovalStatus = 0
                       ORDER BY EmployeeID, Date";
       queryCommand = new SqlCommand(consult, conexion);
 
