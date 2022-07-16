@@ -142,3 +142,21 @@ where p.EmployeeID = @employeeID
 order by p.PaymentDate desc
 --join IncludesMandatoryDeductions m on p.ProjectName = m.ProjectName and p.EmployerID = m.EmployerID and p.EmployeeID = m.EmployeeID and p.StartDate = m.ContractDate and p.PaymentDate = m.PaymentDate
 --join IncludesVoluntaryDeductions v on p.ProjectName = v.ProjectName and p.EmployerID = v.EmployerID and p.EmployeeID = v.EmployeeID and p.StartDate = v.ContractDate and p.PaymentDate = v.PaymentDate
+go
+
+create procedure GetVoluntaryDeductionsFromPayment
+@project_name varchar(255), @employer_id varchar(10), @employee_id varchar(10), @contract_date date, @payment_date date
+as
+select VoluntaryDeductionName, ProjectName, EmployerID, StartDate, EmployeeID
+from IncludesVoluntaryDeductions
+where @project_name = ProjectName and @employer_id = EmployerID and @employee_id = EmployeeID and @contract_date = ContractDate and @payment_date = PaymentDate
+go
+
+create procedure GetMandatoryDeductionsFromPayment
+@project_name varchar(255), @employer_id varchar(10), @employee_id varchar(10), @contract_date date, @payment_date date
+as
+select m.MandatoryDeductionName, m.Percentage
+from IncludesMandatoryDeductions i
+	join MandatoryDeductions m on i.MandatoryDeductionName = m.MandatoryDeductionName
+where @project_name = i.ProjectName and @employer_id = i.EmployerID and @employee_id = i.EmployeeID and @contract_date = i.ContractDate and @payment_date = i.PaymentDate
+go
