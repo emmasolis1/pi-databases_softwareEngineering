@@ -275,11 +275,8 @@ namespace planilla_backend_asp.net.Handlers
 
     public List<HourRegistrationModel> GetHours(string projectName, string employerID)
     {
-      List<HourRegistrationModel> entries = new List<HourRegistrationModel>();
-      var consult = @"SELECT ProjectName, EmployerID, EmployeeID, Date, NumberOfHours, HoursApprovalStatus
-                      FROM HoursRegistry
-                      WHERE ProjectName = @projectName AND EmployerID = @employerID
-                      ORDER BY EmployeeID, Date";
+      var lastPaymentDate = "";
+      var consult = @"SELECT TOP 1 PaymentDate FROM Payments WHERE ProjectName = @projectName AND EmployerID = @employerID ORDER BY PaymentDate DESC";
       var queryCommand = new SqlCommand(consult, conexion);
 
       queryCommand.Parameters.AddWithValue("@projectName", projectName);
@@ -287,6 +284,25 @@ namespace planilla_backend_asp.net.Handlers
 
       conexion.Open();
       SqlDataReader reader = queryCommand.ExecuteReader();
+      while (reader.Read())
+      {
+        lastPaymentDate = reader["PaymentDate"].ToString();
+      }
+      conexion.Close();
+
+      List<HourRegistrationModel> entries = new List<HourRegistrationModel>();
+      consult = @"SELECT ProjectName, EmployerID, EmployeeID, Date, NumberOfHours, HoursApprovalStatus
+                      FROM HoursRegistry
+                      WHERE ProjectName = @projectName AND EmployerID = @employerID AND Date > Convert(datetime, @lastPaymentDate)
+                      ORDER BY EmployeeID, Date";
+      queryCommand = new SqlCommand(consult, conexion);
+
+      queryCommand.Parameters.AddWithValue("@projectName", projectName);
+      queryCommand.Parameters.AddWithValue("@employerID", employerID);
+      queryCommand.Parameters.AddWithValue("@lastPaymentDate", lastPaymentDate.Split(' ')[0].Split('/')[2] + "-" + lastPaymentDate.Split(' ')[0].Split('/')[1] + "-" + lastPaymentDate.Split(' ')[0].Split('/')[0]);
+
+      conexion.Open();
+      reader = queryCommand.ExecuteReader();
       while (reader.Read())
       {
         entries.Add(
