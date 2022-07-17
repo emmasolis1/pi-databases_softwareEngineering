@@ -115,7 +115,19 @@ export const DashboardSidebar = (props) => {
       } else {
         setIsEmployer(false);
       }
-      setCurrentProject(sessionStorage.getItem('project'));
+      setCurrentProject(() => {
+        if (sessionStorage.getItem('project') === null) {
+          var value = JSON.parse(sessionStorage.getItem('userProjects'));
+          if (value.length > 0) {
+            sessionStorage.setItem('project', value[0]);
+            return value[0];
+          } else {
+            return '';
+          }
+        } else {
+          return sessionStorage.getItem('project');
+        }
+      });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [router.asPath],

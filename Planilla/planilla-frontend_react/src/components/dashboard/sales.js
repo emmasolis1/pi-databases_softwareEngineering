@@ -2,8 +2,9 @@ import { Bar } from 'react-chartjs-2';
 import { Box, Button, Card, CardContent, CardHeader, Divider, useTheme } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import Router from 'next/router';
 
-export const Sales = (props) => {
+export const Sales = ({ employeeTypes, ...props }) => {
   const theme = useTheme();
 
   const data = {
@@ -14,22 +15,42 @@ export const Sales = (props) => {
         barThickness: 12,
         borderRadius: 4,
         categoryPercentage: 0.5,
-        data: [18, 5, 19, 27, 29, 19, 20],
-        label: 'This year',
+        data: [],
+        label: 'FullTime',
         maxBarThickness: 10
       },
       {
-        backgroundColor: '#EEEEEE',
+        backgroundColor: '#14B8A6',
         barPercentage: 0.5,
         barThickness: 12,
         borderRadius: 4,
         categoryPercentage: 0.5,
-        data: [11, 20, 12, 29, 30, 25, 13],
-        label: 'Last year',
+        data: [],
+        label: 'PartTime',
+        maxBarThickness: 10
+      },
+      {
+        backgroundColor: '#FFB020',
+        barPercentage: 0.5,
+        barThickness: 12,
+        borderRadius: 4,
+        categoryPercentage: 0.5,
+        data: [],
+        label: 'Hourly',
+        maxBarThickness: 10
+      },
+      {
+        backgroundColor: '#D14343',
+        barPercentage: 0.5,
+        barThickness: 12,
+        borderRadius: 4,
+        categoryPercentage: 0.5,
+        data: [],
+        label: 'Professional Services',
         maxBarThickness: 10
       }
     ],
-    labels: ['1 Aug', '2 Aug', '3 Aug', '4 Aug', '5 Aug', '6 Aug', '7 aug']
+    labels: []
   };
 
   const options = {
@@ -81,18 +102,33 @@ export const Sales = (props) => {
     }
   };
 
+  function setData() {
+    employeeTypes.map(employeeType => {
+      data.datasets[0].data.push(employeeType.totalFullTime);
+      data.datasets[1].data.push(employeeType.totalPartTime);
+      data.datasets[2].data.push(employeeType.totalHourly);
+      data.datasets[3].data.push(employeeType.totalProfessionalServices);
+      data.labels.push(employeeType.projectName);
+    }
+    );
+  }
+
+  setData();
+
   return (
     <Card {...props}>
       <CardHeader
-        action={(
-          <Button
-            endIcon={<ArrowDropDownIcon fontSize="small" />}
-            size="small"
-          >
-            Last 7 days
-          </Button>
-        )}
-        title="Latest Sales"
+        // action={(
+        //   <Button
+        //   color="primary"
+        //   endIcon={<ArrowRightIcon fontSize="small" />}
+        //   onClick={() => {Router.push('/projects');}}
+        //   size="small"
+        // >
+        //   Projects
+        // </Button>
+        // )}
+        title="Types of Employees by Project"
       />
       <Divider />
       <CardContent>
@@ -119,9 +155,10 @@ export const Sales = (props) => {
         <Button
           color="primary"
           endIcon={<ArrowRightIcon fontSize="small" />}
+          onClick={() => {Router.push('/projects');}}
           size="small"
         >
-          Overview
+          Projects
         </Button>
       </Box>
     </Card>

@@ -3,21 +3,22 @@ import { Box, Card, CardContent, CardHeader, Divider, Typography, useTheme } fro
 import LaptopMacIcon from '@mui/icons-material/LaptopMac';
 import PhoneIcon from '@mui/icons-material/Phone';
 import TabletIcon from '@mui/icons-material/Tablet';
+import ScheduleIcon from '@mui/icons-material/Schedule';
 
-export const TrafficByDevice = (props) => {
+export const TrafficByDevice = ({ projects, ...props }) => {
   const theme = useTheme();
 
   const data = {
     datasets: [
       {
-        data: [63, 15, 22],
-        backgroundColor: ['#3F51B5', '#e53935', '#FB8C00'],
+        data: [],
+        backgroundColor: ['#3F51B5', '#e53935', '#FB8C00', '#00C853'],
         borderWidth: 8,
         borderColor: '#FFFFFF',
         hoverBorderColor: '#FFFFFF'
       }
     ],
-    labels: ['Desktop', 'Tablet', 'Mobile']
+    labels: []
   };
 
   const options = {
@@ -43,29 +44,67 @@ export const TrafficByDevice = (props) => {
   };
 
   const devices = [
-    {
-      title: 'Desktop',
-      value: 63,
-      icon: LaptopMacIcon,
-      color: '#3F51B5'
-    },
-    {
-      title: 'Tablet',
-      value: 15,
-      icon: TabletIcon,
-      color: '#E53935'
-    },
-    {
-      title: 'Mobile',
-      value: 23,
-      icon: PhoneIcon,
-      color: '#FB8C00'
-    }
+    // {
+    //   title: 'Fulltime',
+    //   value: fulltime,
+    //   icon: LaptopMacIcon,
+    //   color: '#3F51B5',
+    //   total_sum: parseInt(fulltime) + parseInt(parttime) + parseInt(hourly) + parseInt(professional_services)
+    // },
+    // {
+    //   title: 'Part-time',
+    //   value: parttime,
+    //   icon: TabletIcon,
+    //   color: '#E53935',
+    //   total_sum: parseInt(fulltime) + parseInt(parttime) + parseInt(hourly) + parseInt(professional_services)
+    // },
+    // {
+    //   title: 'Hourly',
+    //   value: hourly,
+    //   icon: ScheduleIcon,
+    //   color: '#FB8C00',
+    //   total_sum: parseInt(fulltime) + parseInt(parttime) + parseInt(hourly) + parseInt(professional_services)
+    // },
+    // {
+    //   title: 'Professional Services',
+    //   value: professional_services,
+    //   icon: PhoneIcon,
+    //   color: '#00C853',
+    //   total_sum: parseInt(fulltime) + parseInt(parttime) + parseInt(hourly) + parseInt(professional_services)
+    // }
   ];
+
+  function setData() {
+    projects.map(project => {
+      data.datasets[0].data.push(project.totalCost);
+      data.labels.push(project.projectName);
+    });
+  }
+
+  function setDevices() {
+    // find total cost for all projects
+    let total_sum = 0;
+    projects.forEach(element => {
+      total_sum += parseFloat(element.totalCost);
+    });
+    projects.map(project => {
+      devices.push({
+        title: project.projectName,
+        value: project.totalCost,
+        icon: LaptopMacIcon,
+        color: '#3F51B5',
+        total_sum: total_sum
+      });
+    }
+    );
+  }
+
+  setData();
+  setDevices();
 
   return (
     <Card {...props}>
-      <CardHeader title="Traffic by Device" />
+      <CardHeader title={"Total Cost for Projects"} />
       <Divider />
       <CardContent>
         <Box
@@ -90,7 +129,8 @@ export const TrafficByDevice = (props) => {
             color,
             icon: Icon,
             title,
-            value
+            value,
+            total_sum
           }) => (
             <Box
               key={title}
@@ -108,9 +148,9 @@ export const TrafficByDevice = (props) => {
               </Typography>
               <Typography
                 style={{ color }}
-                variant="h4"
+                variant="h6"
               >
-                {value}
+                {parseFloat(value / total_sum * 100).toFixed(0)}
                 %
               </Typography>
             </Box>
