@@ -125,7 +125,7 @@ class Dashboard extends React.Component {
                   xl={9}
                   xs={12}
                 >
-                  <LatestOrders />
+                  <LatestOrders latestPayments={this.state.info.latestPayments} />
                 </Grid>
               </Grid>
             </Container>

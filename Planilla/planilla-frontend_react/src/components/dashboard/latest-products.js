@@ -126,7 +126,7 @@ export const LatestProducts = ({ nextPayments, ...props }) => {
           </ListItem>
         ))}
       </List>
-      <Divider />
+      {/* <Divider />
       <Box
         sx={{
           display: 'flex',
@@ -142,7 +142,7 @@ export const LatestProducts = ({ nextPayments, ...props }) => {
         >
           View all
         </Button>
-      </Box>
+      </Box> */}
     </Card>
   );
 };
