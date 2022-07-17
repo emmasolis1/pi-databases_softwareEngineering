@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 import axios from 'axios';
 import { useFormik } from 'formik';
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { URL } from 'src/utils/url';
 
@@ -32,7 +32,7 @@ export const ProjectProfileDetails = ({ project, ...props }) => {
   const [payments, setPayments] = React.useState([]);
 
   useEffect(() => {
-    let APIUrl = URL + 'employeePayments?projectName=' + sessionStorage.getItem('project') + '&userID='+ sessionStorage.getItem('userID');
+    let APIUrl = URL + 'employeePayments?projectName=' + sessionStorage.getItem('project') + '&userID=' + sessionStorage.getItem('userID');
     axios.get(APIUrl).then(response => {
       setPayments(response.data);
     }).catch(error => {
@@ -62,7 +62,7 @@ export const ProjectProfileDetails = ({ project, ...props }) => {
                 label="Budget"
                 margin="none"
                 value={formik.values.budget}
-                InputProps={{readOnly: true}}
+                disabled={true}
               />
             </Grid>
             <Grid
@@ -75,7 +75,7 @@ export const ProjectProfileDetails = ({ project, ...props }) => {
                 label="Payment Method"
                 margin="none"
                 value={formik.values.paymentMethod}
-                InputProps={{readOnly: true}}
+                disabled={true}
               />
             </Grid>
             <Grid
@@ -88,7 +88,7 @@ export const ProjectProfileDetails = ({ project, ...props }) => {
                 label="Max Number of Benefits"
                 margin="none"
                 value={formik.values.maxNumberOfBenefits}
-                InputProps={{readOnly: true}}
+                disabled={true}
               />
             </Grid>
             <Grid
@@ -101,7 +101,7 @@ export const ProjectProfileDetails = ({ project, ...props }) => {
                 label="Max Budget for Benefits"
                 margin="none"
                 value={formik.values.maxBudgetForBenefits}
-                InputProps={{readOnly: true}}
+                disabled={true}
               />
             </Grid>
             <Grid
@@ -114,7 +114,7 @@ export const ProjectProfileDetails = ({ project, ...props }) => {
                 label="Description"
                 margin="none"
                 value={formik.values.description}
-                InputProps={{readOnly: true}}
+                disabled={true}
               />
             </Grid>
           </Grid>
@@ -185,6 +185,6 @@ export const ProjectProfileDetails = ({ project, ...props }) => {
           </PerfectScrollbar>
         </CardContent>
       </Card>
-      </form>
+    </form>
   );
 };

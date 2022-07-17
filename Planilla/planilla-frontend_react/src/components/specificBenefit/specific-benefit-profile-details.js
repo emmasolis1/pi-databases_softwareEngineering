@@ -48,7 +48,6 @@ export const SpecificBenefitProfileDetails = ({ benefit, ...props }) => {
       };
       axios.put(URL + 'specificBenefit', data).then((response) => {
         alert("Benefit updated successfully");
-        router.push('/benefit');
       });
     }
   });

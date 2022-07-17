@@ -55,7 +55,7 @@ export const ContractProfileDetails = ({ contract, ...props }) => {
                 fullWidth
                 label="Start date"
                 margin="none"
-                value={formik.values.startDate.slice(0, 10)}
+                value={formik.values.startDate.split(' ')[0]}
                 disabled={true}
               />
             </Grid>
@@ -68,7 +68,7 @@ export const ContractProfileDetails = ({ contract, ...props }) => {
                 fullWidth
                 label="Ending date"
                 margin="none"
-                value={formik.values.expectedEndingDate.slice(0, 10)}
+                value={formik.values.expectedEndingDate.split(' ')[0]}
                 disabled={true}
               />
             </Grid>

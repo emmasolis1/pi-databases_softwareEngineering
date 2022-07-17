@@ -18,8 +18,12 @@ export const ProjectProfile = ({ project, ...props }) => {
     router.push('/specific_project_employees');
   }
 
+  function checkRegisteredHours() {
+    router.push('/manage_hours');
+  }
+
   function payProject() {
-    axios.get(URL + 'payments?projectName='+sessionStorage.getItem('project')+'&employerID='+sessionStorage.getItem('employerID')).then(response => {
+    axios.get(URL + 'payments?projectName=' + sessionStorage.getItem('project') + '&employerID=' + sessionStorage.getItem('employerID')).then(response => {
       if (response.data.length === 0) {
         alert('No more employees to pay today.');
       } else {
@@ -72,6 +76,19 @@ export const ProjectProfile = ({ project, ...props }) => {
         >
           View Employees
         </Button>
+      </CardActions>
+      <CardActions>
+        <Button
+          color="primary"
+          display="inline"
+          fullWidth
+          sx={{ pl: 1 }}
+          onClick={checkRegisteredHours}
+        >
+          Check Registered Hours
+        </Button>
+      </CardActions>
+      <CardActions>
         <Button
           color="error"
           display="inline"
