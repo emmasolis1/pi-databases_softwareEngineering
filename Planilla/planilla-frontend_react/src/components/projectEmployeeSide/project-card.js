@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import { Avatar, Box, Button, Card, CardContent, Divider, Grid, Typography } from '@mui/material';
 import { getInitials } from '../../utils/get-initials';
 import { useRouter } from 'next/router';
+import axios from 'axios';
+import { URL } from 'src/utils/url';
 
 export const ProjectCard = ({ project, contractType, ...rest }) => {
   const router = useRouter();
@@ -21,6 +23,9 @@ export const ProjectCard = ({ project, contractType, ...rest }) => {
   function RegisterHours() {
     sessionStorage.setItem("project", project.projectName);
     sessionStorage.setItem("employerID", project.employerID);
+    axios.get(URL + "getLastPayment?projectName=" + project.projectName + "&employerID=" + project.employerID).then(response => {
+      sessionStorage.setItem("lastPayment", response.data);
+    });
     router.push('/hour_registration');
   }
 

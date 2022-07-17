@@ -8,6 +8,8 @@ import {
   Typography
 } from '@mui/material';
 import { useRouter } from 'next/router';
+import axios from 'axios';
+import { URL } from 'src/utils/url';
 
 export const ProjectProfile = ({ project, ...props }) => {
   const router = useRouter();
@@ -18,6 +20,9 @@ export const ProjectProfile = ({ project, ...props }) => {
   }
 
   function RegisterHours() {
+    axios.get(URL + "getLastPayment?projectName=" + project.projectName + "&employerID=" + project.employerID).then(response => {
+      sessionStorage.setItem("lastPayment", response.data);
+    });
     router.push('/hour_registration');
   }
 

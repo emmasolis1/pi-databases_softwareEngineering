@@ -8,10 +8,12 @@ import {
   Box,
   Button,
   Container,
+  Stack,
   TextField,
   Typography
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useEffect, useState } from 'react';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -19,6 +21,12 @@ import { URL } from 'src/utils/url';
 
 const HourRegistration = () => {
   const router = useRouter();
+  const [lastPayment, setLastPayment] = useState('');
+
+  useEffect(() => {
+    setLastPayment(sessionStorage.getItem("lastPayment").split(' ')[0].split('/')[1] + "/" + (parseInt(sessionStorage.getItem("lastPayment").split(' ')[0].split('/')[0]) + 1) + "/" + sessionStorage.getItem("lastPayment").split(' ')[0].split('/')[2]);
+  }, [lastPayment]);
+
   const formik = useFormik({
     initialValues: {
       projectName: '',
@@ -34,6 +42,8 @@ const HourRegistration = () => {
         .max(5)
         .required(
           'Number of hours is required'),
+      date: Yup
+        .date()
     }),
     onSubmit: values => {
       var data = {
@@ -95,7 +105,7 @@ const HourRegistration = () => {
                 color="textPrimary"
                 variant="h4"
               >
-                Register the hours you worked 
+                Register the hours you worked
               </Typography>
               <Typography
                 color="textSecondary"
@@ -105,16 +115,20 @@ const HourRegistration = () => {
               </Typography>
             </Box>
 
-            <Box sx={{ my: 3 }}>
+            <Box sx={{ my: 1 }}>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DatePicker
-                  label="Date"
-                  value={formik.values.date}
-                  onChange={(value) => {
-                    formik.setFieldValue('date', value.getFullYear() + "-" + (value.getMonth() + 1) + "-" + value.getDate());
-                  }}
-                  renderInput={(params) => <TextField {...params} />}
-                />
+                <Stack spacing={3}>
+                  <DatePicker
+                    label="Date"
+                    value={formik.values.date}
+                    minDate={new Date(lastPayment)}
+                    maxDate={new Date()}
+                    onChange={(value) => {
+                      formik.setFieldValue('date', value.getFullYear() + "-" + (value.getMonth() + 1) + "-" + value.getDate());
+                    }}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </Stack>
               </LocalizationProvider>
             </Box>
 
