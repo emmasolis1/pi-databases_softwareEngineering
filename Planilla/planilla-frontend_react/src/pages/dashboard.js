@@ -57,23 +57,23 @@ class Dashboard extends React.Component {
               >
                 <Grid
                   item
-                  lg={3}
+                  xl={4}
+                  lg={4}
                   sm={6}
-                  xl={3}
                   xs={12}
                 >
                   <Budget totalProjects={this.state.info.totalProjects} />
                 </Grid>
                 <Grid
                   item
-                  xl={3}
-                  lg={3}
+                  xl={4}
+                  lg={4}
                   sm={6}
                   xs={12}
                 >
                   <TotalCustomers totalEmployeesCompany={this.state.info.totalEmployees} />
                 </Grid>
-                <Grid
+                {/* <Grid
                   item
                   xl={3}
                   lg={3}
@@ -81,11 +81,11 @@ class Dashboard extends React.Component {
                   xs={12}
                 >
                   <TasksProgress totalEmployeesProject="NA" />
-                </Grid>
+                </Grid> */}
                 <Grid
                   item
-                  xl={3}
-                  lg={3}
+                  xl={4}
+                  lg={4}
                   sm={6}
                   xs={12}
                 >
