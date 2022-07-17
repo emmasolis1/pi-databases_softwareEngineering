@@ -80,7 +80,7 @@ class Dashboard extends React.Component {
                   sm={6}
                   xs={12}
                 >
-                  <TasksProgress totalEmployeesProject={this.state.info.totalEmployeesByProject} />
+                  <TasksProgress totalEmployeesProject="NA" />
                 </Grid>
                 <Grid
                   item
@@ -89,7 +89,7 @@ class Dashboard extends React.Component {
                   sm={6}
                   xs={12}
                 >
-                  <TotalProfit totalBenefitCost={this.state.info.costForBenefits} sx={{ height: '100%' }} />
+                  <TotalProfit totalBenefitCost="NA" sx={{ height: '100%' }} />
                 </Grid>
                 <Grid
                   item
@@ -98,7 +98,7 @@ class Dashboard extends React.Component {
                   xl={9}
                   xs={12}
                 >
-                  <Sales />
+                  <Sales employeeTypes={this.state.info.totalEmployeesByProject} />
                 </Grid>
                 <Grid
                   item
@@ -107,7 +107,7 @@ class Dashboard extends React.Component {
                   xl={3}
                   xs={12}
                 >
-                  <TrafficByDevice fulltime={this.state.info.totalFulltimeEmployees} parttime={this.state.info.totalPartTimeEmployees} hourly={this.state.info.totalHourlyEmployees} professional_services={this.state.info.totalProfessionalServicesEmployees} sx={{ height: '100%' }} />
+                  <TrafficByDevice fulltime="0" parttime="0" hourly="0" professional_services="0" sx={{ height: '100%' }} />
                 </Grid>
                 <Grid
                   item
