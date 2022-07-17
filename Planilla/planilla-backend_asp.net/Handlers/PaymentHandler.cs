@@ -180,8 +180,13 @@ namespace planilla_backend_asp.net.Handlers
                 queryCommand.Parameters.AddWithValue("@contract_date", dateStartContract);
                 queryCommand.Parameters.AddWithValue("@payment_date", paymentDate);
                 ExecuteCommand(queryCommand);
-                double percentage = Convert.ToDouble(column["Percentage"]);
-                totalDeduction = totalDeduction + (salary * percentage / 100);
+                if (Convert.ToString(column["Condition"]) == "0") {
+                    double percentage = Convert.ToDouble(column["Percentage"]);
+                    totalDeduction = totalDeduction + (salary * percentage / 100);
+                } else {
+                    double amount = Convert.ToDouble(column["IncomeDeductionAmount"]);
+                    totalDeduction = totalDeduction + amount;
+                }
             }
             return totalDeduction;
         }
