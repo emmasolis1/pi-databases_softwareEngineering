@@ -1,76 +1,73 @@
 ------------------------- Oficial Ta' Bueno SQL Query -------------------------
-use TaBueno
+USE TaBueno
 
 --------------- Creating Tables --------------
-create table Users (
-    Identification      char(10)        PRIMARY KEY,
-    FirstName           varchar(50)     NOT NULL,
-    LastName            varchar(50)     NOT NULL,
-    LastName2           varchar(50)     NULL,
-    Email               varchar(255)    NOT NULL,
-    Password            varchar(255)    NOT NULL,
-    Country             varchar(50)     NULL,
-    State               varchar(50)     NULL,
-    City                varchar(50)     NULL,
-    ZipCode             char(5)         NULL,
-    Address             varchar(255)    NULL,
-    Phone               varchar(17)     NULL,
-    UserType            tinyint         NOT NULL
+CREATE TABLE Users (
+    Identification          char(10)            NOT NULL,
+    FirstName               varchar(50)         NOT NULL,
+    LastName                varchar(50)         NOT NULL,
+    LastName2               varchar(50)         NULL,
+    Email                   varchar(255)        NOT NULL,
+    Password                varchar(255)        NOT NULL,
+    Country                 varchar(50)         NULL,
+    State                   varchar(50)         NULL,
+    City                    varchar(50)         NULL,
+    ZipCode                 char(5)             NULL,
+    Address                 varchar(255)        NULL,
+    Phone                   varchar(17)         NOT NULL,
+    UserType                tinyint             NOT NULL,
+    PRIMARY KEY (Identification)
 );
 
-create table Phones (
-    Identification     char(10)        NOT NULL,  
-    Phone              varchar(17)     NOT NULL,
-    primary key (Identification, Phone),
-    foreign key (Identification) references Users
-);
-
-create table Projects (
+CREATE TABLE Projects (
     ProjectName             varchar(255)        NOT NULL,
     EmployerID              char(10)            NOT NULL,
     Budget                  float               NULL,
-    PaymentMethod           varchar(50)         NULL,
+    PaymentMethod           varchar(10)         NOT NULL,
     Description             varchar(255)        NULL,
-    MaxNumberOfBenefits     int                 NOT NULL,
-    MaxBudgetForBenefits    float               NOT NULL,
-    primary key (ProjectName, EmployerID),
-    FOREIGN key (EmployerID) REFERENCES Users 
+    MaxNumberOfBenefits     int                 NULL,
+    MaxBudgetForBenefits    float               NULL,
+    IsActive                tinyint             NOT NULL,
+    PRIMARY KEY (ProjectName, EmployerID),
+    FOREIGN KEY (EmployerID) REFERENCES Users 
 );
 
-create table HoursRegistry (
+CREATE TABLE HoursRegistry (
     ProjectName             varchar(255)        NOT NULL,
     EmployerID              char(10)            NOT NULL,
     EmployeeID              char(10)            NOT NULL,
     Date                    date                NOT NULL,
-    NumberOfHours           decimal(4, 1)     NOT NULL,
-    primary key (ProjectName, EmployerID, EmployeeID, Date),
-    foreign key (ProjectName, EmployerID) references Projects,
-    foreign key (EmployeeID) references Users
+    NumberOfHours           decimal(4, 1)       NOT NULL,
+    HoursApprovalStatus     tinyint             NOT NULL,
+    PRIMARY KEY (ProjectName, EmployerID, EmployeeID, Date),
+    FOREIGN KEY (ProjectName, EmployerID) REFERENCES Projects,
+    FOREIGN KEY (EmployeeID) REFERENCES Users
 );
 
-create table Benefits (
+CREATE TABLE Benefits (
     BenefitName             varchar(255)        NOT NULL,
     ProjectName             varchar(255)        NOT NULL,
     EmployerID              char(10)            NOT NULL,
     Description             varchar(255)        NULL,
-    Cost                    float               NULL,
-    primary key (BenefitName, ProjectName, EmployerID),
-    foreign key (ProjectName, EmployerID) REFERENCES Projects
+    Cost                    float               NOT NULL,
+    IsActive                tinyint             NOT NULL,
+    PRIMARY KEY (BenefitName, ProjectName, EmployerID),
+    FOREIGN KEY (ProjectName, EmployerID) REFERENCES Projects
 );
 
-create table BenefitsStatus (
+CREATE TABLE BenefitsStatus (
     BenefitName             varchar(255)        NOT NULL,
     ProjectName             varchar(255)        NOT NULL,
     EmployerID              char(10)            NOT NULL,
     EmployeeID              char(10)            NOT NULL,
     StartDate               date                NOT NULL,
     EndDate                 date                NULL,
-    primary key (BenefitName, ProjectName, EmployerID, EmployeeID, StartDate),
-    foreign key (BenefitName, ProjectName, EmployerID) references Benefits,
-    foreign key (EmployeeID) references Users
+    PRIMARY KEY (BenefitName, ProjectName, EmployerID, EmployeeID, StartDate),
+    FOREIGN KEY (BenefitName, ProjectName, EmployerID) REFERENCES Benefits,
+    FOREIGN KEY (EmployeeID) REFERENCES Users
 );
 
-create table Contracts (
+CREATE TABLE Contracts (
     ProjectName             varchar(255)        NOT NULL,
     EmployerID              char(10)            NOT NULL,
     EmployeeID              char(10)            NOT NULL,
@@ -81,23 +78,23 @@ create table Contracts (
     Schedule                varchar(255)        NULL,
     NetSalary               float               NOT NULL,
     ContractType            tinyint             NOT NULL,
-    PRIMARY key (ProjectName, EmployerID, EmployeeID, StartDate),
-    foreign key (ProjectName, EmployerID) references Projects,
-    foreign key (EmployeeID) references Users
+    PRIMARY KEY (ProjectName, EmployerID, EmployeeID, StartDate),
+    FOREIGN KEY (ProjectName, EmployerID) REFERENCES Projects,
+    FOREIGN KEY (EmployeeID) REFERENCES Users
 );
 
-create table Payments (
+CREATE TABLE Payments (
     ProjectName             varchar(255)        NOT NULL,
     EmployerID              char(10)            NOT NULL,
     EmployeeID              char(10)            NOT NULL,
     StartDate               date                NOT NULL,
     PaymentDate             date                NOT NULL,
-    NetSalary               float,
-    primary key (ProjectName, EmployerID, EmployeeID, StartDate, PaymentDate),
-    foreign key (ProjectName, EmployerID, EmployeeID, StartDate) references Contracts
+    NetSalary               float               NULL,
+    PRIMARY KEY (ProjectName, EmployerID, EmployeeID, StartDate, PaymentDate),
+    FOREIGN KEY (ProjectName, EmployerID, EmployeeID, StartDate) REFERENCES Contracts
 );
 
-create table AppearsIn (
+CREATE TABLE AppearsIn (
     BenefitName             varchar(255)        NOT NULL,
     ProjectName             varchar(255)        NOT NULL,
     EmployerID              char(10)            NOT NULL,
@@ -105,40 +102,43 @@ create table AppearsIn (
     StartDate               date                NOT NULL,
     ContractDate            date                NOT NULL,
     PaymentDate             date                NOT NULL,
-    primary key (BenefitName, ProjectName, EmployerID, EmployeeID, StartDate, ContractDate, PaymentDate),
-    foreign key (BenefitName, ProjectName, EmployerID, EmployeeID, StartDate) references BenefitsStatus,
-    foreign key (ProjectName, EmployerID, EmployeeID, ContractDate, PaymentDate) references Payments
+    PRIMARY KEY (BenefitName, ProjectName, EmployerID, EmployeeID, StartDate, ContractDate, PaymentDate),
+    FOREIGN KEY (BenefitName, ProjectName, EmployerID, EmployeeID, StartDate) REFERENCES BenefitsStatus,
+    FOREIGN KEY (ProjectName, EmployerID, EmployeeID, ContractDate, PaymentDate) REFERENCES Payments
 );
 
-create table MandatoryDeductions (
-    MandatoryDeductionName      varchar(128)      NOT NULL,
-    Percentage                  decimal           NOT NULL,
-    Description                 varchar(255)      NULL,
-    primary key (MandatoryDeductionName)
+CREATE TABLE MandatoryDeductions (
+    MandatoryDeductionName  varchar(128)        NOT NULL,
+    Percentage              decimal(9, 3)       NOT NULL,
+    Description             varchar(255)        NULL,
+    Condition               varchar(30)         NULL,
+    PRIMARY KEY (MandatoryDeductionName)
 );
 
-create table IncludesMandatoryDeductions (
+CREATE TABLE IncludesMandatoryDeductions (
     MandatoryDeductionName  varchar(128)        NOT NULL,
     ProjectName             varchar(255)        NOT NULL,
     EmployerID              char(10)            NOT NULL,
     EmployeeID              char(10)            NOT NULL,
     ContractDate            date                NOT NULL,
     PaymentDate             date                NOT NULL,
-    primary key (MandatoryDeductionName, ProjectName, EmployerID, EmployeeID, ContractDate, PaymentDate),
-    foreign key (MandatoryDeductionName) references MandatoryDeductions,
-    foreign key (ProjectName, EmployerID, EmployeeID, ContractDate, PaymentDate) references Payments
+    PRIMARY KEY (MandatoryDeductionName, ProjectName, EmployerID, EmployeeID, ContractDate, PaymentDate),
+    FOREIGN KEY (MandatoryDeductionName) REFERENCES MandatoryDeductions,
+    FOREIGN KEY (ProjectName, EmployerID, EmployeeID, ContractDate, PaymentDate) REFERENCES Payments
 );
 
-create table VoluntaryDeductions (
+CREATE TABLE VoluntaryDeductions (
     VoluntaryDeductionName  varchar(128)        NOT NULL,
     ProjectName             varchar(255)        NOT NULL,
     EmployerID              char(10)            NOT NULL,
     Description             varchar(255)        NULL,
-    primary key (VoluntaryDeductionName, ProjectName, EmployerID),
-    foreign key (ProjectName, EmployerID) references Projects
+    Cost                    float               NULL,
+    IsActive                tinyint             NOT NULL,
+    PRIMARY KEY (VoluntaryDeductionName, ProjectName, EmployerID),
+    FOREIGN KEY (ProjectName, EmployerID) REFERENCES Projects
 );
 
-create table VoluntaryDeductionsStatus (
+CREATE TABLE VoluntaryDeductionsStatus (
     VoluntaryDeductionName  varchar(128)        NOT NULL,
     ProjectName             varchar(255)        NOT NULL,
     EmployerID              char(10)            NOT NULL,
@@ -146,12 +146,12 @@ create table VoluntaryDeductionsStatus (
     StartDate               date                NOT NULL,
     EndingDate              date                NULL,
     Cost                    float               NULL,
-    primary key (VoluntaryDeductionName, ProjectName, EmployerID, EmployeeID, StartDate),
-    foreign key (VoluntaryDeductionName, ProjectName, EmployerID) references VoluntaryDeductions,
-    foreign key (EmployeeID) references Users
+    PRIMARY KEY (VoluntaryDeductionName, ProjectName, EmployerID, EmployeeID, StartDate),
+    FOREIGN KEY (VoluntaryDeductionName, ProjectName, EmployerID) REFERENCES VoluntaryDeductions,
+    FOREIGN KEY (EmployeeID) REFERENCES Users
 );
 
-create table IncludesVoluntaryDeductions (
+CREATE TABLE IncludesVoluntaryDeductions (
     VoluntaryDeductionName  varchar(128)        NOT NULL,
     ProjectName             varchar(255)        NOT NULL,
     EmployerID              char(10)            NOT NULL,
@@ -159,7 +159,7 @@ create table IncludesVoluntaryDeductions (
     StartDate               date                NOT NULL,
     ContractDate            date                NOT NULL,
     PaymentDate             date                NOT NULL,
-    primary key (VoluntaryDeductionName, ProjectName, EmployerID, EmployeeID, StartDate, ContractDate, PaymentDate),
-    foreign key (VoluntaryDeductionName, ProjectName, EmployerID, EmployeeID, StartDate) references VoluntaryDeductionsStatus,
-    foreign key (ProjectName, EmployerID, EmployeeID, ContractDate, PaymentDate) references Payments
+    PRIMARY KEY (VoluntaryDeductionName, ProjectName, EmployerID, EmployeeID, StartDate, ContractDate, PaymentDate),
+    FOREIGN KEY (VoluntaryDeductionName, ProjectName, EmployerID, EmployeeID, StartDate) REFERENCES VoluntaryDeductionsStatus,
+    FOREIGN KEY (ProjectName, EmployerID, EmployeeID, ContractDate, PaymentDate) REFERENCES Payments
 );

@@ -20,18 +20,60 @@ returns varchar(128)
 begin
 	declare @rent_deduction as varchar(128) = 'none'
 	if @salary between 842000 and 1236000 begin
-		set @rent_deduction = 'Renta I'
+		set @rent_deduction = 'Income tax I'
 	end
 	else if @salary between 1236000 and 2169000 begin
-		set @rent_deduction = 'Renta II'
+		set @rent_deduction = 'Income tax II'
 	end
 	else if @salary between 2169000 and 4337000 begin
-		set @rent_deduction = 'Renta III'
+		set @rent_deduction = 'Income tax III'
 	end
 	else if @salary > 4337000 begin
-		set @rent_deduction = 'Renta IV'
+		set @rent_deduction = 'Income tax IV'
 	end
 	return @rent_deduction
+end
+go
+
+create function GetRentDeductionAmount(
+	@salary float
+)
+returns float(20)
+begin
+	declare @total_rent_deduction as float(20) = 0
+	declare @applyable_value as float(20) = 0
+	if @salary > 842000 begin
+		if @salary > 1236000 begin
+			set @applyable_value = 1236000 - 842000
+		end
+		else begin
+			set @applyable_value = @salary - 842000
+		end
+		set @total_rent_deduction = @total_rent_deduction + (@applyable_value * 0.1)
+	end
+	if @salary > 1236000 begin
+		if @salary > 2169000 begin
+			set @applyable_value = 2169000 - 1236000
+		end
+		else begin
+			set @applyable_value = @salary - 1236000
+		end
+		set @total_rent_deduction = @total_rent_deduction + (@applyable_value * 0.15)
+	end
+	if @salary > 2169000 begin
+		if @salary > 4337000 begin
+			set @applyable_value = 4337000 - 2169000
+		end
+		else begin
+			set @applyable_value = @salary - 2169000
+		end
+		set @total_rent_deduction = @total_rent_deduction + (@applyable_value * 0.2)
+	end
+	if @salary > 4337000 begin
+		set @applyable_value = @salary - 4337000
+		set @total_rent_deduction = @total_rent_deduction + (@applyable_value * 0.25)
+	end
+	return @total_rent_deduction
 end
 go
 
@@ -97,7 +139,7 @@ go
 --Gets the correct deductions applicable to a base employee
 create procedure GetBasicMandatoryDeductions @salary float
 as
-select MandatoryDeductionName, Percentage
+select MandatoryDeductionName, Percentage, Condition, dbo.GetRentDeductionAmount(@salary) as IncomeDeductionAmount
 from MandatoryDeductions
 where Condition = '0' or MandatoryDeductionName = dbo.GetRentDeduction(@salary)
 
