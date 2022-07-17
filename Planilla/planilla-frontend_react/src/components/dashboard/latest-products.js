@@ -1,6 +1,7 @@
 import { formatDistanceToNow, subHours } from 'date-fns';
 import { v4 as uuid } from 'uuid';
 import {
+  Avatar,
   Box,
   Button,
   Card,
@@ -13,7 +14,10 @@ import {
   ListItemText
 } from '@mui/material';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import axios from 'axios';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { getInitials } from '../../utils/get-initials';
+import { URL } from 'src/utils/url';
 
 const products = [
   {
@@ -48,58 +52,97 @@ const products = [
   }
 ];
 
-export const LatestProducts = (props) => (
-  <Card {...props}>
-    <CardHeader
-      subtitle={`${products.length} in total`}
-      title="Latest Products"
-    />
-    <Divider />
-    <List>
-      {products.map((product, i) => (
-        <ListItem
-          divider={i < products.length - 1}
-          key={product.id}
-        >
-          <ListItemAvatar>
-            <img
-              alt={product.name}
-              src={product.imageUrl}
-              style={{
-                height: 48,
-                width: 48
-              }}
-            />
-          </ListItemAvatar>
-          <ListItemText
-            primary={product.name}
-            secondary={`Updated ${formatDistanceToNow(product.updatedAt)}`}
-          />
-          <IconButton
-            edge="end"
-            size="small"
+export const LatestProducts = ({ nextPayments, ...props }) => {
+  function setDate(date_received) {
+    if (date_received === '-1') {
+      return 'You have never made a payment';
+    } else {
+      return `Next Payment on: ${date_received}`;
+    }
+  }
+
+  function payProject(project) {
+    sessionStorage.setItem("project", project.projectName);
+    axios.get(URL + 'payments?projectName='+project.projectName+'&employerID='+sessionStorage.getItem('employerID')).then(response => {
+      if (response.data.length === 0) {
+        alert('No more employees to pay today.');
+      } else {
+        let employeesPaid = "Payment completed successfully.\nEmployees Paid:\n\n";
+        response.data.forEach(element => {
+          employeesPaid.concat(element.employeeId);
+          employeesPaid.concat('\n');
+        });
+        alert(employeesPaid);
+        window.location.reload(false);
+      }
+    }).catch(error => {
+      alert('No more employees to pay for today.');
+    });
+  }
+
+  return (
+    <Card {...props}>
+      <CardHeader
+        subtitle={`${products.length} in total`}
+        title="Next Payments"
+      />
+      <Divider />
+      <List>
+        {nextPayments.map((product, i) => (
+          <ListItem
+            divider={i < nextPayments.length - 1}
+            key={product.projectName}
           >
-            <MoreVertIcon />
-          </IconButton>
-        </ListItem>
-      ))}
-    </List>
-    <Divider />
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'flex-end',
-        p: 2
-      }}
-    >
-      <Button
-        color="primary"
-        endIcon={<ArrowRightIcon />}
-        size="small"
-        variant="text"
+            <ListItemAvatar>
+              {/* <img
+                alt={product.projectName}
+                src={getInitials(product.projectName)}
+                style={{
+                  height: 48,
+                  width: 48
+                }}
+              /> */}
+              <Avatar>
+                {getInitials(product.projectName)}
+              </Avatar> 
+            </ListItemAvatar>
+            <ListItemText
+              primary={product.projectName}
+              secondary={setDate(product.nextPayment)}
+            />
+            {/* <IconButton
+              edge="end"
+              size="small"
+            >
+              <MoreVertIcon />
+            </IconButton> */}
+            <Button
+              color="primary"
+              variant="text"
+              onClick={() => payProject(product)}
+            >
+              Pay
+            </Button>
+          </ListItem>
+        ))}
+      </List>
+      <Divider />
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          p: 2
+        }}
       >
-        View all
-      </Button>
-    </Box>
-  </Card>
-);
+        <Button
+          color="primary"
+          endIcon={<ArrowRightIcon />}
+          size="small"
+          variant="text"
+        >
+          View all
+        </Button>
+      </Box>
+    </Card>
+  );
+};

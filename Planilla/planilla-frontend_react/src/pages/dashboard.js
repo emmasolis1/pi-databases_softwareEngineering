@@ -116,7 +116,7 @@ class Dashboard extends React.Component {
                   xl={3}
                   xs={12}
                 >
-                  <LatestProducts sx={{ height: '100%' }} />
+                  <LatestProducts nextPayments={this.state.info.nextPayments} sx={{ height: '100%' }} />
                 </Grid>
                 <Grid
                   item
