@@ -68,12 +68,38 @@ namespace planilla_backend_asp.net.Handlers
                     paymentDate = Convert.ToString(column["PaymentDate"]),
                     netSalary = Convert.ToDouble(column["NetSalary"]),
                 };
+                double totalDeductions = 0;
                 // get voluntary deductions
                 DataTable volutaryDeductions = GetVoluntaryDeductions(historyPayment);
+                foreach (DataRow vDeduction in volutaryDeductions.Rows)
+                {
+                    VoluntaryDeductionHistoryModel voluntaryDeduction = new VoluntaryDeductionHistoryModel
+                    {
+                        name = Convert.ToString(vDeduction["VoluntaryDeductionName"]),
+                        paymentDeduction = Convert.ToDouble(vDeduction["Cost"])
+                    };
+                    historyPayment.voluntaryDeductions.Add(voluntaryDeduction);
+                    totalDeductions += voluntaryDeduction.paymentDeduction;
+                }
                 // get mandatory deductions
                 DataTable mandatoryDeductions = GetMandatoryDeductions(historyPayment);
+                foreach (DataRow mDeduction in mandatoryDeductions.Rows)
+                {
+                    // calculate total amount deducted
+                    double deductionFromPayment = 0;
+                    double percentage = Convert.ToDouble(mDeduction["Percentage"]);
+                    deductionFromPayment = historyPayment.netSalary * (percentage / 100);
+                    // saves the info in the model
+                    MandatoryDeductionHistoryModel mandatoryDeduction = new MandatoryDeductionHistoryModel
+                    {
+                        name = Convert.ToString(mDeduction["MandatoryDeductionName"]),
+                        paymentDeduction = deductionFromPayment
+                    };
+                    historyPayment.mandatoryDeductions.Add(mandatoryDeduction);
+                    totalDeductions += mandatoryDeduction.paymentDeduction;
+                }
                 // calculate payment
-
+                historyPayment.payment = historyPayment.netSalary - totalDeductions;
                 payments.Add(historyPayment);
             }
             return payments;

@@ -159,5 +159,5 @@ as
 select m.MandatoryDeductionName, m.Percentage
 from IncludesMandatoryDeductions i
 	join MandatoryDeductions m on i.MandatoryDeductionName = m.MandatoryDeductionName
-where @project_name = i.ProjectName and @employer_id = i.EmployerID and @employee_id = i.EmployeeID and @contract_date = i.ContractDate and @payment_date = i.PaymentDate
+where @project_name = i.ProjectName and @employer_id = i.EmployerID and @employee_id = i.EmployeeID and @contract_date = i.ContractDate and @payment_date = i.PaymentDate and m.Condition = 0
 go
