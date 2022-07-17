@@ -435,8 +435,8 @@ namespace planilla_backend_asp.net.Handlers
 
     public void RegisterHours(HourRegistrationModel hours)
     {
-      var consult = @"INSERT INTO HoursRegistry ([ProjectName], [EmployerID], [EmployeeID], [Date], [NumberOfHours]) 
-                      VALUES (@projectName, @employerID, @employeeID, @date, @numberOfHours)";
+      var consult = @"INSERT INTO HoursRegistry ([ProjectName], [EmployerID], [EmployeeID], [Date], [NumberOfHours], [HoursApprovalStatus]) 
+                      VALUES (@projectName, @employerID, @employeeID, @date, @numberOfHours, 0)";
       var queryCommand = new SqlCommand(consult, conexion);
 
       // Insertion of attribute
