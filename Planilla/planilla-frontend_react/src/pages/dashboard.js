@@ -107,7 +107,7 @@ class Dashboard extends React.Component {
                   xl={3}
                   xs={12}
                 >
-                  <TrafficByDevice fulltime="0" parttime="0" hourly="0" professional_services="0" sx={{ height: '100%' }} />
+                  <TrafficByDevice projects={this.state.info.totalProjectCost} sx={{ height: '100%' }} />
                 </Grid>
                 <Grid
                   item
