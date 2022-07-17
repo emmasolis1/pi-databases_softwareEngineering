@@ -18,7 +18,7 @@ export const TasksProgress = ({ totalEmployeesProject, ...props }) => (
             gutterBottom
             variant="overline"
           >
-            EMPLOYESS IN:<br/>{sessionStorage.getItem('project').toUpperCase()}
+            EMPLOYESS IN: NA
           </Typography>
           <Typography
             color="textPrimary"

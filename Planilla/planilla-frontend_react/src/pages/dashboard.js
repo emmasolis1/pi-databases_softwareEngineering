@@ -26,7 +26,7 @@ class Dashboard extends React.Component {
   }
 
   componentDidMount() {
-    let requestAPI = this.state.APIUrl + "?employerID=" + sessionStorage.getItem("employerID") + "&projectName=" + sessionStorage.getItem('project');
+    let requestAPI = this.state.APIUrl + "?employerID=" + sessionStorage.getItem("employerID");
     axios.get(requestAPI).then(response => {
       this.setState({ isLoaded: true, info: response.data });
     });
