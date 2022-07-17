@@ -89,7 +89,7 @@ class Dashboard extends React.Component {
                   sm={6}
                   xs={12}
                 >
-                  <TotalProfit totalBenefitCost="NA" sx={{ height: '100%' }} />
+                  <TotalProfit totalProjectsCost={this.state.info.totalProjectCost} sx={{ height: '100%' }} />
                 </Grid>
                 <Grid
                   item

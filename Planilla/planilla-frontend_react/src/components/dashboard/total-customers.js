@@ -16,7 +16,7 @@ export const TotalCustomers = ({ totalEmployeesCompany, ...props }) => (
             gutterBottom
             variant="overline"
           >
-            TOTAL COMPANY EMPLOYEES
+            TOTAL COMPANY EMPLOYEES HIRED BY YOU
           </Typography>
           <Typography
             color="textPrimary"
