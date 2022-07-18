@@ -80,32 +80,22 @@ const orders = [
   }
 ];
 
-export const LatestOrders = (props) => (
+export const LatestOrders = ({ latestPayments, ...props }) => (
   <Card {...props}>
-    <CardHeader title="Latest Orders" />
+    <CardHeader title="Latest Payments" />
     <PerfectScrollbar>
       <Box sx={{ minWidth: 800 }}>
         <Table>
           <TableHead>
             <TableRow>
               <TableCell>
-                Order Ref
+                Project Name
               </TableCell>
               <TableCell>
-                Customer
+                Date
               </TableCell>
-              <TableCell sortDirection="desc">
-                <Tooltip
-                  enterDelay={300}
-                  title="Sort"
-                >
-                  <TableSortLabel
-                    active
-                    direction="desc"
-                  >
-                    Date
-                  </TableSortLabel>
-                </Tooltip>
+              <TableCell>
+                Total Paid
               </TableCell>
               <TableCell>
                 Status
@@ -113,27 +103,25 @@ export const LatestOrders = (props) => (
             </TableRow>
           </TableHead>
           <TableBody>
-            {orders.map((order) => (
+            {latestPayments.map((payment) => (
               <TableRow
                 hover
-                key={order.id}
+                key={payment.projectName}
               >
                 <TableCell>
-                  {order.ref}
+                  {payment.projectName}
                 </TableCell>
                 <TableCell>
-                  {order.customer.name}
+                  {payment.lastPaidDate.split(' ')[0]}
                 </TableCell>
                 <TableCell>
-                  {format(order.createdAt, 'dd/MM/yyyy')}
+                  {payment.lastPaidAmount}
                 </TableCell>
                 <TableCell>
                   <SeverityPill
-                    color={(order.status === 'delivered' && 'success')
-                    || (order.status === 'refunded' && 'error')
-                    || 'warning'}
+                    color='success'
                   >
-                    {order.status}
+                    Completed
                   </SeverityPill>
                 </TableCell>
               </TableRow>
@@ -142,7 +130,7 @@ export const LatestOrders = (props) => (
         </Table>
       </Box>
     </PerfectScrollbar>
-    <Box
+    {/* <Box
       sx={{
         display: 'flex',
         justifyContent: 'flex-end',
@@ -157,6 +145,6 @@ export const LatestOrders = (props) => (
       >
         View all
       </Button>
-    </Box>
+    </Box> */}
   </Card>
 );

@@ -196,6 +196,26 @@ namespace planilla_backend_asp.net.Handlers
       return project;
     }
 
+    public string GetLastPayment(string projectName, string employerID)
+    {
+      var lastPaymentDate = "";
+      var consult = @"SELECT TOP 1 PaymentDate FROM Payments WHERE ProjectName = @projectName AND EmployerID = @employerID ORDER BY PaymentDate DESC";
+      var queryCommand = new SqlCommand(consult, connection);
+
+      queryCommand.Parameters.AddWithValue("@projectName", projectName);
+      queryCommand.Parameters.AddWithValue("@employerID", employerID);
+
+      connection.Open();
+      SqlDataReader reader = queryCommand.ExecuteReader();
+      while (reader.Read())
+      {
+        lastPaymentDate = reader["PaymentDate"].ToString();
+      }
+      connection.Close();
+
+      return lastPaymentDate;
+    }
+
     public void DeleteProject(string projectName, string employerID)
     {
       // Prepare command to set project to inactive (1)

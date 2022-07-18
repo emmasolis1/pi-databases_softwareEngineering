@@ -7,5 +7,6 @@
     public string employeeID { get; set; }
     public string date { get; set; }
     public string numberOfHours { get; set; }
+    public string hoursApprovalStatus { get; set; }
   }
 }

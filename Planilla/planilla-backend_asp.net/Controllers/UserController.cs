@@ -54,6 +54,23 @@ namespace planilla_backend_asp.net.Controllers
       return Ok(data);
     }
 
+    [HttpGet]
+    [Route("getHours")]
+    public ActionResult GetHours(string projectName, string employerID)
+    {
+      try
+      {
+        UserHandler handler = new UserHandler();
+        var data = handler.GetHours(projectName, employerID);
+        return Ok(data);
+      }
+      catch (Exception error)
+      {
+        Console.WriteLine(error);
+        return BadRequest(error.Message);
+      }
+    }
+
     [HttpPost]
     [Route("employees")]
     public ActionResult CreateEmployee([FromBody] UserModel employee)
@@ -115,6 +132,23 @@ namespace planilla_backend_asp.net.Controllers
       UserHandler handler = new UserHandler();
       handler.RegisterHours(hours);
       return Ok();
+    }
+
+    [HttpPut]
+    [Route("manageHours")]
+    public ActionResult ManageHours([FromBody] HourRegistrationModel hours)
+    {
+      try
+      {
+        UserHandler handler = new UserHandler();
+        handler.ManageHours(hours);
+        return Ok();
+      }
+      catch (Exception error)
+      {
+        Console.WriteLine(error);
+        return BadRequest(error.Message);
+      }
     }
 
     [HttpPut]
