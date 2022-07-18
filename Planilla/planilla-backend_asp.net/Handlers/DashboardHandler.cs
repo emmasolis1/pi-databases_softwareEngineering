@@ -166,17 +166,26 @@ namespace planilla_backend_asp.net.Handlers
 
     private string AddDaysToDate(string date01, int numberDays)
     {
-      try
+      string dateString = "";
+      if (date01 != "")
       {
-        DateTime date = Convert.ToDateTime(date01);
-        DateTime newDate = date.AddDays(numberDays);
-        return newDate.ToString("dd-MM-yyyy"); 
-      }
-      catch (Exception e)
+        try
+        {
+          DateTime date = Convert.ToDateTime(date01);
+          DateTime newDate = date.AddDays(numberDays);
+          dateString = newDate.ToString("dd-MM-yyyy");
+        }
+        catch (Exception e)
+        {
+          Console.WriteLine(e);
+          dateString = "-1";
+        }
+      } 
+      else
       {
-        Console.WriteLine(e);
-        return "-1";
+        dateString = "-1";
       }
+      return dateString;
     }
 
     private List<LatestPayments> GetProjectsLastPayments(string employerID)

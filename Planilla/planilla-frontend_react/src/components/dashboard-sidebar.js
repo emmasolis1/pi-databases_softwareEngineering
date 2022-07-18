@@ -13,6 +13,9 @@ import { User as UserIcon } from '../icons/user';
 import { UserAdd as UserAddIcon } from '../icons/user-add';
 import { Users as UsersIcon } from '../icons/users';
 import { XCircle as XCircleIcon } from '../icons/x-circle';
+import AccountTreeIcon from '@mui/icons-material/AccountTree';
+import ArticleIcon from '@mui/icons-material/Article';
+import GradeIcon from '@mui/icons-material/Grade';
 import { Logo } from './logo';
 import { NavItem } from './nav-item';
 
@@ -31,19 +34,14 @@ const items = [
     icon: (<UsersIcon fontSize="small" />),
     title: 'Employees'
   },
-  // {
-  //   href: '/settings',
-  //   icon: (<CogIcon fontSize="small" />),
-  //   title: 'Settings'
-  // },
   {
     href: '/projects',
-    icon: (<ChartBarIcon fontSize="small" />),
+    icon: (<AccountTreeIcon fontSize="small" />),
     title: 'Projects'
   },
   {
     href: '/benefits',
-    icon: (<ShoppingBagIcon fontSize="small" />),
+    icon: (<GradeIcon fontSize="small" />),
     title: 'Benefits'
   },
   {
@@ -55,23 +53,23 @@ const items = [
     href: '/voluntaryDeductions',
     icon: (<LockIcon fontSize="small" />),
     title: 'Voluntary Deductions'
+  },
+  {
+    href: '/reports',
+    icon: (<ArticleIcon fontSize="small" />),
+    title: 'Reports'
   }
-  // {
-  //   href: '/404',
-  //   icon: (<XCircleIcon fontSize="small" />),
-  //   title: 'Error'
-  // },
 ];
 
 const employeeItems = [
   {
     href: '/projects_employee',
-    icon: (<ChartBarIcon fontSize="small" />),
+    icon: (<AccountTreeIcon fontSize="small" />),
     title: 'Projects'
   },
   {
     href: '/benefitsEmployee',
-    icon: (<ShoppingBagIcon fontSize="small" />),
+    icon: (<GradeIcon fontSize="small" />),
     title: 'Benefits'
   },
   {
@@ -83,6 +81,11 @@ const employeeItems = [
     href: '/voluntaryDeductionsEmployee',
     icon: (<LockIcon fontSize="small" />),
     title: 'Voluntary Deductions'
+  },
+  {
+    href: '/reports',
+    icon: (<ArticleIcon fontSize="small" />),
+    title: 'Reports'
   }
 ];
 
