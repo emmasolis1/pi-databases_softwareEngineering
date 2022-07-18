@@ -112,7 +112,7 @@ export const LatestOrders = ({ latestPayments, ...props }) => (
                   {payment.projectName}
                 </TableCell>
                 <TableCell>
-                  {format(new Date(payment.lastPaidDate), 'MMM dd, yyyy')}
+                  {payment.lastPaidDate.split(' ')[0]}
                 </TableCell>
                 <TableCell>
                   {payment.lastPaidAmount}
