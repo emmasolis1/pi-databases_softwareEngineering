@@ -26,6 +26,7 @@ export const SpecificVoluntaryDeductionProfileDetails = ({ voluntaryDeduction, .
   const [open, setOpen] = React.useState(false);
   const formik = useFormik({
     initialValues: {
+      voluntaryDeductionName: voluntaryDeduction.voluntaryDeductionName,
       projectName: voluntaryDeduction.projectName,
       employerID: voluntaryDeduction.employerID,
       description: voluntaryDeduction.description,

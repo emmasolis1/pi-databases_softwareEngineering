@@ -2,7 +2,7 @@ import * as React from 'react';
 import axios from 'axios';
 import { getInitials } from '../../utils/get-initials';
 import IconButton from '@mui/material/IconButton';
-import ReadMoreIcon from '@mui/icons-material/ReadMore';
+import AddBoxIcon from '@mui/icons-material/AddBox';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
 import Stack from '@mui/material/Stack';
@@ -113,11 +113,9 @@ export const SpecificVoluntaryDeductionEmployeeListResults = ({ voluntaryDeducti
                     {"$" + voluntaryDeduction.cost}
                   </TableCell>
                   <TableCell>
-                  <Stack direction="row" spacing={1}>
                   <IconButton aria-label="add" color="primary" onClick={() => addVoluntaryDeduction(voluntaryDeduction)}>
-                  <ReadMoreIcon />
+                  <AddBoxIcon />
                   </IconButton>
-                  </Stack>
                   </TableCell>
                 </TableRow>
               ))}
