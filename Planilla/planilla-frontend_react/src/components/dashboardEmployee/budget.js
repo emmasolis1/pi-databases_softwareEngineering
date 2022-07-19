@@ -19,7 +19,7 @@ export const Budget = ({ totalProjects, ...props }) => (
             gutterBottom
             variant="overline"
           >
-            TOTAL PROJECTS YOU HAVE CREATED
+            TOTAL PROJECTS YOU WORK ON
           </Typography>
           <Typography
             color="textPrimary"

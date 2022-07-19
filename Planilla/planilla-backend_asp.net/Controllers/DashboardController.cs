@@ -26,6 +26,8 @@ namespace planilla_backend_asp.net.Controllers
     [Route("dashboardEmployee")]
     public ActionResult GetDashboardEmployee(string employeeID)
     {
+      Console.WriteLine(employeeID);
+
       // Get data from database
       DashboardHandler handler = new DashboardHandler();
       try

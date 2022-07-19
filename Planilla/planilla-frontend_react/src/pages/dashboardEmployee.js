@@ -71,61 +71,7 @@ class DashboardEmployee extends React.Component {
                   sm={6}
                   xs={12}
                 >
-                  <TotalCustomers totalEmployeesCompany={this.state.info.totalEmployees} />
-                </Grid>
-                {/* <Grid
-                  item
-                  xl={3}
-                  lg={3}
-                  sm={6}
-                  xs={12}
-                >
-                  <TasksProgress totalEmployeesProject="NA" />
-                </Grid> */}
-                <Grid
-                  item
-                  xl={4}
-                  lg={4}
-                  sm={6}
-                  xs={12}
-                >
-                  <TotalProfit totalProjectsCost={this.state.info.totalProjectCost} sx={{ height: '100%' }} />
-                </Grid>
-                <Grid
-                  item
-                  lg={8}
-                  md={12}
-                  xl={9}
-                  xs={12}
-                >
-                  <Sales employeeTypes={this.state.info.totalEmployeesByProject} />
-                </Grid>
-                <Grid
-                  item
-                  lg={4}
-                  md={6}
-                  xl={3}
-                  xs={12}
-                >
-                  <TrafficByDevice projects={this.state.info.totalProjectCost} sx={{ height: '100%' }} />
-                </Grid>
-                <Grid
-                  item
-                  lg={4}
-                  md={6}
-                  xl={3}
-                  xs={12}
-                >
-                  <LatestProducts nextPayments={this.state.info.nextPayments} sx={{ height: '100%' }} />
-                </Grid>
-                <Grid
-                  item
-                  lg={8}
-                  md={12}
-                  xl={9}
-                  xs={12}
-                >
-                  <LatestOrders latestPayments={this.state.info.latestPayments} />
+                  <TotalProfit totalProjectsCost={this.state.info.totalProjectsIncome} sx={{ height: '100%' }} />
                 </Grid>
               </Grid>
             </Container>

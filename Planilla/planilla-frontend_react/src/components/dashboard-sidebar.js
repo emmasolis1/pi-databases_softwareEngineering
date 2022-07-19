@@ -63,6 +63,11 @@ const items = [
 
 const employeeItems = [
   {
+    href: '/dashboardEmployee',
+    icon: (<ChartBarIcon fontSize="small" />),
+    title: 'Dashboard'
+  },
+  {
     href: '/projects_employee',
     icon: (<AccountTreeIcon fontSize="small" />),
     title: 'Projects'
