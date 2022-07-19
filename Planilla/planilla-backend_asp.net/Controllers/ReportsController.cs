@@ -27,5 +27,17 @@ namespace planilla_backend_asp.net.Controllers
       var data = handler.GetEmployeeReport(employeeID, employerID, projectName, paymentDate);
       return Ok(data);
     }
+
+    // Create a pdf with the given report.
+    [HttpGet]
+    [Route("pdf")]
+    public ActionResult GetPdf(string employeeID, string employerID, string projectName, string paymentDate)
+    {
+      var handler = new ReportsHandler();
+      var data = handler.GetEmployeeReport(employeeID, employerID, projectName, paymentDate);
+      var pdf = new PdfHandler();
+      var pdfData = pdf.CreatePdf(data);
+      return Ok(pdfData);
+    }
   }
 }

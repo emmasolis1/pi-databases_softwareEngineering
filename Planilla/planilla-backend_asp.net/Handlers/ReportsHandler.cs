@@ -79,6 +79,9 @@ namespace planilla_backend_asp.net.Handlers
 
         // Mandatory Deductions
         report.mandatoryDeductions = GetMandatoryDeductions(employerID, projectName, employeeID, paymentDate);
+
+        // Voluntary Deductions
+        report.optionalDeductions = GetVoluntaryDeductions(employerID, projectName, employeeID, paymentDate);
       } 
       catch (Exception e)
       {
@@ -141,6 +144,37 @@ namespace planilla_backend_asp.net.Handlers
         connection.Close();
       }
       return mandatoryDeductions;
+    }
+
+    private List<VoluntaryDeductionsEmployeeReport> GetVoluntaryDeductions(string employerID, string projectName, string employeeID, string paymentDate)
+    {
+      List<VoluntaryDeductionsEmployeeReport> voluntaryDeductions = new List<VoluntaryDeductionsEmployeeReport>();
+      try
+      {
+        connection.Open();
+        SqlCommand command = new SqlCommand("select i.VoluntaryDeductionName, s.Cost from IncludesVoluntaryDeductions i, VoluntaryDeductionsStatus s where i.EmployeeID=@employeeID and i.ProjectName=@projectName and i.EmployerID=@employerID and i.PaymentDate=@paymentDate and s.EmployeeID=i.EmployeeID and s.ProjectName=i.ProjectName and s.EmployerID=i.EmployerID and EndingDate is NULL", connection);
+        command.Parameters.AddWithValue("@employerID", employerID);
+        command.Parameters.AddWithValue("@projectName", projectName);
+        command.Parameters.AddWithValue("@employeeID", employeeID);
+        command.Parameters.AddWithValue("@paymentDate", paymentDate);
+        SqlDataReader reader = command.ExecuteReader();
+        while (reader.Read())
+        {
+          VoluntaryDeductionsEmployeeReport voluntaryDeduction = new VoluntaryDeductionsEmployeeReport();
+          voluntaryDeduction.name = reader["VoluntaryDeductionName"].ToString();
+          voluntaryDeduction.cost = reader["Cost"].ToString();
+          voluntaryDeductions.Add(voluntaryDeduction);
+        }
+      }
+      catch (Exception e)
+      {
+        Console.WriteLine(e.Message);
+      }
+      finally
+      {
+        connection.Close();
+      }
+      return voluntaryDeductions;
     }
   }
 }
