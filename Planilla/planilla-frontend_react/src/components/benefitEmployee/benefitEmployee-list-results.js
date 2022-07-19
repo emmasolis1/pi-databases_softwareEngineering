@@ -5,7 +5,6 @@ import IconButton from '@mui/material/IconButton';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
-import { useRouter } from 'next/router';
 import { useState } from 'react';
 import {
   Avatar,
@@ -28,7 +27,6 @@ import {
 import { URL } from 'src/utils/url';
 
 export const BenefitEmployeeListResults = ({ benefits, ...rest }) => {
-  const router = useRouter();
   const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(0);
   const [open, setOpen] = React.useState(false);
@@ -180,7 +178,7 @@ export const BenefitEmployeeListResults = ({ benefits, ...rest }) => {
                       </Dialog>
                       </>
                       :
-                      ""
+                      "Ended"
                     }
                     </TableCell>
                 </TableRow>
