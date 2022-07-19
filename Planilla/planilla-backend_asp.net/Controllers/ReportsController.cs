@@ -14,7 +14,7 @@ namespace planilla_backend_asp.net.Controllers
     public ActionResult GetProjects(string employeeID)
     {
       var handler = new ReportsHandler();
-      var data = handler.GetEmployeeReports(employerID);
+      var data = handler.GetEmployeeReports(employeeID);
       return Ok(data);
     }
   }
