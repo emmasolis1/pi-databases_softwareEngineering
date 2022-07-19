@@ -1,9 +1,6 @@
 import { Doughnut } from 'react-chartjs-2';
 import { Box, Card, CardContent, CardHeader, Divider, Typography, useTheme } from '@mui/material';
 import LaptopMacIcon from '@mui/icons-material/LaptopMac';
-import PhoneIcon from '@mui/icons-material/Phone';
-import TabletIcon from '@mui/icons-material/Tablet';
-import ScheduleIcon from '@mui/icons-material/Schedule';
 
 export const TrafficByDevice = ({ projects, ...props }) => {
   const theme = useTheme();
@@ -43,36 +40,7 @@ export const TrafficByDevice = ({ projects, ...props }) => {
     }
   };
 
-  const devices = [
-    // {
-    //   title: 'Fulltime',
-    //   value: fulltime,
-    //   icon: LaptopMacIcon,
-    //   color: '#3F51B5',
-    //   total_sum: parseInt(fulltime) + parseInt(parttime) + parseInt(hourly) + parseInt(professional_services)
-    // },
-    // {
-    //   title: 'Part-time',
-    //   value: parttime,
-    //   icon: TabletIcon,
-    //   color: '#E53935',
-    //   total_sum: parseInt(fulltime) + parseInt(parttime) + parseInt(hourly) + parseInt(professional_services)
-    // },
-    // {
-    //   title: 'Hourly',
-    //   value: hourly,
-    //   icon: ScheduleIcon,
-    //   color: '#FB8C00',
-    //   total_sum: parseInt(fulltime) + parseInt(parttime) + parseInt(hourly) + parseInt(professional_services)
-    // },
-    // {
-    //   title: 'Professional Services',
-    //   value: professional_services,
-    //   icon: PhoneIcon,
-    //   color: '#00C853',
-    //   total_sum: parseInt(fulltime) + parseInt(parttime) + parseInt(hourly) + parseInt(professional_services)
-    // }
-  ];
+  const devices = [];
 
   function setData() {
     projects.map(project => {

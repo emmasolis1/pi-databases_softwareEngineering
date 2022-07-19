@@ -1,56 +1,19 @@
-import { formatDistanceToNow, subHours } from 'date-fns';
+import { subHours } from 'date-fns';
 import { v4 as uuid } from 'uuid';
 import {
   Avatar,
-  Box,
   Button,
   Card,
   CardHeader,
   Divider,
-  IconButton,
   List,
   ListItem,
   ListItemAvatar,
   ListItemText
 } from '@mui/material';
-import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import axios from 'axios';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { getInitials } from '../../utils/get-initials';
 import { URL } from 'src/utils/url';
-
-const products = [
-  {
-    id: uuid(),
-    name: 'Dropbox',
-    imageUrl: '/static/images/products/product_1.png',
-    updatedAt: subHours(Date.now(), 2)
-  },
-  {
-    id: uuid(),
-    name: 'Medium Corporation',
-    imageUrl: '/static/images/products/product_2.png',
-    updatedAt: subHours(Date.now(), 2)
-  },
-  {
-    id: uuid(),
-    name: 'Slack',
-    imageUrl: '/static/images/products/product_3.png',
-    updatedAt: subHours(Date.now(), 3)
-  },
-  {
-    id: uuid(),
-    name: 'Lyft',
-    imageUrl: '/static/images/products/product_4.png',
-    updatedAt: subHours(Date.now(), 5)
-  },
-  {
-    id: uuid(),
-    name: 'GitHub',
-    imageUrl: '/static/images/products/product_5.png',
-    updatedAt: subHours(Date.now(), 9)
-  }
-];
 
 export const LatestProducts = ({ nextPayments, ...props }) => {
   function setDate(date_received) {
@@ -83,7 +46,6 @@ export const LatestProducts = ({ nextPayments, ...props }) => {
   return (
     <Card {...props}>
       <CardHeader
-        subtitle={`${products.length} in total`}
         title="Next Payments"
       />
       <Divider />
@@ -94,14 +56,6 @@ export const LatestProducts = ({ nextPayments, ...props }) => {
             key={product.projectName}
           >
             <ListItemAvatar>
-              {/* <img
-                alt={product.projectName}
-                src={getInitials(product.projectName)}
-                style={{
-                  height: 48,
-                  width: 48
-                }}
-              /> */}
               <Avatar>
                 {getInitials(product.projectName)}
               </Avatar> 
@@ -110,12 +64,6 @@ export const LatestProducts = ({ nextPayments, ...props }) => {
               primary={product.projectName}
               secondary={setDate(product.nextPayment)}
             />
-            {/* <IconButton
-              edge="end"
-              size="small"
-            >
-              <MoreVertIcon />
-            </IconButton> */}
             <Button
               color="primary"
               variant="text"
@@ -126,23 +74,6 @@ export const LatestProducts = ({ nextPayments, ...props }) => {
           </ListItem>
         ))}
       </List>
-      {/* <Divider />
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'flex-end',
-          p: 2
-        }}
-      >
-        <Button
-          color="primary"
-          endIcon={<ArrowRightIcon />}
-          size="small"
-          variant="text"
-        >
-          View all
-        </Button>
-      </Box> */}
     </Card>
   );
 };

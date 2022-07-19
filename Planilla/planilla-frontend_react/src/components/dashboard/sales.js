@@ -1,6 +1,5 @@
 import { Bar } from 'react-chartjs-2';
 import { Box, Button, Card, CardContent, CardHeader, Divider, useTheme } from '@mui/material';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import Router from 'next/router';
 
@@ -118,16 +117,6 @@ export const Sales = ({ employeeTypes, ...props }) => {
   return (
     <Card {...props}>
       <CardHeader
-        // action={(
-        //   <Button
-        //   color="primary"
-        //   endIcon={<ArrowRightIcon fontSize="small" />}
-        //   onClick={() => {Router.push('/projects');}}
-        //   size="small"
-        // >
-        //   Projects
-        // </Button>
-        // )}
         title="Types of Employees by Project"
       />
       <Divider />
