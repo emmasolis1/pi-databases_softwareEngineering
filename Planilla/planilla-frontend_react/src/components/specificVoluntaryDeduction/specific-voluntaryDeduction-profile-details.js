@@ -26,6 +26,7 @@ export const SpecificVoluntaryDeductionProfileDetails = ({ voluntaryDeduction, .
   const [open, setOpen] = React.useState(false);
   const formik = useFormik({
     initialValues: {
+      voluntaryDeductionName: voluntaryDeduction.voluntaryDeductionName,
       projectName: voluntaryDeduction.projectName,
       employerID: voluntaryDeduction.employerID,
       description: voluntaryDeduction.description,
@@ -37,10 +38,13 @@ export const SpecificVoluntaryDeductionProfileDetails = ({ voluntaryDeduction, .
         .max(255),
       cost: Yup
         .string(),
+      voluntaryDeductionName: Yup
+        .string()
+        .max(255),
     }),
     onSubmit: values => {
       var data = {
-        voluntaryDeductionName: voluntaryDeduction.voluntaryDeductionName,
+        voluntaryDeductionName: values.voluntaryDeductionName,
         projectName: voluntaryDeduction.projectName,
         employerID: voluntaryDeduction.employerID,
         description: values.description,
@@ -92,6 +96,24 @@ const handleClickOpen = () => {
                 margin="none"
                 value={formik.values.employerID}
                 disabled={true}
+              />
+            </Grid>
+            <Grid
+              item
+              md={6}
+              xs={12}
+            >
+            <TextField
+                fullWidth
+                label="Deduction name"
+                margin="none"
+                value={formik.values.voluntaryDeductionName}
+                name="voluntaryDeductionName"
+                error={Boolean(formik.touched.voluntaryDeductionName && formik.errors.voluntaryDeductionName)}
+                helperText={formik.touched.voluntaryDeductionName && formik.errors.voluntaryDeductionName}
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                variant="outlined"
               />
             </Grid>
             <Grid
