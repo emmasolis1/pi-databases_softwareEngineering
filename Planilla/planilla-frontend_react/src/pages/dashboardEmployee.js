@@ -1,19 +1,12 @@
 import Head from 'next/head';
 import React from 'react';
 import axios from 'axios';
-import { useRouter } from 'next/router';
 import { Box, Container, Grid } from '@mui/material';
 import { Budget } from '../components/dashboardEmployee/budget';
-import { LatestOrders } from '../components/dashboardEmployee/latest-orders';
-import { LatestProducts } from '../components/dashboardEmployee/latest-products';
-import { Sales } from '../components/dashboardEmployee/sales';
-import { TasksProgress } from '../components/dashboardEmployee/tasks-progress';
-import { TotalCustomers } from '../components/dashboardEmployee/total-customers';
 import { TotalProfit } from '../components/dashboardEmployee/total-profit';
 import { TrafficByDevice } from '../components/dashboardEmployee/traffic-by-device';
 import { DashboardLayout } from '../components/dashboard-layout';
 import { URL } from 'src/utils/url';
-import { parseJSON } from 'date-fns';
 
 class DashboardEmployee extends React.Component {
   constructor(props) {
