@@ -3,30 +3,30 @@ import React from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { Box, Container, Grid } from '@mui/material';
-import { Budget } from '../components/dashboard/budget';
-import { LatestOrders } from '../components/dashboard/latest-orders';
-import { LatestProducts } from '../components/dashboard/latest-products';
-import { Sales } from '../components/dashboard/sales';
-import { TasksProgress } from '../components/dashboard/tasks-progress';
-import { TotalCustomers } from '../components/dashboard/total-customers';
-import { TotalProfit } from '../components/dashboard/total-profit';
-import { TrafficByDevice } from '../components/dashboard/traffic-by-device';
+import { Budget } from '../components/dashboardEmployee/budget';
+import { LatestOrders } from '../components/dashboardEmployee/latest-orders';
+import { LatestProducts } from '../components/dashboardEmployee/latest-products';
+import { Sales } from '../components/dashboardEmployee/sales';
+import { TasksProgress } from '../components/dashboardEmployee/tasks-progress';
+import { TotalCustomers } from '../components/dashboardEmployee/total-customers';
+import { TotalProfit } from '../components/dashboardEmployee/total-profit';
+import { TrafficByDevice } from '../components/dashboardEmployee/traffic-by-device';
 import { DashboardLayout } from '../components/dashboard-layout';
 import { URL } from 'src/utils/url';
 import { parseJSON } from 'date-fns';
 
-class Dashboard extends React.Component {
+class DashboardEmployee extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoaded: false,
       info: [],
-      APIUrl: URL + 'dashboard',
+      APIUrl: URL + 'dashboardEmployee',
     };
   }
 
   componentDidMount() {
-    let requestAPI = this.state.APIUrl + "?employerID=" + sessionStorage.getItem("employerID");
+    let requestAPI = this.state.APIUrl + "?employeeID=" + sessionStorage.getItem("employeeID");
     axios.get(requestAPI).then(response => {
       this.setState({ isLoaded: true, info: response.data });
     });
@@ -62,7 +62,7 @@ class Dashboard extends React.Component {
                   sm={6}
                   xs={12}
                 >
-                  <Budget totalProjects={this.state.info.totalProjects} />
+                  <Budget totalProjects={this.state.info.totalWorkingProjects} />
                 </Grid>
                 <Grid
                   item
@@ -136,10 +136,10 @@ class Dashboard extends React.Component {
   }
 }
 
-Dashboard.getLayout = (page) => (
+DashboardEmployee.getLayout = (page) => (
   <DashboardLayout>
     {page}
   </DashboardLayout>
 );
 
-export default Dashboard;
+export default DashboardEmployee;
