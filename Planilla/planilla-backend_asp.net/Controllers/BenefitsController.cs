@@ -145,5 +145,22 @@ namespace planilla_backend_asp.net.Controllers
         return BadRequest(error.Message);
       }
     }
+
+    [HttpPut]
+    [Route("unsubscribeBenefit")]
+    public ActionResult RelinquishBenefitStatus([FromBody] BenefitEmployeeModel benefit)
+    {
+      try
+      {
+        BenefitsHandler handler = new BenefitsHandler();
+        handler.RelinquishBenefitStatus(benefit);
+        return Ok();
+      }
+      catch (Exception error)
+      {
+        Console.WriteLine(error);
+        return BadRequest(error.Message);
+      }
+    }
   }
 }

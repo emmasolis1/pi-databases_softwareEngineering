@@ -1,11 +1,10 @@
 import * as React from 'react';
+import axios from 'axios';
 import { getInitials } from '../../utils/get-initials';
 import IconButton from '@mui/material/IconButton';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
-import { useRouter } from 'next/router';
-import Stack from '@mui/material/Stack';
 import { useState } from 'react';
 import {
   Avatar,
@@ -25,9 +24,9 @@ import {
   TableRow,
   Typography
 } from '@mui/material';
+import { URL } from 'src/utils/url';
 
 export const BenefitEmployeeListResults = ({ benefits, ...rest }) => {
-  const router = useRouter();
   const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(0);
   const [open, setOpen] = React.useState(false);
@@ -55,6 +54,12 @@ export const BenefitEmployeeListResults = ({ benefits, ...rest }) => {
   const handleClose = (agreed) => {
     setOpen(false);
     if (agreed === true) {
+      let startDate = sessionStorage.getItem("startDate");
+      let month = startDate.split(' ')[0].split('/')[1];
+      let day = startDate.split(' ')[0].split('/')[0];
+      let year = startDate.split(' ')[0].split('/')[2];
+      let newDate = new Date(month + "/" + day + "/" + year);
+
       var data = {
         benefitName: sessionStorage.getItem("benefitName"),
         projectName: sessionStorage.getItem("projectName"),
@@ -62,11 +67,11 @@ export const BenefitEmployeeListResults = ({ benefits, ...rest }) => {
         employeeID: sessionStorage.getItem("employeeID"),
         description: sessionStorage.getItem("description"),
         cost: sessionStorage.getItem("cost"),
-        startDate: sessionStorage.getItem("startDate"),
+        startDate: newDate,
         endDate: ""
       };
-      /*
-      axios.update(URL + 'unsubscribeBenefit', data)
+
+      axios.put(URL + 'unsubscribeBenefit', data)
         .then(function () {
           alert("Benefit successfully unsubscribed");
           window.location.reload(false);
@@ -77,7 +82,6 @@ export const BenefitEmployeeListResults = ({ benefits, ...rest }) => {
           }
           window.location.reload(false);
         });
-        */
     }
   };
 
@@ -112,7 +116,7 @@ export const BenefitEmployeeListResults = ({ benefits, ...rest }) => {
               {benefits.slice(page * limit, page * limit + limit).map(benefit => (
                 <TableRow
                   hover
-                  key={benefit.benefitName + benefit.projectName + benefit.employerID}
+                  key={benefit.benefitName + benefit.projectName + benefit.employerID + benefit.employeeID + benefit.startDate}
                 >
                   <TableCell>
                     <Box
@@ -148,29 +152,35 @@ export const BenefitEmployeeListResults = ({ benefits, ...rest }) => {
                     {benefit.endDate}
                   </TableCell>
                   <TableCell>
-                    <IconButton aria-label="delete" color="error" onClick={() => handleClickOpen(benefit)}>
-                      <DeleteForeverIcon />
-                    </IconButton>
-                    <Dialog
-                      open={open}
-                      onClose={handleClose}
-                      aria-labelledby="alert-dialog-title"
-                      aria-describedby="alert-dialog-description"
-                    >
-                      <DialogTitle id="alert-dialog-title">
-                        {"Alert: Please read!!!"}
-                      </DialogTitle>
-                      <DialogContent>
-                        <DialogContentText id="alert-dialog-description">
-                          You are about to unsubscribe from a benefit. Are you sure?
-                        </DialogContentText>
-                      </DialogContent>
-                      <DialogActions>
-                        <Button onClick={handleClose} variant="outlined" color="primary">Cancel</Button>
-                        <Button onClick={() => handleClose(true)} variant="contained" color="error">Unsubscribe</Button>
-                      </DialogActions>
-                    </Dialog>
-                  </TableCell>
+                    {!benefit.endDate ?
+                      <>
+                      <IconButton aria-label="delete" color="error" onClick={() => handleClickOpen(benefit)}>
+                        <DeleteForeverIcon />
+                      </IconButton>
+                      <Dialog
+                        open={open}
+                        onClose={handleClose}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                      >
+                        <DialogTitle id="alert-dialog-title">
+                          {"Alert: Please read!!!"}
+                        </DialogTitle>
+                        <DialogContent>
+                          <DialogContentText id="alert-dialog-description">
+                            You are about to unsubscribe from a benefit. Are you sure?
+                          </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                          <Button onClick={handleClose} variant="outlined" color="primary">Cancel</Button>
+                          <Button onClick={() => handleClose(true)} variant="contained" color="error">Unsubscribe</Button>
+                        </DialogActions>
+                      </Dialog>
+                      </>
+                      :
+                      "Ended"
+                    }
+                    </TableCell>
                 </TableRow>
               ))}
             </TableBody>

@@ -34,9 +34,6 @@ export const SpecificVoluntaryDeductionEmployeeProfile = ({voluntaryDeduction, .
           </Typography>
         </Box>
       </CardContent>
-      <Divider />
-      <CardActions>
-      </CardActions>
     </Card>
   );
 };
