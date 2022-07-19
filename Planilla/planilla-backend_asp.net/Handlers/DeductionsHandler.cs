@@ -177,7 +177,7 @@ namespace planilla_backend_asp.net.Handlers
                     
     public List<VoluntaryDeductionsEmployeeModel> VoluntaryDeductionsBeingUsedByEmployee(string projectName, string employerID, string employeeID)
     {
-      string consult = @"SELECT VoluntaryDeductions.VoluntaryDeductionName, VoluntaryDeductions.ProjectName, VoluntaryDeductions.EmployerID, Description, VoluntaryDeductions.Cost, StartDate, EndingDate
+      string consult = @"SELECT VoluntaryDeductions.VoluntaryDeductionName, VoluntaryDeductions.ProjectName, VoluntaryDeductions.EmployerID, Description, VoluntaryDeductionsStatus.Cost, StartDate, EndingDate
                       FROM VoluntaryDeductions 
                         JOIN VoluntaryDeductionsStatus ON VoluntaryDeductions.VoluntaryDeductionName = VoluntaryDeductionsStatus.VoluntaryDeductionName
                         AND VoluntaryDeductions.ProjectName = VoluntaryDeductionsStatus.ProjectName 
@@ -260,10 +260,10 @@ namespace planilla_backend_asp.net.Handlers
       return voluntaryDeductions;
     }
 
-    public bool EstablishVoluntaryDeductionStatus(VoluntaryDeductionsEmployeeModel deduction)
+    public bool EstablishVoluntaryDeductionStatus(VoluntaryDeductionsEmployeeModel deduction )
     {
-      var consult = @"INSERT INTO VoluntaryDeductionsStatus ([VoluntaryDeductionName], [ProjectName], [EmployerID], [EmployeeID], [StartDate]) 
-                      VALUES (@voluntaryDeductionName, @projectName, @employerID, @employeeID, @startDate)";
+      var consult = @"INSERT INTO VoluntaryDeductionsStatus ([VoluntaryDeductionName], [ProjectName], [EmployerID], [EmployeeID], [StartDate], [Cost]) 
+                      VALUES (@voluntaryDeductionName, @projectName, @employerID, @employeeID, @startDate, @cost)";
       var queryCommand = new SqlCommand(consult, connection);
 
       // Insertion of key attributes
@@ -272,12 +272,56 @@ namespace planilla_backend_asp.net.Handlers
       queryCommand.Parameters.AddWithValue("@employerID", deduction.employerID);
       queryCommand.Parameters.AddWithValue("@employeeID", deduction.employeeID);
       queryCommand.Parameters.AddWithValue("@startDate", DateTime.Now.ToString("yyyy/MM/dd"));
-
+      queryCommand.Parameters.AddWithValue("@cost", deduction.cost);
+      
       connection.Open();
       bool status = queryCommand.ExecuteNonQuery() >= 1;
       connection.Close();
 
       return status;
     }
+
+    public void UpdateVoluntaryDeductionsEmployee(VoluntaryDeductionsEmployeeModel voluntaryDeduction)
+    {
+      string consult = "update VoluntaryDeductionsStatus set [Cost] = @cost where [VoluntaryDeductionName] = @voluntaryDeductionName AND [projectName] = @projectName AND [employerID] = @employerID";
+      SqlCommand queryCommand = new SqlCommand(consult, connection);
+      queryCommand.Parameters.AddWithValue("@voluntaryDeductionName", voluntaryDeduction.voluntaryDeductionName);
+      queryCommand.Parameters.AddWithValue("@projectName", voluntaryDeduction.projectName);
+      queryCommand.Parameters.AddWithValue("@employerID", voluntaryDeduction.employerID);
+      queryCommand.Parameters.AddWithValue("@employeeID", voluntaryDeduction.employeeID);
+      queryCommand.Parameters.AddWithValue("@startDate", voluntaryDeduction.startDate);
+      queryCommand.Parameters.AddWithValue("@endingDate", voluntaryDeduction.endingDate);
+      queryCommand.Parameters.AddWithValue("@cost", voluntaryDeduction.cost);
+      // Execute command
+      connection.Open();
+      queryCommand.ExecuteNonQuery();
+      connection.Close();
+    }
+
+    public VoluntaryDeductionsEmployeeModel GetSpecificVoluntaryDeductionInfoEmployee(string voluntaryDeductionName, string projectName, string employerID)
+    {
+      string consult = @"SELECT VoluntaryDeductionName, ProjectName, EmployerID, EmployeeID, StartDate, EndingDate, Cost 
+                      FROM VoluntaryDeductionsStatus
+                      WHERE VoluntaryDeductionName = @voluntaryDeductionName and EmployerID = @employerID and ProjectName = @projectName";
+      var voluntaryDeduction = new VoluntaryDeductionsEmployeeModel();  
+      SqlCommand queryCommand = new SqlCommand(consult, connection);
+      queryCommand.Parameters.AddWithValue("@voluntaryDeductionName", voluntaryDeductionName);
+      queryCommand.Parameters.AddWithValue("@projectName", projectName);
+      queryCommand.Parameters.AddWithValue("@employerID", employerID);
+      SqlDataAdapter tableAdapter = new SqlDataAdapter(queryCommand);
+      DataTable tableFormatConsult = CreateTableConsult(tableAdapter);
+      foreach (DataRow column in tableFormatConsult.Rows)
+      {
+        voluntaryDeduction.voluntaryDeductionName = Convert.ToString(column["VoluntaryDeductionName"]);
+        voluntaryDeduction.projectName = Convert.ToString(column["ProjectName"]);
+        voluntaryDeduction.employerID = Convert.ToString(column["EmployerID"]);
+        voluntaryDeduction.employeeID = Convert.ToString(column["EmployeeID"]);
+        voluntaryDeduction.startDate = Convert.ToString(column["StartDate"]);
+        voluntaryDeduction.endingDate = Convert.ToString(column["EndingDate"]);
+        voluntaryDeduction.cost = Convert.ToString(column["cost"]);
+      };
+      return voluntaryDeduction;
+    }
+
   }
 }

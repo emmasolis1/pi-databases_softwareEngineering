@@ -25,9 +25,13 @@ export const SpecificVoluntaryDeductionEmployeeProfileDetails = ({ voluntaryDedu
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
+      voluntaryDeductionName: voluntaryDeduction.voluntaryDeductionName,
       projectName: voluntaryDeduction.projectName,
       employerID: voluntaryDeduction.employerID,
-      description: voluntaryDeduction.description,
+      employeeID: voluntaryDeduction.employeeID,
+      startDate: voluntaryDeduction.startDate,
+      endingDate: voluntaryDeduction.endingDate,
+      description: "",
       cost: voluntaryDeduction.cost,
     },
     validationSchema: Yup.object({
@@ -39,11 +43,14 @@ export const SpecificVoluntaryDeductionEmployeeProfileDetails = ({ voluntaryDedu
         voluntaryDeductionName: voluntaryDeduction.voluntaryDeductionName,
         projectName: voluntaryDeduction.projectName,
         employerID: voluntaryDeduction.employerID,
-        description: voluntaryDeduction.description,
+        employeeID: voluntaryDeduction.employeeID,
+        startDate: voluntaryDeduction.startDate,
+        endingDate: voluntaryDeduction.endingDate,
+        description: "",
         cost: values.cost,
       };
       axios.put(URL + 'specificVoluntaryDeductionEmployee', data).then((response) => {
-        alert("Voluntary Deduction selected successfully");
+        alert("Voluntary Deduction updated successfully");
         router.push('/voluntaryDeductionsEmployee');
       });
     }
