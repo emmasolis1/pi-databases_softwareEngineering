@@ -37,9 +37,9 @@ export const HoursListResults = ({ entries, entriesStatuses, ...rest }) => {
     setStatuses(newStatuses);
     entry.hoursApprovalStatus = event.target.value;
 
-    let month = entry.date.split(' ')[0].split('/')[1]
-    let day = entry.date.split(' ')[0].split('/')[0]
-    let year = entry.date.split(' ')[0].split('/')[2]
+    let month = entry.date.split(' ')[0].split('/')[1];
+    let day = entry.date.split(' ')[0].split('/')[0];
+    let year = entry.date.split(' ')[0].split('/')[2];
     let newDate = new Date(month + "/" + day + "/" + year);
 
     var data = {
