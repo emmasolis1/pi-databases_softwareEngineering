@@ -188,6 +188,31 @@ export const SpecificReportDetails = ({ report, ...props }) => {
           </Grid>
         </CardContent>
         <Divider />
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            p: 2
+          }}
+        >
+          <Button
+            color="secondary"
+            variant="contained"
+            type="submit"
+            sx={{
+              mr: 2
+            }}
+          >
+            Download Report
+          </Button>
+          <Button
+            color="primary"
+            variant="contained"
+            type="submit"
+          >
+            Send to Email
+          </Button>
+        </Box>
       </Card>
   );
 };
