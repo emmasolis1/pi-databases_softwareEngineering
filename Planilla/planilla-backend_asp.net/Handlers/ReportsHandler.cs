@@ -25,11 +25,21 @@ namespace planilla_backend_asp.net.Handlers
       return consultTable;
     }
 
-    public DataTable GetEmployeeReports(string employeeID)
+    public List<EmployeeSummaryReport> GetEmployeeReports(string employeeID)
     {
-      SqlDataAdapter tableAdapter = new SqlDataAdapter("SELECT * FROM Reportes WHERE EmpleadoID = @employeeID ORDER BY Fecha DESC", connection);
+      SqlDataAdapter tableAdapter = new SqlDataAdapter("select top 10 * from Payments where EmployeeID=@employeeID ORDER BY PaymentDate DESC", connection);
       tableAdapter.SelectCommand.Parameters.AddWithValue("@employeeID", employeeID);
-      return CreateTableConsult(tableAdapter);
+      DataTable consultTable = CreateTableConsult(tableAdapter);
+      List<EmployeeSummaryReport> employeeReports = new List<EmployeeSummaryReport>();
+      foreach (DataRow row in consultTable.Rows)
+      {
+        EmployeeSummaryReport employeeReport = new EmployeeSummaryReport();
+        employeeReport.projectName = row["ProjectName"].ToString();
+        employeeReport.employerID = row["EmployerID"].ToString();
+        employeeReport.paymentDate = row["PaymentDate"].ToString();
+        employeeReports.Add(employeeReport);
+      }
+      return employeeReports;
     }
   }
 }
