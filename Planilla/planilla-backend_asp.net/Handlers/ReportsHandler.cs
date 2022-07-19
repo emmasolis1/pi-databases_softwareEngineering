@@ -192,7 +192,7 @@ namespace planilla_backend_asp.net.Handlers
       {
         grossSalary -= float.Parse(voluntaryDeduction.cost);
       }
-      // parse float to string with 2 decimal places
+      
       return float.Parse(grossSalary.ToString("0.00"));
     }
   }
