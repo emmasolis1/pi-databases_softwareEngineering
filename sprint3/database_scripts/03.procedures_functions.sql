@@ -60,7 +60,7 @@ create procedure GetEmployeeHourRegistryInRange @project_name varchar(255), @emp
 as
 select Users.Identification, HoursRegistry.ProjectName, HoursRegistry.Date, HoursRegistry.NumberOfHours
 from Users join HoursRegistry on Users.Identification = HoursRegistry.EmployeeID
-where HoursRegistry.ProjectName = @project_name and HoursRegistry.EmployerID = @employer_id and HoursRegistry.EmployeeID = @employee_id and HoursRegistry.Date between @start_date and @end_date and HoursRegistry.Date > @start_date
+where HoursRegistry.ProjectName = @project_name and HoursRegistry.EmployerID = @employer_id and HoursRegistry.EmployeeID = @employee_id and HoursRegistry.Date between @start_date and @end_date and HoursRegistry.Date > @start_date and HourRegistry.HoursApprovalStatus = 1
 go
 
 --Gets all the employees contracts' that work for a specified proyect in a specific date
@@ -140,8 +140,6 @@ from Payments p
 	join Contracts c on p.ProjectName = c.ProjectName and p.EmployerID = c.EmployerID and p.EmployeeID = c.EmployeeID and p.StartDate = c.StartDate
 where p.EmployeeID = @employeeID
 order by p.PaymentDate desc
---join IncludesMandatoryDeductions m on p.ProjectName = m.ProjectName and p.EmployerID = m.EmployerID and p.EmployeeID = m.EmployeeID and p.StartDate = m.ContractDate and p.PaymentDate = m.PaymentDate
---join IncludesVoluntaryDeductions v on p.ProjectName = v.ProjectName and p.EmployerID = v.EmployerID and p.EmployeeID = v.EmployeeID and p.StartDate = v.ContractDate and p.PaymentDate = v.PaymentDate
 go
 
 create procedure GetVoluntaryDeductionsFromPayment
@@ -154,10 +152,10 @@ where @project_name = i.ProjectName and @employer_id = i.EmployerID and @employe
 go
 
 create procedure GetMandatoryDeductionsFromPayment
-@project_name varchar(255), @employer_id varchar(10), @employee_id varchar(10), @contract_date date, @payment_date date
+@project_name varchar(255), @employer_id varchar(10), @employee_id varchar(10), @contract_date date, @payment_date date, @salary float
 as
-select m.MandatoryDeductionName, m.Percentage
+select m.MandatoryDeductionName, m.Percentage, m.Condition, GetRentDeductionAmount(@salary) as IncomeDeductionAmount
 from IncludesMandatoryDeductions i
 	join MandatoryDeductions m on i.MandatoryDeductionName = m.MandatoryDeductionName
-where @project_name = i.ProjectName and @employer_id = i.EmployerID and @employee_id = i.EmployeeID and @contract_date = i.ContractDate and @payment_date = i.PaymentDate and m.Condition = 0
+where @project_name = i.ProjectName and @employer_id = i.EmployerID and @employee_id = i.EmployeeID and @contract_date = i.ContractDate and @payment_date = i.PaymentDate
 go

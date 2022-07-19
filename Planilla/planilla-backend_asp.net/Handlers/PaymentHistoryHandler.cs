@@ -43,13 +43,14 @@ namespace planilla_backend_asp.net.Handlers
         }
         private DataTable GetMandatoryDeductions(PaymentHistoryModel payment)
         {
-            var consult = "EXECUTE GetMandatoryDeductionsFromPayment @project_name, @employer_id, @employee_id, @contract_date, @payment_date";
+            var consult = "EXECUTE GetMandatoryDeductionsFromPayment @project_name, @employer_id, @employee_id, @contract_date, @payment_date, @payment";
             var queryCommand = new SqlCommand(consult, connection);
             queryCommand.Parameters.AddWithValue("@project_name", payment.projectName);
             queryCommand.Parameters.AddWithValue("@employer_id", payment.employerId);
             queryCommand.Parameters.AddWithValue("@employee_id", payment.employeeId);
             queryCommand.Parameters.AddWithValue("@contract_date", payment.contractDate);
             queryCommand.Parameters.AddWithValue("@payment_date", payment.paymentDate);
+            queryCommand.Parameters.AddWithValue("@payment", payment.netSalary);
             return CreateTableConsult(queryCommand);
         }
         public List<PaymentHistoryModel> GetPaymentHistory(string employeeId)
@@ -87,8 +88,15 @@ namespace planilla_backend_asp.net.Handlers
                 {
                     // calculate total amount deducted
                     double deductionFromPayment = 0;
-                    double percentage = Convert.ToDouble(mDeduction["Percentage"]);
-                    deductionFromPayment = historyPayment.netSalary * (percentage / 100);
+                    if (Convert.ToString(mDeduction["Condition"]) != "0")
+                    {
+                        deductionFromPayment = Convert.ToDouble(mDeduction["IncomeDeductionAmount"]);
+                    }
+                    else
+                    {
+                        double percentage = Convert.ToDouble(mDeduction["Percentage"]);
+                        deductionFromPayment = historyPayment.netSalary * (percentage / 100);
+                    }
                     // saves the info in the model
                     MandatoryDeductionHistoryModel mandatoryDeduction = new MandatoryDeductionHistoryModel
                     {
