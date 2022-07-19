@@ -21,7 +21,6 @@ export const SpecificReportDetails = ({ report, ...props }) => {
   const router = useRouter();
 
   return (
-    
       <Card>
         <CardHeader
           subheader="See the details of this payment."

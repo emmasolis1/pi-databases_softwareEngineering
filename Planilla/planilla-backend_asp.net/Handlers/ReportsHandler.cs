@@ -82,6 +82,9 @@ namespace planilla_backend_asp.net.Handlers
 
         // Voluntary Deductions
         report.optionalDeductions = GetVoluntaryDeductions(employerID, projectName, employeeID, paymentDate);
+
+        // Gross Salary
+        report.grossSalary = GetGrossSalary(report.netSalary, report.mandatoryDeductions, report.optionalDeductions).ToString();
       } 
       catch (Exception e)
       {
@@ -175,6 +178,22 @@ namespace planilla_backend_asp.net.Handlers
         connection.Close();
       }
       return voluntaryDeductions;
+    }
+
+    private float GetGrossSalary(string NetSalary, List<MandatoryDeductionsEmployeeReport> mandatoryDeductions, List<VoluntaryDeductionsEmployeeReport> voluntaryDeductions)
+    {
+      float grossSalary = float.Parse(NetSalary);
+      float originalNetSalary = float.Parse(NetSalary);
+      foreach (MandatoryDeductionsEmployeeReport mandatoryDeduction in mandatoryDeductions)
+      {
+        grossSalary -= (originalNetSalary * float.Parse(mandatoryDeduction.percentage)) / 100;
+      }
+      foreach (VoluntaryDeductionsEmployeeReport voluntaryDeduction in voluntaryDeductions)
+      {
+        grossSalary -= float.Parse(voluntaryDeduction.cost);
+      }
+      // parse float to string with 2 decimal places
+      return float.Parse(grossSalary.ToString("0.00"));
     }
   }
 }
