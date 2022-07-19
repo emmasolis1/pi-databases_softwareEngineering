@@ -223,7 +223,6 @@ namespace planilla_backend_asp.net.Handlers
       var consult = @"select p.ProjectName, p.Budget from Projects p where EmployerID=@employerID";
       var queryCommand = new SqlCommand(consult, conexion);
 
-      // Uses user's email and the name of the active project to get only related benefits
       queryCommand.Parameters.AddWithValue("@employerID", employerID);
 
       SqlDataAdapter tableAdapter = new SqlDataAdapter(queryCommand);
@@ -238,6 +237,59 @@ namespace planilla_backend_asp.net.Handlers
       }
 
       return employeeTypes;
+    }
+
+    public DashboardEmployeeModel GetDashboardEmployee(string employeeID)
+    {
+      DashboardEmployeeModel dashboard = new DashboardEmployeeModel();
+      try
+      {
+        conexion.Open();
+        // Total projects that this employee works on.
+        SqlCommand cmd = new SqlCommand("select count(Projects.ProjectName) as TotalWorkingProjects FROM Projects JOIN Contracts ON Projects.ProjectName = Contracts.ProjectName WHERE EmployeeID = @employeeID AND RealEndedDate IS NULL AND IsActive = 0", conexion);
+        cmd.Parameters.AddWithValue("@employeeID", employeeID);
+        dashboard.totalWorkingProjects = cmd.ExecuteScalar().ToString();
+
+        if (cmd.Connection.State == ConnectionState.Open)
+        {
+          cmd.Connection.Close();
+        }
+
+        // Total Projects Income
+        dashboard.totalProjectsIncome = GetProjectsIncome(employeeID);
+      }
+      catch (Exception e)
+      {
+        Console.WriteLine(e);
+        return null;
+      }
+      finally
+      {
+        conexion.Close();
+      }
+      return dashboard;
+    }
+
+    private List<TotalProjectsIncome> GetProjectsIncome(string employeeID)
+    {
+      List<TotalProjectsIncome> employeeIncomes = new List<TotalProjectsIncome>();
+      var consult = "select Projects.ProjectName, Contracts.NetSalary FROM Projects JOIN Contracts ON Projects.ProjectName = Contracts.ProjectName WHERE EmployeeID = @employeeID AND RealEndedDate IS NULL AND IsActive = 0";
+      var queryCommand = new SqlCommand(consult, conexion);
+
+      queryCommand.Parameters.AddWithValue("@employeeID", employeeID);
+
+      SqlDataAdapter tableAdapter = new SqlDataAdapter(queryCommand);
+      DataTable tablaResultado = CreateTableConsult(tableAdapter);
+      foreach (DataRow columna in tablaResultado.Rows)
+      {
+        employeeIncomes.Add(new TotalProjectsIncome
+        {
+          projectName = Convert.ToString(columna["ProjectName"]),
+          totalIncome = Convert.ToString(columna["NetSalary"])
+        });
+      }
+
+      return employeeIncomes;
     }
   }
 }

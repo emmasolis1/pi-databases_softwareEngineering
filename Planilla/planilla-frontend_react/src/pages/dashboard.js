@@ -1,19 +1,16 @@
 import Head from 'next/head';
 import React from 'react';
 import axios from 'axios';
-import { useRouter } from 'next/router';
 import { Box, Container, Grid } from '@mui/material';
 import { Budget } from '../components/dashboard/budget';
 import { LatestOrders } from '../components/dashboard/latest-orders';
 import { LatestProducts } from '../components/dashboard/latest-products';
 import { Sales } from '../components/dashboard/sales';
-import { TasksProgress } from '../components/dashboard/tasks-progress';
 import { TotalCustomers } from '../components/dashboard/total-customers';
 import { TotalProfit } from '../components/dashboard/total-profit';
 import { TrafficByDevice } from '../components/dashboard/traffic-by-device';
 import { DashboardLayout } from '../components/dashboard-layout';
 import { URL } from 'src/utils/url';
-import { parseJSON } from 'date-fns';
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -73,15 +70,6 @@ class Dashboard extends React.Component {
                 >
                   <TotalCustomers totalEmployeesCompany={this.state.info.totalEmployees} />
                 </Grid>
-                {/* <Grid
-                  item
-                  xl={3}
-                  lg={3}
-                  sm={6}
-                  xs={12}
-                >
-                  <TasksProgress totalEmployeesProject="NA" />
-                </Grid> */}
                 <Grid
                   item
                   xl={4}

@@ -38,4 +38,17 @@ namespace planilla_backend_asp.net.Models
     public string projectName { get; set; }
     public string totalCost { get; set; }
   }
+
+  public class DashboardEmployeeModel
+  {
+    public string totalWorkingProjects { get; set; }
+    public List<TotalProjectsIncome>? totalProjectsIncome { get; set; } = new List<TotalProjectsIncome>();
+  }
+
+  public class TotalProjectsIncome
+  {
+    public string projectName { get; set; }
+    public string totalIncome { get; set; }
+  }
+
 }

@@ -51,7 +51,7 @@ const Login = () => {
             else {
               sessionStorage.removeItem("employerID");
               sessionStorage.setItem("employeeID", response.data[0]);
-              router.push('/projects_employee');
+              router.push('/dashboardEmployee');
             }
             sessionStorage.setItem("userID", response.data[0]);
           } else {
