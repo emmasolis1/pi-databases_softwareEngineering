@@ -137,7 +137,7 @@ export const SpecificReportDetails = ({ report, ...props }) => {
                         {deduction.name}
                       </TableCell>
                       <TableCell>
-                        -{deduction.percentage * (report.netSalary/100)}
+                        -{report.netSalary * (deduction.percentage/100)}
                       </TableCell>
                     </TableRow>
                   ))}
