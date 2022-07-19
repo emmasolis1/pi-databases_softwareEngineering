@@ -1,11 +1,19 @@
 import * as React from 'react';
 import axios from 'axios';
+import Button from '@mui/material/Button';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 import { getInitials } from '../../utils/get-initials';
 import IconButton from '@mui/material/IconButton';
-import AddBoxIcon from '@mui/icons-material/AddBox';
+import ReadMoreIcon from '@mui/icons-material/ReadMore';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
 import { useRouter } from 'next/router';
+import Stack from '@mui/material/Stack';
 import { useState } from 'react';
 import {
   Avatar,
@@ -21,10 +29,11 @@ import {
 } from '@mui/material';
 import { URL } from 'src/utils/url';
 
-export const SpecificBenefitEmployeeListResults = ({ benefits, ...rest }) => {
+export const ReportListResults = ({ reports, ...rest }) => {
   const router = useRouter();
   const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(0);
+  const [open, setOpen] = React.useState(false);
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
@@ -35,28 +44,11 @@ export const SpecificBenefitEmployeeListResults = ({ benefits, ...rest }) => {
     setPage(newPage);
   };
 
-  const addBenefit = (benefit) => {
-    var data = {
-      benefitName: benefit.benefitName,
-      projectName: benefit.projectName,
-      employerID: benefit.employerID,
-      employeeID: sessionStorage.getItem("employeeID"),
-      description: benefit.description,
-      cost: benefit.cost,
-      startDate: "",
-      endDate: ""
-    };
-    axios.post(URL + 'requestBenefit', data)
-      .then(function () {
-        alert("Benefit successfully established, returning to main benefits page");
-        router.push("benefitsEmployee");
-      })
-      .catch(function (error) {
-        if (error.response) {
-          alert("Error: Unknown error occurred");
-        }
-        window.location.reload(false);
-      });
+  const viewReport = (employer_id, project_name, payment_date) => {
+    sessionStorage.setItem('projectNameReportToVisualize', project_name);
+    sessionStorage.setItem('employerIDReportToVisualize', employer_id);
+    sessionStorage.setItem('paymentDateReportToVisualize', payment_date);
+    router.push('/specific_report_employee');
   }
 
   return (
@@ -67,13 +59,13 @@ export const SpecificBenefitEmployeeListResults = ({ benefits, ...rest }) => {
             <TableHead>
               <TableRow>
                 <TableCell>
-                  Name
+                  Project Name
                 </TableCell>
                 <TableCell>
-                  Description
+                  Made by Employer
                 </TableCell>
                 <TableCell>
-                  Value
+                  Payment Date
                 </TableCell>
                 <TableCell>
                   Actions
@@ -81,10 +73,10 @@ export const SpecificBenefitEmployeeListResults = ({ benefits, ...rest }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {benefits.slice(page * limit, page * limit + limit).map(benefit => (
+              {reports.slice(page * limit, page * limit + limit).map((report) => (
                 <TableRow
                   hover
-                  key={benefit.benefitName + benefit.projectName + benefit.employerID}
+                  key={report.projectName + report.employerID}
                 >
                   <TableCell>
                     <Box
@@ -94,29 +86,31 @@ export const SpecificBenefitEmployeeListResults = ({ benefits, ...rest }) => {
                       }}
                     >
                       <Avatar
-                        src={benefit.avatarUrl}
+                        src={report.avatarUrl}
                         sx={{ mr: 2 }}
                       >
-                        {getInitials(benefit.benefitName)}
+                        {getInitials(report.projectName)}
                       </Avatar>
                       <Typography
                         color="textPrimary"
                         variant="body1"
                       >
-                        {benefit.benefitName}
+                        {report.projectName}
                       </Typography>
                     </Box>
                   </TableCell>
                   <TableCell>
-                    {benefit.description}
+                    {report.employerID}
                   </TableCell>
                   <TableCell>
-                    {"$" + benefit.cost}
+                    {report.paymentDate.split(' ')[0]}
                   </TableCell>
                   <TableCell>
-                    <IconButton aria-label="add" color="primary" onClick={() => addBenefit(benefit)}>
-                      <AddBoxIcon />
-                    </IconButton>
+                      <Stack direction="row" spacing={1}>
+                        <IconButton aria-label="edit" color="primary" onClick={() => viewReport(report.employerID, report.projectName, report.paymentDate)}>
+                          <ReadMoreIcon />
+                        </IconButton>
+                      </Stack>
                   </TableCell>
                 </TableRow>
               ))}
@@ -126,7 +120,7 @@ export const SpecificBenefitEmployeeListResults = ({ benefits, ...rest }) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={benefits.length}
+        count={reports.length}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}
@@ -137,6 +131,6 @@ export const SpecificBenefitEmployeeListResults = ({ benefits, ...rest }) => {
   );
 };
 
-SpecificBenefitEmployeeListResults.propTypes = {
-  benefits: PropTypes.array.isRequired
+ReportListResults.propTypes = {
+  reports: PropTypes.array.isRequired
 };

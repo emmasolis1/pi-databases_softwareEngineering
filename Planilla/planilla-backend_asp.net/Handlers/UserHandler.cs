@@ -120,7 +120,7 @@ namespace planilla_backend_asp.net.Handlers
       if (userType.Equals("0")) // It's an employer
       {
         List<string> projects = new List<string>();
-        var consult = @"select distinct ProjectName from Projects where EmployerID=@id";
+        var consult = @"select distinct ProjectName from Projects where EmployerID=@id  and IsActive=0";
         var queryCommand = new SqlCommand(consult, conexion);
         queryCommand.Parameters.AddWithValue("@id", id);
         conexion.Open();
@@ -135,7 +135,7 @@ namespace planilla_backend_asp.net.Handlers
       else if (userType.Equals("1")) // It's an employee
       {
         List<string> projects = new List<string>();
-        var consult = @"select distinct ProjectName from Contracts where EmployeeID=@id and RealEndedDate is not null";
+        var consult = @"select distinct c.ProjectName from Contracts c, Projects p where c.EmployeeID=@id and c.RealEndedDate is not null and p.ProjectName=c.ProjectName and p.IsActive=0";
         var queryCommand = new SqlCommand(consult, conexion);
         queryCommand.Parameters.AddWithValue("@id", id);
         conexion.Open();
