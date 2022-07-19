@@ -21,5 +21,22 @@ namespace planilla_backend_asp.net.Controllers
         return BadRequest(e.Message);
       }
     }
+
+    [HttpGet]
+    [Route("dashboardEmployee")]
+    public ActionResult GetDashboardEmployee(string employeeID)
+    {
+      // Get data from database
+      DashboardHandler handler = new DashboardHandler();
+      try
+      {
+        var data = handler.GetDashboardEmployee(employeeID);
+        return Ok(data);
+      }
+      catch (Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
   }
 }
