@@ -12,7 +12,7 @@ class VoluntaryDeductionsEmployee extends React.Component {
     super(props);
     this.state = {
       voluntaryDeductions: [],
-      APIUrl: URL + 'voluntaryDeductions',
+      APIUrl: URL + 'voluntaryDeductionsBeingUsedByEmployee',
     };
   }
 
