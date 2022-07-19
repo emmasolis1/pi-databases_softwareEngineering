@@ -57,8 +57,8 @@ class DashboardEmployee extends React.Component {
               >
                 <Grid
                   item
-                  xl={4}
-                  lg={4}
+                  xl={6}
+                  lg={6}
                   sm={6}
                   xs={12}
                 >
@@ -66,12 +66,21 @@ class DashboardEmployee extends React.Component {
                 </Grid>
                 <Grid
                   item
-                  xl={4}
-                  lg={4}
+                  xl={6}
+                  lg={6}
                   sm={6}
                   xs={12}
                 >
                   <TotalProfit totalProjectsCost={this.state.info.totalProjectsIncome} sx={{ height: '100%' }} />
+                </Grid>
+                <Grid
+                  item
+                  lg={12}
+                  md={12}
+                  xl={3}
+                  xs={12}
+                >
+                  <TrafficByDevice projects={this.state.info.totalProjectsIncome} sx={{ height: '100%' }} />
                 </Grid>
               </Grid>
             </Container>

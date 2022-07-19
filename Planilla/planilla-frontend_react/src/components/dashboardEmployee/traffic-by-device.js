@@ -43,40 +43,11 @@ export const TrafficByDevice = ({ projects, ...props }) => {
     }
   };
 
-  const devices = [
-    // {
-    //   title: 'Fulltime',
-    //   value: fulltime,
-    //   icon: LaptopMacIcon,
-    //   color: '#3F51B5',
-    //   total_sum: parseInt(fulltime) + parseInt(parttime) + parseInt(hourly) + parseInt(professional_services)
-    // },
-    // {
-    //   title: 'Part-time',
-    //   value: parttime,
-    //   icon: TabletIcon,
-    //   color: '#E53935',
-    //   total_sum: parseInt(fulltime) + parseInt(parttime) + parseInt(hourly) + parseInt(professional_services)
-    // },
-    // {
-    //   title: 'Hourly',
-    //   value: hourly,
-    //   icon: ScheduleIcon,
-    //   color: '#FB8C00',
-    //   total_sum: parseInt(fulltime) + parseInt(parttime) + parseInt(hourly) + parseInt(professional_services)
-    // },
-    // {
-    //   title: 'Professional Services',
-    //   value: professional_services,
-    //   icon: PhoneIcon,
-    //   color: '#00C853',
-    //   total_sum: parseInt(fulltime) + parseInt(parttime) + parseInt(hourly) + parseInt(professional_services)
-    // }
-  ];
+  const devices = [];
 
   function setData() {
     projects.map(project => {
-      data.datasets[0].data.push(project.totalCost);
+      data.datasets[0].data.push(project.totalIncome);
       data.labels.push(project.projectName);
     });
   }
@@ -85,12 +56,12 @@ export const TrafficByDevice = ({ projects, ...props }) => {
     // find total cost for all projects
     let total_sum = 0;
     projects.forEach(element => {
-      total_sum += parseFloat(element.totalCost);
+      total_sum += parseFloat(element.totalIncome);
     });
     projects.map(project => {
       devices.push({
         title: project.projectName,
-        value: project.totalCost,
+        value: project.totalIncome,
         icon: LaptopMacIcon,
         color: '#3F51B5',
         total_sum: total_sum
@@ -104,7 +75,7 @@ export const TrafficByDevice = ({ projects, ...props }) => {
 
   return (
     <Card {...props}>
-      <CardHeader title={"Total Cost for Projects"} />
+      <CardHeader title={"Total Income from Projects"} />
       <Divider />
       <CardContent>
         <Box
