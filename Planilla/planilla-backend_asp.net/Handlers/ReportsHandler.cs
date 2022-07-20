@@ -224,7 +224,7 @@ namespace planilla_backend_asp.net.Handlers
         command.Parameters.AddWithValue("@employerID", employerID);
         command.Parameters.AddWithValue("@projectName", projectName);
         report.netSalary0 = command.ExecuteScalar().ToString();
-        if(report.netSalary0 == "")
+        if (report.netSalary0 == "")
         {
           report.netSalary0 = "0";
         }

@@ -7,10 +7,7 @@ import * as Yup from 'yup';
 import {
   Box,
   Button,
-  Checkbox,
   Container,
-  FormHelperText,
-  Link,
   TextField,
   Typography
 } from '@mui/material';
@@ -104,7 +101,6 @@ const Register = () => {
         Address: values.address,
         Phone: values.phone
       };
-      // alert(JSON.stringify(data, null, 2));
       axios.post(URL + 'employees', data);
       router.push('/employees');
     }

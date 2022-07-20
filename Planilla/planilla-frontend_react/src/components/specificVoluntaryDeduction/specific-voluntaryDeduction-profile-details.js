@@ -57,7 +57,7 @@ export const SpecificVoluntaryDeductionProfileDetails = ({ voluntaryDeduction, .
     }
   });
 
-const handleClickOpen = () => {
+  const handleClickOpen = () => {
     setOpen(true);
   };
 
@@ -85,12 +85,12 @@ const handleClickOpen = () => {
             container
             spacing={3}
           >
-           <Grid
+            <Grid
               item
               md={6}
               xs={12}
             >
-            <TextField
+              <TextField
                 fullWidth
                 label="Employer ID"
                 margin="none"
@@ -103,7 +103,7 @@ const handleClickOpen = () => {
               md={6}
               xs={12}
             >
-            <TextField
+              <TextField
                 fullWidth
                 label="Deduction name"
                 margin="none"
@@ -170,7 +170,7 @@ const handleClickOpen = () => {
             >
               Save details
             </Button>
-           <Button
+            <Button
               color="error"
               variant="contained"
               onClick={() => handleClickOpen()}

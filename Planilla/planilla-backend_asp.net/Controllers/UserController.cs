@@ -75,27 +75,27 @@ namespace planilla_backend_asp.net.Controllers
     [Route("employees")]
     public ActionResult CreateEmployee([FromBody] UserModel employee)
     {
-        // Create new employee
-        UserHandler handler = new UserHandler();
-        handler.CreateEmployee(employee);
-        return Ok();
+      // Create new employee
+      UserHandler handler = new UserHandler();
+      handler.CreateEmployee(employee);
+      return Ok();
     }
 
     [HttpPost]
     [Route("register")]
     public ActionResult CreateEmployer([FromBody] UserModel employer)
     {
-        try
-        {
-            UserHandler handler = new UserHandler();
-            handler.CreateEmployer(employer);
-            return Ok();
-        }
-        catch(Exception error)
-        {
-            Console.WriteLine(error);
-            return BadRequest(error.Message);
-        }
+      try
+      {
+        UserHandler handler = new UserHandler();
+        handler.CreateEmployer(employer);
+        return Ok();
+      }
+      catch (Exception error)
+      {
+        Console.WriteLine(error);
+        return BadRequest(error.Message);
+      }
     }
 
     [HttpPost]
@@ -112,17 +112,17 @@ namespace planilla_backend_asp.net.Controllers
     [Route("account")]
     public ActionResult EditEmployeeProfile([FromBody] ReciberModel id)
     {
-        try
-        {
-            UserHandler handler = new UserHandler();
-            var data = handler.GetEmployeeInfo(id);
-            return Ok(data);
-        }
-        catch(Exception error)
-        {
-            Console.WriteLine(error);
-            return BadRequest(error.Message);
-        }
+      try
+      {
+        UserHandler handler = new UserHandler();
+        var data = handler.GetEmployeeInfo(id);
+        return Ok(data);
+      }
+      catch (Exception error)
+      {
+        Console.WriteLine(error);
+        return BadRequest(error.Message);
+      }
     }
 
     [HttpPost]
@@ -161,7 +161,7 @@ namespace planilla_backend_asp.net.Controllers
         handler.UpdateEmployeeInfo(employee);
         return Ok();
       }
-      catch(Exception error)
+      catch (Exception error)
       {
         Console.WriteLine(error);
         return BadRequest(error.Message);
@@ -178,7 +178,7 @@ namespace planilla_backend_asp.net.Controllers
         handler.DeleteEmployee(id);
         return Ok();
       }
-      catch(Exception error)
+      catch (Exception error)
       {
         Console.WriteLine(error);
         return BadRequest(error.Message);
@@ -195,7 +195,7 @@ namespace planilla_backend_asp.net.Controllers
         var data = handler.ViewEmployeeInfo(id);
         return Ok(data);
       }
-      catch(Exception error)
+      catch (Exception error)
       {
         Console.WriteLine(error);
         return BadRequest(error.Message);

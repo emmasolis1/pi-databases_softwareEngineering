@@ -16,16 +16,16 @@ import { useRouter } from 'next/router';
 import Stack from '@mui/material/Stack';
 import { useState } from 'react';
 import {
-    Avatar,
-    Box,
-    Card,
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TablePagination,
-    TableRow,
-    Typography
+  Avatar,
+  Box,
+  Card,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TablePagination,
+  TableRow,
+  Typography
 } from '@mui/material';
 import { URL } from 'src/utils/url';
 
@@ -49,7 +49,7 @@ export const VoluntaryDeductionListResults = ({ voluntaryDeductions, ...rest }) 
     setOpen(true);
   };
 
- const handleClose = (agreed) => {
+  const handleClose = (agreed) => {
     setOpen(false);
     if (agreed === true) {
       axios.delete(URL + "deleteVoluntaryDeduction?voluntaryDeductionName=" + sessionStorage.getItem("voluntaryDeduction") + "&projectName=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID")).then(() => {
@@ -119,21 +119,21 @@ export const VoluntaryDeductionListResults = ({ voluntaryDeductions, ...rest }) 
                     {"$" + voluntaryDeduction.cost}
                   </TableCell>
                   <TableCell>
-                  <Stack direction="row" spacing={1}>
-                  <IconButton aria-label="edit" color="primary" onClick={() => viewVoluntaryDeduction(voluntaryDeduction.voluntaryDeductionName)}>
-                  <ReadMoreIcon />
-                  </IconButton>
-                  <IconButton aria-label="delete" color="error" onClick={() => handleClickOpen(voluntaryDeduction.voluntaryDeductionName)}>
-                    <DeleteForeverIcon />
-                  </IconButton>
-                  <Dialog
-                    open={open}
-                    onClose={handleClose}
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
-                   >
+                    <Stack direction="row" spacing={1}>
+                      <IconButton aria-label="edit" color="primary" onClick={() => viewVoluntaryDeduction(voluntaryDeduction.voluntaryDeductionName)}>
+                        <ReadMoreIcon />
+                      </IconButton>
+                      <IconButton aria-label="delete" color="error" onClick={() => handleClickOpen(voluntaryDeduction.voluntaryDeductionName)}>
+                        <DeleteForeverIcon />
+                      </IconButton>
+                      <Dialog
+                        open={open}
+                        onClose={handleClose}
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                      >
                         <DialogTitle id="alert-dialog-title">
-                        {"Alert: Please read!!!"}
+                          {"Alert: Please read!!!"}
                         </DialogTitle>
                         <DialogContent>
                           <DialogContentText id="alert-dialog-description">
@@ -147,7 +147,7 @@ export const VoluntaryDeductionListResults = ({ voluntaryDeductions, ...rest }) 
                           <Button onClick={() => handleClose(true)} variant="contained" color="error">Delete</Button>
                         </DialogActions>
                       </Dialog>
-                  </Stack>
+                    </Stack>
                   </TableCell>
                 </TableRow>
               ))}
@@ -171,4 +171,3 @@ export const VoluntaryDeductionListResults = ({ voluntaryDeductions, ...rest }) 
 VoluntaryDeductionListResults.propTypes = {
   voluntaryDeductions: PropTypes.array.isRequired
 };
-

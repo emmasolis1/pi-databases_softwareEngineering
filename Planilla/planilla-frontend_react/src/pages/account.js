@@ -18,8 +18,7 @@ class Account extends React.Component {
   }
 
   componentDidMount() {
-    // var data = {id: localStorage.getItem('id')};
-    var data = {id: sessionStorage.getItem("userID")};
+    var data = { id: sessionStorage.getItem("userID") };
     axios.post(this.state.APIUrl, data).then(response => {
       this.setState({ isLoaded: true, user: (response.data)[0] });
     });
@@ -60,7 +59,7 @@ class Account extends React.Component {
                   md={6}
                   xs={12}
                 >
-                  <AccountProfile user={this.state.user}/>
+                  <AccountProfile user={this.state.user} />
                 </Grid>
                 <Grid
                   item
@@ -68,7 +67,7 @@ class Account extends React.Component {
                   md={6}
                   xs={12}
                 >
-                  <AccountProfileDetails user={this.state.user}/>
+                  <AccountProfileDetails user={this.state.user} />
                 </Grid>
               </Grid>
             </Container>

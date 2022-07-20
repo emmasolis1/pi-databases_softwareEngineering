@@ -11,11 +11,9 @@ import {
 import { useFormik } from 'formik';
 import axios from 'axios';
 import * as Yup from 'yup';
-import { useRouter } from 'next/router';
 import { URL } from 'src/utils/url';
 
 export const AccountProfileDetails = ({ user, ...props }) => {
-  const router = useRouter();
   const formik = useFormik({
     initialValues: {
       email: user.Email,
@@ -91,10 +89,8 @@ export const AccountProfileDetails = ({ user, ...props }) => {
       if (data.Address == null) {
         data.Address = '';
       }
-      // alert(JSON.stringify(data, null, 2));
       axios.put(URL + 'account', data).then((response) => {
         alert("User data updated successfully");
-        // router.push('/account');
         window.location.reload(false);
       });
     }
@@ -102,9 +98,6 @@ export const AccountProfileDetails = ({ user, ...props }) => {
 
   return (
     <form
-      // autoComplete="off"
-      // noValidate
-      // {...props}
       onSubmit={formik.handleSubmit}
     >
       <Card>
@@ -123,16 +116,6 @@ export const AccountProfileDetails = ({ user, ...props }) => {
               md={6}
               xs={12}
             >
-              {/* <TextField
-                fullWidth
-                helperText="Please specify the first name"
-                label="First name"
-                name="FirstName"
-                onChange={handleChange}
-                required
-                value={user.FirstName}
-                variant="outlined"
-              /> */}
               <TextField
                 fullWidth
                 label="First Name"
@@ -172,18 +155,6 @@ export const AccountProfileDetails = ({ user, ...props }) => {
               md={6}
               xs={12}
             >
-              {/* <TextField
-                error={Boolean(formik.touched.email && formik.errors.email)}
-                fullWidth
-                helperText={formik.touched.email && formik.errors.email}
-                label="Email"
-                margin="none"
-                name="email"
-                onBlur={formik.handleBlur}
-                onChange={formik.handleChange}
-                value={formik.values.email}
-                variant="outlined"
-              /> */}
               <TextField
                 fullWidth
                 label="Email"
@@ -252,28 +223,6 @@ export const AccountProfileDetails = ({ user, ...props }) => {
               md={6}
               xs={12}
             >
-              {/* <TextField
-                error={Boolean(formik.touched.state && formik.errors.state)}
-                fullWidth
-                helperText={formik.touched.state && formik.errors.state}
-                label="Select State"
-                name="State"
-                onChange={formik.handleChange}
-                required
-                select
-                SelectProps={{ native: true }}
-                value={formik.values.state}
-                variant="outlined"
-              > 
-              {states.map((option) => (
-                  <option
-                    key={option.value}
-                    value={option.value}
-                  >
-                    {option.label}
-                  </option>
-                ))}
-              */}
               <TextField
                 error={Boolean(formik.touched.state && formik.errors.state)}
                 fullWidth

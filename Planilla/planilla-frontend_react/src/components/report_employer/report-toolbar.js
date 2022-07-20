@@ -1,23 +1,12 @@
 import {
   Box,
   Button,
-  Grid,
   Typography
 } from '@mui/material';
 import NextLink from 'next/link';
-import { useEffect, useState } from 'react';
 
 export const ReportsToolbar = (props) => {
-  const [userType, setUserType] = useState('');
 
-  useEffect(() => {
-    setUserType(sessionStorage.getItem('userType'));
-  }, [userType]);
-
-  let isEmployer = true;
-  if (userType != "0") {
-    isEmployer = false;
-  }
   return (
     <Box {...props}>
       <Box
@@ -55,128 +44,44 @@ export const ReportsToolbar = (props) => {
           Choose the type of report you want to see
         </Typography>
       </Box>
-      {isEmployer ?
-        <Box>
-          <Box
-            sx={{
-              alignItems: 'center',
-              display: 'flex',
-              justifyContent: 'center',
-              flexWrap: 'wrap',
-              m: -1
-            }}
-          >
-            <Box sx={{ m: 3 }}>
-              <NextLink
-                href="/projects"
-                passHref
+      <Box>
+        <Box
+          sx={{
+            alignItems: 'center',
+            display: 'flex',
+            justifyContent: 'center',
+            flexWrap: 'wrap',
+            m: -1
+          }}
+        >
+          <Box sx={{ m: 3 }}>
+            <NextLink
+              href="/projects"
+              passHref
+            >
+              <Button
+                color="primary"
+                variant="contained"
               >
-                <Button
-                  color="primary"
-                  variant="contained"
-                >
-                  Specific project's payroll
-                </Button>
-              </NextLink>
-            </Box>
+                Projects' payroll history
+              </Button>
+            </NextLink>
           </Box>
-          <Box
-            sx={{
-              alignItems: 'center',
-              display: 'flex',
-              justifyContent: 'center',
-              flexWrap: 'wrap',
-              m: -1
-            }}
-          >
-            <Box sx={{ m: 3 }}>
-              <NextLink
-                href="/projects"
-                passHref
+          <Box sx={{ m: 3 }}>
+            <NextLink
+              href="/employee_payment_history_report"
+              passHref
+            >
+              <Button
+                color="primary"
+                variant="contained"
               >
-                <Button
-                  color="primary"
-                  variant="contained"
-                >
-                  Projects' payroll history
-                </Button>
-              </NextLink>
-            </Box>
-          </Box>
-          <Box
-            sx={{
-              alignItems: 'center',
-              display: 'flex',
-              justifyContent: 'center',
-              flexWrap: 'wrap',
-              m: -1
-            }}
-          >
-            <Box sx={{ m: 3 }}>
-              <NextLink
-                href="/employee_payment_history_report"
-                passHref
-              >
-                <Button
-                  color="primary"
-                  variant="contained"
-                >
-                  Employees' payments history
-                </Button>
-              </NextLink>
-            </Box>
+                Employees' payments history
+              </Button>
+            </NextLink>
           </Box>
         </Box>
-        :
-        <Box>
-          <Box
-            sx={{
-              alignItems: 'center',
-              display: 'flex',
-              justifyContent: 'center',
-              flexWrap: 'wrap',
-              m: -1
-            }}
-          >
-            <Box sx={{ m: 3 }}>
-              <NextLink
-                href="/projects"
-                passHref
-              >
-                <Button
-                  color="primary"
-                  variant="contained"
-                >
-                  Specific project's salary slip
-                </Button>
-              </NextLink>
-            </Box>
-          </Box>
-          <Box
-            sx={{
-              alignItems: 'center',
-              display: 'flex',
-              justifyContent: 'center',
-              flexWrap: 'wrap',
-              m: -1
-            }}
-          >
-            <Box sx={{ m: 3 }}>
-              <NextLink
-                href="/projects"
-                passHref
-              >
-                <Button
-                  color="primary"
-                  variant="contained"
-                >
-                  Salary slip history
-                </Button>
-              </NextLink>
-            </Box>
-          </Box>
-        </Box>
-      }
+      </Box>
     </Box>
   );
 }

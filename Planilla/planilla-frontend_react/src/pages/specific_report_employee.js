@@ -58,14 +58,14 @@ class SpecificReport extends React.Component {
                 container
                 spacing={3}
               >
-                
+
                 <Grid
                   item
                   lg={8}
                   md={6}
                   xs={12}
                 >
-                  <SpecificReportDetails report={this.state.report}/>
+                  <SpecificReportDetails report={this.state.report} />
                 </Grid>
               </Grid>
             </Container>

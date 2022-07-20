@@ -19,7 +19,7 @@ class SpecificBenefit extends React.Component {
 
   componentDidMount() {
     axios.get(this.state.APIUrl + "?benefitName=" + sessionStorage.getItem("benefit") + "&projectName=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID")).then(response => {
-        this.setState({ isLoaded: true, benefit: response.data });
+      this.setState({ isLoaded: true, benefit: response.data });
     });
   }
 

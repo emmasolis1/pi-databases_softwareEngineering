@@ -7,9 +7,7 @@ import * as Yup from 'yup';
 import {
   Box,
   Button,
-  Checkbox,
   Container,
-  FormHelperText,
   Link,
   TextField,
   Typography
@@ -51,7 +49,7 @@ const Register = () => {
         .string()
         .max(255)
         .required(
-           'Last name is required'),
+          'Last name is required'),
       lastName2: Yup
         .string()
         .max(255),
@@ -66,7 +64,7 @@ const Register = () => {
         .string()
         .max(255)
         .required(
-           'Password is required'),
+          'Password is required'),
       country: Yup
         .string()
         .max(50),
@@ -92,21 +90,21 @@ const Register = () => {
     }),
 
     onSubmit: values => {
-        var data = {
-            Identification: values.identification,
-            FirstName: values.firstName,
-            LastName: values.lastName,
-            LastName2: values.lastName2,
-            Email: values.email,
-            Password: values.password,
-            Country: values.country,
-            State: values.state,
-            City: values.city,
-            ZipCode: values.zipCode,
-            Address: values.address,
-            Phone: values.phone
-        };
-        axios.post(URL + 'register', data)
+      var data = {
+        Identification: values.identification,
+        FirstName: values.firstName,
+        LastName: values.lastName,
+        LastName2: values.lastName2,
+        Email: values.email,
+        Password: values.password,
+        Country: values.country,
+        State: values.state,
+        City: values.city,
+        ZipCode: values.zipCode,
+        Address: values.address,
+        Phone: values.phone
+      };
+      axios.post(URL + 'register', data)
         .then(function () {
           alert("Employer successfully created, returning to login");
           router.push('/');
@@ -167,7 +165,7 @@ const Register = () => {
                 Use your email to create a new account
               </Typography>
             </Box>
-             <TextField 
+            <TextField
               error={Boolean(formik.touched.identification && formik.errors.identification)}
               fullWidth
               helperText={formik.touched.identification && formik.errors.identification}
@@ -178,7 +176,7 @@ const Register = () => {
               onChange={formik.handleChange}
               value={formik.values.identification}
               variant="outlined"
-            /> 
+            />
             <TextField
               error={Boolean(formik.touched.firstName && formik.errors.firstName)}
               fullWidth
@@ -241,7 +239,7 @@ const Register = () => {
               value={formik.values.password}
               variant="outlined"
             />
-            <TextField 
+            <TextField
               error={Boolean(formik.touched.country && formik.errors.country)}
               fullWidth
               helperText={formik.touched.country && formik.errors.country}
@@ -253,7 +251,7 @@ const Register = () => {
               value={formik.values.country}
               variant="outlined"
             />
-           <TextField 
+            <TextField
               error={Boolean(formik.touched.state && formik.errors.state)}
               fullWidth
               helperText={formik.touched.state && formik.errors.state}
@@ -265,7 +263,7 @@ const Register = () => {
               value={formik.values.state}
               variant="outlined"
             />
-           <TextField 
+            <TextField
               error={Boolean(formik.touched.city && formik.errors.city)}
               fullWidth
               helperText={formik.touched.city && formik.errors.city}
@@ -277,7 +275,7 @@ const Register = () => {
               value={formik.values.city}
               variant="outlined"
             />
-           <TextField 
+            <TextField
               error={Boolean(formik.touched.zipCode && formik.errors.zipCode)}
               fullWidth
               helperText={formik.touched.zipCode && formik.errors.zipCode}
@@ -289,7 +287,7 @@ const Register = () => {
               value={formik.values.zipCode}
               variant="outlined"
             />
-            <TextField 
+            <TextField
               error={Boolean(formik.touched.address && formik.errors.address)}
               fullWidth
               helperText={formik.touched.address && formik.errors.address}
@@ -301,7 +299,7 @@ const Register = () => {
               value={formik.values.address}
               variant="outlined"
             />
-           <TextField 
+            <TextField
               error={Boolean(formik.touched.phone && formik.errors.phone)}
               fullWidth
               helperText={formik.touched.phone && formik.errors.phone}

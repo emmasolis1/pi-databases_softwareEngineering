@@ -9,21 +9,21 @@ namespace planilla_backend_asp.net.Handlers
 {
   public class DashboardHandler
   {
-    private static SqlConnection conexion;
+    private static SqlConnection connection;
     private string rutaConexion;
     public DashboardHandler()
     {
       var builder = WebApplication.CreateBuilder();
       rutaConexion = builder.Configuration.GetConnectionString("EmpleadorContext");
-      conexion = new SqlConnection(rutaConexion);
+      connection = new SqlConnection(rutaConexion);
     }
 
     private DataTable CreateTableConsult(SqlDataAdapter tableAdapter)
     {
       DataTable consultTable = new DataTable();
-      conexion.Open();
+      connection.Open();
       tableAdapter.Fill(consultTable);
-      conexion.Close();
+      connection.Close();
 
       return consultTable;
     }
@@ -33,14 +33,14 @@ namespace planilla_backend_asp.net.Handlers
       DashboardEmployerModel dashboard = new DashboardEmployerModel();
       try
       {
-        conexion.Open();
+        connection.Open();
         // Total employees hired by this employer.
-        SqlCommand cmd = new SqlCommand("select distinct count(EmployeeID) as TotalEmployees from Contracts where EmployerID=@employerID", conexion);
+        SqlCommand cmd = new SqlCommand("select distinct count(EmployeeID) as TotalEmployees from Contracts where EmployerID=@employerID", connection);
         cmd.Parameters.AddWithValue("@employerID", employerID);
         dashboard.totalEmployees = cmd.ExecuteScalar().ToString();
 
         // Total projects that this employer has.
-        cmd = new SqlCommand("select count(ProjectName) as TotalProjects from Projects where EmployerID=@employerID", conexion);
+        cmd = new SqlCommand("select count(ProjectName) as TotalProjects from Projects where EmployerID=@employerID", connection);
         cmd.Parameters.AddWithValue("@employerID", employerID);
         dashboard.totalProjects = cmd.ExecuteScalar().ToString();
 
@@ -51,7 +51,7 @@ namespace planilla_backend_asp.net.Handlers
 
         // Employee types by project
         dashboard.totalEmployeesByProject = GetEmployeeTypesByProject(employerID);
-        
+
         // Next Payments
         dashboard.nextPayments = GetNextPayments(employerID);
 
@@ -68,7 +68,7 @@ namespace planilla_backend_asp.net.Handlers
       }
       finally
       {
-        conexion.Close();
+        connection.Close();
       }
       return dashboard;
     }
@@ -83,7 +83,7 @@ namespace planilla_backend_asp.net.Handlers
               (select count(c.EmployeeID) from Contracts c where c.EmployerID=@employerID and ContractType=3 and ProjectName = p.ProjectName) as ProfServices
         from Projects p
         where EmployerID=@employerID";
-      var queryCommand = new SqlCommand(consult, conexion);
+      var queryCommand = new SqlCommand(consult, connection);
 
       // Uses user's email and the name of the active project to get only related benefits
       queryCommand.Parameters.AddWithValue("@employerID", employerID);
@@ -113,7 +113,7 @@ namespace planilla_backend_asp.net.Handlers
             (select distinct paid.PaymentDate from Payments paid where EmployerID=@employerID and paid.ProjectName=p.ProjectName) as LastPayment
         from Projects p
         where EmployerID=@employerID";
-      var queryCommand = new SqlCommand(consult, conexion);
+      var queryCommand = new SqlCommand(consult, connection);
 
       // Uses user's email and the name of the active project to get only related benefits
       queryCommand.Parameters.AddWithValue("@employerID", employerID);
@@ -123,42 +123,43 @@ namespace planilla_backend_asp.net.Handlers
       foreach (DataRow columna in tablaResultado.Rows)
       {
         string nextPaymentDate = Convert.ToString(columna["LastPayment"]);
-          switch (Convert.ToString(columna["PaymentMethod"]))
-          {
-            case "NULL":
-              {
-                nextPaymentDate = "-1";
-                break;
-              }
-            case "Weekly":
-              {
-                nextPaymentDate = AddDaysToDate(nextPaymentDate, 7);
-                break;
-              }
-            case "Biweekly":
-              {
-                nextPaymentDate = AddDaysToDate(nextPaymentDate, 14);
-                break;
-              }
-            case "Monthly":
-              {
-                nextPaymentDate = AddDaysToDate(nextPaymentDate, 30);
-                break;
-              }
-            default:
-              {
-                nextPaymentDate = "-1";
-                break;
-              }
-          }
+        switch (Convert.ToString(columna["PaymentMethod"]))
+        {
+          case "NULL":
+            {
+              nextPaymentDate = "-1";
+              break;
+            }
+          case "Weekly":
+            {
+              nextPaymentDate = AddDaysToDate(nextPaymentDate, 7);
+              break;
+            }
+          case "Biweekly":
+            {
+              nextPaymentDate = AddDaysToDate(nextPaymentDate, 14);
+              break;
+            }
+          case "Monthly":
+            {
+              nextPaymentDate = AddDaysToDate(nextPaymentDate, 30);
+              break;
+            }
+          default:
+            {
+              nextPaymentDate = "-1";
+              break;
+            }
+        }
         nextPayments.Add(
-          new NextPayments {
+          new NextPayments
+          {
             projectName = Convert.ToString(columna["ProjectName"]),
             paymentFrequency = Convert.ToString(columna["PaymentMethod"]),
             nextPayment = nextPaymentDate,
           }
         );
-        
+
       }
 
       return nextPayments;
@@ -180,7 +181,7 @@ namespace planilla_backend_asp.net.Handlers
           Console.WriteLine(e);
           dateString = "-1";
         }
-      } 
+      }
       else
       {
         dateString = "-1";
@@ -197,9 +198,7 @@ namespace planilla_backend_asp.net.Handlers
         from Payments p
         where p.EmployerID=@employerID
         order by DatePaid desc";
-      var queryCommand = new SqlCommand(consult, conexion);
-
-      // Uses user's email and the name of the active project to get only related benefits
+      var queryCommand = new SqlCommand(consult, connection);
       queryCommand.Parameters.AddWithValue("@employerID", employerID);
 
       SqlDataAdapter tableAdapter = new SqlDataAdapter(queryCommand);
@@ -221,7 +220,7 @@ namespace planilla_backend_asp.net.Handlers
     {
       List<TotalProjectCost> employeeTypes = new List<TotalProjectCost>();
       var consult = @"select p.ProjectName, p.Budget from Projects p where EmployerID=@employerID";
-      var queryCommand = new SqlCommand(consult, conexion);
+      var queryCommand = new SqlCommand(consult, connection);
 
       queryCommand.Parameters.AddWithValue("@employerID", employerID);
 
@@ -244,9 +243,9 @@ namespace planilla_backend_asp.net.Handlers
       DashboardEmployeeModel dashboard = new DashboardEmployeeModel();
       try
       {
-        conexion.Open();
+        connection.Open();
         // Total projects that this employee works on.
-        SqlCommand cmd = new SqlCommand("select count(Projects.ProjectName) as TotalWorkingProjects FROM Projects JOIN Contracts ON Projects.ProjectName = Contracts.ProjectName WHERE EmployeeID = @employeeID AND RealEndedDate IS NULL AND IsActive = 0", conexion);
+        SqlCommand cmd = new SqlCommand("select count(Projects.ProjectName) as TotalWorkingProjects FROM Projects JOIN Contracts ON Projects.ProjectName = Contracts.ProjectName WHERE EmployeeID = @employeeID AND RealEndedDate IS NULL AND IsActive = 0", connection);
         cmd.Parameters.AddWithValue("@employeeID", employeeID);
         dashboard.totalWorkingProjects = cmd.ExecuteScalar().ToString();
 
@@ -265,7 +264,7 @@ namespace planilla_backend_asp.net.Handlers
       }
       finally
       {
-        conexion.Close();
+        connection.Close();
       }
       return dashboard;
     }
@@ -274,7 +273,7 @@ namespace planilla_backend_asp.net.Handlers
     {
       List<TotalProjectsIncome> employeeIncomes = new List<TotalProjectsIncome>();
       var consult = "select Projects.ProjectName, Contracts.NetSalary FROM Projects JOIN Contracts ON Projects.ProjectName = Contracts.ProjectName WHERE EmployeeID = @employeeID AND RealEndedDate IS NULL AND IsActive = 0";
-      var queryCommand = new SqlCommand(consult, conexion);
+      var queryCommand = new SqlCommand(consult, connection);
 
       queryCommand.Parameters.AddWithValue("@employeeID", employeeID);
 

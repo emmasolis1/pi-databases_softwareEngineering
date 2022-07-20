@@ -1,10 +1,8 @@
 import * as React from 'react';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
-import { useRouter } from 'next/router';
 import { useState } from 'react';
 import {
-  Avatar,
   Box,
   Card,
   Table,
@@ -12,8 +10,7 @@ import {
   TableCell,
   TableHead,
   TablePagination,
-  TableRow,
-  Typography
+  TableRow
 } from '@mui/material';
 
 export const ReportListResults = ({ reports, ...rest }) => {
