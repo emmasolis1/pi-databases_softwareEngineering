@@ -14,10 +14,13 @@ namespace planilla_backend_asp.net.Controllers
     {
       // Get data from database
       DashboardHandler handler = new DashboardHandler();
-      try {
+      try
+      {
         var data = handler.GetDashboard(employerID);
         return Ok(data);
-      } catch (Exception e) {
+      }
+      catch (Exception e)
+      {
         return BadRequest(e.Message);
       }
     }

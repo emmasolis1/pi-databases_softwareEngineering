@@ -63,7 +63,7 @@ namespace planilla_backend_asp.net.Controllers
         handler.UpdateVoluntaryDeductions(voluntaryDeductions);
         return Ok();
       }
-      catch(Exception error)
+      catch (Exception error)
       {
         Console.WriteLine(error);
         return BadRequest(error.Message);
@@ -86,7 +86,7 @@ namespace planilla_backend_asp.net.Controllers
         return BadRequest(error.Message);
       }
     }
-        
+
     [HttpGet]
     [Route("voluntaryDeductionsBeingUsedByEmployee")]
     public ActionResult VoluntaryDeductionsBeingUsedByEmployee(string projectName, string employerID, string employeeID)
@@ -165,7 +165,7 @@ namespace planilla_backend_asp.net.Controllers
         handler.UpdateVoluntaryDeductionsEmployee(voluntaryDeductions);
         return Ok();
       }
-      catch(Exception error)
+      catch (Exception error)
       {
         Console.WriteLine(error);
         return BadRequest(error.Message);
