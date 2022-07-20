@@ -18,9 +18,6 @@ begin catch
 	if XACT_STATE() = -1 begin
 		print 'The transaction cannot be commited';
 		rollback transaction;
-	end 
-	else if XACT_STATE() = 1 begin
-		commit transaction;
 	end
 end catch
 go
@@ -41,9 +38,6 @@ begin catch
 		print 'The transaction cannot be commited';
 		rollback transaction;
 	end 
-	else if XACT_STATE() = 1 begin
-		commit transaction;
-	end
 end catch
 go
 

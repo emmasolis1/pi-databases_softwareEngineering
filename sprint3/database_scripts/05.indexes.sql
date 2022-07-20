@@ -1,7 +1,7 @@
 use TaBueno
 
 -- Primer Indice
-select FirstName, LastName, LastName2, Identification, Email, Country, State, City, Phone from Users where UserType=1 order by FirstName
+select FirstName, LastName, LastName2, Identification, Email, Country, State, City, Phone from Users where FirstName = 'Luis'
 
 CREATE INDEX OrderByFirstName
 ON dbo.Users (FirstName);
@@ -15,7 +15,7 @@ WHERE UserType = 1
 AND Projects.ProjectName = 'TaBueno Planilla CR'
 AND Contracts.EmployerID = '0116800871'
 AND Contracts.RealEndedDate IS NULL
-ORDER BY ContractType
+AND ContractType = 0
 
 CREATE INDEX OrderByContractType
 ON dbo.Contracts (ContractType);
