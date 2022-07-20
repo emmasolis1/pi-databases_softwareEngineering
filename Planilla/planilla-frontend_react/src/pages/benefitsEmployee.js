@@ -16,7 +16,7 @@ class BenefitsEmployee extends React.Component {
     };
   }
 
-  componentDidMount() {    
+  componentDidMount() {
     axios.get(this.state.APIUrl + "?projectName=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID") + "&employeeID=" + sessionStorage.getItem("employeeID")).then(response => {
       this.setState({ benefits: response.data });
     });
@@ -40,7 +40,7 @@ class BenefitsEmployee extends React.Component {
           <Container maxWidth={false}>
             <BenefitEmployeeListToolbar />
             <Box sx={{ mt: 3 }}>
-            <BenefitEmployeeListResults benefits={this.state.benefits} />
+              <BenefitEmployeeListResults benefits={this.state.benefits} />
             </Box>
           </Container>
         </Box>

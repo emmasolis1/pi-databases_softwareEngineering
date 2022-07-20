@@ -37,7 +37,7 @@ const CreateVoluntaryDeduction = () => {
         .string()
         .max(255)
         .required(
-          'Cost is required'  ),
+          'Cost is required'),
     }),
     onSubmit: values => {
       var data = {
@@ -131,7 +131,7 @@ const CreateVoluntaryDeduction = () => {
               value={formik.values.description}
               variant="outlined"
             />
-           <TextField
+            <TextField
               error={Boolean(formik.touched.cost && formik.errors.cost)}
               fullWidth
               helperText={formik.touched.cost && formik.errors.cost}
