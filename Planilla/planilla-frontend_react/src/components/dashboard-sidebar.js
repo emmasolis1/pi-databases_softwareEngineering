@@ -128,6 +128,9 @@ export const DashboardSidebar = (props) => {
           var value = JSON.parse(sessionStorage.getItem('userProjects'));
           if (value.length > 0) {
             sessionStorage.setItem('project', value[0]);
+            if (sessionStorage.getItem('employerID') === null) {
+              sessionStorage.setItem('employerID', value[1]);
+            }
             return value[0];
           } else {
             return '';
