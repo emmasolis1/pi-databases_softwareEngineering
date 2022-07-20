@@ -108,11 +108,12 @@ namespace planilla_backend_asp.net.Handlers
       return mandatoryDeductions;
     }
 
-    public void UpdateVoluntaryDeductions(VoluntaryDeductionsModel voluntaryDeduction)
+    public void UpdateVoluntaryDeductions(VoluntaryDeductionsModel voluntaryDeduction, string originalName)
     {
-      string consult = "update VoluntaryDeductions set [Description] = @description, [Cost] = @cost where [VoluntaryDeductionName] = @voluntaryDeductionName AND [projectName] = @projectName AND [employerID] = @employerID";
+      string consult = "update VoluntaryDeductions [VoluntaryDeductionName] = @voluntaryDeductionName, set [Description] = @description, [Cost] = @cost where [VoluntaryDeductionName] = @originalName AND [projectName] = @projectName AND [employerID] = @employerID";
       SqlCommand queryCommand = new SqlCommand(consult, connection);
       queryCommand.Parameters.AddWithValue("@voluntaryDeductionName", voluntaryDeduction.voluntaryDeductionName);
+      queryCommand.Parameters.AddWithValue("@originalName", originalName);
       queryCommand.Parameters.AddWithValue("@projectName", voluntaryDeduction.projectName);
       queryCommand.Parameters.AddWithValue("@employerID", voluntaryDeduction.employerID);
       queryCommand.Parameters.AddWithValue("@description", voluntaryDeduction.description);
