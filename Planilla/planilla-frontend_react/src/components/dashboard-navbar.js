@@ -2,11 +2,10 @@ import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
 import { AppBar, Avatar, Box, IconButton, Toolbar, Tooltip } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
 import NextLink from 'next/link';
 import { getInitials } from 'src/utils/get-initials';
 import Button from '@mui/material/Button';
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
@@ -59,11 +58,6 @@ export const DashboardNavbar = (props) => {
           >
             <MenuIcon fontSize="small" />
           </IconButton>
-          {/*<Tooltip title="Search">
-            <IconButton sx={{ ml: 1 }}>
-              <SearchIcon fontSize="small" />
-            </IconButton>
-          </Tooltip>*/}
           <Box sx={{ flexGrow: 1 }} />
           <NextLink
             href="/account"
@@ -72,14 +66,12 @@ export const DashboardNavbar = (props) => {
             <Tooltip title="Edit Profile">
               <IconButton sx={{ ml: 1 }}>
                 <Avatar
-                sx={{
-                  height: 40,
-                  width: 40,
-                  ml: 1
-                }}
-                // src="/static/images/avatars/avatar_1.png"
+                  sx={{
+                    height: 40,
+                    width: 40,
+                    ml: 1
+                  }}
                 >
-                  {/* <UserCircleIcon fontSize="medium" /> */}
                   {getInitials(fullName)}
                 </Avatar>
               </IconButton>

@@ -15,7 +15,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-export const SpecificEmployeeProfile = ({user, ...props}) => {
+export const SpecificEmployeeProfile = ({ user, ...props }) => {
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
 
@@ -92,8 +92,8 @@ export const SpecificEmployeeProfile = ({user, ...props}) => {
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-            You are about to delete (fire) an employee this means
-            that you also will have to liquidate him. Are you sure?
+              You are about to delete (fire) an employee this means
+              that you also will have to liquidate him. Are you sure?
             </DialogContentText>
           </DialogContent>
           <DialogActions>

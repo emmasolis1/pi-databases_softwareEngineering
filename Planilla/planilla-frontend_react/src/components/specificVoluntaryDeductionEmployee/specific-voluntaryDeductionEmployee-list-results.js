@@ -113,9 +113,9 @@ export const SpecificVoluntaryDeductionEmployeeListResults = ({ voluntaryDeducti
                     {"$" + voluntaryDeduction.cost}
                   </TableCell>
                   <TableCell>
-                  <IconButton aria-label="add" color="primary" onClick={() => addVoluntaryDeduction(voluntaryDeduction)}>
-                  <AddBoxIcon />
-                  </IconButton>
+                    <IconButton aria-label="add" color="primary" onClick={() => addVoluntaryDeduction(voluntaryDeduction)}>
+                      <AddBoxIcon />
+                    </IconButton>
                   </TableCell>
                 </TableRow>
               ))}
@@ -139,4 +139,3 @@ export const SpecificVoluntaryDeductionEmployeeListResults = ({ voluntaryDeducti
 SpecificVoluntaryDeductionEmployeeListResults.propTypes = {
   voluntaryDeductions: PropTypes.array.isRequired
 };
-

@@ -144,7 +144,7 @@ export const Sales = ({ employeeTypes, ...props }) => {
         <Button
           color="primary"
           endIcon={<ArrowRightIcon fontSize="small" />}
-          onClick={() => {Router.push('/projects');}}
+          onClick={() => { Router.push('/projects'); }}
           size="small"
         >
           Projects

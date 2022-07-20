@@ -106,7 +106,7 @@ export const SpecificVoluntaryDeductionEmployeeProfileDetails = ({ voluntaryDedu
             >
               Save details
             </Button>
-           
+
           </Stack>
         </Box>
       </Card>

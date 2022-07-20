@@ -23,7 +23,7 @@ export const SpecificReportDetails = ({ report, ...props }) => {
   let mandatoryDeductionsTotal = 0;
   report.mandatoryDeductions.map((deduction) => (
     mandatoryDeductionsTotal += parseFloat(((parseFloat(report.netSalary0) + parseFloat(report.netSalary1) + parseFloat(report.netSalary3)) * (parseFloat(deduction.percentage) / 100)).toFixed(2))
-    ))
+  ))
 
   let benefitsTotal = 0;
   report.benefits.map((benefit) => (

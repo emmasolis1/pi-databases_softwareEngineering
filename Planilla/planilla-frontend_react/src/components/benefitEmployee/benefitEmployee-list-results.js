@@ -154,33 +154,33 @@ export const BenefitEmployeeListResults = ({ benefits, ...rest }) => {
                   <TableCell>
                     {!benefit.endDate ?
                       <>
-                      <IconButton aria-label="delete" color="error" onClick={() => handleClickOpen(benefit)}>
-                        <DeleteForeverIcon />
-                      </IconButton>
-                      <Dialog
-                        open={open}
-                        onClose={handleClose}
-                        aria-labelledby="alert-dialog-title"
-                        aria-describedby="alert-dialog-description"
-                      >
-                        <DialogTitle id="alert-dialog-title">
-                          {"Alert: Please read!!!"}
-                        </DialogTitle>
-                        <DialogContent>
-                          <DialogContentText id="alert-dialog-description">
-                            You are about to unsubscribe from a benefit. Are you sure?
-                          </DialogContentText>
-                        </DialogContent>
-                        <DialogActions>
-                          <Button onClick={handleClose} variant="outlined" color="primary">Cancel</Button>
-                          <Button onClick={() => handleClose(true)} variant="contained" color="error">Unsubscribe</Button>
-                        </DialogActions>
-                      </Dialog>
+                        <IconButton aria-label="delete" color="error" onClick={() => handleClickOpen(benefit)}>
+                          <DeleteForeverIcon />
+                        </IconButton>
+                        <Dialog
+                          open={open}
+                          onClose={handleClose}
+                          aria-labelledby="alert-dialog-title"
+                          aria-describedby="alert-dialog-description"
+                        >
+                          <DialogTitle id="alert-dialog-title">
+                            {"Alert: Please read!!!"}
+                          </DialogTitle>
+                          <DialogContent>
+                            <DialogContentText id="alert-dialog-description">
+                              You are about to unsubscribe from a benefit. Are you sure?
+                            </DialogContentText>
+                          </DialogContent>
+                          <DialogActions>
+                            <Button onClick={handleClose} variant="outlined" color="primary">Cancel</Button>
+                            <Button onClick={() => handleClose(true)} variant="contained" color="error">Unsubscribe</Button>
+                          </DialogActions>
+                        </Dialog>
                       </>
                       :
                       "Ended"
                     }
-                    </TableCell>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

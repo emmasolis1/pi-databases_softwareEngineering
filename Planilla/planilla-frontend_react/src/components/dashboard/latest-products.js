@@ -26,7 +26,7 @@ export const LatestProducts = ({ nextPayments, ...props }) => {
 
   function payProject(project) {
     sessionStorage.setItem("project", project.projectName);
-    axios.get(URL + 'payments?projectName='+project.projectName+'&employerID='+sessionStorage.getItem('employerID')).then(response => {
+    axios.get(URL + 'payments?projectName=' + project.projectName + '&employerID=' + sessionStorage.getItem('employerID')).then(response => {
       if (response.data.length === 0) {
         alert('No more employees to pay today.');
       } else {
@@ -58,7 +58,7 @@ export const LatestProducts = ({ nextPayments, ...props }) => {
             <ListItemAvatar>
               <Avatar>
                 {getInitials(product.projectName)}
-              </Avatar> 
+              </Avatar>
             </ListItemAvatar>
             <ListItemText
               primary={product.projectName}
