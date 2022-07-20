@@ -27,5 +27,15 @@ namespace planilla_backend_asp.net.Controllers
       var data = handler.GetEmployeeReport(employeeID, employerID, projectName, paymentDate);
       return Ok(data);
     }
+
+    // This returns the unfiltered reports of employee payments.
+    [HttpGet]
+    [Route("employeePaymentHistory")]
+    public ActionResult GetUnfilteredEmployeePayments(string employerID)
+    {
+      var handler = new ReportsHandler();
+      var data = handler.GetUnfilteredEmployeePayments(employerID);
+      return Ok(data);
+    }
   }
 }

@@ -17,7 +17,7 @@ class EmployeePaymentHistoryReport extends React.Component {
   }
 
   componentDidMount() {
-    axios.get(this.state.APIUrl + "?projectName=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID")).then(response => {
+    axios.get(this.state.APIUrl + "?employerID=" + sessionStorage.getItem("employerID")).then(response => {
       this.setState({ reports: response.data });
     });
   }

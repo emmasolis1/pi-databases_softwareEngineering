@@ -30,4 +30,19 @@ namespace planilla_backend_asp.net.Models
     public string name { get; set; }
     public string cost { get; set; }
   }
+
+  public class EmployeePayment
+  {
+    public string employeeName { get; set; }
+    public string employeeID { get; set; }
+    public string projectName { get; set; }
+    public string contractType { get; set; }
+    public string paymentDate { get; set; }
+    public string grossSalary { get; set; }
+    public string benefitsCost { get; set; }
+    public string employerMandatoryDeductions { get; set; }
+    public string employeeMandatoryDeductions { get; set; }
+    public string voluntaryDeductions { get; set; }
+    public string totalCost { get; set; }
+  }
 }
