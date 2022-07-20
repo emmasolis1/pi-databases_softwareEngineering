@@ -195,5 +195,111 @@ namespace planilla_backend_asp.net.Handlers
       
       return float.Parse(grossSalary.ToString("0.00"));
     }
+
+    public List<ProjectSummaryReport> GetProjectReports(string projectName)
+    {
+      SqlDataAdapter tableAdapter = new SqlDataAdapter("select top 10 * from Payments where ProjectName=@projectName ORDER BY PaymentDate DESC", connection);
+      tableAdapter.SelectCommand.Parameters.AddWithValue("@projectName", projectName);
+      DataTable consultTable = CreateTableConsult(tableAdapter);
+      List<ProjectSummaryReport> employerReports = new List<ProjectSummaryReport>();
+      foreach (DataRow row in consultTable.Rows)
+      {
+        ProjectSummaryReport employerReport = new EmployeeSummaryReport();
+        employerReport.projectName = row["ProjectName"].ToString();
+        employerReport.paymentDate = row["PaymentDate"].ToString();
+        employerReports.Add(employeeReport);
+      }
+      return employerReports;
+    }
+
+    public EmployeeReport GetEmployerReport(string employerID, string projectName, string paymentDate)
+    {
+      var salary = 0;
+      EmployeeReport report = new EmployeeReport();
+      try
+      {
+        connection.Open();
+
+        // Contract Type, Net Salary and Project Name
+        SqlCommand command = new SqlCommand("select sum(NetSalary) as S0 from Contracts where EmployerID=@employerID and ProjectName=@projectName and ContractType=0", connection);
+        command.Parameters.AddWithValue("@employerID", employerID);
+        command.Parameters.AddWithValue("@projectName", projectName);
+        SqlDataReader reader = command.ExecuteReader();
+        while (reader.Read())
+        {
+          report.netSalary0 = reader["S0"].ToString();
+          salary += int.Parse(reader["S0"].ToString());
+        }
+
+        command = new SqlCommand("select sum(NetSalary) as S1 from Contracts where EmployerID=@employerID and ProjectName=@projectName and ContractType=1", connection);
+        command.Parameters.AddWithValue("@employerID", employerID);
+        command.Parameters.AddWithValue("@projectName", projectName);
+        reader = command.ExecuteReader();
+        while (reader.Read())
+        {
+          report.netSalary1 = reader["S1"].ToString();
+          salary += int.Parse(reader["S1"].ToString());
+        }
+
+        command = new SqlCommand("select sum(NetSalary) as S3 from Contracts where EmployerID=@employerID and ProjectName=@projectName and ContractType=3", connection);
+        command.Parameters.AddWithValue("@employerID", employerID);
+        command.Parameters.AddWithValue("@projectName", projectName);
+        reader = command.ExecuteReader();
+        while (reader.Read())
+        {
+          report.netSalary3 = reader["S3"].ToString();
+          salary += int.Parse(reader["S3"].ToString());
+        }
+
+        // Payment Date
+        report.paymentDate = paymentDate;
+
+        report.salary = salary;
+
+        if (command.Connection.State == ConnectionState.Open)
+        {
+          command.Connection.Close();
+        }
+
+        // Mandatory Deductions
+        report.mandatoryDeductions = GetEmployerMandatoryDeductions();
+      }
+      catch (Exception e)
+      {
+        Console.WriteLine(e.Message);
+      }
+      finally
+      {
+        connection.Close();
+      }
+      return report;
+    }
+
+    private List<MandatoryDeductionsEmployeeReport> GetEmployerMandatoryDeductions()
+    {
+      List<MandatoryDeductionsEmployeeReport> mandatoryDeductions = new List<MandatoryDeductionsEmployeeReport>();
+      try
+      {
+        connection.Open();
+        SqlCommand command = new SqlCommand("select m.MandatoryDeduction, m.[Percentage] from MandatoryDeductions m where m.Condition=1", connection);
+        SqlDataReader reader = command.ExecuteReader();
+        while (reader.Read())
+        {
+          MandatoryDeductionsEmployeeReport mandatoryDeduction = new MandatoryDeductionsEmployeeReport();
+          mandatoryDeduction.name = reader["MandatoryDeduction"].ToString();
+          mandatoryDeduction.percentage = reader["Percentage"].ToString();
+          mandatoryDeductions.Add(mandatoryDeduction);
+        }
+      }
+      catch (Exception e)
+      {
+        Console.WriteLine(e.Message);
+      }
+      finally
+      {
+        connection.Close();
+      }
+      return mandatoryDeductions;
+    }
   }
 }

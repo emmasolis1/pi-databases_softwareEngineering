@@ -27,5 +27,24 @@ namespace planilla_backend_asp.net.Controllers
       var data = handler.GetEmployeeReport(employeeID, employerID, projectName, paymentDate);
       return Ok(data);
     }
+
+    [HttpGet]
+    [Route("projectReports")]
+    public ActionResult GetProjectReport(string projectName)
+    {
+      var handler = new ReportsHandler();
+      var data = handler.GetProjectReports(projectName);
+      return Ok(data);
+    }
+
+    // This returns the report for the given employeeID, employerID, projectName and paymentDate.
+    [HttpGet]
+    [Route("employerReport")]
+    public ActionResult GetEmployerReport(string employerID, string projectName, string paymentDate)
+    {
+      var handler = new ReportsHandler();
+      var data = handler.GetEmployerReport(employerID, projectName, paymentDate);
+      return Ok(data);
+    }
   }
 }
