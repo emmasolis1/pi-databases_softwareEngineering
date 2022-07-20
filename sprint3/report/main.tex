@@ -94,9 +94,62 @@ Cabe mencionar de forma relevante que se hicieron las pruebas \textbf{grabándol
 no por código, según el enunciado permitía la libertad de ejecutar cualquiera de las dos formas.
 
 \section{Deployment de la aplicación en Azure}
+Escogimos la plataforma \textbf{Azure} para el despliegue de la aplicación dado que es la que
+mayormente conocemos y donde también teniamos el uso de créditos gratis para poder hacerlo.
+
+Algo importante de estipular es que nuestro repositorio de GitHub originalmente tiene en
+el los tres proyectos: archivos de la base de datos, backend y frontend. Por lo que fue
+necesario crear dos repositorios copias de estos por aparte, privados, para tener en cada
+uno de forma separada el backend y el frontend, y entonces poder hacer el respectivo
+\textit{deployment} de cada uno.
+
+\subsection{Base de Datos}
+Para hacer el \textit{deployment} de la base de datos fue crear una \textbf{nueva base de datos}
+en Azure, y usando los scripts que teníamos guardado de la creación de tablas, funciones
+y procedimientos, además de los índices y transacciones; pudimos crear la nueva base de datos
+sin problema alguno.
+
+Primero tuvimos que crear un servidor de base de datos, y luego entonces crear la base
+de datos para el proyecto. En la Figura \ref{fig:database_server} podemos ver el estado
+actual de dicho servidor.
+
+\begin{figure}[h]
+ \centering
+ \includegraphics[width=0.95\textwidth]{database_server.png}
+ \caption{Vista general del servidor de base de datos en Azure.}
+ \label{fig:database_server}
+\end{figure}
+
+Una vez que ya teníamos el servidor creamos la base de datos para el proyecto en si,
+esta la podemos ver en la Figura \ref{fig:payroll_database}.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.95\textwidth]{payroll_database.png}
+  \caption{Vista general del de la base de datos \textit{payroll} en Azure.}
+  \label{fig:payroll_database}
+ \end{figure}
+
+Y al tener estas dos cosas ya teníamos la base de datos en Azure para luego poder ser usada
+por las otras dos fases de la aplicación: \textit{Backend} y \textit{Frontend}.
+
+\subsection{Backend}
+Para hacer el \textit{deployment} del backend fue más sencillo pues solo fue necesario
+tomar el repositorio separado del backend y en Azure crear un nuevo \textit{App Service}
+el cuál se le configura que es un .NET API y como esta conectado por medio de GitHub, Azure
+la conexión y \textit{deployment} de forma automática por debajo. Con eso ya tenemos
+tanto la base de datos como el backend (API) listos y en linea, faltando solo el frontend.
+Podemos ver la vista general del backend en la Figura \ref{fig:backend}.
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.95\textwidth]{backend.png}
+  \caption{Vista general Backend API en Azure.}
+  \label{fig:backend}
+ \end{figure}
 
 \section{Sprint Backlog}
 Se encuentra en el siguiente enlace de la profesora Rebeca Obando: \url{https://ingesoftg001.atlassian.net/jira/software/projects/TB/boards/5/backlog}.
+Con todos los requerimientos solicitados según el enunciado.
 
 \section{Entregable de las ceremonias}
 A ser entregado el lunes 27 de junio por medio del correo institucional según
