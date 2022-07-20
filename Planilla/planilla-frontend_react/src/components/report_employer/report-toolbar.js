@@ -114,7 +114,7 @@ export const ReportsToolbar = (props) => {
           >
             <Box sx={{ m: 3 }}>
               <NextLink
-                href="/projects"
+                href="/employee_payment_history_report"
                 passHref
               >
                 <Button
