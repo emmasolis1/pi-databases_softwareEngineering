@@ -45,7 +45,7 @@ namespace planilla_backend_asp.net.Handlers
     public EmployeeReport GetEmployeeReport(string employeeID, string employerID, string projectName, string paymentDate)
     {
       EmployeeReport report = new EmployeeReport();
-      try 
+      try
       {
         connection.Open();
 
@@ -85,7 +85,7 @@ namespace planilla_backend_asp.net.Handlers
 
         // Gross Salary
         report.grossSalary = GetGrossSalary(report.netSalary, report.mandatoryDeductions, report.optionalDeductions).ToString();
-      } 
+      }
       catch (Exception e)
       {
         Console.WriteLine(e.Message);
@@ -102,17 +102,17 @@ namespace planilla_backend_asp.net.Handlers
       switch (contractType)
       {
         case "0":
-          return "FullTime Employee";
-        
+          return "Full-Time Employee";
+
         case "1":
-          return "PartTime Employee";
-        
+          return "Part-Time Employee";
+
         case "2":
           return "Hourly Paid Employee";
-        
+
         case "3":
           return "Professional Services";
-        
+
         default:
           return "Unknown";
       }
@@ -192,7 +192,7 @@ namespace planilla_backend_asp.net.Handlers
       {
         grossSalary -= float.Parse(voluntaryDeduction.cost);
       }
-      
+
       return float.Parse(grossSalary.ToString("0.00"));
     }
 
@@ -330,6 +330,223 @@ namespace planilla_backend_asp.net.Handlers
         connection.Close();
       }
       return benefits;
+    }
+
+    public List<EmployeePayment> GetUnfilteredEmployeePayments(string employerID)
+    {
+      List<EmployeePayment> employeePayments = new List<EmployeePayment>();
+      try
+      {
+        connection.Open();
+        SqlCommand command = new SqlCommand(@"SELECT LastName, LastName2, FirstName, Identification, Contracts.ProjectName, ContractType, PaymentDate, Contracts.NetSalary
+                                              FROM Users 
+                                              JOIN Contracts ON EmployeeID = Identification 
+                                              JOIN Payments ON Contracts.ProjectName = Payments.ProjectName
+                                              AND Contracts.EmployerID = Payments.EmployerID
+                                              AND Contracts.EmployeeID = Payments.EmployeeID
+                                              AND Contracts.StartDate = Payments.StartDate
+                                              WHERE Payments.EmployerID = @employerID", connection);
+        command.Parameters.AddWithValue("@employerID", employerID);
+        SqlDataReader reader = command.ExecuteReader();
+
+        while (reader.Read())
+        {
+          var fullName = "";
+          if (reader["LastName"].ToString() != null && reader["LastName"].ToString() != "")
+          {
+            fullName = reader["LastName"].ToString();
+          }
+          if (reader["LastName2"].ToString() != null && reader["LastName2"].ToString() != "")
+          {
+            if (fullName != "")
+            {
+              fullName = fullName + " " + reader["LastName2"].ToString();
+            }
+            else
+            {
+              fullName = reader["LastName2"].ToString();
+            }
+          }
+          if (reader["FirstName"].ToString() != null && reader["FirstName"].ToString() != "")
+          {
+            if (fullName != "")
+            {
+              fullName = fullName + ", " + reader["FirstName"].ToString();
+            }
+            else
+            {
+              fullName = reader["FirstName"].ToString();
+            }
+          }
+          employeePayments.Add(new EmployeePayment
+          {
+            employeeName = fullName,
+            employeeID = reader["Identification"].ToString(),
+            projectName = reader["ProjectName"].ToString(),
+            contractType = parseContractType(reader["ContractType"].ToString()),
+            paymentDate = reader["PaymentDate"].ToString().Split(" ")[0],
+            grossSalary = reader["NetSalary"].ToString(),
+            benefitsCost = "",
+            employerMandatoryDeductions = "",
+            employeeMandatoryDeductions = "",
+            voluntaryDeductions = "",
+            totalCost = ""
+          });
+        }
+        connection.Close();
+
+        foreach (EmployeePayment employeePayment in employeePayments)
+        {
+          employeePayment.benefitsCost = GetEmployeePaymentsBenefitsCost(employerID, employeePayment.employeeID, employeePayment.projectName);
+          employeePayment.employerMandatoryDeductions = GetEmployeePaymentsEmployerMandatoryDeductions(employeePayment.grossSalary);
+          employeePayment.employeeMandatoryDeductions = GetEmployeePaymentsEmployeeMandatoryDeductions(employeePayment.grossSalary);
+          employeePayment.voluntaryDeductions = GetEmployeePaymentsEmployeeVoluntaryDeductions(employerID, employeePayment.employeeID, employeePayment.projectName, employeePayment.paymentDate);
+          employeePayment.totalCost = (float.Parse(employeePayment.grossSalary) + float.Parse(employeePayment.benefitsCost) + float.Parse(employeePayment.employerMandatoryDeductions)).ToString();
+        }
+      }
+      catch (Exception e)
+      {
+        Console.WriteLine(e.Message);
+      }
+      return employeePayments;
+    }
+
+    private string GetEmployeePaymentsBenefitsCost(string employerID, string employeeID, string projectName)
+    {
+      string benefitsCost = "";
+      try
+      {
+        connection.Open();
+        SqlCommand command = new SqlCommand(@"SELECT SUM(Cost) AS BenefitsCost
+                                              FROM Benefits WHERE BenefitName IN (
+                                              SELECT BenefitName FROM BenefitsStatus
+                                              WHERE ProjectName = @projectName
+                                              AND EmployerID = @employerID
+                                              AND EmployeeID = @employeeID
+                                              AND EndDate IS NULL)
+                                              AND ProjectName = @projectName
+                                              AND IsActive = 0", connection);
+        command.Parameters.AddWithValue("@employerID", employerID);
+        command.Parameters.AddWithValue("@employeeID", employeeID);
+        command.Parameters.AddWithValue("@projectName", projectName);
+        SqlDataReader reader = command.ExecuteReader();
+
+        while (reader.Read())
+        {
+          benefitsCost = reader["BenefitsCost"].ToString();
+        }
+        connection.Close();
+      }
+      catch (Exception e)
+      {
+        Console.WriteLine(e.Message);
+      }
+      if (benefitsCost == "")
+      {
+        benefitsCost = "0";
+      }
+      return benefitsCost;
+    }
+
+    private string GetEmployeePaymentsEmployerMandatoryDeductions(string grossSalary)
+    {
+      float deductionsEmployer = 0;
+      List<float> deductions = new List<float>();
+      try
+      {
+        connection.Open();
+        SqlCommand command = new SqlCommand(@"SELECT Percentage FROM MandatoryDeductions WHERE Condition = '1'", connection);
+        SqlDataReader reader = command.ExecuteReader();
+        while (reader.Read())
+        {
+          deductions.Add(float.Parse(reader["Percentage"].ToString()));
+        }
+
+        foreach (float deduction in deductions)
+        {
+          deductionsEmployer += (float.Parse(grossSalary) * deduction) / 100;
+        }
+        connection.Close();
+      }
+      catch (Exception e)
+      {
+        Console.WriteLine(e.Message);
+      }
+      return deductionsEmployer.ToString();
+    }
+
+    private string GetEmployeePaymentsEmployeeMandatoryDeductions(string grossSalary)
+    {
+      float deductionsEmployee = 0;
+      List<float> deductions = new List<float>();
+      try
+      {
+        connection.Open();
+        SqlCommand command = new SqlCommand(@"SELECT Percentage FROM MandatoryDeductions WHERE Condition = '0'", connection);
+        SqlDataReader reader = command.ExecuteReader();
+        while (reader.Read())
+        {
+          deductions.Add(float.Parse(reader["Percentage"].ToString()));
+        }
+
+        foreach (float deduction in deductions)
+        {
+          deductionsEmployee += (float.Parse(grossSalary) * deduction) / 100;
+        }
+        connection.Close();
+
+        connection.Open();
+        command = new SqlCommand("SELECT dbo.GetRentDeductionAmount(@grossSalary)", connection);
+        command.Parameters.AddWithValue("@grossSalary", grossSalary);
+
+        deductionsEmployee += float.Parse(command.ExecuteScalar().ToString());
+        connection.Close();
+      }
+      catch (Exception e)
+      {
+        Console.WriteLine(e.Message);
+      }
+      return deductionsEmployee.ToString();
+    }
+
+    private string GetEmployeePaymentsEmployeeVoluntaryDeductions(string employerID, string employeeID, string projectName, string paymentDate)
+    {
+      float deductionsEmployee = 0;
+      List<float> deductions = new List<float>();
+      try
+      {
+        connection.Open();
+        SqlCommand command = new SqlCommand(@"SELECT Cost 
+                                              FROM IncludesVoluntaryDeductions i, VoluntaryDeductionsStatus s 
+                                              WHERE i.EmployeeID = @employeeID
+                                              AND i.ProjectName = @projectName
+                                              AND i.EmployerID = @employerID
+                                              AND i.PaymentDate = @paymentDate 
+                                              AND s.EmployeeID = i.EmployeeID 
+                                              AND s.ProjectName = i.ProjectName 
+                                              AND s.EmployerID = i.EmployerID 
+                                              AND EndingDate IS NULL", connection);
+        command.Parameters.AddWithValue("@employerID", employerID);
+        command.Parameters.AddWithValue("@employeeID", employeeID);
+        command.Parameters.AddWithValue("@projectName", projectName);
+        command.Parameters.AddWithValue("@paymentDate", Convert.ToDateTime(paymentDate));
+        SqlDataReader reader = command.ExecuteReader();
+        while (reader.Read())
+        {
+          deductions.Add(float.Parse(reader["Cost"].ToString()));
+        }
+
+        foreach (float deduction in deductions)
+        {
+          deductionsEmployee += deduction;
+        }
+        connection.Close();
+      }
+      catch (Exception e)
+      {
+        Console.WriteLine(e.Message);
+      }
+      return deductionsEmployee.ToString();
     }
   }
 }
