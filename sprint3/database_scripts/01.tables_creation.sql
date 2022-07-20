@@ -1,6 +1,9 @@
 ------------------------- Oficial Ta' Bueno SQL Query -------------------------
 USE TaBueno
 
+-- set isolation level
+set transaction isolation level repeatable read;
+
 --------------- Creating Tables --------------
 CREATE TABLE Users (
     Identification          char(10)            NOT NULL,
