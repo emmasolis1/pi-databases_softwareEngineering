@@ -2,23 +2,24 @@ import Head from 'next/head';
 import React from 'react';
 import axios from 'axios';
 import { Box, Container } from '@mui/material';
-import { BenefitListResults } from '../components/benefit/benefit-list-results';
-import { BenefitListToolbar } from '../components/benefit/benefit-list-toolbar';
+import { ReportListResults } from '../components/report/report-list-result';
+import { ReportsToolbar } from '../components/report/report-toolbar';
 import { DashboardLayout } from '../components/dashboard-layout';
 import { URL } from 'src/utils/url';
 
-class Benefits extends React.Component {
+class Reports extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      benefits: [],
-      APIUrl: URL + 'benefits',
+      reports: [],
+      APIUrl: URL + 'reports',
     };
   }
 
   componentDidMount() {
-    axios.get(this.state.APIUrl + "?projectName=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID")).then(response => {
-      this.setState({ benefits: response.data });
+    var my_url = this.state.APIUrl + '?employeeID=' + sessionStorage.getItem('userID');
+    axios.get(my_url).then(response => {
+      this.setState({ reports: response.data });
     });
   }
 
@@ -27,7 +28,7 @@ class Benefits extends React.Component {
       <>
         <Head>
           <title>
-            Benefits | Ta' Bueno
+            Reports | Ta' Bueno
           </title>
         </Head>
         <Box
@@ -38,9 +39,9 @@ class Benefits extends React.Component {
           }}
         >
           <Container maxWidth={false}>
-            <BenefitListToolbar />
+            <ReportsToolbar />
             <Box sx={{ mt: 3 }}>
-              <BenefitListResults benefits={this.state.benefits} />
+              <ReportListResults reports={this.state.reports} />
             </Box>
           </Container>
         </Box>
@@ -48,11 +49,10 @@ class Benefits extends React.Component {
     );
   }
 }
-
-Benefits.getLayout = (page) => (
+Reports.getLayout = (page) => (
   <DashboardLayout>
     {page}
   </DashboardLayout>
 );
 
-export default Benefits;
+export default Reports;

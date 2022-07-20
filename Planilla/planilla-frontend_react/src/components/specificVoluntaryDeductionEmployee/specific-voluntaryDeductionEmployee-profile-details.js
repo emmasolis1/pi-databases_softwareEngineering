@@ -5,12 +5,19 @@ import {
   Card,
   CardContent,
   CardHeader,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Divider,
   Grid,
+  TextField,
   Stack
 } from '@mui/material';
 import { useFormik } from 'formik';
 import axios from 'axios';
+import * as Yup from 'yup';
 import { useRouter } from 'next/router';
 import { URL } from 'src/utils/url';
 
@@ -18,21 +25,32 @@ export const SpecificVoluntaryDeductionEmployeeProfileDetails = ({ voluntaryDedu
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
+      voluntaryDeductionName: voluntaryDeduction.voluntaryDeductionName,
       projectName: voluntaryDeduction.projectName,
       employerID: voluntaryDeduction.employerID,
-      description: voluntaryDeduction.description,
+      employeeID: voluntaryDeduction.employeeID,
+      startDate: voluntaryDeduction.startDate,
+      endingDate: voluntaryDeduction.endingDate,
+      description: "",
       cost: voluntaryDeduction.cost,
     },
+    validationSchema: Yup.object({
+      cost: Yup
+        .string(),
+    }),
     onSubmit: values => {
       var data = {
         voluntaryDeductionName: voluntaryDeduction.voluntaryDeductionName,
         projectName: voluntaryDeduction.projectName,
         employerID: voluntaryDeduction.employerID,
-        description: voluntaryDeduction.description,
-        cost: voluntaryDeduction.cost,
+        employeeID: voluntaryDeduction.employeeID,
+        startDate: voluntaryDeduction.startDate,
+        endingDate: voluntaryDeduction.endingDate,
+        description: "",
+        cost: values.cost,
       };
       axios.put(URL + 'specificVoluntaryDeductionEmployee', data).then((response) => {
-        alert("Voluntary Deduction selected successfully");
+        alert("Voluntary Deduction updated successfully");
         router.push('/voluntaryDeductionsEmployee');
       });
     }
@@ -44,7 +62,7 @@ export const SpecificVoluntaryDeductionEmployeeProfileDetails = ({ voluntaryDedu
     >
       <Card>
         <CardHeader
-          title="Voluntary Deduction's add information:"
+          title="Voluntary Deduction's information:"
         />
         <Divider />
         <CardContent>
@@ -57,30 +75,18 @@ export const SpecificVoluntaryDeductionEmployeeProfileDetails = ({ voluntaryDedu
               md={6}
               xs={12}
             >
-            </Grid>
-            <Grid
-              item
-              md={6}
-              xs={12}
-            >
-            </Grid>
-            <Grid
-              item
-              md={12}
-              xs={12}
-            >
-              {/*<TextField*/}
-              {/*  fullWidth*/}
-              {/*  label="Cost"*/}
-              {/*  margin="none"*/}
-              {/*  value={formik.values.cost}*/}
-              {/*  name="cost"*/}
-              {/*  error={Boolean(formik.touched.cost && formik.errors.cost)}*/}
-              {/*  helperText={formik.touched.cost && formik.errors.cost}*/}
-              {/*  onBlur={formik.handleBlur}*/}
-              {/*  onChange={formik.handleChange}*/}
-              {/*  variant="outlined"*/}
-              {/*/>*/}
+              <TextField
+                fullWidth
+                label="Cost"
+                margin="none"
+                value={formik.values.cost}
+                name="cost"
+                error={Boolean(formik.touched.cost && formik.errors.cost)}
+                helperText={formik.touched.cost && formik.errors.cost}
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                variant="outlined"
+              />
             </Grid>
           </Grid>
         </CardContent>
@@ -98,8 +104,9 @@ export const SpecificVoluntaryDeductionEmployeeProfileDetails = ({ voluntaryDedu
               variant="contained"
               type="submit"
             >
-              Save and select 
+              Save details
             </Button>
+           
           </Stack>
         </Box>
       </Card>

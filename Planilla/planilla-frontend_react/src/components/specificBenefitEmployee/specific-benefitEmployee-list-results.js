@@ -5,6 +5,7 @@ import IconButton from '@mui/material/IconButton';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 import {
   Avatar,
@@ -21,6 +22,7 @@ import {
 import { URL } from 'src/utils/url';
 
 export const SpecificBenefitEmployeeListResults = ({ benefits, ...rest }) => {
+  const router = useRouter();
   const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(0);
 
@@ -46,8 +48,8 @@ export const SpecificBenefitEmployeeListResults = ({ benefits, ...rest }) => {
     };
     axios.post(URL + 'requestBenefit', data)
       .then(function () {
-        alert("Benefit successfully established");
-        window.location.reload(false);
+        alert("Benefit successfully established, returning to main benefits page");
+        router.push("benefitsEmployee");
       })
       .catch(function (error) {
         if (error.response) {

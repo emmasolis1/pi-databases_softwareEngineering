@@ -10,12 +10,12 @@ namespace planilla_backend_asp.net.Controllers
   {
     [HttpGet]
     [Route("benefits")]
-    public ActionResult GetBenefits(string project, string employerID)
+    public ActionResult GetBenefits(string projectName, string employerID)
     {
       try
       {
         var handler = new BenefitsHandler();
-        var data = handler.GetBenefitsData(project, employerID);
+        var data = handler.GetBenefitsData(projectName, employerID);
         return Ok(data);
       }
       catch (Exception error)
@@ -137,6 +137,23 @@ namespace planilla_backend_asp.net.Controllers
         // Request a benefit
         BenefitsHandler handler = new BenefitsHandler();
         handler.EstablishBenefitStatus(benefit);
+        return Ok();
+      }
+      catch (Exception error)
+      {
+        Console.WriteLine(error);
+        return BadRequest(error.Message);
+      }
+    }
+
+    [HttpPut]
+    [Route("unsubscribeBenefit")]
+    public ActionResult RelinquishBenefitStatus([FromBody] BenefitEmployeeModel benefit)
+    {
+      try
+      {
+        BenefitsHandler handler = new BenefitsHandler();
+        handler.RelinquishBenefitStatus(benefit);
         return Ok();
       }
       catch (Exception error)

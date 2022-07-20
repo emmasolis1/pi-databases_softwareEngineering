@@ -154,6 +154,7 @@ const InsertContract = () => {
                   <DatePicker
                     label="Ending Date"
                     value={formik.values.expectedEndingDate}
+                    minDate={new Date(formik.values.startDate)}
                     onChange={(value) => {
                       formik.setFieldValue('expectedEndingDate', value.getFullYear() + "-" + (value.getMonth() + 1) + "-" + value.getDate());
                     }}

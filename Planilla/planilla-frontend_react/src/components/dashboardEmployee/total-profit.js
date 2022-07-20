@@ -2,10 +2,10 @@ import { Avatar, Card, CardContent, Grid, Typography } from '@mui/material';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 
 export const TotalProfit = ({ totalProjectsCost, ...props }) => {
-  function getTotalCost() {
+  function getTotalIncome() {
     let total_sum = 0.0;
     totalProjectsCost.forEach(element => {
-      total_sum += parseFloat(element.totalCost);
+      total_sum += parseFloat(element.totalIncome);
     });
     return total_sum;
   }
@@ -24,13 +24,13 @@ export const TotalProfit = ({ totalProjectsCost, ...props }) => {
               gutterBottom
               variant="overline"
             >
-              TOTAL COST FOR ALL YOUR PROJECTS
+              TOTAL INCOME FROM ALL YOUR PROJECTS
             </Typography>
             <Typography
               color="textPrimary"
               variant="h4"
             >
-              $ {getTotalCost()}
+              $ {getTotalIncome()}
             </Typography>
           </Grid>
           <Grid item>

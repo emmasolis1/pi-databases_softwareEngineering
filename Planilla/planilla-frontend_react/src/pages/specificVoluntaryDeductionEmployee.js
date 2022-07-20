@@ -13,7 +13,7 @@ class SpecificVoluntaryDeductionEmployee extends React.Component {
     this.state = {
       voluntaryDeductionEmployee: [],
       isLoaded: false,
-      APIUrl: URL + 'specificVoluntaryDeduction'
+      APIUrl: URL + 'specificVoluntaryDeductionEmployee'
     };
   }
 

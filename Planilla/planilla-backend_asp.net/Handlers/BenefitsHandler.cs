@@ -25,17 +25,17 @@ namespace planilla_backend_asp.net.Handlers
       return consultTable;
     }
 
-    public List<BenefitsModel> GetBenefitsData(string project, string employerID)
+    public List<BenefitsModel> GetBenefitsData(string projectName, string employerID)
     {
       List<BenefitsModel> benefits = new List<BenefitsModel>();
       var consult = @"SELECT BenefitName, ProjectName, EmployerID, Description, Cost
                       FROM Benefits
-                      WHERE ProjectName = @project AND EmployerID = @employerID AND IsActive = 0
+                      WHERE ProjectName = @projectName AND EmployerID = @employerID AND IsActive = 0
                       ORDER BY BenefitName";
       var queryCommand = new SqlCommand(consult, connection);
 
       // Uses user's email and the name of the active project to get only related benefits
-      queryCommand.Parameters.AddWithValue("@project", project);
+      queryCommand.Parameters.AddWithValue("@projectName", projectName);
       queryCommand.Parameters.AddWithValue("@employerID", employerID);
 
       SqlDataAdapter tableAdapter = new SqlDataAdapter(queryCommand);
@@ -172,7 +172,7 @@ namespace planilla_backend_asp.net.Handlers
                         AND Benefits.EmployerID = @employerID
                         AND BenefitsStatus.EmployeeID = @employeeID
                         AND Benefits.IsActive = 0
-                      ORDER BY BenefitName";
+                      ORDER BY EndDate, BenefitName";
 
       var queryCommand = new SqlCommand(consult, connection);
 
@@ -216,7 +216,8 @@ namespace planilla_backend_asp.net.Handlers
                         FROM BenefitsStatus
                         WHERE ProjectName = @projectName
                         AND EmployerID = @employerID
-                        AND EmployeeID = @employeeID )
+                        AND EmployeeID = @employeeID
+                        AND EndDate IS NULL)
                       ORDER BY BenefitName";
 
       var queryCommand = new SqlCommand(consult, connection);
@@ -258,6 +259,31 @@ namespace planilla_backend_asp.net.Handlers
       queryCommand.Parameters.AddWithValue("@employerID", benefit.employerID);
       queryCommand.Parameters.AddWithValue("@employeeID", benefit.employeeID);
       queryCommand.Parameters.AddWithValue("@startDate", DateTime.Now.ToString("yyyy/MM/dd"));
+
+      connection.Open();
+      bool status = queryCommand.ExecuteNonQuery() >= 1;
+      connection.Close();
+
+      return status;
+    }
+
+    public bool RelinquishBenefitStatus(BenefitEmployeeModel benefit)
+    {
+      var consult = @"UPDATE BenefitsStatus SET [EndDate] = @date
+                    WHERE [BenefitName] = @benefitName 
+                    AND [ProjectName] = @projectName 
+                    AND [EmployerID] = @employerID
+                    AND [EmployeeID] = @employeeID
+                    AND [StartDate] = @startDate";
+      var queryCommand = new SqlCommand(consult, connection);
+
+      // Insertion of key attributes
+      queryCommand.Parameters.AddWithValue("@benefitName", benefit.benefitName);
+      queryCommand.Parameters.AddWithValue("@projectName", benefit.projectName);
+      queryCommand.Parameters.AddWithValue("@employerID", benefit.employerID);
+      queryCommand.Parameters.AddWithValue("@employeeID", benefit.employeeID);
+      queryCommand.Parameters.AddWithValue("@startDate", benefit.startDate);
+      queryCommand.Parameters.AddWithValue("@date", DateTime.Now.ToString("yyyy/MM/dd"));
 
       connection.Open();
       bool status = queryCommand.ExecuteNonQuery() >= 1;

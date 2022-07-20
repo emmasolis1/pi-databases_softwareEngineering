@@ -31,7 +31,7 @@ export const VoluntaryDeductionEmployeeListToolbar = (props) => (
             color="primary"
             variant="contained"
           >
-            Employee Voluntary Deduction List
+            Voluntary Deduction List
           </Button>
         </NextLink>
       </Box>

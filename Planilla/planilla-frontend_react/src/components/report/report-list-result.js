@@ -1,10 +1,18 @@
 import * as React from 'react';
 import axios from 'axios';
+import Button from '@mui/material/Button';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 import { getInitials } from '../../utils/get-initials';
 import IconButton from '@mui/material/IconButton';
-import AddBoxIcon from '@mui/icons-material/AddBox';
+import ReadMoreIcon from '@mui/icons-material/ReadMore';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
+import { useRouter } from 'next/router';
 import Stack from '@mui/material/Stack';
 import { useState } from 'react';
 import {
@@ -21,9 +29,11 @@ import {
 } from '@mui/material';
 import { URL } from 'src/utils/url';
 
-export const SpecificVoluntaryDeductionEmployeeListResults = ({ voluntaryDeductions, ...rest }) => {
+export const ReportListResults = ({ reports, ...rest }) => {
+  const router = useRouter();
   const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(0);
+  const [open, setOpen] = React.useState(false);
 
   const handleLimitChange = (event) => {
     setLimit(event.target.value);
@@ -34,28 +44,11 @@ export const SpecificVoluntaryDeductionEmployeeListResults = ({ voluntaryDeducti
     setPage(newPage);
   };
 
-  const addVoluntaryDeduction = (voluntaryDeduction) => {
-    var data = {
-      voluntaryDeductionName: voluntaryDeduction.voluntaryDeductionName,
-      projectName: voluntaryDeduction.projectName,
-      employerID: voluntaryDeduction.employerID,
-      employeeID: sessionStorage.getItem("employeeID"),
-      description: voluntaryDeduction.description,
-      cost: voluntaryDeduction.cost,
-      startDate: "",
-      endingDate: ""
-    };
-    axios.post(URL + 'requestVoluntaryDeduction', data)
-      .then(function () {
-        alert("Voluntary Deduction successfully established");
-        window.location.reload(false);
-      })
-      .catch(function (error) {
-        if (error.response) {
-          alert("Error: Unknown error occurred");
-        }
-        window.location.reload(false);
-      });
+  const viewReport = (employer_id, project_name, payment_date) => {
+    sessionStorage.setItem('projectNameReportToVisualize', project_name);
+    sessionStorage.setItem('employerIDReportToVisualize', employer_id);
+    sessionStorage.setItem('paymentDateReportToVisualize', payment_date);
+    router.push('/specific_report_employee');
   }
 
   return (
@@ -66,13 +59,13 @@ export const SpecificVoluntaryDeductionEmployeeListResults = ({ voluntaryDeducti
             <TableHead>
               <TableRow>
                 <TableCell>
-                  Name
+                  Project Name
                 </TableCell>
                 <TableCell>
-                  Description
+                  Made by Employer
                 </TableCell>
                 <TableCell>
-                  Value
+                  Payment Date
                 </TableCell>
                 <TableCell>
                   Actions
@@ -80,10 +73,10 @@ export const SpecificVoluntaryDeductionEmployeeListResults = ({ voluntaryDeducti
               </TableRow>
             </TableHead>
             <TableBody>
-              {voluntaryDeductions.slice(page * limit, page * limit + limit).map(voluntaryDeduction => (
+              {reports.slice(page * limit, page * limit + limit).map((report) => (
                 <TableRow
                   hover
-                  key={voluntaryDeduction.voluntaryDeductionName + voluntaryDeduction.projectName + voluntaryDeduction.employerID}
+                  key={report.projectName + report.employerID}
                 >
                   <TableCell>
                     <Box
@@ -93,29 +86,31 @@ export const SpecificVoluntaryDeductionEmployeeListResults = ({ voluntaryDeducti
                       }}
                     >
                       <Avatar
-                        src={voluntaryDeduction.avatarUrl}
+                        src={report.avatarUrl}
                         sx={{ mr: 2 }}
                       >
-                        {getInitials(voluntaryDeduction.voluntaryDeductionName)}
+                        {getInitials(report.projectName)}
                       </Avatar>
                       <Typography
                         color="textPrimary"
                         variant="body1"
                       >
-                        {voluntaryDeduction.voluntaryDeductionName}
+                        {report.projectName}
                       </Typography>
                     </Box>
                   </TableCell>
                   <TableCell>
-                    {voluntaryDeduction.description}
+                    {report.employerID}
                   </TableCell>
                   <TableCell>
-                    {"$" + voluntaryDeduction.cost}
+                    {report.paymentDate.split(' ')[0]}
                   </TableCell>
                   <TableCell>
-                  <IconButton aria-label="add" color="primary" onClick={() => addVoluntaryDeduction(voluntaryDeduction)}>
-                  <AddBoxIcon />
-                  </IconButton>
+                      <Stack direction="row" spacing={1}>
+                        <IconButton aria-label="edit" color="primary" onClick={() => viewReport(report.employerID, report.projectName, report.paymentDate)}>
+                          <ReadMoreIcon />
+                        </IconButton>
+                      </Stack>
                   </TableCell>
                 </TableRow>
               ))}
@@ -125,7 +120,7 @@ export const SpecificVoluntaryDeductionEmployeeListResults = ({ voluntaryDeducti
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={voluntaryDeductions.length}
+        count={reports.length}
         onPageChange={handlePageChange}
         onRowsPerPageChange={handleLimitChange}
         page={page}
@@ -136,7 +131,6 @@ export const SpecificVoluntaryDeductionEmployeeListResults = ({ voluntaryDeducti
   );
 };
 
-SpecificVoluntaryDeductionEmployeeListResults.propTypes = {
-  voluntaryDeductions: PropTypes.array.isRequired
+ReportListResults.propTypes = {
+  reports: PropTypes.array.isRequired
 };
-

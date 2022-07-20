@@ -53,6 +53,23 @@ namespace planilla_backend_asp.net.Controllers
       }
     }
 
+    [HttpGet]
+    [Route("getLastPayment")]
+    public ActionResult GetLastPayment(string projectName, string employerID)
+    {
+      try
+      {
+        ProjectHandler handler = new ProjectHandler();
+        var data = handler.GetLastPayment(projectName, employerID);
+        return Ok(data);
+      }
+      catch (Exception error)
+      {
+        Console.WriteLine(error);
+        return BadRequest(error.Message);
+      }
+    }
+
     [HttpPut]
     [Route("specificProject")]
     public ActionResult EditProject([FromBody] ProjectModel project)
