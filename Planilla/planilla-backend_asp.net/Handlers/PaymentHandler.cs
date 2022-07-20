@@ -180,10 +180,11 @@ namespace planilla_backend_asp.net.Handlers
                 queryCommand.Parameters.AddWithValue("@contract_date", dateStartContract);
                 queryCommand.Parameters.AddWithValue("@payment_date", paymentDate);
                 ExecuteCommand(queryCommand);
-                if (Convert.ToString(column["Condition"]) == "0") {
+                string condition = Convert.ToString(column["Condition"]);
+                if (condition == "0" && condition == "0") {
                     double percentage = Convert.ToDouble(column["Percentage"]);
                     totalDeduction = totalDeduction + (salary * percentage / 100);
-                } else {
+                } else if (condition != "0") {
                     double amount = Convert.ToDouble(column["IncomeDeductionAmount"]);
                     totalDeduction = totalDeduction + amount;
                 }

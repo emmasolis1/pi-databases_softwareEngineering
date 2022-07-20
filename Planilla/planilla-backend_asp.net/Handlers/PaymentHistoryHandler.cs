@@ -88,11 +88,12 @@ namespace planilla_backend_asp.net.Handlers
                 {
                     // calculate total amount deducted
                     double deductionFromPayment = 0;
-                    if (Convert.ToString(mDeduction["Condition"]) != "0")
+                    string condition = Convert.ToString(mDeduction["Condition"]);
+                    if (condition != "0" && condition != "1")
                     {
                         deductionFromPayment = Convert.ToDouble(mDeduction["IncomeDeductionAmount"]);
                     }
-                    else
+                    else if (condition != "1")
                     {
                         double percentage = Convert.ToDouble(mDeduction["Percentage"]);
                         deductionFromPayment = historyPayment.netSalary * (percentage / 100);
