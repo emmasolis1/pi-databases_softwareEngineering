@@ -78,37 +78,37 @@ export const ReportListResults = ({ reports, ...rest }) => {
                   key={report.employeeName + report.employeeID + report.projectName + report.contractType + report.paymentDate}
                 >
                   <TableCell>
-                    report.employeeName
+                    {report.employeeName}
                   </TableCell>
                   <TableCell>
-                    report.employeeID
+                    {report.employeeID}
                   </TableCell>
                   <TableCell>
-                    report.projectName
+                    {report.projectName}
                   </TableCell>
                   <TableCell>
-                    report.contractType
+                    {report.contractType}
                   </TableCell>
                   <TableCell>
-                    report.paymentDate
+                    {report.paymentDate}
                   </TableCell>
                   <TableCell>
-                    report.grossSalary
+                    {report.grossSalary}
                   </TableCell>
                   <TableCell>
-                    report.benefitsCost
+                    {report.benefitsCost}
                   </TableCell>
                   <TableCell>
-                    report.employerMandatoryDeductions
+                    {report.employerMandatoryDeductions}
                   </TableCell>
                   <TableCell>
-                    report.employeeMandatoryDeductions
+                    {report.employeeMandatoryDeductions}
                   </TableCell>
                   <TableCell>
-                    report.voluntaryDeductions
+                    {report.voluntaryDeductions}
                   </TableCell>
                   <TableCell>
-                    report.totalCost
+                    {report.totalCost}
                   </TableCell>
                 </TableRow>
               ))}

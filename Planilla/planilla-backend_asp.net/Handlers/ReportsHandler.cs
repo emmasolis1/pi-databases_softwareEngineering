@@ -102,10 +102,10 @@ namespace planilla_backend_asp.net.Handlers
       switch (contractType)
       {
         case "0":
-          return "FullTime Employee";
+          return "Full-Time Employee";
 
         case "1":
-          return "PartTime Employee";
+          return "Part-Time Employee";
 
         case "2":
           return "Hourly Paid Employee";
@@ -247,7 +247,7 @@ namespace planilla_backend_asp.net.Handlers
             employeeName = fullName,
             employeeID = reader["Identification"].ToString(),
             projectName = reader["ProjectName"].ToString(),
-            contractType = reader["ContractType"].ToString(),
+            contractType = parseContractType(reader["ContractType"].ToString()),
             paymentDate = reader["PaymentDate"].ToString().Split(" ")[0],
             grossSalary = reader["NetSalary"].ToString(),
             benefitsCost = "",
@@ -285,7 +285,7 @@ namespace planilla_backend_asp.net.Handlers
                                               FROM Benefits WHERE BenefitName IN (
                                               SELECT BenefitName FROM BenefitsStatus
                                               WHERE ProjectName = @projectName
-                                              AND EmployerID = @employerID 
+                                              AND EmployerID = @employerID
                                               AND EmployeeID = @employeeID
                                               AND EndDate IS NULL)
                                               AND ProjectName = @projectName
@@ -305,7 +305,10 @@ namespace planilla_backend_asp.net.Handlers
       {
         Console.WriteLine(e.Message);
       }
-      Console.WriteLine(benefitsCost);
+      if (benefitsCost == "")
+      {
+        benefitsCost = "0";
+      }
       return benefitsCost;
     }
 
@@ -325,7 +328,7 @@ namespace planilla_backend_asp.net.Handlers
 
         foreach (float deduction in deductions)
         {
-          deductionsEmployer += (float.Parse(grossSalary) * deduction);
+          deductionsEmployer += (float.Parse(grossSalary) * deduction) / 100;
         }
         connection.Close();
       }
@@ -352,7 +355,7 @@ namespace planilla_backend_asp.net.Handlers
 
         foreach (float deduction in deductions)
         {
-          deductionsEmployee += (float.Parse(grossSalary) * deduction);
+          deductionsEmployee += (float.Parse(grossSalary) * deduction) / 100;
         }
         connection.Close();
 
