@@ -30,10 +30,10 @@ namespace planilla_backend_asp.net.Controllers
 
     [HttpGet]
     [Route("projectReports")]
-    public ActionResult GetProjectReport(string projectName)
+    public ActionResult GetProjectReport(string employerID)
     {
       var handler = new ReportsHandler();
-      var data = handler.GetProjectReports(projectName);
+      var data = handler.GetProjectReports(employerID);
       return Ok(data);
     }
 

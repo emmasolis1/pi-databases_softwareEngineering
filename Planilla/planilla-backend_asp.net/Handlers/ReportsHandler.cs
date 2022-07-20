@@ -196,26 +196,25 @@ namespace planilla_backend_asp.net.Handlers
       return float.Parse(grossSalary.ToString("0.00"));
     }
 
-    public List<ProjectSummaryReport> GetProjectReports(string projectName)
+    public List<ProjectSummaryReport> GetProjectReports(string employerID)
     {
-      SqlDataAdapter tableAdapter = new SqlDataAdapter("select top 10 * from Payments where ProjectName=@projectName ORDER BY PaymentDate DESC", connection);
-      tableAdapter.SelectCommand.Parameters.AddWithValue("@projectName", projectName);
+      SqlDataAdapter tableAdapter = new SqlDataAdapter("select distinct top 10 ProjectName, PaymentDate from Payments where employerID=@employerID ORDER BY PaymentDate DESC", connection);
+      tableAdapter.SelectCommand.Parameters.AddWithValue("@employerID", employerID);
       DataTable consultTable = CreateTableConsult(tableAdapter);
       List<ProjectSummaryReport> employerReports = new List<ProjectSummaryReport>();
       foreach (DataRow row in consultTable.Rows)
       {
-        ProjectSummaryReport employerReport = new EmployeeSummaryReport();
+        ProjectSummaryReport employerReport = new ProjectSummaryReport();
         employerReport.projectName = row["ProjectName"].ToString();
         employerReport.paymentDate = row["PaymentDate"].ToString();
-        employerReports.Add(employeeReport);
+        employerReports.Add(employerReport);
       }
       return employerReports;
     }
 
-    public EmployeeReport GetEmployerReport(string employerID, string projectName, string paymentDate)
+    public EmployerReport GetEmployerReport(string employerID, string projectName, string paymentDate)
     {
-      var salary = 0;
-      EmployeeReport report = new EmployeeReport();
+      EmployerReport report = new EmployerReport();
       try
       {
         connection.Open();
@@ -224,37 +223,33 @@ namespace planilla_backend_asp.net.Handlers
         SqlCommand command = new SqlCommand("select sum(NetSalary) as S0 from Contracts where EmployerID=@employerID and ProjectName=@projectName and ContractType=0", connection);
         command.Parameters.AddWithValue("@employerID", employerID);
         command.Parameters.AddWithValue("@projectName", projectName);
-        SqlDataReader reader = command.ExecuteReader();
-        while (reader.Read())
+        report.netSalary0 = command.ExecuteScalar().ToString();
+        if(report.netSalary0 == "")
         {
-          report.netSalary0 = reader["S0"].ToString();
-          salary += int.Parse(reader["S0"].ToString());
+          report.netSalary0 = "0";
         }
 
         command = new SqlCommand("select sum(NetSalary) as S1 from Contracts where EmployerID=@employerID and ProjectName=@projectName and ContractType=1", connection);
         command.Parameters.AddWithValue("@employerID", employerID);
         command.Parameters.AddWithValue("@projectName", projectName);
-        reader = command.ExecuteReader();
-        while (reader.Read())
+        report.netSalary1 = command.ExecuteScalar().ToString();
+        if (report.netSalary1 == "")
         {
-          report.netSalary1 = reader["S1"].ToString();
-          salary += int.Parse(reader["S1"].ToString());
+          report.netSalary1 = "0";
         }
 
         command = new SqlCommand("select sum(NetSalary) as S3 from Contracts where EmployerID=@employerID and ProjectName=@projectName and ContractType=3", connection);
         command.Parameters.AddWithValue("@employerID", employerID);
         command.Parameters.AddWithValue("@projectName", projectName);
-        reader = command.ExecuteReader();
-        while (reader.Read())
+        report.netSalary3 = command.ExecuteScalar().ToString();
+        if (report.netSalary3 == "")
         {
-          report.netSalary3 = reader["S3"].ToString();
-          salary += int.Parse(reader["S3"].ToString());
+          report.netSalary3 = "0";
         }
 
         // Payment Date
+        report.projectName = projectName;
         report.paymentDate = paymentDate;
-
-        report.salary = salary;
 
         if (command.Connection.State == ConnectionState.Open)
         {
@@ -281,12 +276,12 @@ namespace planilla_backend_asp.net.Handlers
       try
       {
         connection.Open();
-        SqlCommand command = new SqlCommand("select m.MandatoryDeduction, m.[Percentage] from MandatoryDeductions m where m.Condition=1", connection);
+        SqlCommand command = new SqlCommand("select m.MandatoryDeductionName, m.[Percentage] from MandatoryDeductions m where m.Condition='1'", connection);
         SqlDataReader reader = command.ExecuteReader();
         while (reader.Read())
         {
           MandatoryDeductionsEmployeeReport mandatoryDeduction = new MandatoryDeductionsEmployeeReport();
-          mandatoryDeduction.name = reader["MandatoryDeduction"].ToString();
+          mandatoryDeduction.name = reader["MandatoryDeductionName"].ToString();
           mandatoryDeduction.percentage = reader["Percentage"].ToString();
           mandatoryDeductions.Add(mandatoryDeduction);
         }

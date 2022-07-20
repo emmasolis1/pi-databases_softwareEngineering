@@ -55,7 +55,7 @@ const items = [
     title: 'Voluntary Deductions'
   },
   {
-    href: '/reports',
+    href: '/reports_employer',
     icon: (<ArticleIcon fontSize="small" />),
     title: 'Reports'
   }

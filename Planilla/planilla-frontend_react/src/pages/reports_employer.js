@@ -2,8 +2,8 @@ import Head from 'next/head';
 import React from 'react';
 import axios from 'axios';
 import { Box, Container } from '@mui/material';
-import { ReportListResults } from '../components/report/report-list-result';
-import { ReportsToolbar } from '../components/report/report-toolbar';
+import { ReportListResults } from '../components/report_employer/report-list-result';
+import { ReportsToolbar } from '../components/report_employer/report-toolbar';
 import { DashboardLayout } from '../components/dashboard-layout';
 import { URL } from 'src/utils/url';
 
@@ -12,12 +12,12 @@ class Reports extends React.Component {
     super(props);
     this.state = {
       reports: [],
-      APIUrl: URL + 'reports',
+      APIUrl: URL + 'projectReports',
     };
   }
 
   componentDidMount() {
-    var my_url = this.state.APIUrl + '?employeeID=' + sessionStorage.getItem('userID');
+    var my_url = this.state.APIUrl + '?employerID=' + sessionStorage.getItem('employerID');
     axios.get(my_url).then(response => {
       this.setState({ reports: response.data });
     });
