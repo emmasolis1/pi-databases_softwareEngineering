@@ -258,6 +258,8 @@ namespace planilla_backend_asp.net.Handlers
 
         // Mandatory Deductions
         report.mandatoryDeductions = GetEmployerMandatoryDeductions();
+
+        report.benefits = GetEmployerBenefit(employerID, projectName);
       }
       catch (Exception e)
       {
@@ -295,6 +297,39 @@ namespace planilla_backend_asp.net.Handlers
         connection.Close();
       }
       return mandatoryDeductions;
+    }
+
+    private List<MandatoryDeductionsEmployeeReport> GetEmployerBenefit(string employerID, string projectName)
+    {
+      List<MandatoryDeductionsEmployeeReport> benefits = new List<MandatoryDeductionsEmployeeReport>();
+      try
+      {
+        connection.Open();
+        SqlCommand command = new SqlCommand("select bs.BenefitName, sum(b.cost) as TotalCost from benefits b join benefitsStatus bs on b.benefitName = bs.benefitName AND b.projectName = bs.projectName AND b.employerID = bs.employerID where b.projectName = @projectName AND b.employerID = @employerID AND bs.enddate is null AND b.isactive = 0 group by bs.benefitName", connection);
+        command.Parameters.AddWithValue("@projectName", projectName);
+        command.Parameters.AddWithValue("@employerID", employerID);
+        SqlDataReader reader = command.ExecuteReader();
+        while (reader.Read())
+        {
+          MandatoryDeductionsEmployeeReport benefit = new MandatoryDeductionsEmployeeReport();
+          benefit.name = reader["BenefitName"].ToString();
+          benefit.percentage = reader["TotalCost"].ToString();
+          if (benefit.percentage == "")
+          {
+            benefit.percentage = "0";
+          }
+          benefits.Add(benefit);
+        }
+      }
+      catch (Exception e)
+      {
+        Console.WriteLine(e.Message);
+      }
+      finally
+      {
+        connection.Close();
+      }
+      return benefits;
     }
   }
 }

@@ -39,6 +39,7 @@ namespace planilla_backend_asp.net.Models
     public string netSalary1 { get; set; }
     public string netSalary3 { get; set; }
     public List<MandatoryDeductionsEmployeeReport>? mandatoryDeductions { get; set; } = new List<MandatoryDeductionsEmployeeReport>();
+    public List<MandatoryDeductionsEmployeeReport>? benefits { get; set; } = new List<MandatoryDeductionsEmployeeReport>();
   }
 
   public class ProjectSummaryReport
