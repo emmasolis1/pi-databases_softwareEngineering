@@ -110,7 +110,7 @@ namespace planilla_backend_asp.net.Handlers
       List<NextPayments> nextPayments = new List<NextPayments>();
       var consult = @"select distinct p.ProjectName,
             p.PaymentMethod,
-            (select distinct paid.PaymentDate from Payments paid where EmployerID=@employerID and paid.ProjectName=p.ProjectName) as LastPayment
+            (select top 1 paid.PaymentDate from Payments paid where EmployerID=@employerID and paid.ProjectName=p.ProjectName) as LastPayment
         from Projects p
         where EmployerID=@employerID";
       var queryCommand = new SqlCommand(consult, connection);
