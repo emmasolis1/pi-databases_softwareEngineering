@@ -9,18 +9,18 @@ namespace planilla_backend_asp.net.Controllers
     {
         [HttpGet]
         [Route("paymentsHistory")]
-        public ActionResult PayProject(/*string employeeID*/)
+        public ActionResult PayProject(string employeeID)
         {
-            //try
-            //{
+            try
+            {
                 var handler = new PaymentHistoryHandler();
-                var data = handler.GetPaymentHistory("1234567895");
+                var data = handler.GetPaymentHistory(employeeID);
                 return Ok(data);
-            //}
-            //catch (System.Data.SqlClient.SqlException exception)
-            //{
-            //    return BadRequest();
-            //}
-        }
+            }
+            catch (System.Data.SqlClient.SqlException exception)
+            {
+                return BadRequest();
+            }
+}
     }
 }
