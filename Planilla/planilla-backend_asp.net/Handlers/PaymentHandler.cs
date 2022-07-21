@@ -173,27 +173,25 @@ namespace planilla_backend_asp.net.Handlers
       {
         consult = @"INSERT INTO IncludesMandatoryDeductions ([MandatoryDeductionName], [ProjectName], [EmployerID], [EmployeeID], [ContractDate], [PaymentDate])
                             VALUES (@deduction_name, @project_name, @employer_id, @employee_id, @contract_date, @payment_date)";
-        queryCommand = new SqlCommand(consult, connection);
-        queryCommand.Parameters.AddWithValue("@deduction_name", Convert.ToString(column["MandatoryDeductionName"]));
-        queryCommand.Parameters.AddWithValue("@project_name", projectName);
-        queryCommand.Parameters.AddWithValue("@employer_id", employerId);
-        queryCommand.Parameters.AddWithValue("@employee_id", employeeId);
-        queryCommand.Parameters.AddWithValue("@contract_date", dateStartContract);
-        queryCommand.Parameters.AddWithValue("@payment_date", paymentDate);
-        ExecuteCommand(queryCommand);
-        if (Convert.ToString(column["Condition"]) == "0")
-        {
-          double percentage = Convert.ToDouble(column["Percentage"]);
-          totalDeduction = totalDeduction + (salary * percentage / 100);
+                queryCommand = new SqlCommand(consult, connection);
+                queryCommand.Parameters.AddWithValue("@deduction_name", Convert.ToString(column["MandatoryDeductionName"]));
+                queryCommand.Parameters.AddWithValue("@project_name", projectName);
+                queryCommand.Parameters.AddWithValue("@employer_id", employerId);
+                queryCommand.Parameters.AddWithValue("@employee_id", employeeId);
+                queryCommand.Parameters.AddWithValue("@contract_date", dateStartContract);
+                queryCommand.Parameters.AddWithValue("@payment_date", paymentDate);
+                ExecuteCommand(queryCommand);
+                string condition = Convert.ToString(column["Condition"]);
+                if (condition == "0" && condition == "0") {
+                    double percentage = Convert.ToDouble(column["Percentage"]);
+                    totalDeduction = totalDeduction + (salary * percentage / 100);
+                } else if (condition != "0") {
+                    double amount = Convert.ToDouble(column["IncomeDeductionAmount"]);
+                    totalDeduction = totalDeduction + amount;
+                }
+            }
+            return totalDeduction;
         }
-        else
-        {
-          double amount = Convert.ToDouble(column["IncomeDeductionAmount"]);
-          totalDeduction = totalDeduction + amount;
-        }
-      }
-      return totalDeduction;
-    }
 
     private bool CreatePayment(PaymentModel employee)
     {
