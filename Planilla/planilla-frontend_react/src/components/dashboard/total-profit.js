@@ -30,7 +30,7 @@ export const TotalProfit = ({ totalProjectsCost, ...props }) => {
               color="textPrimary"
               variant="h4"
             >
-              CRC {getTotalCost()}
+              CRC {parseFloat(getTotalCost()).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}
             </Typography>
           </Grid>
           <Grid item>

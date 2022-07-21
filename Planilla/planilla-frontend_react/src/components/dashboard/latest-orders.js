@@ -47,7 +47,7 @@ export const LatestOrders = ({ latestPayments, ...props }) => (
                   {payment.lastPaidDate.split(' ')[0]}
                 </TableCell>
                 <TableCell>
-                  {payment.lastPaidAmount}
+                  CRC {parseFloat(payment.lastPaidAmount).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}
                 </TableCell>
                 <TableCell>
                   <SeverityPill

@@ -101,7 +101,7 @@ export const SpecificReportDetails = ({ report, ...props }) => {
                     Full-time employees:
                   </TableCell>
                   <TableCell>
-                    CRC{parseFloat(report.netSalary0).toFixed(2)}
+                    CRC {parseFloat(report.netSalary0).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}
                   </TableCell>
                 </TableRow>
                 <TableRow
@@ -111,7 +111,7 @@ export const SpecificReportDetails = ({ report, ...props }) => {
                     Half-time employees:
                   </TableCell>
                   <TableCell>
-                    CRC{parseFloat(report.netSalary1).toFixed(2)}
+                    CRC {parseFloat(report.netSalary1).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}
                   </TableCell>
                 </TableRow>
                 <TableRow
@@ -121,7 +121,7 @@ export const SpecificReportDetails = ({ report, ...props }) => {
                     Professional services employees:
                   </TableCell>
                   <TableCell>
-                    CRC{parseFloat(report.netSalary3).toFixed(2)}
+                    CRC {parseFloat(report.netSalary3).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}
                   </TableCell>
                 </TableRow>
               </TableBody>
@@ -131,7 +131,7 @@ export const SpecificReportDetails = ({ report, ...props }) => {
                     Total salary
                   </TableCell>
                   <TableCell>
-                    CRC{parseFloat(parseFloat(report.netSalary0) + parseFloat(report.netSalary1) + parseFloat(report.netSalary3)).toFixed(2)}
+                    CRC {(parseFloat(parseFloat(report.netSalary0) + parseFloat(report.netSalary1) + parseFloat(report.netSalary3)).toFixed(2)).replace(/\d(?=(\d{3})+\.)/g, '$&,')}
                   </TableCell>
                 </TableRow>
               </TableHead>
@@ -170,7 +170,7 @@ export const SpecificReportDetails = ({ report, ...props }) => {
                       {deduction.name}
                     </TableCell>
                     <TableCell>
-                      CRC{((parseFloat(report.netSalary0) + parseFloat(report.netSalary1) + parseFloat(report.netSalary3)) * (parseFloat(deduction.percentage) / 100)).toFixed(2)}
+                      CRC {(((parseFloat(report.netSalary0) + parseFloat(report.netSalary1) + parseFloat(report.netSalary3)) * (parseFloat(deduction.percentage) / 100)).toFixed(2)).replace(/\d(?=(\d{3})+\.)/g, '$&,')}
                     </TableCell>
                   </TableRow>
                 ))}
@@ -181,7 +181,7 @@ export const SpecificReportDetails = ({ report, ...props }) => {
                     Total from mandatory deductions
                   </TableCell>
                   <TableCell>
-                    CRC{mandatoryDeductionsTotal.toFixed(2)}
+                    CRC {mandatoryDeductionsTotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}
                   </TableCell>
                 </TableRow>
               </TableHead>
@@ -220,7 +220,7 @@ export const SpecificReportDetails = ({ report, ...props }) => {
                       {benefit.name}
                     </TableCell>
                     <TableCell>
-                      CRC{benefit.percentage}
+                      CRC {benefit.percentage}
                     </TableCell>
                   </TableRow>
                 ))}
@@ -231,7 +231,7 @@ export const SpecificReportDetails = ({ report, ...props }) => {
                     Total from benefits
                   </TableCell>
                   <TableCell>
-                    CRC{benefitsTotal.toFixed(2)}
+                    CRC {benefitsTotal.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}
                   </TableCell>
                 </TableRow>
               </TableHead>
