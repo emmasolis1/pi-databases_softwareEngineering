@@ -116,7 +116,7 @@ export const VoluntaryDeductionListResults = ({ voluntaryDeductions, ...rest }) 
                     {voluntaryDeduction.description}
                   </TableCell>
                   <TableCell>
-                    {"$" + voluntaryDeduction.cost}
+                    {"CRC" + voluntaryDeduction.cost}
                   </TableCell>
                   <TableCell>
                     <Stack direction="row" spacing={1}>

@@ -111,7 +111,7 @@ export const SpecificBenefitEmployeeListResults = ({ benefits, ...rest }) => {
                     {benefit.description}
                   </TableCell>
                   <TableCell>
-                    {"$" + benefit.cost}
+                    {"CRC" + benefit.cost}
                   </TableCell>
                   <TableCell>
                     <IconButton aria-label="add" color="primary" onClick={() => addBenefit(benefit)}>

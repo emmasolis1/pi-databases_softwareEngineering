@@ -30,7 +30,7 @@ export const TotalProfit = ({ totalProjectsCost, ...props }) => {
               color="textPrimary"
               variant="h4"
             >
-              $ {getTotalCost()}
+              CRC {getTotalCost()}
             </Typography>
           </Grid>
           <Grid item>

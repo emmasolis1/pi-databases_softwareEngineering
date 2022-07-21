@@ -160,10 +160,10 @@ export const ProjectProfileDetails = ({ project, ...props }) => {
                       key={payment.paymentDate}
                     >
                       <TableCell>
-                        {"$" + payment.payment}
+                        {"CRC" + payment.payment}
                       </TableCell>
                       <TableCell>
-                        {"$" + payment.netSalary}
+                        {"CRC" + payment.netSalary}
                       </TableCell>
                       <TableCell>
                         {payment.employerId}
