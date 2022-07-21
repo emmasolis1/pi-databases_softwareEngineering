@@ -110,7 +110,7 @@ export const SpecificVoluntaryDeductionEmployeeListResults = ({ voluntaryDeducti
                     {voluntaryDeduction.description}
                   </TableCell>
                   <TableCell>
-                    {"$" + voluntaryDeduction.cost}
+                    {"CRC" + voluntaryDeduction.cost}
                   </TableCell>
                   <TableCell>
                     <IconButton aria-label="add" color="primary" onClick={() => addVoluntaryDeduction(voluntaryDeduction)}>

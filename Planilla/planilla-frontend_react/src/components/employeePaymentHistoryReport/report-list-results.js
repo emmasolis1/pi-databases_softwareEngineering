@@ -99,22 +99,22 @@ export const ReportListResults = ({ reports, ...rest }) => {
                       {report.paymentDate}
                     </TableCell>
                     <TableCell>
-                      ${parseFloat(report.grossSalary).toFixed(2)}
+                      CRC{parseFloat(report.grossSalary).toFixed(2)}
                     </TableCell>
                     <TableCell>
-                      ${parseFloat(report.benefitsCost).toFixed(2)}
+                      CRC{parseFloat(report.benefitsCost).toFixed(2)}
                     </TableCell>
                     <TableCell>
-                      ${parseFloat(report.employerMandatoryDeductions).toFixed(2)}
+                      CRC{parseFloat(report.employerMandatoryDeductions).toFixed(2)}
                     </TableCell>
                     <TableCell>
-                      ${parseFloat(report.employeeMandatoryDeductions).toFixed(2)}
+                      CRC{parseFloat(report.employeeMandatoryDeductions).toFixed(2)}
                     </TableCell>
                     <TableCell>
-                      ${parseFloat(report.voluntaryDeductions).toFixed(2)}
+                      CRC{parseFloat(report.voluntaryDeductions).toFixed(2)}
                     </TableCell>
                     <TableCell>
-                      ${parseFloat(report.totalCost).toFixed(2)}
+                      CRC{parseFloat(report.totalCost).toFixed(2)}
                     </TableCell>
                   </TableRow>
                 ))}
