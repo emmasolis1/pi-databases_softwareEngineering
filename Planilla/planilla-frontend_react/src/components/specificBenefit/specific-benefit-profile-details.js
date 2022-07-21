@@ -24,14 +24,19 @@ import { URL } from 'src/utils/url';
 export const SpecificBenefitProfileDetails = ({ benefit, ...props }) => {
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
+  const [originalName, setOriginalName] = React.useState(benefit.benefitName);
   const formik = useFormik({
     initialValues: {
+      benefitName: benefit.benefitName,
       projectName: benefit.projectName,
       employerID: benefit.employerID,
       description: benefit.description,
       cost: benefit.cost,
     },
     validationSchema: Yup.object({
+      benefitName: Yup
+        .string()
+        .max(255),
       description: Yup
         .string()
         .max(255),
@@ -40,13 +45,14 @@ export const SpecificBenefitProfileDetails = ({ benefit, ...props }) => {
     }),
     onSubmit: values => {
       var data = {
-        benefitName: benefit.benefitName,
+        benefitName: values.benefitName,
         projectName: benefit.projectName,
         employerID: benefit.employerID,
         description: values.description,
         cost: values.cost
       };
-      axios.put(URL + 'specificBenefit', data).then((response) => {
+      console.log(data, originalName)
+      axios.put(URL + 'specificBenefit' + '?originalName=' + originalName, data).then((response) => {
         alert("Benefit updated successfully");
       });
     }
@@ -106,6 +112,24 @@ export const SpecificBenefitProfileDetails = ({ benefit, ...props }) => {
                 name="cost"
                 error={Boolean(formik.touched.cost && formik.errors.cost)}
                 helperText={formik.touched.cost && formik.errors.cost}
+                onBlur={formik.handleBlur}
+                onChange={formik.handleChange}
+                variant="outlined"
+              />
+            </Grid>
+            <Grid
+              item
+              md={6}
+              xs={12}
+            >
+              <TextField
+                fullWidth
+                label="Name"
+                margin="none"
+                value={formik.values.benefitName}
+                name="benefitName"
+                error={Boolean(formik.touched.benefitName && formik.errors.benefitName)}
+                helperText={formik.touched.benefitName && formik.errors.benefitName}
                 onBlur={formik.handleBlur}
                 onChange={formik.handleChange}
                 variant="outlined"

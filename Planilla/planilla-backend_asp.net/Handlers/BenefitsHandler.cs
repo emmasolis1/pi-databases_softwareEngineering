@@ -91,16 +91,17 @@ namespace planilla_backend_asp.net.Handlers
       return status;
     }
 
-    public void UpdateBenefitInfo(BenefitsModel info)
+    public void UpdateBenefitInfo(BenefitsModel info, string originalName)
     {
       // Prepare command
-      string consult = "update Benefits set [Description] = @description, [Cost] = @cost where [BenefitName] = @benefitName AND [ProjectName] = @projectName and [EmployerID] = @employerID";
+      string consult = "update Benefits [BenefitName] = @benefitName, set [Description] = @description, [Cost] = @cost where [BenefitName] = @originalName AND [ProjectName] = @projectName and [EmployerID] = @employerID";
       SqlCommand queryCommand = new SqlCommand(consult, connection);
       queryCommand.Parameters.AddWithValue("@benefitName", info.benefitName);
       queryCommand.Parameters.AddWithValue("@projectName", info.projectName);
       queryCommand.Parameters.AddWithValue("@employerID", info.employerID);
       queryCommand.Parameters.AddWithValue("@description", info.description);
       queryCommand.Parameters.AddWithValue("@cost", info.cost);
+      queryCommand.Parameters.AddWithValue("@originalName", originalName);
       // Execute command
       connection.Open();
       queryCommand.ExecuteNonQuery();

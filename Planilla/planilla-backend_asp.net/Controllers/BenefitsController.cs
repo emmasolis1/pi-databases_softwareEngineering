@@ -96,12 +96,12 @@ namespace planilla_backend_asp.net.Controllers
 
     [HttpPut]
     [Route("specificBenefit")]
-    public ActionResult EditBenefit([FromBody] BenefitsModel benefit)
+    public ActionResult EditBenefit([FromBody] BenefitsModel benefit, string originalName)
     {
       try
       {
         BenefitsHandler handler = new BenefitsHandler();
-        handler.UpdateBenefitInfo(benefit);
+        handler.UpdateBenefitInfo(benefit, originalName);
         return Ok();
       }
       catch (Exception error)
