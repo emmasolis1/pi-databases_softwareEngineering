@@ -55,12 +55,12 @@ namespace planilla_backend_asp.net.Controllers
 
     [HttpPut]
     [Route("specificVoluntaryDeduction")]
-    public ActionResult UpdateVoluntaryDeductions([FromBody] VoluntaryDeductionsModel voluntaryDeductions)
+    public ActionResult UpdateVoluntaryDeductions([FromBody] VoluntaryDeductionsModel voluntaryDeductions, string originalName)
     {
       try
       {
         DeductionsHandler handler = new DeductionsHandler();
-        handler.UpdateVoluntaryDeductions(voluntaryDeductions);
+        handler.UpdateVoluntaryDeductions(voluntaryDeductions, originalName);
         return Ok();
       }
       catch (Exception error)
