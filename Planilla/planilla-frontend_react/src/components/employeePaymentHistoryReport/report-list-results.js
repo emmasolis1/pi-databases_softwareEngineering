@@ -12,7 +12,7 @@ import {
   TableCell,
   TableHead,
   TablePagination,
-  TableRow,
+  TableRow
 } from '@mui/material';
 
 export const ReportListResults = ({ reports, ...rest }) => {

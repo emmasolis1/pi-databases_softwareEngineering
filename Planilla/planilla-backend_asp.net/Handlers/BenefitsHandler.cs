@@ -34,7 +34,6 @@ namespace planilla_backend_asp.net.Handlers
                       ORDER BY BenefitName";
       var queryCommand = new SqlCommand(consult, connection);
 
-      // Uses user's email and the name of the active project to get only related benefits
       queryCommand.Parameters.AddWithValue("@projectName", projectName);
       queryCommand.Parameters.AddWithValue("@employerID", employerID);
 

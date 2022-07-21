@@ -101,4 +101,3 @@ export const MandatoryDeductionListResults = ({ mandatoryDeductions, ...rest }) 
 MandatoryDeductionListResults.propTypes = {
   mandatoryDeductions: PropTypes.array.isRequired
 };
-

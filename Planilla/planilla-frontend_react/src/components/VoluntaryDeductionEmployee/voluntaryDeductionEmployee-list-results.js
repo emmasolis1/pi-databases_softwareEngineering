@@ -8,16 +8,16 @@ import { useRouter } from 'next/router';
 import Stack from '@mui/material/Stack';
 import { useState } from 'react';
 import {
-    Avatar,
-    Box,
-    Card,
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TablePagination,
-    TableRow,
-    Typography
+  Avatar,
+  Box,
+  Card,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TablePagination,
+  TableRow,
+  Typography
 } from '@mui/material';
 
 export const VoluntaryDeductionEmployeeListResults = ({ voluntaryDeductions, ...rest }) => {
@@ -106,11 +106,11 @@ export const VoluntaryDeductionEmployeeListResults = ({ voluntaryDeductions, ...
                     {voluntaryDeduction.endingDate}
                   </TableCell>
                   <TableCell>
-                  <Stack direction="row" spacing={1}>
-                  <IconButton aria-label="edit" color="primary" onClick={() => viewVoluntaryDeductionEmployee(voluntaryDeduction.voluntaryDeductionName)}>
-                  <ReadMoreIcon />
-                  </IconButton>
-                  </Stack>
+                    <Stack direction="row" spacing={1}>
+                      <IconButton aria-label="edit" color="primary" onClick={() => viewVoluntaryDeductionEmployee(voluntaryDeduction.voluntaryDeductionName)}>
+                        <ReadMoreIcon />
+                      </IconButton>
+                    </Stack>
                   </TableCell>
                 </TableRow>
               ))}
@@ -134,4 +134,3 @@ export const VoluntaryDeductionEmployeeListResults = ({ voluntaryDeductions, ...
 VoluntaryDeductionEmployeeListResults.propTypes = {
   voluntaryDeductions: PropTypes.array.isRequired
 };
-

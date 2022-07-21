@@ -18,7 +18,7 @@ class SpecificVoluntaryDeduction extends React.Component {
   }
 
   componentDidMount() {
-      axios.get(this.state.APIUrl + "?voluntaryDeductionName=" + sessionStorage.getItem("voluntaryDeduction") + "&projectName=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID")).then(response => {
+    axios.get(this.state.APIUrl + "?voluntaryDeductionName=" + sessionStorage.getItem("voluntaryDeduction") + "&projectName=" + sessionStorage.getItem("project") + "&employerID=" + sessionStorage.getItem("employerID")).then(response => {
       this.setState({ isLoaded: true, voluntaryDeduction: response.data });
     });
   }
@@ -46,7 +46,7 @@ class SpecificVoluntaryDeduction extends React.Component {
                 sx={{ mb: 3 }}
                 variant="h4"
               >
-                 Voluntary Deduction
+                Voluntary Deduction
               </Typography>
               <Grid
                 container
@@ -58,7 +58,7 @@ class SpecificVoluntaryDeduction extends React.Component {
                   md={6}
                   xs={12}
                 >
-                  <SpecificVoluntaryDeductionProfile voluntaryDeduction={this.state.voluntaryDeduction}/>
+                  <SpecificVoluntaryDeductionProfile voluntaryDeduction={this.state.voluntaryDeduction} />
                 </Grid>
                 <Grid
                   item
@@ -66,7 +66,7 @@ class SpecificVoluntaryDeduction extends React.Component {
                   md={6}
                   xs={12}
                 >
-                  <SpecificVoluntaryDeductionProfileDetails voluntaryDeduction={this.state.voluntaryDeduction}/>
+                  <SpecificVoluntaryDeductionProfileDetails voluntaryDeduction={this.state.voluntaryDeduction} />
                 </Grid>
               </Grid>
             </Container>

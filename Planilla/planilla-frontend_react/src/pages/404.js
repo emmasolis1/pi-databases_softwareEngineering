@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import NextLink from 'next/link';
 import React from 'react';
 import { useRouter } from 'next/router';
 import { Box, Button, Container, Typography } from '@mui/material';
@@ -16,7 +15,7 @@ const NotFound = () => {
     }
   };
 
-  return(
+  return (
     <>
       <Head>
         <title>
@@ -67,10 +66,6 @@ const NotFound = () => {
                 }}
               />
             </Box>
-            {/* <NextLink
-              href="/dashboard"
-              passHref
-            > */}
             <Button
               component="a"
               startIcon={(<ArrowBackIcon fontSize="small" />)}
@@ -80,7 +75,6 @@ const NotFound = () => {
             >
               Go to home
             </Button>
-            {/* </NextLink> */}
           </Box>
         </Container>
       </Box>

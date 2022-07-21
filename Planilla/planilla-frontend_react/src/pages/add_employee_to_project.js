@@ -57,9 +57,9 @@ class AddEmployeeToProject extends React.Component {
 }
 
 AddEmployeeToProject.getLayout = (page) => (
-    <DashboardLayout>
-      {page}
-    </DashboardLayout>
-  );
+  <DashboardLayout>
+    {page}
+  </DashboardLayout>
+);
 
 export default AddEmployeeToProject;
