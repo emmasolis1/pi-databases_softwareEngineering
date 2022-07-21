@@ -143,7 +143,7 @@ export const BenefitEmployeeListResults = ({ benefits, ...rest }) => {
                     {benefit.description}
                   </TableCell>
                   <TableCell>
-                    {"$" + benefit.cost}
+                    {"CRC " + benefit.cost}
                   </TableCell>
                   <TableCell>
                     {benefit.startDate}

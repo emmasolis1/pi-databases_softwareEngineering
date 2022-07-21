@@ -41,7 +41,7 @@ export const SpecificReportDetails = ({ report, ...props }) => {
               variant="body1"
               align="center"
             >
-              Project Name: {report.projectName}
+              Employee Name: {report.employeeName}
             </Typography>
           </Grid>
           <Grid
@@ -65,7 +65,7 @@ export const SpecificReportDetails = ({ report, ...props }) => {
               variant="body1"
               align="center"
             >
-              Employee Name: {report.employeeName}
+              Project Name: {report.projectName}
             </Typography>
           </Grid>
           <Grid
@@ -82,27 +82,28 @@ export const SpecificReportDetails = ({ report, ...props }) => {
           </Grid>
           <Grid
             item
-            md={6}
+            lg={12}
+            md={12}
             xs={12}
           >
             <Typography
-              variant="body1"
+              variant="subtitle1"
               align="center"
             >
-              Net Salary: {report.netSalary}
+              Contract Salary
             </Typography>
-          </Grid>
-          <Grid
-            item
-            md={6}
-            xs={12}
-          >
-            <Typography
-              variant="body1"
-              align="center"
-            >
-              Gross Salary: {report.grossSalary}
-            </Typography>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>
+                    Gross Salary:
+                  </TableCell>
+                  <TableCell>
+                    CRC {parseFloat(report.netSalary).toFixed(2)}
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+            </Table>
           </Grid>
           <Grid
             item
@@ -137,7 +138,7 @@ export const SpecificReportDetails = ({ report, ...props }) => {
                       {deduction.name}
                     </TableCell>
                     <TableCell>
-                      -{report.netSalary * (deduction.percentage / 100)}
+                      CRC {parseFloat(report.netSalary * (deduction.percentage / 100)).toFixed(2)}
                     </TableCell>
                   </TableRow>
                 ))}
@@ -177,11 +178,36 @@ export const SpecificReportDetails = ({ report, ...props }) => {
                       {deduction.name}
                     </TableCell>
                     <TableCell>
-                      -{deduction.cost}
+                      CRC {parseFloat(deduction.cost).toFixed(2)}
                     </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
+            </Table>
+          </Grid>
+          <Grid
+            item
+            lg={12}
+            md={12}
+            xs={12}
+          >
+            <Typography
+              variant="subtitle1"
+              align="center"
+            >
+              Final Salary
+            </Typography>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>
+                    Net Salary
+                  </TableCell>
+                  <TableCell>
+                    CRC {parseFloat(report.grossSalary).toFixed(2)}
+                  </TableCell>
+                </TableRow>
+              </TableHead>
             </Table>
           </Grid>
         </Grid>
