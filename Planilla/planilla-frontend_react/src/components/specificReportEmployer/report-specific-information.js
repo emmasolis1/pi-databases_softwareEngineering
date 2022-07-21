@@ -20,9 +20,13 @@ import { URL } from 'src/utils/url';
 export const SpecificReportDetails = ({ report, ...props }) => {
   const router = useRouter();
 
+  report.mandatoryDeductions.map((deduction) => (
+    deduction.percentage = parseFloat(deduction.percentage.replace(/,/, '.'))
+  ))
+
   let mandatoryDeductionsTotal = 0;
   report.mandatoryDeductions.map((deduction) => (
-    mandatoryDeductionsTotal += parseFloat(((parseFloat(report.netSalary0) + parseFloat(report.netSalary1) + parseFloat(report.netSalary3)) * (parseFloat(deduction.percentage) / 100)).toFixed(2))
+    mandatoryDeductionsTotal += parseFloat((parseFloat(report.netSalary0) + parseFloat(report.netSalary1) + parseFloat(report.netSalary3)) * (parseFloat(deduction.percentage) / 100))
   ))
 
   let benefitsTotal = 0;
@@ -166,7 +170,7 @@ export const SpecificReportDetails = ({ report, ...props }) => {
                       {deduction.name}
                     </TableCell>
                     <TableCell>
-                      ${((parseFloat(report.netSalary0) + parseFloat(report.netSalary1) + parseFloat(report.netSalary3)) * (deduction.percentage / 100)).toFixed(2)}
+                      ${((parseFloat(report.netSalary0) + parseFloat(report.netSalary1) + parseFloat(report.netSalary3)) * (parseFloat(deduction.percentage) / 100)).toFixed(2)}
                     </TableCell>
                   </TableRow>
                 ))}
