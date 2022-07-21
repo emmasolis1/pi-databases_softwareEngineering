@@ -24,6 +24,7 @@ import { URL } from 'src/utils/url';
 export const SpecificVoluntaryDeductionProfileDetails = ({ voluntaryDeduction, ...props }) => {
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
+  const [originalName, setOriginalName] = React.useState(voluntaryDeduction.voluntaryDeductionName);
   const formik = useFormik({
     initialValues: {
       voluntaryDeductionName: voluntaryDeduction.voluntaryDeductionName,
@@ -33,14 +34,14 @@ export const SpecificVoluntaryDeductionProfileDetails = ({ voluntaryDeduction, .
       cost: voluntaryDeduction.cost,
     },
     validationSchema: Yup.object({
+      voluntaryDeductionName: Yup
+        .string()
+        .max(255),
       description: Yup
         .string()
         .max(255),
       cost: Yup
         .string(),
-      voluntaryDeductionName: Yup
-        .string()
-        .max(255),
     }),
     onSubmit: values => {
       var data = {
@@ -50,14 +51,14 @@ export const SpecificVoluntaryDeductionProfileDetails = ({ voluntaryDeduction, .
         description: values.description,
         cost: values.cost
       };
-      axios.put(URL + 'specificVoluntaryDeduction', data).then((response) => {
+      axios.put(URL + 'specificVoluntaryDeduction' + '?originalName=' + originalName, data).then((response) => {
         alert("Voluntary Deduction updated successfully");
         router.push('/voluntaryDeductions');
       });
     }
   });
 
-const handleClickOpen = () => {
+  const handleClickOpen = () => {
     setOpen(true);
   };
 
@@ -85,12 +86,12 @@ const handleClickOpen = () => {
             container
             spacing={3}
           >
-           <Grid
+            <Grid
               item
               md={6}
               xs={12}
             >
-            <TextField
+              <TextField
                 fullWidth
                 label="Employer ID"
                 margin="none"
@@ -103,7 +104,7 @@ const handleClickOpen = () => {
               md={6}
               xs={12}
             >
-            <TextField
+              <TextField
                 fullWidth
                 label="Deduction name"
                 margin="none"
@@ -170,7 +171,7 @@ const handleClickOpen = () => {
             >
               Save details
             </Button>
-           <Button
+            <Button
               color="error"
               variant="contained"
               onClick={() => handleClickOpen()}

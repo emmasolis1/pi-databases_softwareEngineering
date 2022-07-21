@@ -1,6 +1,4 @@
 import {
-  Box,
-  Button,
   Card,
   CardContent,
   CardHeader,
@@ -9,27 +7,8 @@ import {
   TextField
 } from '@mui/material';
 import { useFormik } from 'formik';
-import axios from 'axios';
-import * as Yup from 'yup';
-import { useRouter } from 'next/router';
 
-const states = [
-  {
-    value: 'alabama',
-    label: 'Alabama'
-  },
-  {
-    value: 'new-york',
-    label: 'New York'
-  },
-  {
-    value: 'san-francisco',
-    label: 'San Francisco'
-  }
-];
-
-export const SpecificEmployeeProfileDetails = ({user, ...props}) => {
-  const router = useRouter();
+export const SpecificEmployeeProfileDetails = ({ user, ...props }) => {
   const formik = useFormik({
     initialValues: {
       email: user.Email,
@@ -49,9 +28,6 @@ export const SpecificEmployeeProfileDetails = ({user, ...props}) => {
 
   return (
     <form
-      // autoComplete="off"
-      // noValidate
-      // {...props}
       onSubmit={formik.handleSubmit}
     >
       <Card>

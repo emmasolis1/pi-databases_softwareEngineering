@@ -132,34 +132,34 @@ export const EmployeeListResults = ({ employees, ...rest }) => {
                     {employee.Phone}
                   </TableCell>
                   <TableCell>
-                      <Stack direction="row" spacing={1}>
+                    <Stack direction="row" spacing={1}>
                       <IconButton aria-label="contract" color="primary" onClick={() => seeContract(employee.Identification, employee.FullName)}>
-                          <ReadMoreIcon />
-                        </IconButton>
-                        <IconButton aria-label="delete" color="error" onClick={() => handleClickOpen(employee.Identification)}>
-                          <DeleteForeverIcon />
-                        </IconButton>
-                        <Dialog
-                          open={open}
+                        <ReadMoreIcon />
+                      </IconButton>
+                      <IconButton aria-label="delete" color="error" onClick={() => handleClickOpen(employee.Identification)}>
+                        <DeleteForeverIcon />
+                      </IconButton>
+                      <Dialog
+                        open={open}
                         onClose={handleClose}
-                          aria-labelledby="alert-dialog-title"
-                          aria-describedby="alert-dialog-description"
-                        >
-                          <DialogTitle id="alert-dialog-title">
-                            {"Alert: Please read!!!"}
-                          </DialogTitle>
-                          <DialogContent>
-                            <DialogContentText id="alert-dialog-description">
-                              You are about to delete (fire) an employee from this project,
-                              this implies ending their contract. Are you sure?
-                            </DialogContentText>
-                          </DialogContent>
-                          <DialogActions>
+                        aria-labelledby="alert-dialog-title"
+                        aria-describedby="alert-dialog-description"
+                      >
+                        <DialogTitle id="alert-dialog-title">
+                          {"Alert: Please read!!!"}
+                        </DialogTitle>
+                        <DialogContent>
+                          <DialogContentText id="alert-dialog-description">
+                            You are about to delete (fire) an employee from this project,
+                            this implies ending their contract. Are you sure?
+                          </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
                           <Button onClick={handleClose} variant="outlined" color="primary">Cancel</Button>
-                            <Button onClick={() => handleClose(true)} variant="contained" color="error">Fire Employee</Button>
-                          </DialogActions>
-                        </Dialog>
-                      </Stack>
+                          <Button onClick={() => handleClose(true)} variant="contained" color="error">Fire Employee</Button>
+                        </DialogActions>
+                      </Dialog>
+                    </Stack>
                   </TableCell>
                 </TableRow>
               ))}

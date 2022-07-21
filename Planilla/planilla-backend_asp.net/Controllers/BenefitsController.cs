@@ -127,7 +127,7 @@ namespace planilla_backend_asp.net.Controllers
         return BadRequest(error.Message);
       }
     }
-     
+
     [HttpPost]
     [Route("requestBenefit")]
     public ActionResult EstablishBenefitStatus([FromBody] BenefitEmployeeModel benefit)

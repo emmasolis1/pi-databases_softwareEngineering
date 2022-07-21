@@ -105,9 +105,9 @@ export const EmployeeListResults = ({ employees, ...rest }) => {
                     {employee.Phone}
                   </TableCell>
                   <TableCell>
-                      <IconButton aria-label="add" color="primary" onClick={() => addEmployeeToProject(employee)}>
-                        <AddBoxIcon />
-                      </IconButton>
+                    <IconButton aria-label="add" color="primary" onClick={() => addEmployeeToProject(employee)}>
+                      <AddBoxIcon />
+                    </IconButton>
                   </TableCell>
                 </TableRow>
               ))}

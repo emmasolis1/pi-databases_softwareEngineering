@@ -22,7 +22,7 @@ export const VoluntaryDeductionEmployeeListToolbar = (props) => (
       >
         Voluntary Deduction
       </Typography>
-   <Box sx={{ m: 1 }}>
+      <Box sx={{ m: 1 }}>
         <NextLink
           href="/voluntary_deduction_list"
           passHref

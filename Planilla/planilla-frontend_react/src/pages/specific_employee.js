@@ -18,7 +18,6 @@ class SpecificEmployee extends React.Component {
   }
 
   componentDidMount() {
-    // var data = {id: localStorage.getItem('id')};
     this.state.APIUrl = this.state.APIUrl + sessionStorage.getItem('employeeToVisualize');
     axios.get(this.state.APIUrl).then(response => {
       this.setState({ isLoaded: true, user: (response.data)[0] });
@@ -60,7 +59,7 @@ class SpecificEmployee extends React.Component {
                   md={6}
                   xs={12}
                 >
-                  <SpecificEmployeeProfile user={this.state.user}/>
+                  <SpecificEmployeeProfile user={this.state.user} />
                 </Grid>
                 <Grid
                   item
@@ -68,7 +67,7 @@ class SpecificEmployee extends React.Component {
                   md={6}
                   xs={12}
                 >
-                  <SpecificEmployeeProfileDetails user={this.state.user}/>
+                  <SpecificEmployeeProfileDetails user={this.state.user} />
                 </Grid>
               </Grid>
             </Container>

@@ -116,7 +116,7 @@ export const BenefitListResults = ({ benefits, ...rest }) => {
                     {benefit.description}
                   </TableCell>
                   <TableCell>
-                    {"$" + benefit.cost}
+                    {"CRC" + benefit.cost}
                   </TableCell>
                   <TableCell>
                     <Stack direction="row" spacing={1}>

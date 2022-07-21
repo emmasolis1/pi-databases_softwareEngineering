@@ -9,13 +9,13 @@ namespace planilla_backend_asp.net.Handlers
 {
   public class UserHandler
   {
-    private static SqlConnection conexion;
+    private static SqlConnection connection;
     private string rutaConexion;
     public UserHandler()
     {
       var builder = WebApplication.CreateBuilder();
       rutaConexion = builder.Configuration.GetConnectionString("EmpleadorContext");
-      conexion = new SqlConnection(rutaConexion);
+      connection = new SqlConnection(rutaConexion);
     }
 
     public List<UserModelSummarized> GetAllEmployeesSummarized()
@@ -61,22 +61,22 @@ namespace planilla_backend_asp.net.Handlers
 
     private DataTable CreateTableConsult(string consult)
     {
-      SqlCommand queryCommand = new SqlCommand(consult, conexion);
+      SqlCommand queryCommand = new SqlCommand(consult, connection);
       SqlDataAdapter adaptadorParaTabla = new
       SqlDataAdapter(queryCommand);
       DataTable tableFormatConsult = new DataTable();
-      conexion.Open();
+      connection.Open();
       adaptadorParaTabla.Fill(tableFormatConsult);
-      conexion.Close();
+      connection.Close();
       return tableFormatConsult;
     }
 
     private DataTable CreateTableConsultContract(SqlDataAdapter tableAdapter)
     {
       DataTable consultTable = new DataTable();
-      conexion.Open();
+      connection.Open();
       tableAdapter.Fill(consultTable);
-      conexion.Close();
+      connection.Close();
 
       return consultTable;
     }
@@ -89,13 +89,13 @@ namespace planilla_backend_asp.net.Handlers
       var consult = @"SELECT Identification, UserType, FirstName, LastName, LastName2
                       FROM Users
                       WHERE Email = @email AND Password = @password";
-      var queryCommand = new SqlCommand(consult, conexion);
+      var queryCommand = new SqlCommand(consult, connection);
 
       // Uses user's email to get their ID
       queryCommand.Parameters.AddWithValue("@email", email);
       queryCommand.Parameters.AddWithValue("@password", password);
 
-      conexion.Open();
+      connection.Open();
       SqlDataReader reader = queryCommand.ExecuteReader();
       while (reader.Read())
       {
@@ -103,7 +103,7 @@ namespace planilla_backend_asp.net.Handlers
         userType = reader["UserType"].ToString();
         userFullname = reader["FirstName"].ToString() + " " + reader["LastName"].ToString() + " " + reader["LastName2"].ToString();
       }
-      conexion.Close();
+      connection.Close();
 
       List<string> data = new List<string>();
       data.Add(userID);
@@ -120,31 +120,33 @@ namespace planilla_backend_asp.net.Handlers
       if (userType.Equals("0")) // It's an employer
       {
         List<string> projects = new List<string>();
-        var consult = @"select distinct ProjectName from Projects where EmployerID=@id  and IsActive=0";
-        var queryCommand = new SqlCommand(consult, conexion);
+        var consult = @"select ProjectName from Projects where EmployerID=@id and IsActive=0";
+        var queryCommand = new SqlCommand(consult, connection);
         queryCommand.Parameters.AddWithValue("@id", id);
-        conexion.Open();
+        connection.Open();
         SqlDataReader reader = queryCommand.ExecuteReader();
         while (reader.Read())
         {
           projects.Add(reader["ProjectName"].ToString());
+          projects.Add("");
         }
-        conexion.Close();
+        connection.Close();
         response = JsonConvert.SerializeObject(projects);
       }
       else if (userType.Equals("1")) // It's an employee
       {
         List<string> projects = new List<string>();
-        var consult = @"select distinct c.ProjectName from Contracts c, Projects p where c.EmployeeID=@id and c.RealEndedDate is not null and p.ProjectName=c.ProjectName and p.IsActive=0";
-        var queryCommand = new SqlCommand(consult, conexion);
+        var consult = @"select c.ProjectName, p.EmployerID from Contracts c, Projects p where c.EmployeeID=@id and c.RealEndedDate is not null and p.ProjectName=c.ProjectName and p.IsActive=0";
+        var queryCommand = new SqlCommand(consult, connection);
         queryCommand.Parameters.AddWithValue("@id", id);
-        conexion.Open();
+        connection.Open();
         SqlDataReader reader = queryCommand.ExecuteReader();
         while (reader.Read())
         {
           projects.Add(reader["ProjectName"].ToString());
+          projects.Add(reader["EmployerID"].ToString());
         }
-        conexion.Close();
+        connection.Close();
         response = JsonConvert.SerializeObject(projects);
       }
       return response;
@@ -154,14 +156,14 @@ namespace planilla_backend_asp.net.Handlers
     {
       // Make consult to database
       string consult = "EXEC GetEmployeesWorkingOnProject @projectName = @thisProjectName, @employerID = @thisEmployerID";
-      var queryCommand = new SqlCommand(consult, conexion);
+      var queryCommand = new SqlCommand(consult, connection);
 
       queryCommand.Parameters.AddWithValue("@thisProjectName", projectName);
       queryCommand.Parameters.AddWithValue("@thisEmployerID", employerID);
 
       List<UserModelSummarized> employees = new List<UserModelSummarized>();
 
-      conexion.Open();
+      connection.Open();
       SqlDataReader reader = queryCommand.ExecuteReader();
       while (reader.Read())
       {
@@ -192,7 +194,7 @@ namespace planilla_backend_asp.net.Handlers
             Address = rowAddress
           });
       }
-      conexion.Close();
+      connection.Close();
 
       return employees;
     }
@@ -201,7 +203,7 @@ namespace planilla_backend_asp.net.Handlers
     {
       // Make consult to database
       string consult = "EXEC GetEmployeesNotWorkingOnProject @projectName = @thisProjectName, @employerID = @thisEmployerID";
-      var queryCommand = new SqlCommand(consult, conexion);
+      var queryCommand = new SqlCommand(consult, connection);
 
       // Uses user's email to get their ID
       queryCommand.Parameters.AddWithValue("@thisProjectName", projectName);
@@ -209,7 +211,7 @@ namespace planilla_backend_asp.net.Handlers
 
       List<UserModelSummarized> employees = new List<UserModelSummarized>();
 
-      conexion.Open();
+      connection.Open();
       SqlDataReader reader = queryCommand.ExecuteReader();
       while (reader.Read())
       {
@@ -240,7 +242,7 @@ namespace planilla_backend_asp.net.Handlers
             Address = rowAddress
           });
       }
-      conexion.Close();
+      connection.Close();
 
       return employees;
     }
@@ -251,7 +253,7 @@ namespace planilla_backend_asp.net.Handlers
                       FROM Contracts
                       WHERE ProjectName = @projectName AND EmployerID = @employerID AND EmployeeID = @employeeID";
       var contract = new ContractModel();
-      SqlCommand queryCommand = new SqlCommand(consult, conexion);
+      SqlCommand queryCommand = new SqlCommand(consult, connection);
       queryCommand.Parameters.AddWithValue("@projectName", projectName);
       queryCommand.Parameters.AddWithValue("@employerID", employerID);
       queryCommand.Parameters.AddWithValue("@employeeID", employeeID);
@@ -277,18 +279,18 @@ namespace planilla_backend_asp.net.Handlers
     {
       var lastPaymentDate = "";
       var consult = @"SELECT TOP 1 PaymentDate FROM Payments WHERE ProjectName = @projectName AND EmployerID = @employerID ORDER BY PaymentDate DESC";
-      var queryCommand = new SqlCommand(consult, conexion);
+      var queryCommand = new SqlCommand(consult, connection);
 
       queryCommand.Parameters.AddWithValue("@projectName", projectName);
       queryCommand.Parameters.AddWithValue("@employerID", employerID);
 
-      conexion.Open();
+      connection.Open();
       SqlDataReader reader = queryCommand.ExecuteReader();
       while (reader.Read())
       {
         lastPaymentDate = reader["PaymentDate"].ToString();
       }
-      conexion.Close();
+      connection.Close();
 
       List<HourRegistrationModel> entries = new List<HourRegistrationModel>();
       consult = @"SELECT ProjectName, EmployerID, EmployeeID, Date, NumberOfHours, HoursApprovalStatus
@@ -296,13 +298,13 @@ namespace planilla_backend_asp.net.Handlers
                       WHERE ProjectName = @projectName AND EmployerID = @employerID AND Date > Convert(datetime, @lastPaymentDate)
                       OR ProjectName = @projectName AND EmployerID = @employerID AND HoursApprovalStatus = 0
                       ORDER BY EmployeeID, Date";
-      queryCommand = new SqlCommand(consult, conexion);
+      queryCommand = new SqlCommand(consult, connection);
 
       queryCommand.Parameters.AddWithValue("@projectName", projectName);
       queryCommand.Parameters.AddWithValue("@employerID", employerID);
       queryCommand.Parameters.AddWithValue("@lastPaymentDate", lastPaymentDate.Split(' ')[0].Split('/')[2] + "-" + lastPaymentDate.Split(' ')[0].Split('/')[1] + "-" + lastPaymentDate.Split(' ')[0].Split('/')[0]);
 
-      conexion.Open();
+      connection.Open();
       reader = queryCommand.ExecuteReader();
       while (reader.Read())
       {
@@ -318,7 +320,7 @@ namespace planilla_backend_asp.net.Handlers
           }
         );
       }
-      conexion.Close();
+      connection.Close();
 
       return entries;
     }
@@ -326,7 +328,7 @@ namespace planilla_backend_asp.net.Handlers
     public void CreateEmployee(UserModel employee)
     {
       string consult = "insert into Users ([FirstName], [LastName], [LastName2], [Identification], [Email], [Password], [Country], [State], [City], [Address], [ZipCode], [UserType], [Phone]) values (@FirstName, @LastName, @LastName2, @Identification, @Email, @Password, @Country, @State, @City, @Address, @ZipCode, @UserType, @Phone)";
-      SqlCommand queryCommand = new SqlCommand(consult, conexion);
+      SqlCommand queryCommand = new SqlCommand(consult, connection);
 
       // Add mandatory parameters
       queryCommand.Parameters.AddWithValue("@FirstName", employee.FirstName);
@@ -340,7 +342,6 @@ namespace planilla_backend_asp.net.Handlers
       // Add optional parameters
       if (employee.LastName2 != null && employee.LastName2 != "")
       {
-        // queryCommand.Parameters.Add(new SqlParameter("LastName2", employee.LastName2));
         queryCommand.Parameters.AddWithValue("@LastName2", employee.LastName2);
       }
       else
@@ -387,15 +388,15 @@ namespace planilla_backend_asp.net.Handlers
       {
         queryCommand.Parameters.AddWithValue("@ZipCode", DBNull.Value);
       }
-      conexion.Open();
+      connection.Open();
       queryCommand.ExecuteNonQuery();
-      conexion.Close();
+      connection.Close();
     }
 
     public void CreateEmployer(UserModel employer)
     {
       string consult = "insert into Users ([FirstName], [LastName], [LastName2], [Identification], [Email], [Password], [Country], [State], [City], [Address], [ZipCode], [UserType], [Phone]) values (@FirstName, @LastName, @LastName2, @Identification, @Email, @Password, @Country, @State, @City, @Address, @ZipCode, @UserType, @Phone)";
-      SqlCommand queryCommand = new SqlCommand(consult, conexion);
+      SqlCommand queryCommand = new SqlCommand(consult, connection);
 
       // Add mandatory parameters
       queryCommand.Parameters.AddWithValue("@FirstName", employer.FirstName);
@@ -455,16 +456,16 @@ namespace planilla_backend_asp.net.Handlers
       {
         queryCommand.Parameters.AddWithValue("@ZipCode", DBNull.Value);
       }
-      conexion.Open();
+      connection.Open();
       queryCommand.ExecuteNonQuery();
-      conexion.Close();
+      connection.Close();
     }
 
     public void AddEmployeeToProject(ContractModel contract)
     {
       var consult = @"INSERT INTO Contracts ([ProjectName], [EmployerID], [EmployeeID], [StartDate], [ExpectedEndingDate], [RealEndedDate], [Position], [Schedule], [NetSalary], [ContractType]) 
                       VALUES (@projectName, @employerID, @employeeID, @startDate, @expectedEndingDate, @realEndedDate, @position, @schedule, @netSalary, @contractType)";
-      var queryCommand = new SqlCommand(consult, conexion);
+      var queryCommand = new SqlCommand(consult, connection);
 
       // Insertion of attribute
       queryCommand.Parameters.AddWithValue("@projectName", contract.projectName);
@@ -478,16 +479,16 @@ namespace planilla_backend_asp.net.Handlers
       queryCommand.Parameters.AddWithValue("@netSalary", contract.netSalary);
       queryCommand.Parameters.AddWithValue("@contractType", contract.contractType);
 
-      conexion.Open();
+      connection.Open();
       queryCommand.ExecuteNonQuery();
-      conexion.Close();
+      connection.Close();
     }
 
     public void RegisterHours(HourRegistrationModel hours)
     {
       var consult = @"INSERT INTO HoursRegistry ([ProjectName], [EmployerID], [EmployeeID], [Date], [NumberOfHours], [HoursApprovalStatus]) 
                       VALUES (@projectName, @employerID, @employeeID, @date, @numberOfHours, 0)";
-      var queryCommand = new SqlCommand(consult, conexion);
+      var queryCommand = new SqlCommand(consult, connection);
 
       // Insertion of attribute
       queryCommand.Parameters.AddWithValue("@projectName", hours.projectName);
@@ -496,16 +497,16 @@ namespace planilla_backend_asp.net.Handlers
       queryCommand.Parameters.AddWithValue("@date", hours.date);
       queryCommand.Parameters.AddWithValue("@numberOfHours", hours.numberOfHours);
 
-      conexion.Open();
+      connection.Open();
       queryCommand.ExecuteNonQuery();
-      conexion.Close();
+      connection.Close();
     }
 
     public void ManageHours(HourRegistrationModel hours)
     {
       // Prepare command
       string consult = "UPDATE HoursRegistry SET [HoursApprovalStatus] = @hoursApprovalStatus WHERE [ProjectName] = @projectName AND [EmployerID] = @employerID AND [EmployeeID] = @employeeID AND [Date] = @date";
-      SqlCommand queryCommand = new SqlCommand(consult, conexion);
+      SqlCommand queryCommand = new SqlCommand(consult, connection);
       queryCommand.Parameters.AddWithValue("@hoursApprovalStatus", hours.hoursApprovalStatus);
       queryCommand.Parameters.AddWithValue("@projectName", hours.projectName);
       queryCommand.Parameters.AddWithValue("@employerID", hours.employerID);
@@ -513,9 +514,9 @@ namespace planilla_backend_asp.net.Handlers
       queryCommand.Parameters.AddWithValue("@date", hours.date);
 
       // Execute command
-      conexion.Open();
+      connection.Open();
       queryCommand.ExecuteNonQuery();
-      conexion.Close();
+      connection.Close();
     }
 
     public DataTable GetEmployeeInfo(ReciberModel id)
@@ -536,7 +537,7 @@ namespace planilla_backend_asp.net.Handlers
     {
       // Prepare command
       string consult = "update Users set [Email] = @Email, [Country] = @Country, [State] = @State, [City] = @City, [Address] = @Address, [ZipCode] = @ZipCode, [Phone] = @Phone where [Identification] = @Identification";
-      SqlCommand queryCommand = new SqlCommand(consult, conexion);
+      SqlCommand queryCommand = new SqlCommand(consult, connection);
       queryCommand.Parameters.AddWithValue("@Email", info.Email);
       queryCommand.Parameters.AddWithValue("@Country", info.Country);
       queryCommand.Parameters.AddWithValue("@State", info.State);
@@ -552,36 +553,36 @@ namespace planilla_backend_asp.net.Handlers
         UpdatePassword(info.Identification, info.Password);
       }
       // Execute command
-      conexion.Open();
+      connection.Open();
       queryCommand.ExecuteNonQuery();
-      conexion.Close();
+      connection.Close();
     }
 
     private void UpdatePassword(string identification, string newPassowrd)
     {
       // Prepare command
       string consult = "update Users set [Password] = @Password where [Identification] = @Identification";
-      SqlCommand queryCommand = new SqlCommand(consult, conexion);
+      SqlCommand queryCommand = new SqlCommand(consult, connection);
       queryCommand.Parameters.AddWithValue("@Password", newPassowrd);
       queryCommand.Parameters.AddWithValue("@Identification", identification);
 
       // Execute command
-      conexion.Open();
+      connection.Open();
       queryCommand.ExecuteNonQuery();
-      conexion.Close();
+      connection.Close();
     }
 
     public void DeleteEmployee(string identification)
     {
       // Prepare command
       string consult = "execute delete_employee @Identification";
-      SqlCommand queryCommand = new SqlCommand(consult, conexion);
+      SqlCommand queryCommand = new SqlCommand(consult, connection);
       queryCommand.Parameters.AddWithValue("@Identification", identification);
 
       // Execute command
-      conexion.Open();
+      connection.Open();
       queryCommand.ExecuteNonQuery();
-      conexion.Close();
+      connection.Close();
     }
 
     public void DeleteEmployeeFromProject(string projectName, string id)
@@ -590,15 +591,15 @@ namespace planilla_backend_asp.net.Handlers
       string consult = @"UPDATE Contracts
                         SET RealEndedDate = @date 
                         WHERE ProjectName = @projectName AND EmployeeID = @employeeID";
-      SqlCommand queryCommand = new SqlCommand(consult, conexion);
+      SqlCommand queryCommand = new SqlCommand(consult, connection);
       queryCommand.Parameters.AddWithValue("@date", DateTime.Now.ToString("yyyy/MM/dd"));
       queryCommand.Parameters.AddWithValue("@projectName", projectName);
       queryCommand.Parameters.AddWithValue("@employeeID", id);
 
       // Execute command
-      conexion.Open();
+      connection.Open();
       queryCommand.ExecuteNonQuery();
-      conexion.Close();
+      connection.Close();
     }
   }
 }

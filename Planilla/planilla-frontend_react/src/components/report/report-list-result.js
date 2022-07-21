@@ -106,11 +106,11 @@ export const ReportListResults = ({ reports, ...rest }) => {
                     {report.paymentDate.split(' ')[0]}
                   </TableCell>
                   <TableCell>
-                      <Stack direction="row" spacing={1}>
-                        <IconButton aria-label="edit" color="primary" onClick={() => viewReport(report.employerID, report.projectName, report.paymentDate)}>
-                          <ReadMoreIcon />
-                        </IconButton>
-                      </Stack>
+                    <Stack direction="row" spacing={1}>
+                      <IconButton aria-label="edit" color="primary" onClick={() => viewReport(report.employerID, report.projectName, report.paymentDate)}>
+                        <ReadMoreIcon />
+                      </IconButton>
+                    </Stack>
                   </TableCell>
                 </TableRow>
               ))}

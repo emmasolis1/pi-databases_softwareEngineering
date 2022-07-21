@@ -31,7 +31,7 @@ export const BenefitEmployeeListToolbar = (props) => (
             color="primary"
             variant="contained"
           >
-            Benefits list 
+            Benefits list
           </Button>
         </NextLink>
       </Box>

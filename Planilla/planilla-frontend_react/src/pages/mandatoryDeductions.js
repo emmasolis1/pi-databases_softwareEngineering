@@ -16,7 +16,7 @@ class VoluntaryDeductions extends React.Component {
     };
   }
 
-  componentDidMount() {    
+  componentDidMount() {
     axios.get(this.state.APIUrl).then(response => {
       this.setState({ mandatoryDeductions: response.data });
     });

@@ -52,7 +52,7 @@
 {\scshape\Large CI0128 – Proyecto Integrador: Ingeniería de Software y Bases de Datos \par}
 {\scshape\Large Profesoras: Rebeca Obando y Alexandra Martínez \par}
 \vspace{1cm}
-{\scshape\Huge Reporte: Sprint 2 \par}
+{\scshape\Huge Reporte: Sprint 3 \par}
 \vspace{1cm}
 {\Large Nombre del Equipo: Ta' Bueno \par}
 \vspace{0.5cm}
@@ -80,21 +80,76 @@ Se encuentra tanto adjunto en esta carpeta compromida como en el enlace del GitH
 previamente compartido.
 
 \section{Code Review}
-A ser entregado el lunes 27 de junio por medio del correo institucional según
-indicación de la profesora; véase Figura \ref{fig:message}.
+A realizarse según nuestra cita para el día viernes 22 de Julio a la 1:30pm.
+
+\section{Unit Testing}
+Proyecto de pruebas se encuentra en la carpeta \textit{/Planilla/planilla\_backend\_testing}.
+
+\section{UI Testing}
+Videos de prueba de ejecución de las pruebas, junto con el respectivo reporte de los
+\textbf{casos de prueba}, ademas del proyecto que crea \textit{Selenium} se encuentran
+en la carpeta de este directorio: \textbf{\textit{ui\_testing}}.
+
+Cabe mencionar de forma relevante que se hicieron las pruebas \textbf{grabándolas en el navegador},
+no por código, según el enunciado permitía la libertad de ejecutar cualquiera de las dos formas.
+
+\section{Deployment de la aplicación en Azure}
+Escogimos la plataforma \textbf{Azure} para el despliegue de la aplicación dado que es la que
+mayormente conocemos y donde también teniamos el uso de créditos gratis para poder hacerlo.
+
+Algo importante de estipular es que nuestro repositorio de GitHub originalmente tiene en
+el los tres proyectos: archivos de la base de datos, backend y frontend. Por lo que fue
+necesario crear dos repositorios copias de estos por aparte, privados, para tener en cada
+uno de forma separada el backend y el frontend, y entonces poder hacer el respectivo
+\textit{deployment} de cada uno.
+
+\subsection{Base de Datos}
+Para hacer el \textit{deployment} de la base de datos fue crear una \textbf{nueva base de datos}
+en Azure, y usando los scripts que teníamos guardado de la creación de tablas, funciones
+y procedimientos, además de los índices y transacciones; pudimos crear la nueva base de datos
+sin problema alguno.
+
+Primero tuvimos que crear un servidor de base de datos, y luego entonces crear la base
+de datos para el proyecto. En la Figura \ref{fig:database_server} podemos ver el estado
+actual de dicho servidor.
 
 \begin{figure}[h]
  \centering
- \includegraphics[width=0.95\textwidth]{message.png}
- \caption{Mensaje de la profesora Alexandra sobre indicaciones especiales de entrega de algunos rubros.}
- \label{fig:message}
+ \includegraphics[width=0.95\textwidth]{database_server.png}
+ \caption{Vista general del servidor de base de datos en Azure.}
+ \label{fig:database_server}
 \end{figure}
 
-\section{Unit Testing}
-Proyecto de pruebas se encuentra en la carpeta \textit{/Planilla/planilla\-backend\_testing}.
+Una vez que ya teníamos el servidor creamos la base de datos para el proyecto en si,
+esta la podemos ver en la Figura \ref{fig:payroll_database}.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.95\textwidth]{payroll_database.png}
+  \caption{Vista general del de la base de datos \textit{payroll} en Azure.}
+  \label{fig:payroll_database}
+ \end{figure}
+
+Y al tener estas dos cosas ya teníamos la base de datos en Azure para luego poder ser usada
+por las otras dos fases de la aplicación: \textit{Backend} y \textit{Frontend}.
+
+\subsection{Backend}
+Para hacer el \textit{deployment} del backend fue más sencillo pues solo fue necesario
+tomar el repositorio separado del backend y en Azure crear un nuevo \textit{App Service}
+el cuál se le configura que es un .NET API y como esta conectado por medio de GitHub, Azure
+la conexión y \textit{deployment} de forma automática por debajo. Con eso ya tenemos
+tanto la base de datos como el backend (API) listos y en linea, faltando solo el frontend.
+Podemos ver la vista general del backend en la Figura \ref{fig:backend}.
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.95\textwidth]{backend.png}
+  \caption{Vista general Backend API en Azure.}
+  \label{fig:backend}
+ \end{figure}
 
 \section{Sprint Backlog}
 Se encuentra en el siguiente enlace de la profesora Rebeca Obando: \url{https://ingesoftg001.atlassian.net/jira/software/projects/TB/boards/5/backlog}.
+Con todos los requerimientos solicitados según el enunciado.
 
 \section{Entregable de las ceremonias}
 A ser entregado el lunes 27 de junio por medio del correo institucional según
@@ -102,16 +157,6 @@ indicación de la profesora; véase Figura \ref{fig:message}.
 
 \section{Mock Ups}
 Se encuentran en el archivo \textit{sprint2/mock\_ups.pdf}.
-
-\section{Diagrama UML}
-Se encuentran en el archivo \textit{sprint2/payment\_diagram.pdf}; véase Figura \ref{fig:message2}.
-
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=0.85\textwidth]{message2.png}
-  \caption{Mensaje de la profesora Rebeca sobre indicaciones especiales de entrega del diagrama de clases UML.}
-  \label{fig:message2}
- \end{figure}
 
  \section{Implementación de la Base de Datos}
 Nuestra base de datos \textit{Ta Bueno} se encuentra implementada con las tablas que teníamos
