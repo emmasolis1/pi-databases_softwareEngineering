@@ -8,7 +8,6 @@ import {
     TableBody,
     TableCell,
     TableHead,
-    TablePagination,
     TableRow
 } from '@mui/material';
 import { useEffect } from 'react';
