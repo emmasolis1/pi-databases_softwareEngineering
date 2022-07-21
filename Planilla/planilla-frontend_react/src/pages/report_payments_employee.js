@@ -1,22 +1,7 @@
 import * as React from 'react';
-import axios from 'axios';
-import Button from '@mui/material/Button';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import { getInitials } from '../../utils/get-initials';
-import IconButton from '@mui/material/IconButton';
-import ReadMoreIcon from '@mui/icons-material/ReadMore';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import PropTypes from 'prop-types';
-import { useRouter } from 'next/router';
-import Stack from '@mui/material/Stack';
 import { useState } from 'react';
 import {
-    Avatar,
     Box,
     Card,
     Table,
@@ -24,109 +9,78 @@ import {
     TableCell,
     TableHead,
     TablePagination,
-    TableRow,
-    Typography
+    TableRow
 } from '@mui/material';
+import { useEffect } from 'react';
 
-export const ReportListResults = () => {
+export const EmployeePaymentsHistory = () => {
     const [paymentInfo, setPaymentInfo] = useState(null);
 
     useEffect(() => {
         const getPaymentInfo = async () => {
-            const response = await fetch('/api/customers');
+            const response = await fetch('http://localhost:7150/api/paymentsHistory');
             const data = await response.json();
             setPaymentInfo(data);
         };
         getPaymentInfo();
     }, []);
-    if (paymentInfo == null) {
-        setPaymentInfo("Loading...")
-    } else {
-        const table = paymentInfo.map((pay) => {
-
-        });
+    const table =
+    <body>
+        Loading...
+    </body>
+    if (paymentInfo != null) {
+        table =
+            <Table>
+                <TableHead>
+                    <TableRow>
+                        <TableCell>
+                            
+                        </TableCell>
+                        <TableCell>
+                            
+                        </TableCell>
+                        <TableCell>
+                            
+                        </TableCell>
+                        <TableCell>
+                            
+                        </TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {paymentInfo.map((pay) => (
+                        <TableRow
+                            hover
+                        >
+                            <TableCell>
+                                
+                            </TableCell>
+                            <TableCell>
+                                
+                            </TableCell>
+                            <TableCell>
+                                
+                            </TableCell>
+                            <TableCell>
+                                
+                            </TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>;
     }
 
     return (
-        <Card {...rest}>
+        <Card>
             <PerfectScrollbar>
                 <Box sx={{ minWidth: 1050 }}>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>
-                                    Project Name
-                                </TableCell>
-                                <TableCell>
-                                    Made by Employer
-                                </TableCell>
-                                <TableCell>
-                                    Payment Date
-                                </TableCell>
-                                <TableCell>
-                                    Actions
-                                </TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {reports.slice(page * limit, page * limit + limit).map((report) => (
-                                <TableRow
-                                    hover
-                                    key={report.projectName + report.employerID}
-                                >
-                                    <TableCell>
-                                        <Box
-                                            sx={{
-                                                alignItems: 'center',
-                                                display: 'flex'
-                                            }}
-                                        >
-                                            <Avatar
-                                                src={report.avatarUrl}
-                                                sx={{ mr: 2 }}
-                                            >
-                                                {getInitials(report.projectName)}
-                                            </Avatar>
-                                            <Typography
-                                                color="textPrimary"
-                                                variant="body1"
-                                            >
-                                                {report.projectName}
-                                            </Typography>
-                                        </Box>
-                                    </TableCell>
-                                    <TableCell>
-                                        {report.employerID}
-                                    </TableCell>
-                                    <TableCell>
-                                        {report.paymentDate.split(' ')[0]}
-                                    </TableCell>
-                                    <TableCell>
-                                        <Stack direction="row" spacing={1}>
-                                            <IconButton aria-label="edit" color="primary" onClick={() => viewReport(report.employerID, report.projectName, report.paymentDate)}>
-                                                <ReadMoreIcon />
-                                            </IconButton>
-                                        </Stack>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
+                    {table}
                 </Box>
             </PerfectScrollbar>
-            <TablePagination
-                component="div"
-                count={reports.length}
-                onPageChange={handlePageChange}
-                onRowsPerPageChange={handleLimitChange}
-                page={page}
-                rowsPerPage={limit}
-                rowsPerPageOptions={[5, 10, 25]}
-            />
         </Card>
     );
 };
-
-ReportListResults.propTypes = {
-    reports: PropTypes.array.isRequired
-};
+export default EmployeePaymentsHistory;
+//ReportListResults.propTypes = {
+//    reports: PropTypes.array.isRequired
+//};
