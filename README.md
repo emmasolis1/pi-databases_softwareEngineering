@@ -17,6 +17,10 @@
 - .Net API
 - ReactJS
 
+## How to Run
+1. For the API Backend open the solution from the _backend_ folder in Visual Studio.
+2. For the Frontend navigate with the terminal to the folder _frontend_ and then first do `npm install`, and then `npm run dev`.
+
 ## Meaning of "UserType" values:
 0: Active employer. <br />
 1: Active employee. <br />
