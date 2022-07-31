@@ -1,5 +1,21 @@
-# pi_ingeBases
-Repository for course CI-0128: "Proyecto Integrador de Ingeniería de Software y Bases de Datos", group: Ta' Bueno.
+# Project Databases-Software Engineering
+
+## What I learned:
+- Daily Stand Ups
+- Project Management
+- Scrum Master
+- Sprint Planning, Retrospective, Reviews.
+
+## Tools Used:
+- C#
+- CSS
+- Figma (create the mock ups)
+- HTML
+- JavaScript
+- Lucid (create the UML diagrams)
+- Microsoft SQL Server
+- .Net API
+- ReactJS
 
 ## Meaning of "UserType" values:
 0: Active employer. <br />
