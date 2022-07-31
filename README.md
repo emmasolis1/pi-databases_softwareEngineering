@@ -21,6 +21,9 @@
 1. For the API Backend open the solution from the _backend_ folder in Visual Studio.
 2. For the Frontend navigate with the terminal to the folder _frontend_ and then first do `npm install`, and then `npm run dev`.
 
+## Notes
+In the folder _screenshots_ we can find a lot of screenshots of all the views of the project, so you can see the project. Our app was smart enoguht to detect if the user accessing the system was an employee or an employer and based on that made a **conditional redering**.
+
 ## Meaning of "UserType" values:
 0: Active employer. <br />
 1: Active employee. <br />
