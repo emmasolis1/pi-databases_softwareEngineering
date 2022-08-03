@@ -24,6 +24,10 @@
 ## Notes
 In the folder _screenshots_ we can find a lot of screenshots of all the views of the project, so you can see the project. Our app was smart enoguht to detect if the user accessing the system was an employee or an employer and based on that made a **conditional redering**.
 
+## Database Diagrams
+![](sprint2/database_ER_diagrams.png)
+![](sprint2/database_Tables_diagrams.png)
+
 ## Meaning of "UserType" values:
 0: Active employer. <br />
 1: Active employee. <br />
